@@ -1,0 +1,17 @@
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+# Dependencies and generated artifacts
+node_modules/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+dist/
+coverage/
+*.tsbuildinfo
+playwright-report/
+test-results/

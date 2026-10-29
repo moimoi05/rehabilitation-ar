@@ -1,0 +1,5 @@
+.tracking-lab .workspace-panel input[type=file] { display:block; width:100%; margin-top:.5rem; font-size:.75rem; }
+.tracking-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:.6rem; margin:1rem 0; }
+.tracking-stats div { background:white; border:1px solid #e0ebf2; border-radius:.5rem; padding:.7rem; }
+.tracking-stats dt { font-size:.7rem; color:#657a8d; }
+.tracking-stats dd { margin:.25rem 0 0; font-weight:650; font-size:.85rem; }

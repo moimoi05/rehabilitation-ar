@@ -1,0 +1,10 @@
+import { useCallback } from 'react'
+import { useData } from '../hooks/useData'
+import { api } from '../services/api'
+import { sideLabel } from '../types'
+import { Empty, ErrorState, Loading } from './States'
+
+export default function CalibrationDetails({sessionId,close}:{sessionId:number;close:()=>void}) {
+  const load = useCallback(()=>api.calibrations(sessionId),[sessionId]); const {data,loading,error,reload}=useData(load)
+  return <div className="modal-backdrop" onMouseDown={e=>{if(e.target===e.currentTarget)close()}}><div className="modal" role="dialog" aria-modal="true" aria-labelledby="calibration-title"><div className="panel-heading"><div><span className="eyebrow">PHIÊN #{sessionId}</span><h2 id="calibration-title">Hiệu chuẩn đã lưu</h2><p>Thông số lần lưu gần nhất</p></div><button className="close" onClick={close} aria-label="Đóng">×</button></div>{loading ? <Loading/> : error ? <ErrorState message={error} retry={()=>void reload()}/> : !data?.length ? <Empty>Chưa có cấu hình hiệu chuẩn được lưu cho phiên này.</Empty> : <><dl className="detail-list"><div><dt>Ngày lưu</dt><dd>{new Date(data[0].created_at).toLocaleString('vi-VN')}</dd></div><div><dt>Nhân viên đã xác nhận khi lưu</dt><dd>{data[0].confirmed ? 'Đã xác nhận' : 'Chưa xác nhận'}</dd></div><div><dt>Camera</dt><dd>{data[0].camera_label || 'Không ghi nhận'}</dd></div><div><dt>Độ phân giải</dt><dd>{data[0].width && data[0].height ? `${data[0].width} × ${data[0].height}` : 'Không ghi nhận'}</dd></div><div><dt>Ảnh gương</dt><dd>{data[0].mirrored ? 'Có' : 'Không'}</dd></div><div><dt>Hình bóng</dt><dd>{data[0].ghost_visible ? 'Hiển thị' : 'Ẩn'}</dd></div><div><dt>Độ trong suốt</dt><dd>{Math.round(data[0].opacity * 100)}%</dd></div><div><dt>Vị trí chuẩn hóa X / Y</dt><dd>{data[0].x.toFixed(2)} / {data[0].y.toFixed(2)}</dd></div><div><dt>Tỷ lệ</dt><dd>{data[0].scale.toFixed(2)}</dd></div><div><dt>Tay ảnh hưởng</dt><dd>{sideLabel(data[0].affected_side)}</dd></div></dl><p className="help">Khi áp dụng lại trong workspace, nhân viên cần kiểm tra và xác nhận tư thế một lần nữa.</p></>}</div></div>
+}

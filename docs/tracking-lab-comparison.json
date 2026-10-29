@@ -1,0 +1,279 @@
+{
+  "browser": "156.0.8078.48",
+  "warmupSeconds": 3,
+  "requestedMeasurementSeconds": 8,
+  "runs": [
+    {
+      "engine": "main",
+      "repetition": 1,
+      "start": {
+        "mediaTime": 3.015512,
+        "rate": 1
+      },
+      "end": {
+        "mediaTime": 11.080098,
+        "ended": false,
+        "width": 1920,
+        "height": 1080,
+        "duration": 13.739959
+      },
+      "report": {
+        "version": 1,
+        "capturedAt": "2026-10-28T07:36:39.125Z",
+        "source": "video",
+        "profile": "balanced",
+        "engine": "main",
+        "delegate": "Pose CPU",
+        "resolution": {
+          "width": 1920,
+          "height": 1080
+        },
+        "inferenceResolution": {
+          "width": 1920,
+          "height": 1080
+        },
+        "poseEnabled": true,
+        "handEnabled": false,
+        "mirrored": false,
+        "smoothing": {
+          "version": "one-euro-v1",
+          "config": {
+            "minCutoff": 1,
+            "beta": 0.5,
+            "dCutoff": 1,
+            "resetAfterMs": 500
+          },
+          "scope": "pose display"
+        },
+        "elapsedSeconds": 8.1095,
+        "observedVideoFps": 14.79745976940625,
+        "inferenceFps": 14.304211110426042,
+        "renderFps": 58.32665392440964,
+        "inferenceMeanMs": 40.46465517220826,
+        "inferenceP50Ms": 35.69999999925494,
+        "inferenceP95Ms": 75.19999999925494,
+        "inferenceTimingSamples": 116,
+        "workerRoundTripMeanMs": null,
+        "workerRoundTripP50Ms": null,
+        "workerRoundTripP95Ms": null,
+        "overlayP95Ms": 0.19999999925494194,
+        "throttledFrames": 4,
+        "workerBusyFrames": 0,
+        "duplicateCallbacks": 0,
+        "validFraction": 1,
+        "leftUpperLimbVisibleFraction": 0.12931034482758622,
+        "rightUpperLimbVisibleFraction": 0.14655172413793102,
+        "metricDefinitions": {
+          "validFraction": "Fraction with any model landmark output, not a confidence or accuracy measure.",
+          "upperLimbVisibleFraction": "Fraction of Pose inference callbacks where all shoulder, elbow and wrist coordinates are finite, inside the image, and have visibility >= 0.4; not absolute accuracy."
+        },
+        "resultAgeMs": 35.800000001490844,
+        "sampleLimit": 10000
+      }
+    },
+    {
+      "engine": "worker",
+      "repetition": 1,
+      "start": {
+        "mediaTime": 3.014707,
+        "rate": 1
+      },
+      "end": {
+        "mediaTime": 11.07669,
+        "ended": false,
+        "width": 1920,
+        "height": 1080,
+        "duration": 13.739959
+      },
+      "report": {
+        "version": 1,
+        "capturedAt": "2026-10-28T07:36:52.087Z",
+        "source": "video",
+        "profile": "balanced",
+        "engine": "worker",
+        "delegate": "Pose CPU · Worker",
+        "resolution": {
+          "width": 1920,
+          "height": 1080
+        },
+        "inferenceResolution": {
+          "width": 1920,
+          "height": 1080
+        },
+        "poseEnabled": true,
+        "handEnabled": false,
+        "mirrored": false,
+        "smoothing": {
+          "version": "one-euro-v1",
+          "config": {
+            "minCutoff": 1,
+            "beta": 0.5,
+            "dCutoff": 1,
+            "resetAfterMs": 500
+          },
+          "scope": "pose display"
+        },
+        "elapsedSeconds": 8.08689999999851,
+        "observedVideoFps": 29.677626779117368,
+        "inferenceFps": 15.209783724297651,
+        "renderFps": 90.02213456332268,
+        "inferenceMeanMs": 40.60569105672885,
+        "inferenceP50Ms": 36.5,
+        "inferenceP95Ms": 62.80000000074506,
+        "inferenceTimingSamples": 123,
+        "workerRoundTripMeanMs": 41.666666666684854,
+        "workerRoundTripP50Ms": 37.50000000148975,
+        "workerRoundTripP95Ms": 64.00000000148975,
+        "overlayP95Ms": 0.19999999925494194,
+        "throttledFrames": 106,
+        "workerBusyFrames": 10,
+        "duplicateCallbacks": 0,
+        "validFraction": 1,
+        "leftUpperLimbVisibleFraction": 0.0975609756097561,
+        "rightUpperLimbVisibleFraction": 0.10569105691056911,
+        "metricDefinitions": {
+          "validFraction": "Fraction with any model landmark output, not a confidence or accuracy measure.",
+          "upperLimbVisibleFraction": "Fraction of Pose inference callbacks where all shoulder, elbow and wrist coordinates are finite, inside the image, and have visibility >= 0.4; not absolute accuracy."
+        },
+        "resultAgeMs": 175.60000000000036,
+        "sampleLimit": 10000
+      }
+    },
+    {
+      "engine": "main",
+      "repetition": 2,
+      "start": {
+        "mediaTime": 3.035499,
+        "rate": 1
+      },
+      "end": {
+        "mediaTime": 11.166942,
+        "ended": false,
+        "width": 1920,
+        "height": 1080,
+        "duration": 13.739959
+      },
+      "report": {
+        "version": 1,
+        "capturedAt": "2026-10-28T07:37:05.451Z",
+        "source": "video",
+        "profile": "balanced",
+        "engine": "main",
+        "delegate": "Pose CPU",
+        "resolution": {
+          "width": 1920,
+          "height": 1080
+        },
+        "inferenceResolution": {
+          "width": 1920,
+          "height": 1080
+        },
+        "poseEnabled": true,
+        "handEnabled": false,
+        "mirrored": false,
+        "smoothing": {
+          "version": "one-euro-v1",
+          "config": {
+            "minCutoff": 1,
+            "beta": 0.5,
+            "dCutoff": 1,
+            "resetAfterMs": 500
+          },
+          "scope": "pose display"
+        },
+        "elapsedSeconds": 8.126900000002236,
+        "observedVideoFps": 11.443477832872857,
+        "inferenceFps": 10.33604449420774,
+        "renderFps": 45.03562243904802,
+        "inferenceMeanMs": 64.23214285705416,
+        "inferenceP50Ms": 64.80000000074506,
+        "inferenceP95Ms": 68.69999999925494,
+        "inferenceTimingSamples": 84,
+        "workerRoundTripMeanMs": null,
+        "workerRoundTripP50Ms": null,
+        "workerRoundTripP95Ms": null,
+        "overlayP95Ms": 0.19999999925494194,
+        "throttledFrames": 9,
+        "workerBusyFrames": 0,
+        "duplicateCallbacks": 0,
+        "validFraction": 1,
+        "leftUpperLimbVisibleFraction": 0.11904761904761904,
+        "rightUpperLimbVisibleFraction": 0.11904761904761904,
+        "metricDefinitions": {
+          "validFraction": "Fraction with any model landmark output, not a confidence or accuracy measure.",
+          "upperLimbVisibleFraction": "Fraction of Pose inference callbacks where all shoulder, elbow and wrist coordinates are finite, inside the image, and have visibility >= 0.4; not absolute accuracy."
+        },
+        "resultAgeMs": 72.30000000074506,
+        "sampleLimit": 10000
+      }
+    },
+    {
+      "engine": "worker",
+      "repetition": 2,
+      "start": {
+        "mediaTime": 3.012635,
+        "rate": 1
+      },
+      "end": {
+        "mediaTime": 11.001264,
+        "ended": false,
+        "width": 1920,
+        "height": 1080,
+        "duration": 13.739959
+      },
+      "report": {
+        "version": 1,
+        "capturedAt": "2026-10-28T07:37:18.833Z",
+        "source": "video",
+        "profile": "balanced",
+        "engine": "worker",
+        "delegate": "Pose CPU · Worker",
+        "resolution": {
+          "width": 1920,
+          "height": 1080
+        },
+        "inferenceResolution": {
+          "width": 1920,
+          "height": 1080
+        },
+        "poseEnabled": true,
+        "handEnabled": false,
+        "mirrored": false,
+        "smoothing": {
+          "version": "one-euro-v1",
+          "config": {
+            "minCutoff": 1,
+            "beta": 0.5,
+            "dCutoff": 1,
+            "resetAfterMs": 500
+          },
+          "scope": "pose display"
+        },
+        "elapsedSeconds": 8.06539999999851,
+        "observedVideoFps": 29.3847794281801,
+        "inferenceFps": 9.42296724279193,
+        "renderFps": 89.2702159843446,
+        "inferenceMeanMs": 67.09210526335396,
+        "inferenceP50Ms": 65.80000000074506,
+        "inferenceP95Ms": 72.30000000074506,
+        "inferenceTimingSamples": 76,
+        "workerRoundTripMeanMs": 68.45921052547276,
+        "workerRoundTripP50Ms": 67.20000000000073,
+        "workerRoundTripP95Ms": 73.7000000007447,
+        "overlayP95Ms": 0.19999999925494194,
+        "throttledFrames": 104,
+        "workerBusyFrames": 57,
+        "duplicateCallbacks": 0,
+        "validFraction": 1,
+        "leftUpperLimbVisibleFraction": 0.09210526315789473,
+        "rightUpperLimbVisibleFraction": 0.07894736842105263,
+        "metricDefinitions": {
+          "validFraction": "Fraction with any model landmark output, not a confidence or accuracy measure.",
+          "upperLimbVisibleFraction": "Fraction of Pose inference callbacks where all shoulder, elbow and wrist coordinates are finite, inside the image, and have visibility >= 0.4; not absolute accuracy."
+        },
+        "resultAgeMs": 87.29999999850952,
+        "sampleLimit": 10000
+      }
+    }
+  ]
+}

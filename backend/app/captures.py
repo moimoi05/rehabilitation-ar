@@ -81,9 +81,14 @@ async def bounded_body(request, maximum):
 
 @router.post('/captures', status_code=201, dependencies=[Depends(local_only)])
 def create_capture(data: CaptureCreate, db: Session = Depends(get_db)):
-    session = db.get(models.Session, data.session_id)
+    # Share the session lock with workflow completion, so recording cannot be
+    # inserted after its final active-capture check.
+    session = db.scalar(select(models.Session).where(models.Session.id == data.session_id)
+        .with_for_update().execution_options(populate_existing=True))
     if session is None or session.patient_id != data.patient_id:
         raise HTTPException(422, 'Patient and session do not match')
+    if session.managed_workflow and session.status in ('completed', 'cancelled'):
+        raise HTTPException(409, 'Lần đánh giá hoặc buổi tập đã kết thúc; không bắt đầu ghi dữ liệu mới.')
     trial = db.get(models.Trial, data.trial_id) if data.trial_id else None
     if data.trial_id and (trial is None or trial.session_id != session.id):
         raise HTTPException(422, 'Trial and session do not match')

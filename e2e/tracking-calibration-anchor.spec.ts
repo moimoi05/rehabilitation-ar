@@ -72,7 +72,7 @@ test('saves a legacy calibration once if the backend does not support image anch
   await page.waitForFunction(() => { const video = document.querySelector('video'); return !!video && video.videoWidth > 0 })
   await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))))
   await page.getByRole('button', { name: 'Lưu hiệu chuẩn' }).click()
-  await expect(page.getByRole('status')).toContainText('Không xác nhận được vị trí theo ảnh')
+  await expect(page.getByRole('status', { name: 'Thông báo camera và hiệu chuẩn' })).toContainText('Không xác nhận được vị trí theo ảnh')
   expect(posts).toHaveLength(1)
   expect(posts[0]).not.toHaveProperty('image_anchor')
   await page.getByRole('button', { name: 'Tắt camera' }).click()
@@ -101,7 +101,7 @@ test('does not send a stale calibration after the camera changes during capabili
   await expect.poll(() => capabilityRequests).toBe(1)
   await page.getByRole('button', { name: 'Tắt camera' }).click()
   release()
-  await expect(page.getByRole('status')).toContainText('Camera hoặc hiệu chuẩn đã thay đổi')
+  await expect(page.getByRole('status', { name: 'Thông báo camera và hiệu chuẩn' })).toContainText('Camera hoặc hiệu chuẩn đã thay đổi')
   expect(posts).toBe(0)
 })
 
@@ -135,7 +135,7 @@ for (const change of ['session', 'ghost', 'layout'] as const) {
       await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))))
     }
     release()
-    await expect(page.getByRole('status')).toContainText('Camera hoặc hiệu chuẩn đã thay đổi')
+    await expect(page.getByRole('status', { name: 'Thông báo camera và hiệu chuẩn' })).toContainText('Camera hoặc hiệu chuẩn đã thay đổi')
     expect(posts).toBe(0)
     await page.getByRole('button', { name: 'Tắt camera' }).click()
   })

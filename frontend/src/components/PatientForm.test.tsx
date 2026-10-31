@@ -1,0 +1,40 @@
+import { fireEvent, render, screen } from '@testing-library/react'
+import { afterEach, expect, it, vi } from 'vitest'
+import PatientForm from './PatientForm'
+
+afterEach(()=>vi.unstubAllGlobals())
+it('hiển thị lỗi mã trùng và cho phép sửa lại hồ sơ chưa được tạo',async()=>{
+ const onSaved=vi.fn()
+ const fetchMock=vi.fn().mockResolvedValueOnce({ok:false,status:409,json:async()=>({detail:'Mã bệnh nhân đã tồn tại.'})}).mockResolvedValueOnce({ok:true,json:async()=>({id:2,research_code:'BN-002'})})
+ vi.stubGlobal('fetch',fetchMock)
+ render(<PatientForm onClose={vi.fn()} onSaved={onSaved}/> )
+ fireEvent.change(screen.getByLabelText('Mã bệnh nhân'),{target:{value:'BN-001'}})
+ fireEvent.change(screen.getByLabelText('Họ tên'),{target:{value:'Người bệnh giả lập'}})
+ fireEvent.click(screen.getByRole('button',{name:'Lưu hồ sơ'}))
+ expect(await screen.findByText('Mã bệnh nhân đã tồn tại.')).toBeInTheDocument()
+ expect(onSaved).not.toHaveBeenCalled()
+ fireEvent.change(screen.getByLabelText('Mã bệnh nhân'),{target:{value:'BN-002'}})
+ fireEvent.click(screen.getByRole('button',{name:'Lưu hồ sơ'}))
+ await vi.waitFor(()=>expect(onSaved).toHaveBeenCalledWith(expect.objectContaining({id:2,research_code:'BN-002'})))
+})
+
+it('lưu đầy đủ hồ sơ và có thể xóa thông tin tùy chọn khi chỉnh sửa', async () => {
+ const onSaved=vi.fn()
+ const fetchMock=vi.fn(async(_url:string,init?:RequestInit)=>({ok:true,json:async()=>({id:4,...JSON.parse(String(init?.body))})}))
+ vi.stubGlobal('fetch',fetchMock)
+ const {unmount}=render(<PatientForm onClose={vi.fn()} onSaved={onSaved}/> )
+ for (const [label,value] of Object.entries({'Mã bệnh nhân':'BN-004','Họ tên':'Hồ sơ giả lập','Ngày sinh':'1980-01-02','Giới tính':'female','Tay bị ảnh hưởng':'right','Tay thuận':'left','Thông tin liên hệ':'Liên hệ thử nghiệm','Ghi chú':'Theo hồ sơ đã kiểm tra'})) fireEvent.change(screen.getByLabelText(label),{target:{value}})
+ fireEvent.click(screen.getByRole('button',{name:'Lưu hồ sơ'}))
+ await vi.waitFor(()=>expect(onSaved).toHaveBeenCalled())
+ const payload=JSON.parse(String(fetchMock.mock.calls[0][1]?.body))
+ expect(payload).toMatchObject({research_code:'BN-004',full_name:'Hồ sơ giả lập',date_of_birth:'1980-01-02',sex:'female',affected_side:'right',dominant_hand:'left',contact:'Liên hệ thử nghiệm',notes:'Theo hồ sơ đã kiểm tra'})
+ unmount()
+ render(<PatientForm patient={{...payload,id:4,patient_type:'outpatient',created_at:'',admitted_at:null}} onClose={vi.fn()} onSaved={onSaved}/> )
+ fireEvent.change(screen.getByLabelText('Thông tin liên hệ'),{target:{value:''}})
+ fireEvent.change(screen.getByLabelText('Ghi chú'),{target:{value:''}})
+ fireEvent.click(screen.getByRole('button',{name:'Lưu hồ sơ'}))
+ await vi.waitFor(()=>expect(fetchMock).toHaveBeenCalledTimes(2))
+ expect(fetchMock.mock.calls[1][0]).toMatch(/\/api\/patients\/4$/)
+ expect(fetchMock.mock.calls[1][1]?.method).toBe('PATCH')
+ expect(JSON.parse(String(fetchMock.mock.calls[1][1]?.body))).toMatchObject({contact:null,notes:null})
+})

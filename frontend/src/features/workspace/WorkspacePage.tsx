@@ -24,6 +24,7 @@ import { useResearchCapture } from './useResearchCapture'
 import { CaptureNavigationGuard } from './CaptureNavigationGuard'
 import { CaptureArtifactStatus } from './CaptureArtifactStatus'
 import { landmarkRows } from './captureLandmarks'
+import type { WorkspaceWorkflow } from './gameWorkflow'
 import './workspace.css'
 
 type CameraSettings = { mirrored: boolean; resolution: string; cameraId?: string; tvMode?: boolean; trackingProfile?: TrackingProfileName; profileCameraResolution: boolean; workerTracking: boolean }
@@ -69,10 +70,17 @@ async function imageAnchorSupported(): Promise<boolean> {
   } finally { if (timeout !== undefined) clearTimeout(timeout) }
 }
 
-export default function WorkspacePage() {
+export interface WorkspacePageProps { session?: Session; workflow?: WorkspaceWorkflow }
+export default function WorkspacePage({ session: controlledSession, workflow }: WorkspacePageProps = {}) {
   const initialSession = new URLSearchParams(window.location.search)
-  const [sessionId, setSessionId] = useState(initialSession.get('sessionId') || initialSession.get('session') || '')
+  const [legacySessionId, setSessionId] = useState(initialSession.get('sessionId') || initialSession.get('session') || '')
+  const sessionId = controlledSession ? String(controlledSession.id) : legacySessionId
   const [sessions, setSessions] = useState<Session[]>([])
+  const selectedSession = controlledSession || sessions.find(item => String(item.id) === sessionId)
+  const workflowRef = useRef(workflow)
+  workflowRef.current = workflow
+  const savedSetup = useRef(false)
+  const invalidateWorkflow = useCallback(() => { savedSetup.current = false; workflowRef.current?.onSetupInvalidated() }, [])
   const [captureTrial, setCaptureTrial] = useState('')
   const [saveLandmarks, setSaveLandmarks] = useState(true)
   const [saveVideo, setSaveVideo] = useState(false)
@@ -134,10 +142,13 @@ export default function WorkspacePage() {
   const handTime = useRef(0)
   const affectedSide = useRef(ghost.affected_side)
   affectedSide.current = ghost.affected_side
-  const game = useFlowerGame({ demo, streamActive, tracking, mirrored: settings.mirrored, side: ghost.affected_side, confirmed: ghost.confirmed, session: sessions.find(item => String(item.id) === sessionId), size, pose: points, poseTime, mapping: videoMapping, displayBox })
+  const game = useFlowerGame({ demo, streamActive, tracking, mirrored: settings.mirrored, side: ghost.affected_side, confirmed: ghost.confirmed, session: selectedSession, size, pose: points, poseTime, mapping: videoMapping, displayBox, workflow: workflow?.game })
 
-  useEffect(() => { let live = true; api.sessions().then(data => { if (live) setSessions(data) }).catch(() => { if (live) setSessionsError('Không tải được danh sách phiên. Kiểm tra backend và cơ sở dữ liệu.') }); return () => { live = false } }, [])
-  useEffect(() => { const selected = sessions.find(item => String(item.id) === sessionId); if (selected) setGhost(previous => ({ ...previous, affected_side: selected.affected_side, confirmed: false })) }, [sessions, sessionId])
+  const controlledSessionId = controlledSession?.id
+  useEffect(() => { if (controlledSessionId) return; let live = true; api.sessions().then(data => { if (live) setSessions(data) }).catch(() => { if (live) setSessionsError('Không tải được danh sách phiên. Kiểm tra backend và cơ sở dữ liệu.') }); return () => { live = false } }, [controlledSessionId])
+  const selectedId = selectedSession?.id, selectedSide = selectedSession?.affected_side
+  useEffect(() => { if (selectedId && selectedSide) { savedSetup.current = false; setGhost(previous => ({ ...previous, affected_side: selectedSide, confirmed: false })) } }, [selectedId, selectedSide])
+  useEffect(() => { if (savedSetup.current && (!ghost.confirmed || !streamActive)) invalidateWorkflow() }, [ghost.confirmed, streamActive, invalidateWorkflow])
   useEffect(() => { localStorage.setItem('rehab.settings', JSON.stringify(settings)) }, [settings])
   useEffect(() => {
     const listener = () => setFullscreen(document.fullscreenElement === workspaceRef.current)
@@ -536,7 +547,14 @@ export default function WorkspacePage() {
     const savedSessionId = sessionId
     const savedCameraGeneration = cameraGeneration.current
     const savedRestoreGeneration = restoreGeneration.current
+    const isCurrent = () => {
+      const current = currentMappedGhost()
+      return requestId === saveGeneration.current && savedCameraGeneration === cameraGeneration.current && savedRestoreGeneration === restoreGeneration.current && current.x === currentGhost.x && current.y === currentGhost.y && current.scale === currentGhost.scale && current.confirmed === currentGhost.confirmed && current.affected_side === currentGhost.affected_side && current.opacity === currentGhost.opacity && current.ghost_visible === currentGhost.ghost_visible
+    }
     try {
+      if (workflow && (!currentGhost.confirmed || !currentGhost.ghost_visible)) { setMessage('Hãy hiển thị hình bóng và xác nhận tư thế trước khi lưu.'); return }
+      const setupRevision = workflow ? await workflow.beforeCalibrationSave() : undefined
+      if (workflow && !isCurrent()) { setMessage('Camera hoặc hiệu chuẩn đã thay đổi; hãy kiểm tra và lưu lại.'); return }
       const track = streamRef.current?.getVideoTracks()[0]; const actual = track?.getSettings()
       const source = videoRef.current
       const anchor = ghostAnchor.current && videoMapping.current && actual?.deviceId && actualDimension(actual.width) && actualDimension(actual.height) && source && source.videoWidth === actual.width && source.videoHeight === actual.height ? toPersistedGhostAnchor(ghostAnchor.current, settings.mirrored) : null
@@ -549,11 +567,13 @@ export default function WorkspacePage() {
         }
       }
       const storedAnchor = supported ? anchor : null
-      const saved = await calibrationRequest<Calibration>('/api/calibrations', { method: 'POST', body: JSON.stringify({ session_id: Number(savedSessionId), ...currentGhost, camera_label: track?.label || null, camera_device_id: actual?.deviceId || null, width: actualDimension(actual?.width), height: actualDimension(actual?.height), mirrored: settings.mirrored, ...(storedAnchor ? { image_anchor: storedAnchor } : {}) }) })
+      const saved = await calibrationRequest<Calibration>('/api/calibrations', { method: 'POST', body: JSON.stringify({ session_id: Number(savedSessionId), ...currentGhost, camera_label: track?.label || null, camera_device_id: actual?.deviceId || null, width: actualDimension(actual?.width), height: actualDimension(actual?.height), mirrored: settings.mirrored, ...(storedAnchor ? { image_anchor: storedAnchor } : {}), ...(setupRevision !== undefined ? { setup_revision: setupRevision } : {}) }) })
+      if (workflow && !isCurrent()) { invalidateWorkflow(); if (requestId === saveGeneration.current) setMessage('Camera hoặc hiệu chuẩn đã thay đổi; hãy kiểm tra và lưu lại.'); return }
       if (requestId === saveGeneration.current) {
         const returned = fromPersistedGhostAnchor(saved.image_anchor, false)
         const retained = !!storedAnchor && !!returned && Math.abs(returned.x - storedAnchor.x) < 1e-9 && Math.abs(returned.y - storedAnchor.y) < 1e-9 && Math.abs(returned.scale - storedAnchor.scale) < 1e-9
         setMessage(retained ? `Đã lưu cấu hình hiệu chuẩn đã gửi cho phiên #${savedSessionId}.` : `Đã lưu cấu hình hiệu chuẩn đã gửi cho phiên #${savedSessionId}. Không xác nhận được vị trí theo ảnh; hãy căn chỉnh lại khi khôi phục.`)
+        if (workflow && saved.confirmed) { savedSetup.current = true; workflow.onSetupSaved(saved.id) }
       }
     } catch { if (requestId === saveGeneration.current) setMessage(`Không xác nhận được lưu hiệu chuẩn cho phiên #${savedSessionId}. Hãy kiểm tra cấu hình đã lưu trước khi thử lại.`) }
     finally { setCalibrationSavePending(false) }
@@ -572,10 +592,10 @@ export default function WorkspacePage() {
     catch (error) { setMessage(error instanceof Error ? error.message : 'Không thể bắt đầu thu dữ liệu.') }
   }
 
-  return <section ref={workspaceRef} className={settings.tvMode ? 'workspace workspace-tv' : 'workspace'}>
+  return <section ref={workspaceRef} className={`${settings.tvMode ? 'workspace workspace-tv' : 'workspace'}${workflow ? ` clinical-workspace clinical-${workflow.view}` : ''}`}>
     <CaptureNavigationGuard shouldBlock={() => capture.busy || capture.isActive()} />
-    <div className="workspace-heading"><div><p className="workspace-eyebrow">KHÔNG GIAN THỰC HÀNH</p><h1>Camera & hiệu chuẩn</h1><p>Căn chỉnh tư thế với hình bóng tham chiếu trước khi bắt đầu phiên.</p></div><span className="workspace-tag">Giai đoạn 1 · Thủ công</span></div>
-    {message && <div className="workspace-message" role="status">{message}<button aria-label="Đóng thông báo" onClick={() => setMessage('')}>×</button></div>}
+    <div className="workspace-heading"><div><p className="workspace-eyebrow">KHÔNG GIAN THỰC HÀNH</p>{workflow ? <h2>Camera & hiệu chuẩn</h2> : <h1>Camera & hiệu chuẩn</h1>}<p>Căn chỉnh tư thế với hình bóng tham chiếu trước khi bắt đầu phiên.</p></div><span className="workspace-tag">Nhân viên xác nhận tư thế</span></div>
+    {message && <div className="workspace-message" role="status" aria-label="Thông báo camera và hiệu chuẩn">{message}<button aria-label="Đóng thông báo" onClick={() => setMessage('')}>×</button></div>}
     {sessionsError && <div className="workspace-message" role="alert">{sessionsError}</div>}
     <div className="workspace-grid">
       <div className="workspace-main">
@@ -592,12 +612,13 @@ export default function WorkspacePage() {
         </div>
         <div className="workspace-controls">
           <button className="primary" disabled={cameraOpening} onClick={() => { if (streamActive) stopCamera(); else void startCamera() }}>{streamActive ? 'Tắt camera' : 'Bật camera'}</button>
-          <button onClick={() => { stopCamera(); setDemo(value => !value); setSize({ width: 1280, height: 720 }); setMessage('') }}>{demo ? 'Thoát demo' : 'Chạy demo'}</button>
+          {!workflow && <button onClick={() => { stopCamera(); setDemo(value => !value); setSize({ width: 1280, height: 720 }); setMessage('') }}>{demo ? 'Thoát demo' : 'Chạy demo'}</button>}
           <button disabled={!streamActive || demo || starting} onClick={tracking ? stopTracking : startTracking}>{starting ? 'Đang tải…' : tracking ? 'Dừng nhận diện' : 'Bắt đầu nhận diện'}</button>
+          {workflow && <button onClick={() => updateGhost({})}>Kiểm tra lại ghế và tư thế</button>}
         </div>
         <div className="workspace-meta"><span>{demo ? 'Mốc mô phỏng' : status}</span><span>{fps} FPS suy luận Pose</span>{activeEngine && <span>{activeEngine === 'parallel' ? parallelHandAvailable ? 'CPU · hai Worker' : 'CPU · Worker Pose' : activeEngine === 'worker' ? 'CPU · Worker' : 'CPU · luồng chính'}</span>}<span>Yêu cầu camera: {requestedCameraSize.width} × {requestedCameraSize.height}</span>{streamActive && <span>Camera thực tế: {actualCameraSize ? `${actualCameraSize.width} × ${actualCameraSize.height}` : 'không xác định'}</span>}</div>
         {budgetStatus && <p>Giới hạn tự điều chỉnh Pose {budgetStatus.poseFps.toFixed(1)} / Hand {budgetStatus.handAvailable ? `${budgetStatus.handFps.toFixed(1)} FPS` : 'không khả dụng'} · {budgetStatus.phase === 'normal' ? 'bình thường' : 'đã giảm tải'}</p>}
-        <p><a href="/tracking-lab">Mở Tracking Test Lab</a></p>
+        {!workflow && <><p><a href="/tracking-lab">Mở Tracking Test Lab</a></p>
         <div className="workspace-panel" aria-label="Thu thập dữ liệu nghiên cứu">
           <h2>Thu thập dữ liệu nghiên cứu</h2>
           <p>Phiên #{sessionId || 'chưa chọn'} · Bệnh nhân #{sessions.find(item => String(item.id) === sessionId)?.patient_id || 'chưa chọn'}</p>
@@ -611,12 +632,12 @@ export default function WorkspacePage() {
           <p role="status">{capture.state}{capture.captureId && ` · ${capture.captureId}`}{capture.isActive() && ` · ${Math.floor(capture.elapsedMs / 1000)} giây`}</p>
           <CaptureArtifactStatus captureId={capture.captureId} busy={capture.busy || capture.isActive()} state={capture.state} />
           {capture.stats && <p>Frame: {capture.stats.frames} · Landmark: {capture.stats.landmarks} · Batch đã gửi: {capture.stats.uploadedBatches} · Đang chờ: {capture.stats.pending} · Video: {capture.stats.videoBytes} byte / {capture.stats.videoChunks} chunk {capture.stats.error && `· Lỗi: ${capture.stats.error}`}</p>}
-        </div>
-        {game.panel}
+        </div></>}
+        {(!workflow || workflow.view === 'game') && game.panel}
       </div>
-      <aside className="workspace-panel">
+      <aside className="workspace-panel" hidden={!!workflow && workflow.view !== 'setup'}>
         <div><p className="workspace-eyebrow">THIẾT LẬP PHIÊN</p><h2>Hiệu chuẩn tư thế</h2><p>Điều chỉnh ghế để đầu, vai và thân trùng hình bóng. Nhân viên chuyên môn kiểm tra trực tiếp trước khi xác nhận.</p></div>
-        <label>Phiên tập<select value={sessionId} disabled={capture.isActive() || capture.busy} onChange={event => onSessionChange(event.target.value)}><option value="">Chọn phiên</option>{sessions.map(item => <option key={item.id} value={item.id}>Phiên #{item.id} · Bệnh nhân #{item.patient_id}</option>)}</select></label>
+        {!controlledSession && <label>Phiên tập<select value={sessionId} disabled={capture.isActive() || capture.busy} onChange={event => onSessionChange(event.target.value)}><option value="">Chọn phiên</option>{sessions.map(item => <option key={item.id} value={item.id}>Phiên #{item.id} · Bệnh nhân #{item.patient_id}</option>)}</select></label>}
         <label>Camera<select value={settings.cameraId || ''} onChange={event => { stopCamera(); updateSettings({ cameraId: event.target.value }) }}><option value="">Camera mặc định</option>{devices.map(device => <option key={device.deviceId} value={device.deviceId}>{device.label || 'Camera'}</option>)}</select></label>
         <p className="workspace-hint">Danh sách camera xuất hiện sau lần cấp quyền đầu tiên.</p>
         <label className="check"><input type="checkbox" checked={settings.mirrored} onChange={event => updateSettings({ mirrored: event.target.checked })} /> Lật ảnh ngang</label>

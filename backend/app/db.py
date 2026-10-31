@@ -16,7 +16,7 @@ def get_engine():
     parsed = make_url(url)
     if parsed.drivername != 'postgresql+psycopg':
         raise RuntimeError('Chỉ hỗ trợ PostgreSQL qua psycopg')
-    return create_engine(url, pool_pre_ping=True, connect_args={'connect_timeout': 3})
+    return create_engine(url, pool_pre_ping=True, hide_parameters=True, connect_args={'connect_timeout': 3})
 
 def get_db():
     with sessionmaker(bind=get_engine(), expire_on_commit=False)() as db:

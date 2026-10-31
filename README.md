@@ -1,8 +1,8 @@
-# Rehabilitation AR — MVP nghiên cứu
+# Rehabilitation AR — Quy trình phục hồi chức năng chi trên
 
-Ứng dụng web hỗ trợ quản lý bệnh nhân giả danh, phiên tập và hiệu chuẩn tư thế bằng Ghost Silhouette trước webcam. Frontend dùng React, Vite và MediaPipe Tasks Vision; backend FastAPI lưu dữ liệu vào PostgreSQL. Xem [kiến trúc](docs/ARCHITECTURE.md), [cơ sở dữ liệu](docs/DATABASE.md), [MediaPipe](docs/MEDIAPIPE.md), [checklist kiểm thử](docs/MANUAL_TEST_CHECKLIST.md) và [báo cáo triển khai](docs/IMPLEMENTATION_REPORT.md).
+Ứng dụng gồm năm phân hệ: **Tổng quan, Đánh giá, Luyện tập, Báo cáo, Quản trị**. Frontend React/Vite tái sử dụng Workspace, Ghost Silhouette và MediaPipe Pose/Hand; FastAPI lưu dữ liệu trong PostgreSQL. Xem [kế hoạch refactor](docs/REFACTOR_PLAN.md), [kiến trúc](docs/ARCHITECTURE.md), [database](docs/DATABASE.md), [MediaPipe](docs/MEDIAPIPE.md), [checklist](docs/MANUAL_TEST_CHECKLIST.md) và [báo cáo triển khai](docs/IMPLEMENTATION_REPORT.md).
 
-**Chỉ dùng cho phát triển với dữ liệu giả lập.** MVP chưa có xác thực và phân quyền đầy đủ, chưa được xác nhận lâm sàng và không được triển khai công khai hoặc nhập dữ liệu bệnh nhân thật. Có một trò chơi thử nghiệm Chạm hoa phát sáng; AI ước lượng FMA-UE, ghi video và cá nhân hóa bài tập chưa triển khai. Điểm FMA-UE do nhân viên chuyên môn đánh giá, không suy ra từ điểm trò chơi.
+**Chỉ dùng cho phát triển với dữ liệu giả lập.** Chưa có xác thực/phân quyền đầy đủ hoặc xác nhận lâm sàng. Hồ sơ hỗ trợ tên, ngày sinh, giới tính và liên hệ, nhưng chưa được nhập dữ liệu bệnh nhân thật hoặc triển khai công khai. FMA-UE chỉ được nhân viên chuyên môn nhập và xác nhận; không suy ra từ trò chơi. Công cụ thu video/landmark nghiên cứu riêng đã có tại Workspace cũ và Tracking Test Lab; việc ghi dữ liệu nghiên cứu tự động trong game lâm sàng chưa được triển khai. Không có AI chẩn đoán, tự chấm FMA-UE hay tự chỉ định điều trị.
 
 ## Chuẩn bị
 
@@ -31,7 +31,7 @@ python -m venv .venv
 .\.venv\Scripts\python -m uvicorn app.main:app --host 127.0.0.1 --port 8001
 ```
 
-Seed chỉ dùng dữ liệu giả lập. Nếu PostgreSQL chưa sẵn sàng, chờ healthcheck rồi chạy lại migration; không xóa volume để xử lý lỗi. Mở terminal thứ ba:
+Seed chỉ dùng dữ liệu giả lập và là tùy chọn; migration tự tạo danh mục Flower và bộ câu hỏi mặc định, không tạo bệnh nhân hay kết quả. Nếu PostgreSQL chưa sẵn sàng, chờ healthcheck rồi chạy lại migration. Giữ volume và kiểm tra health thay vì reset dữ liệu. Mở terminal thứ ba:
 
 ```powershell
 cd frontend
@@ -45,11 +45,33 @@ Sau khi dùng, dừng các terminal ứng dụng bằng Ctrl+C. `docker compose 
 
 ## Sử dụng
 
-1. Tạo hoặc chọn bệnh nhân bằng mã nghiên cứu giả danh, sau đó tạo phiên đánh giá hoặc luyện tập.
-2. Mở Workspace từ phiên, chọn camera, bật video và điều chỉnh hình bóng theo hướng dẫn. Nhân viên chuyên môn kiểm tra, xác nhận và lưu hiệu chuẩn; hiệu chuẩn lại khi thay đổi camera hoặc ghế.
-3. Để chơi với camera, chuyển phiên sang **Đang thực hiện**, bật camera và nhận diện Pose, rồi xác nhận tư thế trong Workspace. Nhấn **Bắt đầu trò chơi** và đưa cổ tay bên tập đến hoa, sau đó rời hoa trước lần chạm tiếp theo. Lượt kéo dài 30 giây có theo dõi, hoặc có thể dừng sớm; thời gian tạm dừng khi mất mốc cổ tay.
-4. Sau lượt, nhấn **Xác nhận lưu kết quả**. Nếu lưu thất bại, có thể thử lại; mở **Kết quả & báo cáo**, chọn **Xem trò chơi** ở phiên để xem lượt đã lưu. Thay đổi phiên, tay, gương, camera, nhận diện hoặc xác nhận có thể hủy lượt chưa lưu. Nếu điều kiện thay đổi khi đang lưu, kiểm tra trang kết quả vì yêu cầu có thể đã hoàn tất. Số hoa chạm là chỉ số trò chơi, không phải FMA-UE hay kết luận lâm sàng.
-5. Không có webcam thì chọn **Chạy demo**, bắt đầu trò chơi và di chuyển chuột hoặc chạm trong khung hình để mô phỏng cổ tay. Kết quả demo không được lưu. MediaPipe và hình bóng là công cụ hỗ trợ, không tự xác nhận tư thế lâm sàng; xem checklist để kiểm tra thiết bị thật.
+1. **Quản trị:** tạo/tìm/sửa hồ sơ trong một bảng `patients`. Mã bệnh nhân là `research_code` duy nhất. Hai tab phân biệt bệnh nhân đến khám và điều trị; chuyển nhóm dùng cùng API với trang kết quả đánh giá.
+2. **Đánh giá:** chọn/tạo hồ sơ đến khám → bắt đầu lần khám mới → trả lời bộ câu hỏi theo phiên bản → camera, hình bóng và xác nhận thủ công → lưu hiệu chuẩn → chọn nhiều bài → thực hiện/lưu các lượt → tổng kết, FMA-UE chuyên môn nếu có → hoàn tất. Mỗi lần khám giữ một bộ câu trả lời và lịch sử riêng.
+3. **Nhập viện:** chọn đánh giá đã hoàn tất của đúng người bệnh làm Baseline. Chuyển nhóm giữ nguyên bệnh nhân và kết quả. Thiếu Baseline bị chặn mặc định; `ALLOW_TRANSFER_WITHOUT_BASELINE=true` chỉ mở ngoại lệ khi nhân viên xác nhận và ghi lý do.
+4. **Luyện tập:** tìm chính xác mã bệnh nhân điều trị → xem lịch sử/biểu đồ và chỉ định → bắt đầu buổi mới → setup camera một lần → chọn game → thực hiện → xác nhận lưu → **Tiếp tục** trở lại dashboard trong cùng buổi. **Trở về** yêu cầu xác nhận kết thúc, ghi `ended_at` và giải phóng camera/models. Hủy hộp thoại giữ buổi đang hoạt động.
+5. **Danh mục:** Hái hoa là mặc định 30 giây hoạt động, không phải đề xuất AI. Biến thể Hái hoa · Luyện tầm với dùng cùng cơ chế với 45 giây và cần chỉ định riêng khi luyện tập. Các bài khác không tự xuất hiện trong danh sách có thể thực hiện. Điểm các game được trình bày riêng.
+6. **Báo cáo:** xem đánh giá/Baseline sau chuyển nhóm, câu hỏi theo snapshot, FMA-UE đã xác nhận, lịch sử/trial và biểu đồ thời lượng thực; lọc theo người bệnh, ngày, game, buổi. Video/artifact chỉ hiện khi có capture thực đã liên kết với trial.
+
+Thay camera, gương, hình bóng, ghế/tư thế hoặc khôi phục cấu hình sẽ yêu cầu kiểm tra và lưu lại. Dùng **Kiểm tra lại ghế và tư thế** khi nhân viên di chuyển người bệnh. MediaPipe không tự xác nhận tư thế đạt chuẩn lâm sàng. Mất mốc tạm dừng đồng hồ game, không tạo trạng thái tạm dừng buổi tập.
+
+Đóng trình duyệt/mất kết nối không tự hoàn tất buổi và không tạo kết quả cho lượt chưa xong. Khi quay lại, dashboard hiển thị buổi dang dở; nhân viên có thể đóng buổi đó với xác nhận rồi bắt đầu buổi mới. Không có tính năng tạm dừng/khôi phục buổi trong phiên bản này.
+
+Các URL cũ `/patients`, `/sessions`, `/workspace`, `/results`, `/settings`, `/tracking-lab` vẫn được giữ để đọc dữ liệu cũ và thử nghiệm thiết bị; không là menu chính. Tạo luyện tập qua API cũ vẫn phải dùng bệnh nhân điều trị và đi qua cùng service của quy trình mới. Demo tại Workspace cũ không lưu kết quả.
+
+## Migration có dữ liệu
+
+Chuỗi hiện tại kết thúc tại `b10f_hospital_workflows`, sau `a06f_capture_lease`. Migration chỉ thêm bảng/cột/ràng buộc, giữ JSON kết quả, `round_id`, session, calibration và dữ liệu nghiên cứu cũ. Hồ sơ cũ được phân nhóm `outpatient` và đánh dấu cần xác nhận thủ công; không suy đoán nhập viện từ lịch sử game.
+
+Tại `backend`, sao lưu PostgreSQL rồi ghi snapshot trước và sau:
+
+```powershell
+.\.venv\Scripts\python -m app.migration_audit --output ..\rehab-data\validation\before.json
+.\.venv\Scripts\python -m alembic upgrade head
+.\.venv\Scripts\python -m alembic check
+.\.venv\Scripts\python -m app.migration_audit --output ..\rehab-data\validation\after.json --compare ..\rehab-data\validation\before.json
+```
+
+Snapshot xuất số lượng, hash trường cũ, kiểm tra khóa ngoại và các mã cần phân loại lại; không xuất họ tên, liên hệ hay JSON kết quả thô. Báo cáo mã cần xem lại cũng có tại `GET /api/reports/patient-classification`. Downgrade từ chối xóa dữ liệu workflow, hồ sơ mở rộng hoặc cấu hình mới đã tạo; phải xuất/đánh giá dữ liệu trước khi rollback.
 
 ## Kiểm thử
 
@@ -58,6 +80,7 @@ cd backend
 # Chỉ trên PostgreSQL phát triển hoặc kiểm thử đã migration.
 $env:TEST_DATABASE_URL = ((Get-Content ..\.env | Where-Object { $_ -match '^DATABASE_URL=' } | Select-Object -First 1) -replace '^DATABASE_URL=', '')
 .\.venv\Scripts\python -m pytest
+.\.venv\Scripts\python -m pytest --cov=app --cov-branch --cov-report=term-missing
 ```
 
 Nếu không đặt `TEST_DATABASE_URL`, các bài integration PostgreSQL sẽ bị bỏ qua. Các bài này dùng transaction rollback; vẫn nên dùng database thử nghiệm riêng và không sử dụng dữ liệu thật.
@@ -67,9 +90,12 @@ cd frontend
 npm run lint
 npm run typecheck
 npm test
+npm test -- --coverage
 npm run build
 ```
 
-Để chạy Playwright, trước tiên khởi động frontend, backend và PostgreSQL kiểm thử riêng, sau đó chạy `cd e2e`, `npm install`, `npm test`. Bộ kiểm thử sử dụng Google Chrome và camera mô phỏng, tạo hồ sơ/phiên giả lập và không tự xóa các bản ghi đó; không chạy trên database chứa dữ liệu cần giữ.
+Để chạy Playwright, trước tiên khởi động frontend, backend và PostgreSQL kiểm thử riêng, sau đó chạy `cd e2e`, `npm install`, `npm test`. Bộ kiểm thử dùng Chrome và camera mô phỏng, tạo hồ sơ giả lập và không tự xóa các bản ghi đó. Các bài local-video cần `TRACKING_VIDEO_PATH` trỏ đến video thử nghiệm được phép sử dụng. Đặt `REPLAY_TEST_API_URL` cho các bài ghi/replay; không có video đầu vào thì các bài tương ứng được ghi là bỏ qua, không tính là đạt.
+
+Có thể dùng cổng riêng: backend `8002`, frontend `5174`, `VITE_API_BASE_URL=http://127.0.0.1:8002`, `E2E_API_BASE_URL=http://127.0.0.1:8002`, `E2E_BASE_URL=http://127.0.0.1:5174`. Thêm origin frontend đó vào `CORS_ORIGINS` của backend trước khi khởi động. Các request thay đổi dữ liệu có Origin ngoài danh sách bị từ chối. Ngày báo cáo dùng múi giờ bệnh viện, mặc định `Asia/Bangkok` (UTC+7).
 
 Kết quả đã thực sự chạy và những giới hạn còn lại được ghi tại [báo cáo triển khai](docs/IMPLEMENTATION_REPORT.md).

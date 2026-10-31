@@ -1,14 +1,14 @@
-import { Activity, Camera, ChartNoAxesCombined, ClipboardList, HeartPulse, LayoutDashboard, Settings, Users, Video } from 'lucide-react'
+import { Activity, ChartNoAxesCombined, ClipboardList, HeartPulse, LayoutDashboard, ShieldCheck, Video } from 'lucide-react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { api } from '../services/api'
 import { useData } from '../hooks/useData'
+import '../rehab.css'
 const nav = [
   { to: '/', label: 'Tổng quan', icon: LayoutDashboard, end: true },
-  { to: '/patients', label: 'Bệnh nhân', icon: Users },
-  { to: '/sessions', label: 'Phiên tập', icon: ClipboardList },
-  { to: '/workspace', label: 'Camera & hiệu chuẩn', icon: Camera },
-  { to: '/results', label: 'Kết quả', icon: ChartNoAxesCombined },
-  { to: '/settings', label: 'Cài đặt', icon: Settings },
+  { to: '/assessment', label: 'Đánh giá', icon: ClipboardList },
+  { to: '/training', label: 'Luyện tập', icon: Activity },
+  { to: '/reports', label: 'Báo cáo', icon: ChartNoAxesCombined },
+  { to: '/admin', label: 'Quản trị', icon: ShieldCheck },
 ]
 export default function Layout() {
   const { data: health } = useData(api.health)

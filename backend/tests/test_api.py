@@ -76,7 +76,7 @@ def test_calibration_image_anchor_round_trip_and_legacy_record(client):
 def test_reject_invalid_calibration_and_cancel_marks_end(client):
     code = 'TEST-' + uuid4().hex[:12]
     patient_id = client.post('/api/patients', json={'research_code': code, 'affected_side': 'left', 'dominant_hand': 'right'}).json()['id']
-    session_id = client.post('/api/sessions', json={'patient_id': patient_id, 'affected_side': 'left', 'session_type': 'training'}).json()['id']
+    session_id = client.post('/api/sessions', json={'patient_id': patient_id, 'affected_side': 'left', 'session_type': 'assessment'}).json()['id']
     assert client.post('/api/calibrations', json={'session_id': session_id, 'affected_side': 'left', 'x': 3}).status_code == 422
     cancelled = client.patch(f'/api/sessions/{session_id}', json={'status': 'cancelled'})
     assert cancelled.json()['ended_at'] is not None
@@ -99,7 +99,9 @@ def test_client_cannot_forge_session_times_or_terminal_status(client):
 def test_flower_result_round_trip_and_session_isolation(client):
     code = 'TEST-' + uuid4().hex[:12]
     patient_id = client.post('/api/patients', json={'research_code': code, 'affected_side': 'left', 'dominant_hand': 'right'}).json()['id']
-    session_data = {'patient_id': patient_id, 'affected_side': 'left', 'session_type': 'training'}
+    # Exercise the legacy research Flower schema and UUID behavior. Clinical
+    # training has separate inpatient/setup/multi-trial regression coverage.
+    session_data = {'patient_id': patient_id, 'affected_side': 'left', 'session_type': 'assessment'}
     first = client.post('/api/sessions', json=session_data).json()['id']
     second = client.post('/api/sessions', json=session_data).json()['id']
     payload = {'session_id': first, 'round_id': str(uuid4()), 'game_key': 'glowing_flower', 'source': 'camera', 'affected_side': 'left', 'duration_seconds': 30.0, 'score': 4, 'target_count': 5}

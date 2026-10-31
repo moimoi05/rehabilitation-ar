@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 from typing import Literal
 from uuid import UUID
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
@@ -14,16 +14,38 @@ class PatientCreate(ORMModel):
     affected_side: Side
     dominant_hand: Side
     notes: str | None = Field(default=None, max_length=2000)
+    patient_type: Literal['outpatient', 'inpatient'] = 'outpatient'
+    full_name: str | None = Field(default=None, min_length=1, max_length=255)
+    date_of_birth: date | None = None
+    sex: Literal['male', 'female', 'other', 'unspecified'] | None = None
+    contact: str | None = Field(default=None, max_length=512)
+
+    @field_validator('date_of_birth')
+    @classmethod
+    def past_birth_date(cls, value):
+        from .workflow_common import hospital_timezone
+        if value is not None and value > datetime.now(hospital_timezone()).date():
+            raise ValueError('Ngày sinh không được ở tương lai')
+        return value
 
 class PatientUpdate(ORMModel):
     research_code: str | None = Field(default=None, min_length=1, max_length=64, pattern=r'^[A-Za-z0-9_-]+$')
     affected_side: Side | None = None
     dominant_hand: Side | None = None
     notes: str | None = Field(default=None, max_length=2000)
+    full_name: str | None = Field(default=None, min_length=1, max_length=255)
+    date_of_birth: date | None = None
+    sex: Literal['male', 'female', 'other', 'unspecified'] | None = None
+    contact: str | None = Field(default=None, max_length=512)
+    legacy_review_required: bool | None = None
+
+    _past_birth_date = field_validator('date_of_birth')(PatientCreate.past_birth_date.__func__)
 
 class PatientOut(PatientCreate):
     id: int
     created_at: datetime
+    admitted_at: datetime | None = None
+    legacy_review_required: bool = False
 
 class SessionCreate(ORMModel):
     patient_id: int = Field(gt=0)
@@ -55,6 +77,9 @@ class SessionUpdate(ORMModel):
 class SessionOut(SessionCreate):
     id: int
     created_at: datetime
+    managed_workflow: bool = False
+    setup_confirmed: bool = False
+    setup_revision: int = 0
 
 class ImageAnchor(ORMModel):
     """Version 1 uses source-image coordinates before mirroring."""
@@ -86,6 +111,7 @@ class CalibrationCreate(ORMModel):
     image_anchor: ImageAnchor | None = None
     affected_side: Side
     confirmed: bool = False
+    setup_revision: int | None = Field(default=None, ge=0, strict=True)
 
 class CalibrationOut(CalibrationCreate):
     id: int
@@ -101,6 +127,7 @@ class ExerciseResultCreate(ORMModel):
     duration_seconds: float = Field(gt=0, le=600, allow_inf_nan=False)
     score: int = Field(ge=0, le=10000, strict=True)
     target_count: int = Field(ge=0, le=10000, strict=True)
+    trial_id: int | None = Field(default=None, gt=0, strict=True)
 
     @model_validator(mode='after')
     def valid_score(self):
@@ -113,3 +140,5 @@ class ExerciseResultOut(ExerciseResultCreate):
     id: int
     trial_id: int
     created_at: datetime
+    exercise_id: int | None = None
+    exercise_code: str | None = None

@@ -43,7 +43,7 @@ test('camera mô phỏng với mốc giả lưu kết quả lượt tập qua Po
   const patientResponse = await request.post(`${api}/api/patients`, { data: { research_code: code, affected_side: 'left', dominant_hand: 'right' } })
   expect(patientResponse.ok()).toBeTruthy()
   const patient = await patientResponse.json()
-  const sessionResponse = await request.post(`${api}/api/sessions`, { data: { patient_id: patient.id, affected_side: 'left', session_type: 'training' } })
+  const sessionResponse = await request.post(`${api}/api/sessions`, { data: { patient_id: patient.id, affected_side: 'left', session_type: 'assessment' } })
   expect(sessionResponse.ok()).toBeTruthy()
   const session = await sessionResponse.json()
   expect((await request.patch(`${api}/api/sessions/${session.id}`, { data: { status: 'in_progress' } })).ok()).toBeTruthy()

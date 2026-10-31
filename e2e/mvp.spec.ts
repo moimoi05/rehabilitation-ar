@@ -59,7 +59,7 @@ test('tạo hồ sơ và phiên giả lập, hiệu chuẩn camera mô phỏng v
   await page.getByRole('button', { name: 'Lưu hiệu chuẩn' }).click()
   const saved = await savedResponse
   expect(saved.ok()).toBeTruthy()
-  await expect(page.getByRole('status')).toContainText('Đã lưu cấu hình')
+  await expect(page.getByRole('status', { name: 'Thông báo camera và hiệu chuẩn' })).toContainText('Đã lưu cấu hình')
   const records = await (await request.get(`${api}/api/calibrations?session_id=${session.id}`)).json()
   expect(records).toHaveLength(1)
   expect(records[0].x).toBeCloseTo(0.62)

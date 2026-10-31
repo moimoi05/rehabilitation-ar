@@ -1,4 +1,8 @@
 .workspace { color: #16324e; }
+.workspace [hidden] { display: none !important; }
+.clinical-workspace { margin-top: 1.5rem; border-top: 1px solid #dfebf1; padding-top: 1.25rem; }
+.clinical-workspace .workspace-heading h2 { font-size: 1.25rem; }
+.clinical-workspace .workspace-heading p { font-size: .8rem; }
 .workspace-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; }
 .workspace-heading h1 { margin: .2rem 0; font-size: 1.9rem; font-weight: 700; letter-spacing: -.025em; }
 .workspace-heading p, .workspace-panel p { color: #657a8d; margin: .35rem 0; font-size: .9rem; line-height: 1.55; }

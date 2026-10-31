@@ -2,6 +2,48 @@
 
 Thực hiện trên laptop và TV dự kiến sử dụng, với dữ liệu giả lập. Không suy luận hiệu quả lâm sàng từ các bước kiểm thử này.
 
+Các ô dưới đây dành cho kiểm tra trực tiếp trên thiết bị; không đánh dấu đạt chỉ từ unit test hoặc camera giả lập. Bằng chứng tự động được ghi riêng trong `IMPLEMENTATION_REPORT.md`.
+
+## Năm phân hệ và hồ sơ
+
+- [ ] Menu chính chỉ có Tổng quan, Đánh giá, Luyện tập, Báo cáo, Quản trị; các URL cũ vẫn mở được.
+- [ ] Tổng quan hiển thị bốn số liệu từ PostgreSQL. Tạo lượt khám/buổi tập và kiểm tra số liệu, hoạt động gần đây cập nhật thật.
+- [ ] Quản trị có hai nhóm. Tạo mã duy nhất, thử mã trùng, tìm theo mã/tên, sửa hồ sơ tùy chọn và xóa liên hệ/ghi chú nếu cần.
+- [ ] Đối chiếu CSV/API các hồ sơ cũ cần phân loại lại; không tự suy đoán từ lịch sử training cũ.
+
+## Đánh giá, Baseline và chuyển nhóm
+
+- [ ] Chọn bệnh nhân đến khám cũ và tạo hai lần đánh giá khác nhau; xác nhận lần mới không ghi đè lịch sử.
+- [ ] Thử đủ text, number, date, single/multiple choice, boolean, trường bắt buộc, thứ tự và lỗi dữ liệu.
+- [ ] Tạo phiên bản bộ câu hỏi mới trong Quản trị; báo cáo cũ giữ nhãn/nội dung/câu trả lời snapshot.
+- [ ] Bật camera/landmarks/hình bóng, nhân viên kiểm tra đầu, vai, thân và lưu hiệu chuẩn; thiếu bước không được bắt đầu.
+- [ ] Chọn nhiều bài, chạy nhiều lượt cùng lần khám; UUID và trial riêng, kết quả đúng bài.
+- [ ] Ngắt mạng lúc lưu rồi thử lại; không có kết quả trùng. Lượt không có thời gian theo dõi chỉ được hủy, không lưu kết quả giả.
+- [ ] Nhập FMA-UE chuyên môn 0–66 và tên người xác nhận; thiếu xác nhận phải bị chặn. Điểm game không tự chuyển thành FMA-UE.
+- [ ] Hoàn tất rồi chuyển nhóm từ kết quả; làm tương tự từ Quản trị. Chọn Baseline hoàn thành đúng bệnh nhân, không tạo bệnh nhân mới.
+- [ ] Sau chuyển, hồ sơ biến khỏi nhóm đến khám, xuất hiện trong nhóm điều trị; Baseline và các lần khám vẫn mở được.
+- [ ] Thử chuyển lại khi đã thuộc nhóm đích; có thông báo rõ, số sự kiện chuyển nhóm không tăng.
+- [ ] Thiếu Baseline bị chặn mặc định. Chỉ khi có policy ngoại lệ, nhập lý do và xác nhận mới được chuyển; kiểm tra audit.
+
+## Luyện tập hằng ngày
+
+- [ ] Tìm chính xác mã inpatient; mã không tồn tại cho nhập lại; outpatient được hướng dẫn sang Đánh giá và không tạo được training.
+- [ ] Dashboard có tuổi, tay, ngày nhập viện, Baseline, lịch sử, trial và biểu đồ thời lượng thật.
+- [ ] Hái hoa xuất hiện mặc định; bài bổ sung chỉ xuất hiện khi có chỉ định còn hiệu lực. Ngừng chỉ định và kiểm tra không mở được lượt mới cho bài đó.
+- [ ] Bắt đầu buổi draft, setup một lần, lưu calibration rồi in_progress. Chơi hai bài, tiếp tục về dashboard; không tạo session mới hoặc mở lại camera giữa hai lượt.
+- [ ] Biểu đồ/lịch sử cập nhật sau mỗi kết quả. Xem từng game và lọc khoảng ngày; không so thang điểm game khác nhau.
+- [ ] Di chuyển ghế/người bệnh: dùng Kiểm tra lại ghế và tư thế. Đổi camera/gương/khôi phục cấu hình: xác nhận cũ bị hủy, chặn chơi đến khi kiểm tra và lưu lại.
+- [ ] Dừng tracking giữa lượt hoặc nhận phản hồi lưu/calibration chậm; không dùng cấu hình cũ hoặc tạo lượt bị kẹt.
+- [ ] Chọn Trở về, hủy xác nhận: giữ buổi/camera. Xác nhận lần sau: completed, ended_at, giải phóng camera/MediaPipe/Workers và về màn hình tìm.
+- [ ] Đóng tab/mất kết nối: kết quả đã lưu còn nguyên, buổi dang dở, trial chưa xong không có kết quả giả. Khi vào lại, nhận biết và đóng buổi dang dở với xác nhận.
+
+## Báo cáo
+
+- [ ] Xem assessment/Baseline sau nhập viện và báo cáo training; câu hỏi snapshot, FMA xác nhận, số lượt/thời lượng đúng bản ghi.
+- [ ] Lọc bệnh nhân, ngày, game, buổi; thử gần nửa đêm để xác nhận ngày bệnh viện UTC+7 khớp biểu đồ/bộ lọc.
+- [ ] Khi hồ sơ đổi tay bị ảnh hưởng, báo cáo cũ vẫn ghi bên tay của session lúc thực hiện.
+- [ ] Video/artifact chỉ có link khi capture thật của đúng trial đã hoàn tất; metadata thiếu/lỗi không được hiển thị như video đã ghi thành công.
+
 ## Khởi động và dữ liệu
 
 - [ ] Làm theo README, khởi động PostgreSQL, áp dụng migration và mở frontend.

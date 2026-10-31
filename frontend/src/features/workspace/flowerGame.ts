@@ -28,16 +28,16 @@ export function displayPoint(point: Position | null, mirrored: boolean, mapping?
   return result.x >= 0 && result.x <= 1 && result.y >= 0 && result.y <= 1 ? result : null
 }
 const distance = (a: Position, b: Position, width: number, height: number) => Math.hypot((a.x - b.x) * width, (a.y - b.y) * height)
-export function stepRound(round: Round, pointer: Position | null, delta: number, width: number, height: number, region?: VideoRect): Round {
+export function stepRound(round: Round, pointer: Position | null, delta: number, width: number, height: number, region?: VideoRect, roundDurationMs = ROUND_MS): Round {
   if (round.finished || !pointer || !Number.isFinite(delta) || delta <= 0 || width <= 0 || height <= 0) return round
-  const elapsedMs = Math.min(ROUND_MS, round.elapsedMs + Math.min(delta, 250))
-  if (elapsedMs >= ROUND_MS) return { ...round, elapsedMs, finished: true }
+  const elapsedMs = Math.min(roundDurationMs, round.elapsedMs + Math.min(delta, 250))
+  if (elapsedMs >= roundDurationMs) return { ...round, elapsedMs, finished: true }
   const released = round.releaseFrom && distance(pointer, round.releaseFrom, width, height) > targetRadius(height) * 1.3 ? null : round.releaseFrom
   if (!released && distance(pointer, round.target, width, height) <= targetRadius(height)) {
     const score = round.score + 1
-    return { ...round, score, targetCount: round.targetCount + 1, target: targetForScore(score, region), releaseFrom: round.target, elapsedMs, finished: elapsedMs >= ROUND_MS }
+    return { ...round, score, targetCount: round.targetCount + 1, target: targetForScore(score, region), releaseFrom: round.target, elapsedMs, finished: elapsedMs >= roundDurationMs }
   }
-  return { ...round, releaseFrom: released, elapsedMs, finished: elapsedMs >= ROUND_MS }
+  return { ...round, releaseFrom: released, elapsedMs, finished: elapsedMs >= roundDurationMs }
 }
 
 export function drawFlower(ctx: CanvasRenderingContext2D, width: number, height: number, target: Position, pointer: Position | null) {

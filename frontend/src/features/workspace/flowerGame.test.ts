@@ -2,6 +2,15 @@ import { describe, expect, it } from 'vitest'
 import { initialRound, stepRound, wristForSide, displayPoint } from './flowerGame'
 
 describe('Chạm hoa phát sáng', () => {
+  it('honors the prescribed Flower variant duration without changing the default round', () => {
+    const round = { ...initialRound(), elapsedMs: 29900 }
+    const ongoing = stepRound(round, { x: .5, y: .9 }, 100, 1280, 720, undefined, 45000)
+    expect(ongoing.finished).toBe(false)
+    expect(ongoing.elapsedMs).toBe(30000)
+    const finished = stepRound({ ...ongoing, elapsedMs: 44900 }, { x: .5, y: .9 }, 100, 1280, 720, undefined, 45000)
+    expect(finished.finished).toBe(true)
+    expect(finished.elapsedMs).toBe(45000)
+  })
   it('maps the affected wrist and mirrors its displayed coordinate', () => {
     const pose = Array.from({ length: 17 }, () => ({ x: .1, y: .2, visibility: 0 }))
     pose[15] = { x: .2, y: .5, visibility: .9 }

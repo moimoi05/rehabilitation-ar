@@ -1,4 +1,18 @@
-# Kiến trúc MVP phục hồi chức năng chi trên
+# Kiến trúc phục hồi chức năng chi trên
+
+## Quy trình nghiệp vụ
+
+Năm phân hệ chính là Tổng quan, Đánh giá, Luyện tập, Báo cáo, Quản trị. Các trang phiên, camera, game và kết quả là màn hình con. Router giữ các URL nghiên cứu cũ để tương thích dữ liệu, thiết bị và kiểm thử; không thêm chúng vào menu chính.
+
+Frontend dùng `services/rehab.ts` và `types/rehab.ts` cho API nghiệp vụ. Assessment quản lý từng lần khám, snapshot câu hỏi và lựa chọn nhiều bài. Training tìm chính xác mã inpatient và giữ một session qua nhiều trial. `ClinicalWorkspace` giữ nguyên một `WorkspacePage` được mount từ setup đến kết quả/dashboard; đổi game chỉ tạo trial mới. Chỉ kết thúc hoặc rời quy trình mới unmount camera/models. Cấu hình camera có revision và callback để phản hồi lưu chậm không xác nhận nhầm cấu hình đã thay đổi.
+
+Backend chia module theo domain: `workflow_patients` (transaction chuyển nhóm), `questionnaires` (phiên bản/snapshot/answers), `workflow_catalog` (danh mục/chỉ định), `workflow_sessions` (đánh giá/luyện tập/trials), `workflow_reports` (thống kê và báo cáo thật). `workflow_common` chứa invariant và khóa hàng dùng chung với các API tương thích trong `main.py`. Các bản ghi mới qua quy trình có `managed_workflow=true`; dữ liệu nghiên cứu cũ giữ nguyên định dạng. API tạo luyện tập cũ cũng gọi service mới và chặn outpatient.
+
+Một `patients` chứa hai nhóm, không có bảng bệnh nhân sao chép. `patient_transfers` tham chiếu session đánh giá đã hoàn thành làm Baseline; kết quả không được sao chép hoặc di chuyển. Session lưu assessment/training và bốn trạng thái draft/in_progress/completed/cancelled. Questionnaire submission giữ snapshot câu hỏi; một thay đổi phiên bản không sửa lịch sử.
+
+Mỗi lần chơi tạo trial trước khi chạy. `client_round_id` bảo vệ retry tạo trial; `round_id` bảo vệ retry lưu kết quả. Session lock tuần tự hóa bắt đầu, lưu, invalidation và hoàn tất. Việc chuyển nhóm khóa bệnh nhân và ghi patient/transfer/Baseline/audit trong một transaction; lỗi rollback toàn bộ. Khóa được đọc lại để tránh identity-map cũ sau yêu cầu đồng thời.
+
+Chi tiết dữ liệu và API trong [DATABASE](DATABASE.md); bằng chứng thực chạy và giới hạn trong [IMPLEMENTATION_REPORT](IMPLEMENTATION_REPORT.md).
 
 ## Phạm vi
 

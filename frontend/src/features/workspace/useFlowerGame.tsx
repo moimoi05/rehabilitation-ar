@@ -7,6 +7,7 @@ import { mapVideoPoint, visibleVideoRegion } from './videoGeometry'
 import type { Size, VideoMapping } from './videoGeometry'
 import { displayPoint, drawFlower, initialRound, ROUND_MS, stepRound, targetForScore, targetRadius, wristForSide } from './flowerGame'
 import type { Position, Round } from './flowerGame'
+import type { FlowerWorkflow, SavedGameResult } from './gameWorkflow'
 
 type Props = {
   demo: boolean; streamActive: boolean; tracking: boolean; mirrored: boolean; side: Side
@@ -14,6 +15,7 @@ type Props = {
   pose: RefObject<{ pose: Point[]; hands: Point[][] }>; poseTime: RefObject<number>
   mapping?: RefObject<VideoMapping | null>
   displayBox?: RefObject<Size | null>
+  workflow?: FlowerWorkflow
 }
 type Phase = 'idle' | 'playing' | 'finished'
 type SaveState = 'idle' | 'saving' | 'saved' | 'failed'
@@ -21,8 +23,9 @@ const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'
 const projectionOf = ({ rect, box }: VideoMapping, display: Size) => [rect.x / box.width, rect.y / box.height, rect.width / box.width, rect.height / box.height, display.width / display.height]
 const projectionChanged = (left: number[], right: number[]) => left.some((value, index) => Math.abs(value - right[index]) > 1e-5)
 
-export function useFlowerGame({ demo, streamActive, tracking, mirrored, side, confirmed, session, size, pose, poseTime, mapping, displayBox }: Props) {
+export function useFlowerGame({ demo, streamActive, tracking, mirrored, side, confirmed, session, size, pose, poseTime, mapping, displayBox, workflow }: Props) {
   const { width: sourceWidth, height: sourceHeight } = size
+  const durationMs = workflow?.durationSeconds && Number.isFinite(workflow.durationSeconds) && workflow.durationSeconds > 0 && workflow.durationSeconds <= 600 ? workflow.durationSeconds * 1000 : ROUND_MS
   const [phase, setPhase] = useState<Phase>('idle')
   const [round, setRound] = useState<Round>(initialRound)
   const [hasPointer, setHasPointer] = useState(false)
@@ -31,6 +34,10 @@ export function useFlowerGame({ demo, streamActive, tracking, mirrored, side, co
   const [saveState, setSaveState] = useState<SaveState>('idle')
   const [message, setMessage] = useState('')
   const [roundId, setRoundId] = useState('')
+  const [trialId, setTrialId] = useState<number | null>(null)
+  const [preparing, setPreparing] = useState(false)
+  const preparingRef = useRef(false)
+  const pendingStart = useRef<{ context: string; roundId: string } | null>(null)
   const current = useRef(round)
   const canvas = useRef<HTMLCanvasElement>(null)
   const demoPointer = useRef<{ position: Position; time: number } | null>(null)
@@ -38,20 +45,24 @@ export function useFlowerGame({ demo, streamActive, tracking, mirrored, side, co
   const saveGeneration = useRef(0)
   const lastGeometryChange = useRef(0)
   const resumeAfterCheck = useRef<{ timestamp: number; requestedAt: number; projection: number[] } | null>(null)
-  const context = `${demo}|${streamActive}|${tracking}|${mirrored}|${side}|${session?.id ?? ''}|${confirmed}|${size.width}|${size.height}`
+  const context = `${demo}|${streamActive}|${tracking}|${mirrored}|${side}|${session?.id ?? ''}|${confirmed}|${size.width}|${size.height}|${workflow ? `${workflow.enabled}|${workflow.setupReady}|${workflow.exerciseId}|${workflow.attempt}|${durationMs}` : ''}`
   const previousContext = useRef(context)
+  const liveContext = useRef(context)
+  liveContext.current = context
 
   useEffect(() => {
     if (previousContext.current !== context) {
       previousContext.current = context
+      saveGeneration.current += 1
+      preparingRef.current = false; setPreparing(false); pendingStart.current = null
       if (phase !== 'idle') {
-        saveGeneration.current += 1
+        if (trialId && saveState !== 'saved') workflow?.onRoundAbandoned?.()
         setPhase('idle'); current.current = initialRound(); setRound(current.current)
-        setRoundId(''); setSaveState('idle'); setMessage(saveState === 'saving' ? 'Điều kiện phiên hoặc camera đã thay đổi. Yêu cầu lưu có thể đã hoàn tất; hãy kiểm tra trang Kết quả.' : 'Điều kiện phiên hoặc camera đã thay đổi. Lượt trước đã hủy; hãy bắt đầu lại.')
+        setRoundId(''); setTrialId(null); setSaveState('idle'); setMessage(saveState === 'saving' ? 'Điều kiện phiên hoặc camera đã thay đổi. Yêu cầu lưu có thể đã hoàn tất; hãy kiểm tra trang Kết quả.' : 'Điều kiện phiên hoặc camera đã thay đổi. Lượt trước đã hủy; hãy bắt đầu lại.')
         demoPointer.current = null
       }
     }
-  }, [context, phase, saveState])
+  }, [context, phase, saveState, trialId, workflow])
   useEffect(() => () => { saveGeneration.current += 1 }, [])
 
   useEffect(() => {
@@ -113,7 +124,7 @@ export function useFlowerGame({ demo, streamActive, tracking, mirrored, side, co
         : ((!mapping || geometry) ? displayPoint(rawWrist, mirrored, geometry ?? undefined) : null)
       const delta = lastTime ? Math.max(0, now - lastTime) : 0
       lastTime = now
-      current.current = stepRound(current.current, geometryLock ? null : pointer, delta, display.width, display.height, region)
+      current.current = stepRound(current.current, geometryLock ? null : pointer, delta, display.width, display.height, region, durationMs)
       const ctx = canvas.current?.getContext('2d')
       if (ctx) { const box = prepareOverlay(ctx, sourceWidth, sourceHeight, display); drawFlower(ctx, box.width, box.height, current.current.target, pointer) }
       if (now - lastUpdate >= 150 || current.current.finished) {
@@ -124,14 +135,30 @@ export function useFlowerGame({ demo, streamActive, tracking, mirrored, side, co
     }
     frame = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(frame)
-  }, [phase, demo, mirrored, side, sourceWidth, sourceHeight, pose, poseTime, mapping, displayBox])
+  }, [phase, demo, mirrored, side, sourceWidth, sourceHeight, pose, poseTime, mapping, displayBox, durationMs])
 
-  const canStart = demo || Boolean(streamActive && tracking && confirmed && session?.status === 'in_progress')
-  const start = () => {
-    if (!canStart) return
+  const canStart = (demo || Boolean(streamActive && tracking && confirmed && session?.status === 'in_progress')) && (!workflow || Boolean(workflow.enabled && workflow.setupReady && workflow.exerciseId))
+  const start = async () => {
+    if (!canStart || preparingRef.current) return
     if (!demo && typeof crypto.randomUUID !== 'function') { setMessage('Không tạo được mã lượt an toàn. Hãy mở ứng dụng trên localhost hoặc HTTPS.'); return }
+    const id = demo ? '' : pendingStart.current?.context === context ? pendingStart.current.roundId : crypto.randomUUID()
+    let persistedTrial: number | null = null
+    if (workflow && !demo) {
+      const request = ++saveGeneration.current
+      preparingRef.current = true; setPreparing(true); setMessage('')
+      pendingStart.current = { context, roundId: id }
+      try {
+        persistedTrial = await workflow.createTrial(id)
+        if (request !== saveGeneration.current || liveContext.current !== context) { workflow.onRoundAbandoned?.(); return }
+      } catch (error) {
+        if (request === saveGeneration.current) setMessage(error instanceof Error ? error.message : 'Không tạo được lượt. Hãy thử lại.')
+        return
+      } finally {
+        if (request === saveGeneration.current) { preparingRef.current = false; setPreparing(false) }
+      }
+    }
     current.current = initialRound(!demo && mapping?.current ? visibleVideoRegion(mapping.current) : undefined); setRound(current.current); demoPointer.current = null; resumeAfterCheck.current = null; lastGeometryChange.current = 0; setResumePending(false); setGeometryPaused(false)
-    setRoundId(demo ? '' : crypto.randomUUID()); setSaveState('idle'); setHasPointer(false); setMessage(''); setPhase('playing')
+    pendingStart.current = null; setTrialId(persistedTrial); setRoundId(id); setSaveState('idle'); setHasPointer(false); setMessage(''); setPhase('playing')
   }
   const stop = () => { setRound(current.current); setPhase('finished') }
   const requestResume = () => {
@@ -143,7 +170,18 @@ export function useFlowerGame({ demo, streamActive, tracking, mirrored, side, co
     resumeAfterCheck.current = { timestamp, requestedAt: now, projection: projectionOf(geometry, displayBox?.current ?? { width: sourceWidth, height: sourceHeight }) }
     setMessage(''); setResumePending(true)
   }
-  const reset = () => { saveGeneration.current += 1; current.current = initialRound(); setRound(current.current); setPhase('idle'); setMessage(''); setSaveState('idle') }
+  const reset = () => { saveGeneration.current += 1; pendingStart.current = null; setTrialId(null); current.current = initialRound(); setRound(current.current); setPhase('idle'); setMessage(''); setSaveState('idle') }
+  const cancelEmptyRound = async () => {
+    if (!workflow?.cancelTrial || !trialId || round.elapsedMs > 0 || saveState === 'saving') return
+    const request = ++saveGeneration.current
+    setSaveState('saving'); setMessage('')
+    try {
+      await workflow.cancelTrial(trialId)
+      if (request === saveGeneration.current) reset()
+    } catch (error) {
+      if (request === saveGeneration.current) { setSaveState('failed'); setMessage(error instanceof Error ? error.message : 'Chưa hủy được lượt. Hãy thử lại.') }
+    }
+  }
   const onPointer = (event: PointerEvent<HTMLCanvasElement>) => {
     if (!demo || phase !== 'playing') return
     const bounds = event.currentTarget.getBoundingClientRect()
@@ -156,22 +194,25 @@ export function useFlowerGame({ demo, streamActive, tracking, mirrored, side, co
     const requestGeneration = ++saveGeneration.current
     saving.current = roundId; setSaveState('saving'); setMessage('')
     try {
-      const response = await fetch(`${apiBase}/api/exercise-results`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ session_id: session.id, round_id: roundId, game_key: 'glowing_flower', affected_side: side, duration_seconds: round.elapsedMs / 1000, score: round.score, target_count: round.targetCount, source: 'camera' }) })
+      const response = await fetch(`${apiBase}/api/exercise-results`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ session_id: session.id, round_id: roundId, game_key: 'glowing_flower', affected_side: side, duration_seconds: round.elapsedMs / 1000, score: round.score, target_count: round.targetCount, source: 'camera', ...(trialId ? { trial_id: trialId } : {}) }) })
       if (!response.ok) throw new Error('save failed')
+      const saved: SavedGameResult | null = workflow ? await response.json() : null
       if (requestGeneration !== saveGeneration.current) return
       setSaveState('saved'); setMessage('Đã lưu kết quả lượt tập vào phiên.')
+      if (saved) workflow?.onResultSaved(saved)
     } catch { if (requestGeneration === saveGeneration.current) { setSaveState('failed'); setMessage('Chưa xác nhận được kết quả lưu. Có thể thử lại an toàn với cùng mã lượt.') } }
     finally { if (saving.current === roundId) saving.current = '' }
   }
 
   const overlay = phase !== 'idle' ? <canvas ref={canvas} width={size.width} height={size.height} className={`flower-overlay${demo && phase === 'playing' ? ' flower-demo-input' : ''}`} aria-label={demo ? 'Vùng chơi demo bằng chuột hoặc chạm' : 'Hoa và vị trí cổ tay'} onPointerMove={onPointer} onPointerDown={onPointer} onPointerLeave={() => { demoPointer.current = null }} /> : null
   const panel = <div className="workspace-info flower-game">
-    <div className="flower-game-heading"><div><strong>Trò chơi · Chạm hoa phát sáng</strong><p>Đưa cổ tay bên tập đến hoa, rồi rời hoa trước lần chạm tiếp theo. Nhân viên điều chỉnh tư thế theo khả năng; dừng khi khó chịu.</p></div><span>30 giây hoạt động</span></div>
-    {phase === 'idle' && <><p>{demo ? 'Demo: di chuyển chuột hoặc chạm trên khung hình để mô phỏng cổ tay. Không lưu dữ liệu demo.' : 'Chọn phiên đang thực hiện, bật camera và nhận diện, rồi xác nhận tư thế để bắt đầu.'}</p><button className="primary" disabled={!canStart} onClick={start}>Bắt đầu trò chơi</button></>}
-    {phase !== 'idle' && <><div className="flower-score"><div><small>Hoa đã chạm</small><strong>{round.score}</strong></div><div><small>Thời gian còn</small><strong>{Math.ceil((ROUND_MS - round.elapsedMs) / 1000)}s</strong></div><div><small>Trạng thái</small><strong>{phase === 'finished' ? 'Đã kết thúc' : geometryPaused ? (resumePending ? 'Tạm dừng · chờ quan sát mới' : 'Tạm dừng · di chuyển cổ tay sau khi đổi khung hình') : hasPointer ? 'Đang chơi' : 'Tạm dừng · mất mốc'}</strong></div></div>
-      {phase === 'playing' ? <><p>{demo ? 'Di chuyển chuột hoặc chạm trong khung hình. Thời gian dừng khi không có con trỏ.' : 'Thời gian dừng khi không thấy cổ tay hoặc khung hình ngừng cập nhật.'}</p>{geometryPaused && <button onClick={requestResume} disabled={resumePending}>Tiếp tục sau khi kiểm tra</button>}<button onClick={stop}>Dừng và xem kết quả</button></> : <><p>Kết quả trò chơi chỉ là số hoa chạm được, không phải điểm FMA-UE hay kết luận lâm sàng.</p><div className="workspace-controls"><button onClick={reset} disabled={saveState === 'saving'}>Lượt mới</button>{!demo && <button className="primary" onClick={save} disabled={round.elapsedMs <= 0 || saveState === 'saving' || saveState === 'saved'}>{saveState === 'saving' ? 'Đang lưu…' : saveState === 'saved' ? 'Đã lưu kết quả' : saveState === 'failed' ? 'Thử lưu lại' : 'Xác nhận lưu kết quả'}</button>}</div>{demo && <p>DEMO — kết quả này không được lưu.</p>}</>}
+    <div className="flower-game-heading"><div><strong>Trò chơi · {workflow?.exerciseName || 'Chạm hoa phát sáng'}</strong><p>Đưa cổ tay bên tập đến hoa, rồi rời hoa trước lần chạm tiếp theo. Nhân viên điều chỉnh tư thế theo khả năng; dừng khi khó chịu.</p></div><span>{durationMs / 1000} giây hoạt động</span></div>
+    {phase === 'idle' && <><p>{demo ? 'Demo: di chuyển chuột hoặc chạm trên khung hình để mô phỏng cổ tay. Không lưu dữ liệu demo.' : 'Chọn phiên đang thực hiện, bật camera và nhận diện, rồi xác nhận tư thế để bắt đầu.'}</p><button className="primary" disabled={!canStart || preparing} onClick={() => void start()}>{preparing ? 'Đang chuẩn bị lượt…' : 'Bắt đầu trò chơi'}</button></>}
+    {phase !== 'idle' && <><div className="flower-score"><div><small>Hoa đã chạm</small><strong>{round.score}</strong></div><div><small>Thời gian còn</small><strong>{Math.ceil((durationMs - round.elapsedMs) / 1000)}s</strong></div><div><small>Trạng thái</small><strong>{phase === 'finished' ? 'Đã kết thúc' : geometryPaused ? (resumePending ? 'Tạm dừng · chờ quan sát mới' : 'Tạm dừng · di chuyển cổ tay sau khi đổi khung hình') : hasPointer ? 'Đang chơi' : 'Tạm dừng · mất mốc'}</strong></div></div>
+      {phase === 'playing' ? <><p>{demo ? 'Di chuyển chuột hoặc chạm trong khung hình. Thời gian dừng khi không có con trỏ.' : 'Thời gian dừng khi không thấy cổ tay hoặc khung hình ngừng cập nhật.'}</p>{geometryPaused && <button onClick={requestResume} disabled={resumePending}>Tiếp tục sau khi kiểm tra</button>}<button onClick={stop}>Dừng và xem kết quả</button></> : <><p>Kết quả trò chơi chỉ là số hoa chạm được, không phải điểm FMA-UE hay kết luận lâm sàng.</p><div className="workspace-controls">{!workflow && <button onClick={reset} disabled={saveState === 'saving'}>Lượt mới</button>}{!demo && <button className="primary" onClick={save} disabled={round.elapsedMs <= 0 || saveState === 'saving' || saveState === 'saved'}>{saveState === 'saving' ? 'Đang lưu…' : saveState === 'saved' ? 'Đã lưu kết quả' : saveState === 'failed' ? 'Thử lưu lại' : 'Xác nhận lưu kết quả'}</button>}</div>{demo && <p>DEMO — kết quả này không được lưu.</p>}</>}
     </>}
     {message && <p role="status">{message}</p>}
+    {workflow?.cancelTrial && phase === 'finished' && round.elapsedMs <= 0 && <button onClick={() => void cancelEmptyRound()} disabled={saveState === 'saving'}>{saveState === 'saving' ? 'Đang hủy lượt…' : 'Hủy lượt chưa có dữ liệu'}</button>}
   </div>
   return { overlay, panel }
 }

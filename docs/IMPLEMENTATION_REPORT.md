@@ -1,5 +1,175 @@
 # Báo cáo triển khai và kiểm chứng
 
+## Refactor quy trình bệnh viện — 31/10/2026
+
+Phần này mô tả thay đổi đang có trong worktree, tiếp tục repository hiện tại. Không commit, push hoặc deploy. Thay đổi capture/replay có từ trước được giữ lại. Bằng chứng tự động dùng dữ liệu giả lập, PostgreSQL thật và Chrome; không chứng minh độ chính xác lâm sàng hay đã kiểm thử phần cứng với người bệnh.
+
+### 1. Kiến trúc mới
+
+Năm phân hệ chính: Tổng quan / Đánh giá / Luyện tập / Báo cáo / Quản trị. React 19, TypeScript, Vite, Router, Tailwind và các component/styles cũ tiếp tục được dùng. `ClinicalWorkspace` giữ cùng camera/MediaPipe/Workers trong toàn buổi; nhiều trial dùng một session. FastAPI chia domain modules, dùng SQLAlchemy/Pydantic và PostgreSQL. Một bảng patients, Baseline là FK đến assessment đã hoàn tất; questionnaire có phiên bản và snapshot bất biến. Chi tiết tại [ARCHITECTURE](ARCHITECTURE.md), [DATABASE](DATABASE.md), [REFACTOR_PLAN](REFACTOR_PLAN.md).
+
+### 2–3. Các file tạo mới và sửa
+
+Tạo mới: **54 file** (gồm source, migration, tests, cấu hình kiểm thử và kế hoạch).
+
+```text
+backend/alembic/versions/b10f_hospital_workflows_hospital_workflows_additive_schema.py
+backend/app/migration_audit.py
+backend/app/questionnaires.py
+backend/app/workflow_catalog.py
+backend/app/workflow_common.py
+backend/app/workflow_patients.py
+backend/app/workflow_reports.py
+backend/app/workflow_schemas.py
+backend/app/workflow_sessions.py
+backend/pytest.ini
+backend/tests/conftest.py
+backend/tests/test_request_security.py
+backend/tests/test_workflow_concurrency.py
+backend/tests/test_workflow_migration.py
+backend/tests/test_workflow_validation.py
+backend/tests/test_workflows.py
+docs/REFACTOR_PLAN.md
+e2e/rehab-workflows.spec.ts
+frontend/src/components/CaptureArtifacts.test.tsx
+frontend/src/components/CaptureArtifacts.tsx
+frontend/src/components/DurationChart.test.tsx
+frontend/src/components/DurationChart.tsx
+frontend/src/components/PatientForm.test.tsx
+frontend/src/components/PatientForm.tsx
+frontend/src/components/TransferDialog.test.tsx
+frontend/src/components/TransferDialog.tsx
+frontend/src/features/rehab/ClinicalWorkspace.test.tsx
+frontend/src/features/rehab/ClinicalWorkspace.tsx
+frontend/src/features/rehab/ExerciseCatalog.tsx
+frontend/src/features/rehab/GameResult.tsx
+frontend/src/features/rehab/PatientBanner.tsx
+frontend/src/features/rehab/QuestionnaireForm.test.tsx
+frontend/src/features/rehab/QuestionnaireForm.tsx
+frontend/src/features/rehab/SessionSummary.tsx
+frontend/src/features/rehab/hospitalTime.ts
+frontend/src/features/workspace/WorkspaceWorkflow.test.tsx
+frontend/src/features/workspace/gameWorkflow.ts
+frontend/src/features/workspace/useFlowerGameWorkflow.test.tsx
+frontend/src/hooks/useData.test.tsx
+frontend/src/pages/Assessment.test.tsx
+frontend/src/pages/Assessment.tsx
+frontend/src/pages/Training.test.tsx
+frontend/src/pages/Training.tsx
+frontend/src/pages/admin/PatientProfile.test.tsx
+frontend/src/pages/admin/PatientProfile.tsx
+frontend/src/pages/admin/PatientsAdmin.test.tsx
+frontend/src/pages/admin/PatientsAdmin.tsx
+frontend/src/pages/admin/QuestionnairesAdmin.test.tsx
+frontend/src/pages/admin/QuestionnairesAdmin.tsx
+frontend/src/pages/reports/ReportsPage.test.tsx
+frontend/src/pages/reports/ReportsPage.tsx
+frontend/src/rehab.css
+frontend/src/services/rehab.ts
+frontend/src/types/rehab.ts
+```
+
+Sửa: **28 file**.
+
+```text
+.env.example
+README.md
+backend/app/captures.py
+backend/app/db.py
+backend/app/main.py
+backend/app/models.py
+backend/app/schemas.py
+backend/requirements.txt
+backend/tests/test_api.py
+docs/ARCHITECTURE.md
+docs/DATABASE.md
+docs/IMPLEMENTATION_REPORT.md
+docs/MANUAL_TEST_CHECKLIST.md
+e2e/flower-game.spec.ts
+e2e/mvp.spec.ts
+e2e/tracking-calibration-anchor.spec.ts
+frontend/src/components/Layout.test.tsx
+frontend/src/components/Layout.tsx
+frontend/src/features/workspace/WorkspacePage.tsx
+frontend/src/features/workspace/flowerGame.test.ts
+frontend/src/features/workspace/flowerGame.ts
+frontend/src/features/workspace/useFlowerGame.tsx
+frontend/src/features/workspace/workspace.css
+frontend/src/hooks/useData.ts
+frontend/src/main.tsx
+frontend/src/pages/Dashboard.test.tsx
+frontend/src/pages/Dashboard.tsx
+frontend/vite.config.ts
+```
+
+### 4. Alembic migrations
+
+Migration mới duy nhất của refactor: `backend/alembic/versions/b10f_hospital_workflows_hospital_workflows_additive_schema.py` (revision `b10f_hospital_workflows`, parent `a06f_capture_lease`). Chuỗi trước đó: `22eb807a100b` → `4b85bc97c302` → `948b1ad2a337` → `7c01_capture_runs` → `a06f_capture_lease`. Các migration lịch sử này không bị sửa.
+
+Đã chạy upgrade/check trên database phát triển có dữ liệu. Đã chạy upgrade → downgrade về a06f → upgrade trên database kiểm thử riêng có bệnh nhân/session/calibration/trial/Flower result cũ; so sánh projection/hash và FK đạt. Đã kiểm tra downgrade từ chối xóa cấu hình questionnaire do nhân viên tạo, dù chưa có lần khám. Downgrade cũng từ chối làm mất workflow/profile/clinical data mới đã sử dụng.
+
+### 5. Mapping dữ liệu trước/sau và bảo toàn
+
+`patients` thêm phân nhóm/profile/ngày nhập viện/cờ review; `sessions` giữ hai loại và bốn trạng thái, thêm camera revision/workflow flags; `clinical_assessments` thêm session nullable và xác nhận chuyên môn; `trials` thêm catalog FK, số lượt, UUID và thời gian/trạng thái. JSON và `round_id` của `exercise_results` giữ nguyên. Các bảng landmark/video/capture/prediction/audit tiếp tục được giữ. Các bảng mới là transfers, bốn bảng questionnaire, catalog, prescriptions và session_exercises. Mapping đầy đủ tại [DATABASE](DATABASE.md).
+
+| Bảng đã có | Trước migration | Sau migration |
+| --- | ---: | ---: |
+| patients | 10 | 10 |
+| sessions | 12 | 12 |
+| calibrations | 22 | 22 |
+| trials | 6 | 6 |
+| exercise_results | 6 | 6 |
+| clinical_assessments | 0 | 0 |
+| landmark_records / video_records / model_predictions | 0 / 0 / 0 | 0 / 0 / 0 |
+| audit_logs | 53 | 53 |
+
+Đối chiếu từng giá trị trường cũ: không thay đổi, không mất bản ghi; FK mồ côi: 0; sáu Flower results vẫn truy vấn được. Mười hồ sơ cũ mặc định outpatient và được xuất để xem lại phân nhóm. Có pg_dump trước thay đổi trong vùng riêng `rehab-data/backups/`; báo cáo/CSV trong `rehab-data/validation/`, không đưa dữ liệu riêng vào Git. Kiểm thử/E2E dùng database `rehabilitation_ar_refactor_test`, không ghi hồ sơ thử vào database phát triển hiện hữu.
+
+### 6. API endpoints
+
+Các API domain mới và bộ lọc được liệt kê đầy đủ trong [DATABASE — API nghiệp vụ mới](DATABASE.md#api-nghiệp-vụ-mới); OpenAPI trực tiếp tại `/docs`. Gồm dashboard/policy, transfer, assessments, questionnaires/submissions/answers, exercises/prescriptions, training-sessions, trials/cancel, setup invalidation, reports/classification review. API cũ giữ wire format; tạo training qua URL cũ dùng cùng service inpatient/setup. Không có đường PATCH đổi loại assessment thành training để bỏ qua quy tắc.
+
+Mọi write có validation, lỗi nghiệp vụ rõ ràng và transaction rollback. Khóa hàng bảo vệ transfer, trạng thái session, setup revision, trial và result; UUID chống retry tạo trùng. Browser Origin không nằm trong cấu hình bị chặn trước khi endpoint thay đổi dữ liệu. Lỗi DB không đưa thông số truy vấn ra client; log pytest dùng traceback ngắn/preflight để không in dictionary chứa mật khẩu khi DB chưa chạy.
+
+### 7. Workflows đã triển khai
+
+- Tạo/tìm/sửa hồ sơ, hai nhóm trong Quản trị, chuyển nhóm hai chiều; nhập viện từ Quản trị và kết quả dùng chung TransferDialog/API/service, giữ đúng Baseline. Duplicate transfer trả 409 và không thêm sự kiện.
+- Đánh giá mới mỗi lần khám, câu hỏi đủ sáu kiểu, bắt buộc/thứ tự/nhóm, tạo version mới trong Quản trị, snapshot lịch sử và câu trả lời theo từng lần.
+- Camera live/chọn thiết bị/Ghost/image anchor/Pose/Hand/calibration/restore tái sử dụng. Xác nhận thủ công, gate lưu calibration, revision chống phản hồi chậm, nút kiểm tra lại ghế/tư thế; không tự kết luận tư thế lâm sàng.
+- Chọn nhiều bài, nhiều trial; Hái hoa 30 giây và biến thể Hái hoa · Luyện tầm với 45 giây dùng cùng engine, tách catalog code. Biến thể cần chỉ định riêng trong training; không gọi là game lâm sàng mới hoặc đề xuất AI.
+- FMA-UE do người chuyên môn nhập tên/xác nhận (0–66), hoàn tất assessment, xem lịch sử/Baseline sau chuyển nhóm.
+- Training tìm chính xác mã inpatient, lịch sử/chart thật, chỉ định còn hiệu lực, một session qua nhiều game. Tiếp tục giữ session/camera; Trở về có xác nhận. Cancel giữ buổi, confirm ghi completed/ended_at và giải phóng camera/models. Không có trạng thái pause/resume buổi.
+- Đóng trình duyệt/mất mạng giữ kết quả đã lưu, hiển thị buổi dang dở và có thao tác đóng buổi đó với xác nhận. Trial chưa xong không có kết quả giả. Lượt không có thời gian theo dõi có thể hủy để chơi lại trong cùng setup.
+- Reports assessment/training, snapshot câu hỏi, FMA chuyên môn, từng trial, thời lượng, dữ liệu chưa xác nhận chất lượng, bộ lọc bệnh nhân/ngày/game/buổi và ranh giới ngày bệnh viện UTC+7. Capture/video/artifact hiện chỉ theo metadata thật đã liên kết với trial.
+
+### 8–10. Kiểm thử thực chạy
+
+<!-- REFACTOR_VALIDATION_RESULTS -->
+
+Những lỗi đã tìm thấy và sửa trong kiểm chứng: thứ tự lưu lựa chọn bài trước start assessment; ORM identity map cũ sau row lock; double transfer/rollback audit; UUID và pending trial khi tracking bị hủy; lượt không có dữ liệu; cấu hình camera phản hồi chậm; day boundary UTC+7; phản hồi patient cũ ghi đè patient mới; hiển thị tay của session lịch sử; origin CSRF; downgrade xóa cấu hình mới. Selector E2E được đặt tên rõ để phân biệt status hiệu chuẩn với status capture, giữ nguyên kiểm tra kết quả/hành vi.
+
+### 11. Phần chưa triển khai hoặc chưa kiểm chứng
+
+- Chưa có AI chẩn đoán, tự chấm FMA-UE, đánh giá mức suy giảm/tư thế lâm sàng hay tự chỉ định bài tập; đây là giới hạn được yêu cầu.
+- Chưa tự động thu video/chuỗi landmark theo mỗi trial của quy trình mới. Công cụ nghiên cứu capture/replay có từ trước vẫn dùng riêng; bảng và integration points được giữ. Chỉ hiển thị video đã có thực sự, không tạo video/landmark mẫu để báo hoàn tất.
+- Chưa kiểm chứng webcam vật lý, người bệnh, TV/ánh sáng/hiệu năng thiết bị mục tiêu hoặc độ chính xác lâm sàng. Sáu E2E yêu cầu video nguồn cục bộ không được cung cấp; chúng được ghi rõ bỏ qua, không tính đạt.
+- Chưa có xác thực/phân quyền, quản trị đồng ý và bảo vệ dữ liệu đầy đủ để xử lý thông tin thật. Dùng dữ liệu giả lập và loopback; không triển khai công khai.
+- Chưa có game renderer độc lập ngoài Flower; biến thể 45 giây là cấu hình của cùng game. Danh mục/chỉ định có thể mở rộng khi renderer mới được triển khai và kiểm chứng.
+
+### 12. Khởi chạy và kiểm thử
+
+Theo [README](../README.md): giữ `.env` hiện có, chạy Compose postgres, cài backend requirements, `alembic upgrade head`, kiểm tra `alembic check`, seed tùy chọn, chạy uvicorn trên 8001 và Vite trên 5173. Root `.env` dùng cho backend; biến `VITE_*` cần đặt trong terminal frontend hoặc `frontend/.env.local`. Khi đổi múi giờ, `HOSPITAL_TIMEZONE` và `VITE_HOSPITAL_TIMEZONE` phải giống nhau (mặc định Asia/Bangkok).
+
+Backend: cung cấp `TEST_DATABASE_URL` của PostgreSQL kiểm thử đã migration rồi `python -m pytest --cov=app --cov-branch --cov-fail-under=80`. Frontend: lint, typecheck, npm test/coverage, build. E2E: dùng backend/frontend/database riêng, đặt E2E_BASE_URL/E2E_API_BASE_URL và CORS_ORIGINS tương ứng; `cd e2e; npm test`. Bài video cần TRACKING_VIDEO_PATH; bài capture cần REPLAY_TEST_API_URL. [Checklist thủ công](MANUAL_TEST_CHECKLIST.md) không được đánh dấu thay cho kiểm tra phần cứng.
+
+### 13. Rủi ro còn tồn tại
+
+Ứng dụng vẫn là môi trường phát triển nghiên cứu; chưa phải hệ thống lâm sàng được xác nhận hoặc được bảo vệ cho dữ liệu thật. Cờ nguồn camera do client cung cấp không chứng minh nguồn thực; chất lượng dữ liệu chưa xác nhận được hiển thị trung thực. Worker/MediaPipe đã kiểm thử lifecycle nhưng vẫn cần đo trên thiết bị mục tiêu. Session bỏ dở cần nhân viên đóng; không tự hoàn thành hoặc resume. Vite có cảnh báo bundle vượt 500 kB; build thành công, có thể tách bundle trong bước tối ưu sau. Còn cảnh báo deprecation TestClient/httpx của thư viện. Không commit/push/deploy.
+
+---
+
+Phần bên dưới là lịch sử MVP trước refactor, không phải kết quả kiểm chứng của phiên bản mới.
+
 ## Phạm vi và giới hạn
 
 Mục tiêu là MVP nghiên cứu: quản lý bệnh nhân giả danh, phiên, camera, hiệu chuẩn thủ công, theo dõi mốc, thu thập dữ liệu và trò Chạm hoa phát sáng thử nghiệm. Kết quả phần mềm không phải chẩn đoán hay đánh giá lâm sàng. AI ước lượng mức suy giảm và đề xuất cá nhân hóa chưa được triển khai. Không dùng điểm trò chơi làm điểm FMA-UE; nhãn tham chiếu do nhân viên chuyên môn đánh giá.

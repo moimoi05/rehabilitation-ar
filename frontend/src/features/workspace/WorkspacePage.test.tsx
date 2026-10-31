@@ -26,6 +26,35 @@ describe('workspace calibration', () => {
   })
   afterEach(() => { cleanup(); vi.restoreAllMocks(); vi.unstubAllGlobals(); stop.mockClear(); trackListener.mockClear() })
 
+  it('requires consent and saves observed skipped source frames during a camera capture', async () => {
+    vi.mocked(PoseLandmarker.createFromOptions).mockResolvedValueOnce({ close: vi.fn(), detectForVideo: vi.fn(() => ({ landmarks: [], worldLandmarks: [] })) } as never)
+    const fetchMock = vi.fn(async (...args: [RequestInfo | URL, RequestInit?]) => ({ ok: true, json: async () => String(args[0]).endsWith('/api/captures') ? { id: 'camera-test', trial_id: 9, status: 'recording' } : { status: 'complete' } }))
+    vi.stubGlobal('fetch', fetchMock)
+    render(<WorkspacePage />)
+    await screen.findByRole('option', { name: /Phiên #7/ })
+    fireEvent.click(screen.getByRole('button', { name: 'Bật camera' }))
+    await waitFor(() => expect(screen.getByRole('button', { name: 'Bắt đầu nhận diện' })).toBeEnabled())
+    fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu nhận diện' }))
+    await screen.findByRole('button', { name: 'Dừng nhận diện' })
+    const start = screen.getByRole('button', { name: 'Bắt đầu thu dữ liệu' })
+    expect(start).toBeDisabled()
+    expect(fetchMock).not.toHaveBeenCalled()
+    fireEvent.click(screen.getByLabelText('Xác nhận quyền thu landmark'))
+    expect(start).toBeEnabled()
+    fireEvent.click(start)
+    await screen.findByRole('button', { name: 'Dừng và lưu' })
+    expect(screen.getByLabelText('Phiên tập')).toBeDisabled()
+    const schedulerOptions = vi.mocked(startVideoFrameScheduler).mock.lastCall![2]
+    act(() => schedulerOptions.onSkippedFrame?.({ now: performance.now(), mediaTime: 1.2, sourceFrameId: 15, skippedSourceFrames: 2 }))
+    fireEvent.click(screen.getByRole('button', { name: 'Dừng và lưu' }))
+    await screen.findByText(/Đã hoàn tất và xác minh capture/)
+    const batch = fetchMock.mock.calls.find(([url]) => String(url).includes('landmark-batches'))
+    expect(batch).toBeDefined()
+    const init = batch![1] as RequestInit
+    expect(JSON.parse(String(init.body)).frames[0]).toMatchObject({ source_frame_id: 15, video_media_time_ms: 1200, inference_performed: false, pose_detected: null, hand_detected: null, skipped_frames: 2, landmarks: [] })
+    expect(screen.getByLabelText('Phiên tập')).toBeEnabled()
+  }, 20_000)
+
   it('offers an independent adaptive budget for the two Worker mode', async () => {
     class ReadyWorker {
       onmessage: ((event: { data: unknown }) => void) | null = null
@@ -625,7 +654,7 @@ describe('workspace calibration', () => {
       else rejectFetch(new Error('network disconnected'))
     })
     expect(screen.getByLabelText('Phiên tập')).toHaveValue('8')
-    expect(screen.getByRole('status')).toHaveTextContent(outcome === 'success'
+    expect(screen.getAllByRole('status').find(item => item.classList.contains('workspace-message'))).toHaveTextContent(outcome === 'success'
       ? 'Đã lưu cấu hình hiệu chuẩn đã gửi cho phiên #7.'
       : 'Không xác nhận được lưu hiệu chuẩn cho phiên #7.')
   })
@@ -651,7 +680,7 @@ describe('workspace calibration', () => {
       else rejectFetch(new Error('network disconnected'))
     })
     expect(button).toBeEnabled()
-    expect(screen.getByRole('status')).toHaveTextContent(outcome === 'success' ? /phiên #7/ : /Không xác nhận được lưu hiệu chuẩn cho phiên #7/)
+    expect(screen.getAllByRole('status').find(item => item.classList.contains('workspace-message'))).toHaveTextContent(outcome === 'success' ? /phiên #7/ : /Không xác nhận được lưu hiệu chuẩn cho phiên #7/)
     fireEvent.click(button)
     expect(fetchMock).toHaveBeenCalledTimes(2)
     expect(JSON.parse(fetchMock.mock.calls[1][1]!.body as string).session_id).toBe(8)

@@ -40,5 +40,18 @@ Thực hiện trên laptop và TV dự kiến sử dụng, với dữ liệu gi�
 
 ## Giới hạn
 
-- [ ] Ghi video, AI FMA-UE và đề xuất cá nhân hóa được hiển thị là chưa triển khai; không có kết quả y khoa giả.
+- [ ] AI FMA-UE và đề xuất cá nhân hóa được hiển thị là chưa triển khai; không có kết quả y khoa giả.
 - [ ] Không dùng thông tin định danh thật trong lần kiểm thử này.
+
+## Thu thập và replay video
+
+Các mục dưới đây là quy trình kiểm thử, không phải xác nhận rằng các bước đã được thực hiện. Ghi riêng kết quả thực tế, cấu hình, capture ID, số frame/landmark và lỗi; không đính kèm video hoặc landmark vào Git.
+
+- [ ] Tạo bệnh nhân giả danh, phiên và trial liên quan; kiểm tra từ chối liên kết không khớp. Chỉ bật loại artifact có đồng ý tương ứng.
+- [ ] Chọn video cục bộ tại Tracking Test Lab, không bật camera; kiểm tra phát, độ phân giải, Pose, Hand nếu bật và trạng thái model. Phân biệt nguồn `pre_recorded_video` với webcam.
+- [ ] Với video replay, xác nhận không yêu cầu quyền webcam; kiểm tra video gốc không bị thay đổi và không nằm trong `frontend/public`. Video được lưu phải là file nguồn chứ không phải bản ghi MediaRecorder giả lập.
+- [ ] Sau khi thu và dừng, kiểm tra trạng thái từng artifact; lấy file qua API, đối chiếu checksum và đọc Parquet. Đối chiếu `capture_id`, frame ID, timestamp và media time, cả frame không detection và frame bỏ qua nếu có.
+- [ ] Kiểm tra raw không bị thay bằng display smoothing; phân biệt normalized/world và xác nhận validity, visibility, presence, handedness chỉ theo dữ liệu thực tế được cung cấp.
+- [ ] Kiểm tra lỗi upload, mất backend và chunk/batch thiếu; trạng thái không được báo hoàn tất sai, dữ liệu staging đã nhận được giữ lại. Kiểm tra thử gửi lại cùng dữ liệu không gây trùng.
+- [ ] Khi có điều kiện webcam, thử riêng chức năng ghi camera gốc không overlay, đồng ý, dừng chờ chunk cuối, kiểm tra file và cleanup. Không kết luận đã kiểm thử webcam chỉ từ replay hoặc fake camera.
+- [ ] Khi replay bị seek/phát lại, kiểm tra việc ngăn trộn timestamp hoặc reset model và capture; ghi lại độ sai lệch đồng bộ nếu đo được.

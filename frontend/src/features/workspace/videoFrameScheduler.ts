@@ -1,11 +1,12 @@
 /** The source media time is separate from the monotonic inference timestamp.
  * Times are in milliseconds except mediaTime, in seconds. A presented-frame count,
  * when available, identifies frames even when mediaTime stays constant. */
-export type ScheduledVideoFrame = { now: number; mediaTime: number; inferenceTimestamp: number }
+export type ScheduledVideoFrame = { now: number; mediaTime: number; inferenceTimestamp: number; sourceFrameId?: number | null; skippedSourceFrames?: number }
 export type VideoFrameSchedulerOptions = {
   maxFps: number
   onReset?: () => void
   onSkip?: (reason: 'duplicate' | 'throttled') => void
+  onSkippedFrame?: (frame: { now: number; mediaTime: number; sourceFrameId: number | null; skippedSourceFrames: number }) => void
 }
 
 /** Synchronous inference only. A new callback is requested after the current callback
@@ -42,16 +43,17 @@ export function startVideoFrameScheduler(
       if (stopped) return
     }
     if (frameId !== null ? frameId === lastFrameId : lastMediaTime === mediaTime) { options.onSkip?.('duplicate'); return }
+    const skippedSourceFrames = frameId !== null && lastFrameId !== null ? Math.max(0, frameId - lastFrameId - 1) : 0
     lastMediaTime = mediaTime
     lastFrameId = frameId
     // Reserve a small amount of time for UI work when inference itself is expensive.
     // This is a frequency cap, not a queue; the newest available frame is selected.
     const interval = Math.max(1000 / Math.max(1, options.maxFps), inferenceCost + Math.min(50, inferenceCost * 0.2))
-    if (now - lastRun < interval) { options.onSkip?.('throttled'); return }
+    if (now - lastRun < interval) { options.onSkip?.('throttled'); options.onSkippedFrame?.({ now, mediaTime, sourceFrameId: frameId, skippedSourceFrames }); return }
     lastRun = now
     lastTimestamp = Math.max(now, lastTimestamp + 0.001)
     const started = performance.now()
-    onFrame({ now, mediaTime, inferenceTimestamp: lastTimestamp })
+    onFrame({ now, mediaTime, inferenceTimestamp: lastTimestamp, sourceFrameId: frameId, skippedSourceFrames })
     const cost = Math.max(0, performance.now() - started)
     inferenceCost = inferenceCost ? inferenceCost * 0.75 + cost * 0.25 : cost
   }

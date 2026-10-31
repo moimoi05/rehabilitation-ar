@@ -36,6 +36,37 @@ describe('tracking test lab', () => {
     vi.stubGlobal('createImageBitmap', vi.fn())
   })
   afterEach(() => { cleanup(); document.querySelectorAll('[data-loader-probe]').forEach(script => script.remove()); vi.restoreAllMocks(); vi.unstubAllGlobals() })
+  it('does not associate an older display landmark with a replay frame whose inference result is stale', async () => {
+    let onFrame!: Parameters<typeof startVideoFrameScheduler>[1]
+    vi.mocked(startVideoFrameScheduler).mockImplementation((_video, callback) => { onFrame = callback; return vi.fn() })
+    const pose = vi.fn().mockReturnValueOnce({ landmarks: [[{ x: .2, y: .3, z: .1, visibility: 1 }]] }).mockReturnValueOnce({ landmarks: [[{ x: .8, y: .7, z: .2, visibility: 1 }]] })
+    vi.mocked(PoseLandmarker.createFromOptions).mockResolvedValueOnce({ detectForVideo: pose, close: vi.fn() } as never)
+    const replayFrame = vi.fn()
+    const clock = vi.spyOn(performance, 'now').mockReturnValue(1000)
+    render(<TrackingTestLab onReplayFrame={replayFrame} />)
+    fireEvent.change(screen.getByLabelText('Chọn video MP4'), { target: { files: [new File(['a'], 'a.mp4', { type: 'video/mp4' })] } })
+    fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu nhận diện' }))
+    await screen.findByRole('button', { name: 'Dừng nhận diện' })
+    clock.mockReturnValue(1010)
+    act(() => onFrame({ now: 1000, mediaTime: .1, inferenceTimestamp: 1000 }))
+    expect(replayFrame.mock.calls[0][0].landmarks).toEqual(expect.arrayContaining([expect.objectContaining({ representation: 'display', x: .2 })]))
+    clock.mockReturnValue(2000)
+    act(() => onFrame({ now: 1100, mediaTime: .2, inferenceTimestamp: 1100 }))
+    expect(replayFrame.mock.calls[1][0]).toMatchObject({ frame_performance_ms: 1100, video_media_time_ms: 200, utc_time: new Date(performance.timeOrigin + 1100).toISOString() })
+    expect(replayFrame.mock.calls[1][0].landmarks).toEqual(expect.arrayContaining([expect.objectContaining({ representation: 'raw', x: .8 })]))
+    expect(replayFrame.mock.calls[1][0].landmarks.filter((point: { representation: string }) => point.representation === 'display')).toEqual([])
+  })
+  it('preserves the observed input callback clock and media time for throttled frames', async () => {
+    let opts!: Parameters<typeof startVideoFrameScheduler>[2]
+    vi.mocked(startVideoFrameScheduler).mockImplementation((_video, _callback, options) => { opts = options; return vi.fn() })
+    const replayFrame = vi.fn()
+    render(<TrackingTestLab onReplayFrame={replayFrame} />)
+    fireEvent.change(screen.getByLabelText('Chọn video MP4'), { target: { files: [new File(['a'], 'a.mp4', { type: 'video/mp4' })] } })
+    fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu nhận diện' }))
+    await screen.findByRole('button', { name: 'Dừng nhận diện' })
+    act(() => opts.onSkippedFrame?.({ now: 5333, mediaTime: 1.25, sourceFrameId: 40, skippedSourceFrames: 2 }))
+    expect(replayFrame).toHaveBeenCalledWith(expect.objectContaining({ frame_performance_ms: 5333, video_media_time_ms: 1250, utc_time: new Date(performance.timeOrigin + 5333).toISOString(), inference_performed: false, skipped_frames: 2 }))
+  })
   it('applies independent adaptive budgets only to accepted parallel submissions and exports a frozen budget snapshot', async () => {
     let options!: Parameters<typeof createParallelWorkerTracker>[0], onFrame!: Parameters<typeof startVideoFrameScheduler>[1]
     const tracker = { submitPose: vi.fn(() => true), submitHand: vi.fn(() => true), close: vi.fn() }

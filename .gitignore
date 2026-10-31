@@ -15,3 +15,5 @@ coverage/
 *.tsbuildinfo
 playwright-report/
 test-results/
+# Private research capture data (never served by the frontend)
+rehab-data/

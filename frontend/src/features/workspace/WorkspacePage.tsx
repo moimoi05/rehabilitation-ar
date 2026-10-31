@@ -20,6 +20,10 @@ import { anchorGhost, ghostFitsCalibration, mapGhostAnchor, toPersistedGhostAnch
 import type { GhostAnchor, PersistedGhostAnchor } from './ghostGeometry'
 import { resolveWorkerPreference } from './trackingEnginePreference'
 import { withOwnedMediaPipeLoader } from './mediaPipeLoader'
+import { useResearchCapture } from './useResearchCapture'
+import { CaptureNavigationGuard } from './CaptureNavigationGuard'
+import { CaptureArtifactStatus } from './CaptureArtifactStatus'
+import { landmarkRows } from './captureLandmarks'
 import './workspace.css'
 
 type CameraSettings = { mirrored: boolean; resolution: string; cameraId?: string; tvMode?: boolean; trackingProfile?: TrackingProfileName; profileCameraResolution: boolean; workerTracking: boolean }
@@ -69,6 +73,13 @@ export default function WorkspacePage() {
   const initialSession = new URLSearchParams(window.location.search)
   const [sessionId, setSessionId] = useState(initialSession.get('sessionId') || initialSession.get('session') || '')
   const [sessions, setSessions] = useState<Session[]>([])
+  const [captureTrial, setCaptureTrial] = useState('')
+  const [saveLandmarks, setSaveLandmarks] = useState(true)
+  const [saveVideo, setSaveVideo] = useState(false)
+  const [landmarkConsent, setLandmarkConsent] = useState(false)
+  const [videoConsent, setVideoConsent] = useState(false)
+  const capture = useResearchCapture()
+  const { abort: abortCapture } = capture
   const [sessionsError, setSessionsError] = useState('')
   const [settings, setSettings] = useState(loadSettings)
   const [ghost, setGhost] = useState<Ghost>(initialGhost)
@@ -135,6 +146,7 @@ export default function WorkspacePage() {
   }, [])
 
   const stopTracking = useCallback(() => {
+    abortCapture()
     generation.current += 1
     startingRef.current = false; setStarting(false)
     stopFrameScheduler.current?.(); stopFrameScheduler.current = null
@@ -144,7 +156,7 @@ export default function WorkspacePage() {
     poseRef.current?.close(); handRef.current?.close()
     poseRef.current = null; handRef.current = null
     points.current = { pose: [], hands: [] }; displayPoints.current = { pose: [], hands: [] }; smoother.current.reset(); poseTime.current = 0; handTime.current = 0; setTracking(false); setActiveEngine(null); setParallelHandAvailable(false); setFps(0); setStatus('Đã dừng nhận diện')
-  }, [])
+  }, [abortCapture])
 
   const stopCamera = useCallback((preservePending = false) => {
     cameraGeneration.current += 1
@@ -234,7 +246,7 @@ export default function WorkspacePage() {
       acceptPose(rawPose, timestamp)
       if (hands !== null) acceptHand(hands, timestamp)
     }
-    const schedule = (engine: 'main' | 'worker' | 'parallel', infer: (timestamp: number, doHand: boolean, now: number) => boolean, budget?: AdaptiveWorkerBudget) => {
+    const schedule = (engine: 'main' | 'worker' | 'parallel', infer: (timestamp: number, doHand: boolean, now: number, mediaTime: number, sourceFrameId?: number | null, skippedSourceFrames?: number) => boolean, budget?: AdaptiveWorkerBudget) => {
       if (requestId !== generation.current) return
       lastFrame = performance.now(); startingRef.current = false; setStarting(false); setTracking(true); setActiveEngine(engine); publishedStatus = 'Đang chờ hình từ camera'; setStatus(publishedStatus)
       let expectedTick = performance.now() + 250, lastBudgetPublish = 0
@@ -249,12 +261,12 @@ export default function WorkspacePage() {
         video.addEventListener('pause', resetBudget); video.addEventListener('playing', resetBudget)
         stopBudgetObserver.current = () => { document.removeEventListener('visibilitychange', onVisibility); video.removeEventListener('pause', resetBudget); video.removeEventListener('playing', resetBudget) }
       }
-      stopFrameScheduler.current = startVideoFrameScheduler(video, ({ now, inferenceTimestamp }) => {
+      stopFrameScheduler.current = startVideoFrameScheduler(video, ({ now, inferenceTimestamp, mediaTime, sourceFrameId, skippedSourceFrames }) => {
         if (requestId !== generation.current) return
         const doHand = handActive && (budget ? document.visibilityState === 'visible' : now - lastHand >= 1000 / profile.handFps)
         if (budget && document.visibilityState !== 'visible') return
-        if (infer(inferenceTimestamp, doHand, now) && doHand && !budget) lastHand = now
-      }, { maxFps: budget ? 60 : profile.poseFps, onReset: () => { sourceEpoch = performance.now(); clearResults(); budget?.reset(sourceEpoch); if (budget) setBudgetStatus(budget.snapshot()) } })
+        if (infer(inferenceTimestamp, doHand, now, mediaTime, sourceFrameId, skippedSourceFrames) && doHand && !budget) lastHand = now
+      }, { maxFps: budget ? 60 : profile.poseFps, onSkippedFrame: frame => { if (engine === 'main' && capture.isActive()) capture.addFrame({ timestamp: frame.now, source_frame_id: frame.sourceFrameId, video_media_time_ms: frame.mediaTime * 1000, inference_performed: false, pose_detected: null, hand_detected: null, inference_ms: null, skipped_frames: frame.skippedSourceFrames, landmarks: [] }) }, onReset: () => { capture.abort(); sourceEpoch = performance.now(); clearResults(); budget?.reset(sourceEpoch); if (budget) setBudgetStatus(budget.snapshot()) } })
       watchdog.current = setInterval(() => {
         const now = performance.now()
         if (budget && document.visibilityState === 'visible' && streamRef.current && !video.paused && !video.seeking && video.readyState >= 2) {
@@ -287,13 +299,19 @@ export default function WorkspacePage() {
             handRef.current = hand
           } catch { if (requestId === generation.current) { handActive = false; setMessage('Không tải được mô hình bàn tay; theo dõi tư thế vẫn hoạt động.') } }
         }
-        schedule('main', (timestamp, doHand) => {
+        schedule('main', (timestamp, doHand, _now, mediaTime, sourceFrameId, skippedSourceFrames) => {
           try {
-            const raw = pose.detectForVideo(video, timestamp).landmarks[0] || []
+            const started = performance.now()
+            const poseResult = pose.detectForVideo(video, timestamp)
+            const raw = poseResult.landmarks[0] || []
+            let handResult: ReturnType<HandLandmarker['detectForVideo']> | null = null
             let hands: Point[][] | null = null
             if (doHand && handRef.current) {
-              try { hands = handRef.current.detectForVideo(video, timestamp).landmarks }
+              try { handResult = handRef.current.detectForVideo(video, timestamp); hands = handResult.landmarks }
               catch {
+                // The capture configuration no longer describes what is being collected.
+                // Preserve the staged data and stop rather than silently completing it.
+                if (capture.isActive()) capture.abort()
                 const failedHand = handRef.current; handRef.current = null; handActive = false
                 handTime.current = 0
                 points.current = { ...points.current, hands: [] }; displayPoints.current = { ...displayPoints.current, hands: [] }
@@ -305,7 +323,18 @@ export default function WorkspacePage() {
                   : 'Nhận diện bàn tay bị lỗi; theo dõi tư thế vẫn hoạt động. Dừng và khởi động lại nhận diện để thử lại bàn tay.')
               }
             }
-            accept(raw, hands, timestamp); return true
+            accept(raw, hands, timestamp)
+            if (capture.isActive()) {
+              const rows = [
+                ...landmarkRows(raw, 'pose', 'normalized_image'),
+                ...landmarkRows(poseResult.worldLandmarks[0] || [], 'pose', 'world'),
+                ...landmarkRows(displayPoints.current.pose as typeof raw, 'pose', 'normalized_image', 'display'),
+                ...(handResult?.landmarks.flatMap((hand, index) => landmarkRows(hand, 'hand', 'normalized_image', 'raw', handResult?.handedness[index])) || []),
+                ...(handResult?.worldLandmarks.flatMap((hand, index) => landmarkRows(hand, 'hand', 'world', 'raw', handResult?.handedness[index])) || []),
+              ]
+              capture.addFrame({ timestamp: _now, source_frame_id: sourceFrameId ?? null, video_media_time_ms: mediaTime * 1000, inference_performed: true, pose_detected: raw.length > 0, hand_detected: handResult ? handResult.landmarks.length > 0 : null, inference_ms: performance.now() - started, skipped_frames: skippedSourceFrames ?? 0, landmarks: rows })
+            }
+            return true
           } catch { stopTracking(); setMessage('Nhận diện bị lỗi. Có thể tiếp tục hiệu chuẩn thủ công; thử khởi động lại nhận diện.'); return false }
         })
       } catch {
@@ -534,7 +563,17 @@ export default function WorkspacePage() {
     catch { setMessage('Trình duyệt không cho phép toàn màn hình. Hãy kiểm tra quyền trình duyệt.') }
   }
 
+  const startCollection = async () => {
+    const session = sessions.find(item => String(item.id) === sessionId)
+    if (!session || !streamRef.current || demo || !tracking || activeEngine !== 'main') { setMessage('Chọn phiên và bật nhận diện trên luồng chính với camera thật trước khi thu.'); return }
+    const trial = captureTrial.trim() ? Number(captureTrial) : undefined
+    if (trial !== undefined && (!Number.isSafeInteger(trial) || trial <= 0)) { setMessage('Mã lượt tập phải là số nguyên dương.'); return }
+    try { await capture.start({ patientId: session.patient_id, sessionId: session.id, trialId: trial, stream: streamRef.current, width: actualCameraSize?.width, height: actualCameraSize?.height, recordLandmarks: saveLandmarks, recordVideo: saveVideo, consentLandmarks: landmarkConsent, consentVideo: videoConsent, modelConfig: { pose: 'pose_landmarker_lite.task', hand: handRef.current ? 'hand_landmarker.task' : null, profile: settings.trackingProfile || 'balanced', engine: 'main' } }) }
+    catch (error) { setMessage(error instanceof Error ? error.message : 'Không thể bắt đầu thu dữ liệu.') }
+  }
+
   return <section ref={workspaceRef} className={settings.tvMode ? 'workspace workspace-tv' : 'workspace'}>
+    <CaptureNavigationGuard shouldBlock={() => capture.busy || capture.isActive()} />
     <div className="workspace-heading"><div><p className="workspace-eyebrow">KHÔNG GIAN THỰC HÀNH</p><h1>Camera & hiệu chuẩn</h1><p>Căn chỉnh tư thế với hình bóng tham chiếu trước khi bắt đầu phiên.</p></div><span className="workspace-tag">Giai đoạn 1 · Thủ công</span></div>
     {message && <div className="workspace-message" role="status">{message}<button aria-label="Đóng thông báo" onClick={() => setMessage('')}>×</button></div>}
     {sessionsError && <div className="workspace-message" role="alert">{sessionsError}</div>}
@@ -559,11 +598,25 @@ export default function WorkspacePage() {
         <div className="workspace-meta"><span>{demo ? 'Mốc mô phỏng' : status}</span><span>{fps} FPS suy luận Pose</span>{activeEngine && <span>{activeEngine === 'parallel' ? parallelHandAvailable ? 'CPU · hai Worker' : 'CPU · Worker Pose' : activeEngine === 'worker' ? 'CPU · Worker' : 'CPU · luồng chính'}</span>}<span>Yêu cầu camera: {requestedCameraSize.width} × {requestedCameraSize.height}</span>{streamActive && <span>Camera thực tế: {actualCameraSize ? `${actualCameraSize.width} × ${actualCameraSize.height}` : 'không xác định'}</span>}</div>
         {budgetStatus && <p>Giới hạn tự điều chỉnh Pose {budgetStatus.poseFps.toFixed(1)} / Hand {budgetStatus.handAvailable ? `${budgetStatus.handFps.toFixed(1)} FPS` : 'không khả dụng'} · {budgetStatus.phase === 'normal' ? 'bình thường' : 'đã giảm tải'}</p>}
         <p><a href="/tracking-lab">Mở Tracking Test Lab</a></p>
+        <div className="workspace-panel" aria-label="Thu thập dữ liệu nghiên cứu">
+          <h2>Thu thập dữ liệu nghiên cứu</h2>
+          <p>Phiên #{sessionId || 'chưa chọn'} · Bệnh nhân #{sessions.find(item => String(item.id) === sessionId)?.patient_id || 'chưa chọn'}</p>
+          <label>Mã lượt tập (để trống để tạo mới)<input type="number" min="1" value={captureTrial} onChange={event => setCaptureTrial(event.target.value)} disabled={capture.isActive() || capture.busy} /></label>
+          <label className="check"><input type="checkbox" checked={saveLandmarks} disabled={capture.isActive() || capture.busy} onChange={event => setSaveLandmarks(event.target.checked)} /> Lưu landmark</label>
+          <label className="check"><input type="checkbox" checked={landmarkConsent} disabled={capture.isActive() || capture.busy} onChange={event => setLandmarkConsent(event.target.checked)} /> Xác nhận quyền thu landmark</label>
+          <label className="check"><input type="checkbox" checked={saveVideo} disabled={capture.isActive() || capture.busy} onChange={event => setSaveVideo(event.target.checked)} /> Ghi video nguồn từ camera, không có overlay</label>
+          <label className="check"><input type="checkbox" checked={videoConsent} disabled={capture.isActive() || capture.busy} onChange={event => setVideoConsent(event.target.checked)} /> Xác nhận quyền ghi video</label>
+          <p>Thu landmark yêu cầu nhận diện luồng chính; video nguồn được mã hóa bởi trình duyệt và không có âm thanh.</p>
+          <button disabled={capture.busy || (!capture.isActive() && (!sessionId || !streamActive || !tracking || activeEngine !== 'main' || (!saveLandmarks && !saveVideo) || (saveLandmarks && !landmarkConsent) || (saveVideo && !videoConsent)))} onClick={() => { if (capture.isActive()) void capture.stop(); else void startCollection() }}>{capture.isActive() ? 'Dừng và lưu' : 'Bắt đầu thu dữ liệu'}</button>
+          <p role="status">{capture.state}{capture.captureId && ` · ${capture.captureId}`}{capture.isActive() && ` · ${Math.floor(capture.elapsedMs / 1000)} giây`}</p>
+          <CaptureArtifactStatus captureId={capture.captureId} busy={capture.busy || capture.isActive()} state={capture.state} />
+          {capture.stats && <p>Frame: {capture.stats.frames} · Landmark: {capture.stats.landmarks} · Batch đã gửi: {capture.stats.uploadedBatches} · Đang chờ: {capture.stats.pending} · Video: {capture.stats.videoBytes} byte / {capture.stats.videoChunks} chunk {capture.stats.error && `· Lỗi: ${capture.stats.error}`}</p>}
+        </div>
         {game.panel}
       </div>
       <aside className="workspace-panel">
         <div><p className="workspace-eyebrow">THIẾT LẬP PHIÊN</p><h2>Hiệu chuẩn tư thế</h2><p>Điều chỉnh ghế để đầu, vai và thân trùng hình bóng. Nhân viên chuyên môn kiểm tra trực tiếp trước khi xác nhận.</p></div>
-        <label>Phiên tập<select value={sessionId} onChange={event => onSessionChange(event.target.value)}><option value="">Chọn phiên</option>{sessions.map(item => <option key={item.id} value={item.id}>Phiên #{item.id} · Bệnh nhân #{item.patient_id}</option>)}</select></label>
+        <label>Phiên tập<select value={sessionId} disabled={capture.isActive() || capture.busy} onChange={event => onSessionChange(event.target.value)}><option value="">Chọn phiên</option>{sessions.map(item => <option key={item.id} value={item.id}>Phiên #{item.id} · Bệnh nhân #{item.patient_id}</option>)}</select></label>
         <label>Camera<select value={settings.cameraId || ''} onChange={event => { stopCamera(); updateSettings({ cameraId: event.target.value }) }}><option value="">Camera mặc định</option>{devices.map(device => <option key={device.deviceId} value={device.deviceId}>{device.label || 'Camera'}</option>)}</select></label>
         <p className="workspace-hint">Danh sách camera xuất hiện sau lần cấp quyền đầu tiên.</p>
         <label className="check"><input type="checkbox" checked={settings.mirrored} onChange={event => updateSettings({ mirrored: event.target.checked })} /> Lật ảnh ngang</label>

@@ -1,4 +1,6 @@
 from datetime import datetime, timezone
+from contextlib import asynccontextmanager
+import asyncio
 import json
 import os
 from fastapi import Depends, FastAPI, HTTPException, Query, Response
@@ -9,10 +11,22 @@ from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlalchemy.orm import Session as DBSession
 from .db import get_db, get_engine
 from . import models, schemas
+from .capture_lease_monitor import monitor, stop_monitor
 
-app = FastAPI(title='Rehabilitation AR - development only', version='0.1.0')
+
+@asynccontextmanager
+async def lifespan(application):
+    # Dependency-overridden test clients use isolated transactions and no monitor.
+    task = asyncio.create_task(monitor()) if get_db not in application.dependency_overrides else None
+    try:
+        yield
+    finally:
+        await stop_monitor(task)
+
+
+app = FastAPI(title='Rehabilitation AR - development only', version='0.1.0', lifespan=lifespan)
 origins = [value.strip() for value in os.getenv('CORS_ORIGINS', 'http://localhost:5173,http://127.0.0.1:5173').split(',') if value.strip()]
-app.add_middleware(CORSMiddleware, allow_origins=origins, allow_credentials=False, allow_methods=['GET', 'POST', 'PATCH'], allow_headers=['Content-Type'])
+app.add_middleware(CORSMiddleware, allow_origins=origins, allow_credentials=False, allow_methods=['GET', 'POST', 'PUT', 'PATCH'], allow_headers=['Content-Type', 'X-Chunk-SHA256'])
 
 @app.exception_handler(SQLAlchemyError)
 async def database_error(_request, _exc):
@@ -235,3 +249,6 @@ def exercise_results(session_id: int = Query(gt=0), db: DBSession = Depends(get_
         models.ExerciseResult.round_id.is_not(None),
     ).order_by(models.ExerciseResult.created_at.desc(), models.ExerciseResult.id.desc())).all()
     return [result_response(result) for result in results]
+
+from .captures import router as capture_router
+app.include_router(capture_router)

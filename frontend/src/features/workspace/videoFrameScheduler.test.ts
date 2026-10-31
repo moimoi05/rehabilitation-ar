@@ -149,3 +149,12 @@ describe('video frame scheduler', () => {
     stop()
   })
 })
+
+it('exposes timestamps for throttled source frames without mistaking duplicates for skipped frames', () => {
+  const { video, frame } = videoHarness(), skipped = vi.fn()
+  const stop = startVideoFrameScheduler(video, vi.fn(), { maxFps: 10, onSkippedFrame: skipped })
+  frame(100, 1, 4); frame(120, 1.04, 7); frame(140, 1.04, 7); frame(250, 1.16, 8)
+  expect(skipped).toHaveBeenCalledOnce()
+  expect(skipped).toHaveBeenCalledWith({ now: 120, mediaTime: 1.04, sourceFrameId: 7, skippedSourceFrames: 2 })
+  stop()
+})

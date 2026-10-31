@@ -15,17 +15,22 @@ flowchart LR
   U --> O
   FE -->|API HTTP| API[FastAPI]
   API --> DB[(PostgreSQL)]
+  API --> FS[(Lưu trữ riêng video và Parquet)]
 ```
 
 Frontend xử lý hình ảnh camera tại trình duyệt. Canvas phủ lên video; cấu hình hình bóng có tọa độ chuẩn hóa để phục vụ các kích thước hiển thị khác nhau. Trò Chạm hoa phát sáng dùng mốc cổ tay bên tập để nhận chạm, tạm dừng đồng hồ khi mất mốc và có thể lưu kết quả vào phiên đang thực hiện. API quản lý bệnh nhân, phiên, hiệu chuẩn và kết quả trò chơi; PostgreSQL là nguồn dữ liệu ứng dụng và không dùng SQLite. Chế độ demo dùng con trỏ mô phỏng, không ghi kết quả thành dữ liệu bệnh nhân.
 
+## Luồng thu thập thử nghiệm
+
+Camera hoặc video cục bộ đưa frame vào MediaPipe trong trình duyệt; kết quả thô và dữ liệu frame được gửi theo batch về backend, tách biệt overlay. Video webcam được mã hóa bằng MediaRecorder từ luồng camera; video replay được nhận diện là nguồn đã quay. Backend quản lý metadata capture trong PostgreSQL và file nghiên cứu ở vùng riêng, không phục vụ static. Capture nối bệnh nhân, phiên và trial với các artifact bằng capture ID. Chi tiết về thời gian, schema, consent, kiểm tra dữ liệu và giới hạn tại [DATA_COLLECTION](DATA_COLLECTION.md) và [DATA_DICTIONARY](DATA_DICTIONARY.md). Việc hiện diện của code không thay thế kiểm thử end-to-end trên môi trường mục tiêu.
+
 ## Luồng nghiên cứu dự kiến sau MVP
 
-Sơ đồ đề cương mô tả camera tạo luồng mốc vận động qua MediaPipe và một nhánh video theo thời gian. Mốc được dùng cho trò chơi AR và đặc trưng chuyển động; kết quả bài tập, đặc trưng, video và đánh giá lâm sàng là các nguồn có thể đưa vào AI về sau. AI có thể hỗ trợ ước lượng mức suy giảm và đề xuất bài tập, với nhân viên chuyên môn xác nhận. MVP có trò Chạm hoa thử nghiệm; chưa triển khai dự đoán AI, cá nhân hóa bài tập hoặc ghi video.
+Sơ đồ đề cương mô tả camera tạo luồng mốc vận động qua MediaPipe và một nhánh video theo thời gian. Mốc được dùng cho trò chơi AR và đặc trưng chuyển động; kết quả bài tập, đặc trưng, video và đánh giá lâm sàng là các nguồn có thể đưa vào AI về sau. AI có thể hỗ trợ ước lượng mức suy giảm và đề xuất bài tập, với nhân viên chuyên môn xác nhận. MVP có trò Chạm hoa thử nghiệm; chưa triển khai dự đoán AI hoặc cá nhân hóa bài tập.
 
 Điểm FMA-UE do nhân viên chuyên môn đánh giá là nhãn tham chiếu, tối đa 66 điểm. Điểm trò chơi không phải FMA-UE. Không suy luận lực, sức cơ, co cứng hoặc đưa ra kết luận lâm sàng chỉ từ webcam. Video trong nghiên cứu tương lai chỉ được ghi khi có sự đồng ý và phải có biện pháp bảo vệ và kiểm soát truy cập.
 
-Khi xây dựng thu thập chuỗi dữ liệu sau này, cần đồng bộ `frame_id`, `timestamp_ms`, `patient_id`, `session_id`, `trial_id` bằng đồng hồ đơn điệu, bảo toàn metadata, validity mask và đánh dấu khung bị mất. Cân nhắc lưu chuỗi dài trong Parquet hoặc định dạng phù hợp, giữ metadata/tham chiếu trong PostgreSQL; không mặc định ghi một hàng cho từng mốc ở từng khung.
+Đồng bộ dữ liệu nghiên cứu cần bảo toàn `frame_id`, `timestamp_ms`, `patient_id`, `session_id`, `trial_id`, metadata và validity, đồng thời phân biệt frame bị bỏ qua. Timestamp theo frame giúp đối chiếu nhưng không chứng minh đồng bộ tuyệt đối; cần đo sai số thực tế trên cấu hình sử dụng.
 
 ## Ranh giới sử dụng
 

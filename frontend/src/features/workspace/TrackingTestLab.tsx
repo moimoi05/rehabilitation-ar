@@ -2,6 +2,8 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import type { HandLandmarker, PoseLandmarker } from '@mediapipe/tasks-vision'
 import { drawLandmarks, prepareOverlay } from './drawing'
 import type { Point } from './drawing'
+import { createReplayFrame } from './replayFrame'
+import type { ReplayFrame } from './replayFrame'
 import { LandmarkSmoother, POSE_SMOOTHING_POLICY, SMOOTHING_PROFILES, SMOOTHING_VERSION } from './landmarkSmoothing'
 import type { SmoothingProfileName } from './landmarkSmoothing'
 import { withOwnedMediaPipeLoader } from './mediaPipeLoader'
@@ -33,7 +35,16 @@ const isFresh = (timestamp: number, now: number) => timestamp > 0 && now >= time
 type Landmarks = { raw: Point[]; display: Point[]; hands: Point[][]; poseTime: number; handTime: number; resultTime: number }
 const emptyLandmarks = (): Landmarks => ({ raw: [], display: [], hands: [], poseTime: 0, handTime: 0, resultTime: 0 })
 
-export default function TrackingTestLab() {
+export type TrackingTestLabProps = {
+  onReplaySource?: (file: File | null, video: HTMLVideoElement | null) => void
+  onReplayFrame?: (frame: ReplayFrame) => void
+  onReplayReady?: (video: HTMLVideoElement, config: object) => void
+  onReplayEnded?: () => void
+  onReplayInterrupted?: () => void
+  replayLocked?: boolean
+}
+
+export default function TrackingTestLab({ onReplaySource, onReplayFrame, onReplayReady, onReplayEnded, onReplayInterrupted, replayLocked = false }: TrackingTestLabProps = {}) {
   const [profileName, setProfileName] = useState<TrackingProfileName>(() => { const value = settings().trackingProfile; return value === 'economy' || value === 'quality' ? value : 'balanced' })
   const [source, setSource] = useState<'none' | 'video' | 'camera'>('none')
   const [poseEnabled, setPoseEnabled] = useState(true)
@@ -81,6 +92,7 @@ export default function TrackingTestLab() {
     if (sample.config?.adaptiveWorkerBudget && adaptiveBudget.current) sample.adaptiveWorkerBudget = { enabled: true, ...adaptiveBudget.current.snapshot() }
   }, [])
   const stopTracking = useCallback(() => {
+    onReplayInterrupted?.()
     generation.current++
     if (measuringRef.current) { captureBudget(measurement.current); measurement.current.ended = performance.now(); measuringRef.current = false; setMeasuring(false); setStats({ ...measurement.current }) }
     stopAdaptive.current?.(); stopAdaptive.current = null; adaptiveBudget.current = null
@@ -88,15 +100,15 @@ export default function TrackingTestLab() {
     worker.current?.close(); worker.current = null; parallelWorker.current?.close(); parallelWorker.current = null; workerAbort.current?.abort(); workerAbort.current = null
     pose.current?.close(); hand.current?.close(); pose.current = null; hand.current = null
     clearResults(); setRunning(false); setStarting(false); setModel('Đã dừng')
-  }, [clearResults, captureBudget])
+  }, [clearResults, captureBudget, onReplayInterrupted])
   const stopSource = useCallback(() => {
     stopTracking()
     const oldStream = stream.current; stream.current = null
     oldStream?.getTracks().forEach(track => track.stop())
     if (video.current) { video.current.pause(); video.current.srcObject = null; video.current.removeAttribute('src') }
     if (url.current) URL.revokeObjectURL(url.current)
-    url.current = null; setSource('none')
-  }, [stopTracking])
+    url.current = null; setSource('none'); onReplaySource?.(null, video.current)
+  }, [stopTracking, onReplaySource])
   useEffect(() => () => { stopSource() }, [stopSource])
   useEffect(() => {
     const timer = window.setInterval(() => { setUiClock(value => value + 1); if (measuringRef.current) { const value = measurement.current; setStats({ ...value, snapshotAt: performance.now(), durations: [...value.durations], roundTrips: [...value.roundTrips], overlayDurations: [...value.overlayDurations], dualPose: { ...value.dualPose, durations: [...value.dualPose.durations], roundTrips: [...value.dualPose.roundTrips] }, dualHand: { ...value.dualHand, durations: [...value.dualHand.durations], roundTrips: [...value.dualHand.roundTrips] } }) } }, 500)
@@ -134,7 +146,8 @@ export default function TrackingTestLab() {
   const openFile = (file?: File) => {
     if (!file || !video.current) return
     stopSource(); setMessage(''); const objectUrl = URL.createObjectURL(file); url.current = objectUrl
-    video.current.src = objectUrl; setSource('video'); video.current.play().catch(() => setMessage('Nhấn Phát để bắt đầu video.'))
+    video.current.src = objectUrl; setSource('video'); onReplaySource?.(file, video.current)
+    if (!onReplayFrame) video.current.play().catch(() => setMessage('Nhấn Phát để bắt đầu video.'))
   }
   const openCamera = async () => {
     stopSource(); setMessage(''); const requestId = ++generation.current
@@ -161,31 +174,34 @@ export default function TrackingTestLab() {
     stopTracking(); const requestId = ++generation.current; setModel('Đang tải'); setStarting(true); setMessage('')
     const input = video.current, profile = getTrackingProfile(profileName)
     let useHand = handEnabled
-    type Inference = (timestamp: number, doHand: boolean, sample: Snapshot | null) => boolean
+    type Inference = (timestamp: number, doHand: boolean, sample: Snapshot | null, sourceFrame: { frameId: number; framePerformanceMs: number; mediaTime: number; capturedAt: string; sourceFrameId?: number | null; skippedSourceFrames?: number }) => boolean
     const accept = (id: number, timestamp: number, raw: Point[], nextHands: Point[][] | null, inferenceMs: number | undefined, sample: Snapshot | null, roundTrip?: number) => {
-      if (id !== generation.current) return
+      if (id !== generation.current) return null
       if (sample && measuringRef.current && sample === measurement.current && timestamp >= sample.started) {
         sample.inferences++; if (raw.length || nextHands?.length) sample.valid++
         if (sample.config?.poseEnabled) { if (upperLimbVisible(raw, [11, 13, 15])) sample.leftVisible++; if (upperLimbVisible(raw, [12, 14, 16])) sample.rightVisible++ }
         if (inferenceMs !== undefined && sample.durations.length < 10000) sample.durations.push(inferenceMs)
         if (roundTrip !== undefined && sample.roundTrips.length < 10000) sample.roundTrips.push(roundTrip)
       }
-      if (!isFresh(timestamp, performance.now()) || input.seeking) return
+      if (!isFresh(timestamp, performance.now()) || input.seeking) return null
       const previous = landmarks.current
       landmarks.current = { raw, display: smoother.current.filter('pose', raw, timestamp, POSE_SMOOTHING_POLICY), hands: nextHands ?? previous.hands, poseTime: poseEnabled ? timestamp : 0, handTime: nextHands === null ? previous.handTime : timestamp, resultTime: timestamp }
+      return landmarks.current.display
     }
-    const schedule = (id: number, infer: Inference) => {
+    const schedule = (id: number, infer: Inference, replayConfig: object = {}) => {
       if (id !== generation.current) return
       setModel('Sẵn sàng'); setStarting(false); setRunning(true)
-      let lastHand = -Infinity
-      stopScheduler.current = startVideoFrameScheduler(input, ({ now, inferenceTimestamp }) => {
+      let lastHand = -Infinity, sourceFrameId = 0
+      if (source === 'video') onReplayReady?.(input, replayConfig)
+      stopScheduler.current = startVideoFrameScheduler(input, ({ now, mediaTime, inferenceTimestamp, sourceFrameId: presentedFrame, skippedSourceFrames }) => {
         if (id !== generation.current) return
         const sample = measuringRef.current ? measurement.current : null
         if (sample) sample.videoFrames++
         const doHand = useHand && now - lastHand >= 1000 / profile.handFps
-        if (infer(inferenceTimestamp, doHand, sample)) { if (doHand) lastHand = now }
+        const sourceFrame = { frameId: ++sourceFrameId, framePerformanceMs: now, mediaTime, capturedAt: new Date(performance.timeOrigin + now).toISOString(), sourceFrameId: presentedFrame, skippedSourceFrames }
+        if (infer(inferenceTimestamp, doHand, sample, sourceFrame)) { if (doHand) lastHand = now }
         else if (sample) sample.workerBusy++
-      }, { maxFps: poseEnabled ? profile.poseFps : profile.handFps, onReset: () => { stopTracking(); setMessage('Nguồn đã seek hoặc phát lại. Khởi động nhận diện lại để reset trạng thái model.') }, onSkip: reason => { if (measuringRef.current) { const m = measurement.current; if (reason === 'duplicate') m.duplicates++; else { m.throttled++; m.videoFrames++ } } } })
+      }, { maxFps: poseEnabled ? profile.poseFps : profile.handFps, onReset: () => { stopTracking(); setMessage('Nguồn đã seek hoặc phát lại. Khởi động nhận diện lại để reset trạng thái model.') }, onSkip: reason => { if (measuringRef.current) { const m = measurement.current; if (reason === 'duplicate') m.duplicates++; else { m.throttled++; m.videoFrames++ } } }, onSkippedFrame: frame => { if (source === 'video' && onReplayFrame) onReplayFrame({ frame_id: ++sourceFrameId, source_frame_id: frame.sourceFrameId, frame_performance_ms: frame.now, video_media_time_ms: frame.mediaTime * 1000, utc_time: new Date(performance.timeOrigin + frame.now).toISOString(), inference_performed: false, pose_detected: null, hand_detected: null, inference_ms: null, skipped_frames: frame.skippedSourceFrames, landmarks: [] }) } })
     }
     const startMain = async (id: number, useGpu: boolean) => {
       try {
@@ -205,15 +221,18 @@ export default function TrackingTestLab() {
         }
         if (id !== generation.current) return
         setEngine('main'); setDelegate(delegates.join(' · '))
-        schedule(id, (timestamp, doHand, sample) => {
+        schedule(id, (timestamp, doHand, sample, sourceFrame) => {
           const start = performance.now()
           try {
-            const raw = pose.current?.detectForVideo(input, timestamp).landmarks[0] || []
+            const poseResult = pose.current?.detectForVideo(input, timestamp)
+            const raw = poseResult?.landmarks[0] || []
+            let handResult: ReturnType<HandLandmarker['detectForVideo']> | null = null
             let hands: Point[][] | null = null
             if (doHand && hand.current) {
-              try { hands = hand.current.detectForVideo(input, timestamp).landmarks }
+              try { handResult = hand.current.detectForVideo(input, timestamp); hands = handResult.landmarks }
               catch (error) {
                 if (!pose.current) throw error
+                if (source === 'video' && onReplayFrame) throw error
                 // End the current measurement before changing its model configuration.
                 if (measuringRef.current) { measurement.current.ended = performance.now(); measuringRef.current = false; setMeasuring(false); setStats({ ...measurement.current }) }
                 const failedHand = hand.current; hand.current = null; useHand = false; hands = []
@@ -224,10 +243,15 @@ export default function TrackingTestLab() {
                 setMessage(released ? 'Suy luận bàn tay thất bại; phép đo đã dừng và theo dõi tư thế vẫn hoạt động.' : 'Suy luận bàn tay thất bại; không xác nhận được việc giải phóng model Hand. Phép đo đã dừng và theo dõi tư thế vẫn hoạt động.')
               }
             }
-            accept(id, timestamp, raw, hands, performance.now() - start, sample)
+            const inferenceMs = performance.now() - start
+            const acceptedDisplay = accept(id, timestamp, raw, hands, inferenceMs, sample)
+            if (source === 'video' && onReplayFrame) {
+              onReplayFrame(createReplayFrame({ ...sourceFrame, inferenceMs, pose: raw, posePerformed: poseResult !== undefined, poseWorld: poseResult?.worldLandmarks?.[0] ?? [], displayPose: acceptedDisplay ?? [],
+                hands: handResult?.landmarks ?? [], handsWorld: handResult?.worldLandmarks ?? [], handedness: handResult?.handedness ?? [], handPerformed: handResult !== null }))
+            }
             return true
           } catch { stopTracking(); setMessage('Suy luận thất bại; hãy thử lại.'); return false }
-        })
+        }, { pipeline: 'tracking_test_lab', tasks_vision_version: '0.10.35', timestamp: 'capture_relative_monotonic_callback', video_timestamp: 'video_media_time', pose_enabled: poseEnabled, hand_enabled: useHand, pose_model: poseEnabled ? 'pose_landmarker_lite.task' : null, hand_model: useHand ? 'hand_landmarker.task' : null, delegate: delegates, profile: profileName, smoothing_profile: smoothingProfile })
       } catch { if (id === generation.current) { stopTracking(); setModel('Lỗi tải model'); setMessage('Không tải được MediaPipe hoặc model cục bộ.') } }
     }
     const fallback = (id: number) => {
@@ -236,7 +260,7 @@ export default function TrackingTestLab() {
       setMessage('Worker không khả dụng; phép đo đã dừng và Lab đang chuyển sang CPU trên luồng chính.')
       setModel('Đang tải CPU'); setStarting(true); void startMain(fallbackId, false)
     }
-    if (preferParallel && poseEnabled && handEnabled && typeof Worker !== 'undefined' && typeof createImageBitmap === 'function') {
+    if (!(source === 'video' && onReplayFrame) && preferParallel && poseEnabled && handEnabled && typeof Worker !== 'undefined' && typeof createImageBitmap === 'function') {
       let poseThread: Worker | null = null, handThread: Worker | null = null
       let pendingPose: Snapshot | null = null, pendingHand: Snapshot | null = null
       const budget = preferAdaptive ? new AdaptiveWorkerBudget(AUTO_WORKER_MAX_FPS) : null
@@ -335,7 +359,7 @@ export default function TrackingTestLab() {
       }
       return
     }
-    if (!preferWorker || !poseEnabled || typeof Worker === 'undefined' || typeof createImageBitmap !== 'function') {
+    if ((source === 'video' && onReplayFrame) || !preferWorker || !poseEnabled || typeof Worker === 'undefined' || typeof createImageBitmap !== 'function') {
       if (preferParallel) setMessage('Hai Worker không được hỗ trợ; Lab dùng CPU trên luồng chính.')
       else if (preferWorker) setMessage(!poseEnabled ? 'Worker CPU cần Pose; Lab dùng luồng chính cho chế độ chỉ Hand.' : 'Worker không được hỗ trợ; Lab dùng CPU trên luồng chính.')
       await startMain(requestId, preferWorker || preferParallel ? false : preferGpu)
@@ -395,13 +419,13 @@ export default function TrackingTestLab() {
     <div className="workspace-heading"><div><p className="workspace-eyebrow">PHÒNG THỬ NGHIỆM</p><h1>Tracking Test Lab</h1><p>Video chỉ được xử lý trong trình duyệt. Số liệu không chứng minh độ chính xác lâm sàng.</p></div><a href="/workspace">← Camera & hiệu chuẩn</a></div>
     {message && <div className="workspace-message" role="status">{message}</div>}
     <div className="workspace-grid"><div className="workspace-main"><div className="workspace-stage"><div className="workspace-image" style={{ aspectRatio: `${size.width} / ${size.height}` }}>
-      <video ref={video} muted playsInline className={mirrored ? 'mirrored' : ''} onLoadedMetadata={() => { if (video.current?.videoWidth && video.current.videoHeight) setSize({ width: video.current.videoWidth, height: video.current.videoHeight }) }} />
+      <video ref={video} onEnded={onReplayEnded} muted playsInline className={mirrored ? 'mirrored' : ''} onLoadedMetadata={() => { if (video.current?.videoWidth && video.current.videoHeight) setSize({ width: video.current.videoWidth, height: video.current.videoHeight }) }} />
       {source === 'none' && <div className="workspace-empty">Chọn video cục bộ hoặc bật camera</div>}
       <canvas ref={canvas} width={size.width} height={size.height} aria-label="Landmark overlay" />
     </div></div><div className="workspace-controls">
       <button onClick={openCamera}>Bật camera</button><button onClick={stopSource} disabled={source === 'none'}>Đóng nguồn</button>
-      <button onClick={() => video.current?.paused ? video.current.play().catch(() => setMessage('Không thể phát video.')) : video.current?.pause()} disabled={source !== 'video'}>Phát / Tạm dừng</button>
-      <button onClick={() => { if (video.current) { stopTracking(); video.current.currentTime = 0; video.current.play().catch(() => setMessage('Không thể phát lại video.')); setMessage('Đã phát lại. Khởi động nhận diện lại để reset trạng thái model.') } }} disabled={source !== 'video'}>Phát lại từ đầu</button>
+      <button onClick={() => video.current?.paused ? video.current.play().catch(() => setMessage('Không thể phát video.')) : video.current?.pause()} disabled={source !== 'video' || replayLocked}>Phát / Tạm dừng</button>
+      <button onClick={() => { if (video.current) { stopTracking(); video.current.currentTime = 0; video.current.play().catch(() => setMessage('Không thể phát lại video.')); setMessage('Đã phát lại. Khởi động nhận diện lại để reset trạng thái model.') } }} disabled={source !== 'video' || replayLocked}>Phát lại từ đầu</button>
       <button className="primary" onClick={running ? stopTracking : startTracking} disabled={source === 'none' || starting}>{starting ? 'Đang tải…' : running ? 'Dừng nhận diện' : 'Bắt đầu nhận diện'}</button>
     </div><div className="workspace-controls"><button onClick={toggleMeasurement} disabled={!running && !measuring}>{measuring ? 'Dừng đo' : 'Bắt đầu đo'}</button><button onClick={resetMeasurement}>Đặt lại benchmark</button><button onClick={exportJson}>Xuất benchmark JSON</button></div>
     <p className="workspace-hint">Đo sau khi model đã sẵn sàng và video đã chạy ổn định. FPS nguồn là số frame quan sát được; frame bị giới hạn, callback trùng và frame bỏ khi Worker bận được đếm riêng. Phần trăm vai/khuỷu/cổ tay yêu cầu cả ba mốc trong ảnh có visibility ≥0,4 và không đo độ chính xác. Thời gian suy luận là tổng thời gian các model ở chế độ nối tiếp; với hai Worker, chỉ số chung mô tả Pose, còn chỉ số riêng mô tả từng model. Số frame giới hạn riêng gồm cả giới hạn chung và giới hạn riêng của từng luồng. Thời gian Worker từ callback frame đến kết quả gồm cả tạo và chuyển ảnh. Tuổi kết quả tính từ timestamp callback video đã điều chỉnh tăng đơn điệu; không phải độ trễ từ cảm biến camera đến màn hình. Tối đa 10.000 mẫu mỗi loại.</p>

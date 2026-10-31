@@ -30,7 +30,6 @@ backend/tests/test_workflow_migration.py
 backend/tests/test_workflow_validation.py
 backend/tests/test_workflows.py
 docs/REFACTOR_PLAN.md
-e2e/rehab-workflows.spec.ts
 frontend/src/components/CaptureArtifacts.test.tsx
 frontend/src/components/CaptureArtifacts.tsx
 frontend/src/components/DurationChart.test.tsx
@@ -85,9 +84,6 @@ docs/ARCHITECTURE.md
 docs/DATABASE.md
 docs/IMPLEMENTATION_REPORT.md
 docs/MANUAL_TEST_CHECKLIST.md
-e2e/flower-game.spec.ts
-e2e/mvp.spec.ts
-e2e/tracking-calibration-anchor.spec.ts
 frontend/src/components/Layout.test.tsx
 frontend/src/components/Layout.tsx
 frontend/src/features/workspace/WorkspacePage.tsx
@@ -123,7 +119,7 @@ Migration mới duy nhất của refactor: `backend/alembic/versions/b10f_hospit
 | landmark_records / video_records / model_predictions | 0 / 0 / 0 | 0 / 0 / 0 |
 | audit_logs | 53 | 53 |
 
-Đối chiếu từng giá trị trường cũ: không thay đổi, không mất bản ghi; FK mồ côi: 0; sáu Flower results vẫn truy vấn được. Mười hồ sơ cũ mặc định outpatient và được xuất để xem lại phân nhóm. Có pg_dump trước thay đổi trong vùng riêng `rehab-data/backups/`; báo cáo/CSV trong `rehab-data/validation/`, không đưa dữ liệu riêng vào Git. Kiểm thử/E2E dùng database `rehabilitation_ar_refactor_test`, không ghi hồ sơ thử vào database phát triển hiện hữu.
+Đối chiếu từng giá trị trường cũ: không thay đổi, không mất bản ghi; FK mồ côi: 0; sáu Flower results vẫn truy vấn được. Mười hồ sơ cũ mặc định outpatient và được xuất để xem lại phân nhóm. Có pg_dump trước thay đổi trong vùng riêng `rehab-data/backups/`; báo cáo/CSV trong `rehab-data/validation/`, không đưa dữ liệu riêng vào Git. Kiểm thử tích hợp dùng database `rehabilitation_ar_refactor_test`, không ghi hồ sơ thử vào database phát triển hiện hữu.
 
 ### 6. API endpoints
 
@@ -146,13 +142,13 @@ Mọi write có validation, lỗi nghiệp vụ rõ ràng và transaction rollba
 
 <!-- REFACTOR_VALIDATION_RESULTS -->
 
-Những lỗi đã tìm thấy và sửa trong kiểm chứng: thứ tự lưu lựa chọn bài trước start assessment; ORM identity map cũ sau row lock; double transfer/rollback audit; UUID và pending trial khi tracking bị hủy; lượt không có dữ liệu; cấu hình camera phản hồi chậm; day boundary UTC+7; phản hồi patient cũ ghi đè patient mới; hiển thị tay của session lịch sử; origin CSRF; downgrade xóa cấu hình mới. Selector E2E được đặt tên rõ để phân biệt status hiệu chuẩn với status capture, giữ nguyên kiểm tra kết quả/hành vi.
+Những lỗi đã tìm thấy và sửa trong kiểm chứng: thứ tự lưu lựa chọn bài trước start assessment; ORM identity map cũ sau row lock; double transfer/rollback audit; UUID và pending trial khi tracking bị hủy; lượt không có dữ liệu; cấu hình camera phản hồi chậm; day boundary UTC+7; phản hồi patient cũ ghi đè patient mới; hiển thị tay của session lịch sử; origin CSRF; downgrade xóa cấu hình mới. Selector component được đặt tên rõ để phân biệt status hiệu chuẩn với status capture, giữ nguyên kiểm tra kết quả/hành vi.
 
 ### 11. Phần chưa triển khai hoặc chưa kiểm chứng
 
 - Chưa có AI chẩn đoán, tự chấm FMA-UE, đánh giá mức suy giảm/tư thế lâm sàng hay tự chỉ định bài tập; đây là giới hạn được yêu cầu.
 - Chưa tự động thu video/chuỗi landmark theo mỗi trial của quy trình mới. Công cụ nghiên cứu capture/replay có từ trước vẫn dùng riêng; bảng và integration points được giữ. Chỉ hiển thị video đã có thực sự, không tạo video/landmark mẫu để báo hoàn tất.
-- Chưa kiểm chứng webcam vật lý, người bệnh, TV/ánh sáng/hiệu năng thiết bị mục tiêu hoặc độ chính xác lâm sàng. Sáu E2E yêu cầu video nguồn cục bộ không được cung cấp; chúng được ghi rõ bỏ qua, không tính đạt.
+- Chưa kiểm chứng webcam vật lý, người bệnh, TV/ánh sáng/hiệu năng thiết bị mục tiêu hoặc độ chính xác lâm sàng. Bộ test video nguồn cục bộ trước đây yêu cầu file video không được cung cấp; suite E2E hiện đã được dọn bỏ.
 - Chưa có xác thực/phân quyền, quản trị đồng ý và bảo vệ dữ liệu đầy đủ để xử lý thông tin thật. Dùng dữ liệu giả lập và loopback; không triển khai công khai.
 - Chưa có game renderer độc lập ngoài Flower; biến thể 45 giây là cấu hình của cùng game. Danh mục/chỉ định có thể mở rộng khi renderer mới được triển khai và kiểm chứng.
 
@@ -160,7 +156,7 @@ Những lỗi đã tìm thấy và sửa trong kiểm chứng: thứ tự lưu l
 
 Theo [README](../README.md): giữ `.env` hiện có, chạy Compose postgres, cài backend requirements, `alembic upgrade head`, kiểm tra `alembic check`, seed tùy chọn, chạy uvicorn trên 8001 và Vite trên 5173. Root `.env` dùng cho backend; biến `VITE_*` cần đặt trong terminal frontend hoặc `frontend/.env.local`. Khi đổi múi giờ, `HOSPITAL_TIMEZONE` và `VITE_HOSPITAL_TIMEZONE` phải giống nhau (mặc định Asia/Bangkok).
 
-Backend: cung cấp `TEST_DATABASE_URL` của PostgreSQL kiểm thử đã migration rồi `python -m pytest --cov=app --cov-branch --cov-fail-under=80`. Frontend: lint, typecheck, npm test/coverage, build. E2E: dùng backend/frontend/database riêng, đặt E2E_BASE_URL/E2E_API_BASE_URL và CORS_ORIGINS tương ứng; `cd e2e; npm test`. Bài video cần TRACKING_VIDEO_PATH; bài capture cần REPLAY_TEST_API_URL. [Checklist thủ công](MANUAL_TEST_CHECKLIST.md) không được đánh dấu thay cho kiểm tra phần cứng.
+Backend: cung cấp `TEST_DATABASE_URL` của PostgreSQL kiểm thử đã migration rồi `python -m pytest --cov=app --cov-branch --cov-fail-under=80`. Frontend: lint, typecheck, npm test/coverage, build. Thư mục E2E đã được dọn bỏ; không chạy lại Playwright. [Checklist thủ công](MANUAL_TEST_CHECKLIST.md) không được đánh dấu thay cho kiểm tra phần cứng.
 
 ### 13. Rủi ro còn tồn tại
 
@@ -195,7 +191,7 @@ Các kết quả dưới đây thuộc lần triển khai MVP trước khi bổ 
 | Frontend `npm run lint` | Đạt sau khi thêm trò chơi. |
 | Frontend `npm run build` | Đạt sau khi thêm trò chơi, bao gồm `tsc -b`. |
 | Frontend `npm audit --omit=dev --audit-level=high` | Không có lỗ hổng được báo cáo trong phạm vi dependency production tại thời điểm kiểm tra; không đại diện cho toàn hệ thống. |
-| Playwright `cd e2e; npm test` | 6/6 đạt: các luồng bệnh nhân/phiên/hiệu chuẩn, tải model, lỗi backend; demo chạm hoa không gửi kết quả, camera và landmarks mô phỏng lưu PostgreSQL và xem kết quả. E2E tạo dữ liệu giả lập và không tự xóa. |
+| Playwright (trước khi dọn dẹp) | 6/6 đạt trong đợt nghiệm thu cũ; hiện toàn bộ thư mục e2e đã được xóa hoàn toàn để tinh giản repository. |
 
 Có cảnh báo deprecation từ Starlette TestClient/httpx khi chạy backend test; chưa có bài kiểm thử riêng về các yêu cầu chuyển trạng thái đồng thời. Webcam, người thật và điều kiện lâm sàng chưa được kiểm thử; hãy dùng [checklist](MANUAL_TEST_CHECKLIST.md). Camera mô phỏng và demo không thay thế kiểm thử phần cứng.
 

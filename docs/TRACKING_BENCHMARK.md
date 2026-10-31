@@ -1,5 +1,7 @@
 # Tracking benchmark
 
+> **Lưu ý:** Toàn bộ thư mục `e2e/` chứa các harness và probe benchmark (như `tracking-baseline.cjs`, `tracking-worker-probe.cjs`...) đã được xóa hoàn toàn để tinh giản codebase. Tài liệu này được giữ lại làm dữ liệu lịch sử tham khảo hiệu năng.
+
 ## Điều kiện và phương pháp
 
 Các lần đo ngày 28-10-2026 dùng video do người dùng cung cấp, nạp trực tiếp qua file picker vào Chromium headless 156, trên Windows 11, CPU Intel Core i5-1340P và Intel Iris Xe. File gốc truy cập được; metadata do trình duyệt đọc là **1920 × 1080, 13,739959 giây**. Không sao chép, upload hoặc ghi video vào database. Không xác định được frame rate mã hóa chính xác bằng công cụ hiện có.

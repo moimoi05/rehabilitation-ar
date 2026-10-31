@@ -40,7 +40,7 @@ Workspace giải phóng camera và model khi unmount. Vì vậy không được 
 - `app.seed` chỉ thêm ba bệnh nhân/phiên giả lập khi chưa tồn tại; không dùng seed làm dữ liệu thống kê giao diện và không chạy seed trên dữ liệu cần giữ chỉ để làm đẹp dashboard.
 - Backend pytest hiện dùng PostgreSQL được truyền rõ qua `TEST_DATABASE_URL`, mỗi bài integration rollback transaction; nếu thiếu URL thì bị skip. Có unit validation, API lifecycle, image anchor compatibility và capture tests.
 - Frontend có Vitest/Testing Library cho page/API, game, camera lifecycle, geometry, Worker, capture/replay; cấu hình coverage V8 đã có.
-- Playwright dùng Chrome fake camera; suite cũ kiểm tra hồ sơ/phiên/calibration, Flower Game, Lab, Worker và capture/replay. Fake model/camera không chứng minh độ chính xác lâm sàng hoặc webcam thật.
+- Suite Playwright e2e cũ đã được xóa hoàn toàn để tinh giản repository.
 - Tài liệu tracking chứa benchmark và giới hạn lịch sử, không được đổi thành tuyên bố đã kiểm chứng phiên bản refactor.
 
 ## 3. Kiến trúc mục tiêu
@@ -153,7 +153,7 @@ Danh sách này là phạm vi kế hoạch, danh sách thực tế sau triển k
 - Mở rộng hoặc bọc `pages/Patients.tsx`/`PatientDetail.tsx` cho Quản trị; giữ liên kết cũ.
 - Tạo các page/component workflow assessment/training, questionnaire form, transfer dialog dùng chung, danh mục, biểu đồ thời lượng và báo cáo.
 - Sửa có giới hạn `features/workspace/WorkspacePage.tsx` và `useFlowerGame.tsx` để nhận context/callback từ shell; không thay thuật toán Pose/Hand, Worker/scheduler, smoothing hay phép biến đổi tọa độ.
-- Tạo Vitest cho điều hướng, form, các lỗi nghiệp vụ và vòng lặp nhiều lượt; tạo Playwright workflow mới, giữ/điều chỉnh kiểm thử legacy theo hành vi tương thích.
+- Tạo Vitest cho điều hướng, form, các lỗi nghiệp vụ và vòng lặp nhiều lượt.
 
 ### Tài liệu
 
@@ -167,8 +167,8 @@ Sửa README, `docs/ARCHITECTURE.md`, `DATABASE.md`, `IMPLEMENTATION_REPORT.md`,
 4. Triển khai backend theo nhóm; chạy test liên quan sau mỗi nhóm, giữ test legacy. Đặc biệt kiểm tra transfer đồng thời và lỗi giữa chừng không ghi một phần.
 5. Viết/chạy frontend RED cho năm menu, Quản trị, assessment/training/reports. Triển khai trên component/style/API hiện có.
 6. Tích hợp Workspace bằng context/callback và vòng đời mounted; kiểm tra camera/MediaPipe/Worker cleanup, invalidation calibration, retry result và navigation guard.
-7. Playwright với PostgreSQL thử và camera/model mô phỏng: hai vị trí chuyển nhóm, questionnaire, assessment nhiều bài/lượt, training cùng session qua tiếp tục, chart reload, hủy/xác nhận kết thúc, báo cáo/baseline/filter và legacy routes.
-8. Chạy toàn bộ `pytest` (có PostgreSQL), `alembic upgrade head`, `alembic check`, frontend lint/typecheck/test/coverage/build và Playwright. Không gọi bài bị skip là đạt; ghi số test, coverage, lệnh và giới hạn môi trường.
+7. Kiểm tra luồng giao diện: hai vị trí chuyển nhóm, questionnaire, assessment nhiều bài/lượt, training cùng session qua tiếp tục, chart reload, hủy/xác nhận kết thúc, báo cáo/baseline/filter và legacy routes.
+8. Chạy kiểm tra: `pytest`, `alembic upgrade head`, `alembic check`, frontend lint/typecheck/build. Không gọi bài bị skip là đạt; ghi số test, coverage, lệnh và giới hạn môi trường.
 9. Review code và bảo mật độc lập, sửa lỗi CRITICAL/HIGH, chạy lại các kiểm thử bị ảnh hưởng; cập nhật báo cáo và checklist theo kết quả thực.
 
 Người yêu cầu đã cấm commit/push/deploy; các checkpoint TDD chỉ ghi bằng output kiểm thử và báo cáo, không tạo commit dù skill mặc định có gợi ý checkpoint Git.

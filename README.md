@@ -94,8 +94,6 @@ npm test -- --coverage
 npm run build
 ```
 
-Để chạy Playwright, trước tiên khởi động frontend, backend và PostgreSQL kiểm thử riêng, sau đó chạy `cd e2e`, `npm install`, `npm test`. Bộ kiểm thử dùng Chrome và camera mô phỏng, tạo hồ sơ giả lập và không tự xóa các bản ghi đó. Các bài local-video cần `TRACKING_VIDEO_PATH` trỏ đến video thử nghiệm được phép sử dụng. Đặt `REPLAY_TEST_API_URL` cho các bài ghi/replay; không có video đầu vào thì các bài tương ứng được ghi là bỏ qua, không tính là đạt.
-
-Có thể dùng cổng riêng: backend `8002`, frontend `5174`, `VITE_API_BASE_URL=http://127.0.0.1:8002`, `E2E_API_BASE_URL=http://127.0.0.1:8002`, `E2E_BASE_URL=http://127.0.0.1:5174`. Thêm origin frontend đó vào `CORS_ORIGINS` của backend trước khi khởi động. Các request thay đổi dữ liệu có Origin ngoài danh sách bị từ chối. Ngày báo cáo dùng múi giờ bệnh viện, mặc định `Asia/Bangkok` (UTC+7).
+Có thể dùng cổng riêng: backend `8002`, frontend `5174`, `VITE_API_BASE_URL=http://127.0.0.1:8002`. Thêm origin frontend đó vào `CORS_ORIGINS` của backend trước khi khởi động. Các request thay đổi dữ liệu có Origin ngoài danh sách bị từ chối. Ngày báo cáo dùng múi giờ bệnh viện, mặc định `Asia/Bangkok` (UTC+7).
 
 Kết quả đã thực sự chạy và những giới hạn còn lại được ghi tại [báo cáo triển khai](docs/IMPLEMENTATION_REPORT.md).

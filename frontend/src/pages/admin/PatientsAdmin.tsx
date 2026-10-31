@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Plus, Search } from 'lucide-react'
 import { Empty, ErrorState, Loading } from '../../components/States'
 import { Button } from '../../components/ui/button'
@@ -20,6 +20,7 @@ function PatientList({ kind, search, edit, transfer }: { kind: PatientType; sear
 }
 
 export default function PatientsAdmin() {
+  const navigate = useNavigate()
   const [kind, setKind] = useState<PatientType>('outpatient')
   const [input, setInput] = useState('')
   const [search, setSearch] = useState('')
@@ -36,7 +37,7 @@ export default function PatientsAdmin() {
       <div className="panel-heading"><div><h2>{kind === 'outpatient' ? 'Danh sách bệnh nhân đến khám' : 'Danh sách bệnh nhân điều trị'}</h2><p>Tìm theo mã bệnh nhân hoặc họ tên</p></div><form className="rehab-toolbar" onSubmit={event => { event.preventDefault(); setSearch(input.trim()) }}><label className="search"><Search size={16}/><input aria-label="Tìm mã hoặc họ tên" value={input} maxLength={255} onChange={event => setInput(event.target.value)} placeholder="Mã hoặc họ tên"/></label><Button type="submit" variant="outline">Tìm kiếm</Button></form></div>
       <PatientList key={`${kind}:${search}:${version}`} kind={kind} search={search} edit={setEditing} transfer={setTransfer}/>
     </section>
-    {editing !== undefined && <PatientForm patient={editing || undefined} onClose={() => setEditing(undefined)} onSaved={() => { setEditing(undefined); refreshed(); setMessage('Đã lưu hồ sơ bệnh nhân. Hồ sơ mới thuộc nhóm đến khám.') }}/>} 
+    {editing !== undefined && <PatientForm patient={editing || undefined} onClose={() => setEditing(undefined)} onSaved={patient => { const creating = editing === null; setEditing(undefined); if (creating) navigate(`/admin/patients/${patient.id}`); else { refreshed(); setMessage('Đã lưu hồ sơ bệnh nhân.') } }}/>}
     {transfer && <TransferDialog patient={transfer} onClose={() => setTransfer(null)} onTransferred={patient => { setTransfer(null); refreshed(); setMessage(`${patient.research_code} đã chuyển sang nhóm điều trị. Lịch sử và Baseline được giữ nguyên.`) }}/>} 
   </>
 }

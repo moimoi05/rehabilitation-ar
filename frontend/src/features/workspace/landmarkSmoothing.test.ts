@@ -2,6 +2,14 @@ import { describe, expect, it } from 'vitest'
 import { LandmarkSmoother } from './landmarkSmoothing'
 
 describe('LandmarkSmoother', () => {
+  it('resets a missing identity immediately without affecting the other hand', () => {
+    const smoother = new LandmarkSmoother({ beta: 0 })
+    smoother.filter('left', [{ x: .2, y: .2 }], 0)
+    smoother.filter('right', [{ x: .2, y: .2 }], 0)
+    smoother.filter('left', [], 40)
+    expect(smoother.filter('left', [{ x: .8, y: .8 }], 80)[0].x).toBe(.8)
+    expect(smoother.filter('right', [{ x: .8, y: .8 }], 80)[0].x).toBeLessThan(.8)
+  })
   it('preserves out-of-frame observations and resets their filter state', () => {
     const smoother = new LandmarkSmoother({ minCutoff: 1, beta: 0, dCutoff: 1 })
     const outside = { x: 0.5, y: 1.1, visibility: 1 }

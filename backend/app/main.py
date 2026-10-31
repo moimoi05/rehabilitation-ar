@@ -355,6 +355,8 @@ def exercise_results(session_id: int = Query(gt=0), db: DBSession = Depends(get_
 
 from .captures import router as capture_router
 app.include_router(capture_router)
+from .benchmarks import router as benchmark_router
+app.include_router(benchmark_router)
 from .workflow_patients import router as patients_router
 from .questionnaires import router as questionnaires_router
 from .workflow_catalog import router as catalog_router

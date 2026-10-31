@@ -1,0 +1,8 @@
+
+  VITE v6.4.5  ready in 400 ms
+
+  ➜  Local:   http://127.0.0.1:5173/
+  ➜  press h + enter to show help
+1:21:02 AM [vite] (client) hmr update /src/main.tsx, /src/styles.css
+1:21:02 AM [vite] (client) hmr invalidate /src/main.tsx Could not Fast Refresh ("true" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports
+1:21:02 AM [vite] (client) hmr update /src/styles.css

@@ -18,8 +18,8 @@ export const SMOOTHING_PROFILES: Readonly<Record<SmoothingProfileName, Readonly<
   standard: DEFAULT_SMOOTHING_CONFIG,
   responsive: Object.freeze({ ...DEFAULT_SMOOTHING_CONFIG, minCutoff: 2 }),
 })
-// v3 additionally resets Pose point history when visibility is missing.
-export const SMOOTHING_VERSION = 'one-euro-v3'
+// v4 also resets an identity on an explicitly missing observation.
+export const SMOOTHING_VERSION = 'one-euro-v4'
 export const POSE_SMOOTHING_POLICY = Object.freeze({ requireVisibility: true })
 
 type Landmark = { x: number; y: number; z?: number; visibility?: number }
@@ -61,7 +61,7 @@ export class LandmarkSmoother {
 
   filter<T extends Landmark>(identity: string, landmarks: readonly T[], timestampMs: number, policy: { requireVisibility?: boolean } = {}): T[] {
     if (!Number.isFinite(timestampMs)) throw new RangeError('Observation timestamp must be finite')
-    if (!landmarks.length) return []
+    if (!landmarks.length) { this.reset(identity); return [] }
     const oldTrack = this.tracks.get(identity)
     const elapsed = oldTrack ? timestampMs - oldTrack.timestamp : 0
     const previous = oldTrack && elapsed > 0 && elapsed <= this.config.resetAfterMs ? oldTrack : undefined

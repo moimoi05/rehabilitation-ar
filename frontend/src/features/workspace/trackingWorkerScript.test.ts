@@ -17,6 +17,33 @@ function workerHarness(pose: unknown, hand: unknown, role = 'both') {
 }
 
 describe('classic tracking worker', () => {
+  it('attempts GPU independently and reports the exact Hand fallback error', async () => {
+    const messages: unknown[] = []
+    const poseCreate = vi.fn(async () => ({ close: vi.fn() }))
+    const handCreate = vi.fn(async (_files, options) => {
+      if (options.baseOptions.delegate === 'GPU') throw new Error('Hand WebGL unavailable')
+      return { close: vi.fn() }
+    })
+    const scope: { onmessage?: (event: unknown) => Promise<void>; postMessage: (value: unknown) => void } = { postMessage: value => { messages.push(value) } }
+    const fakeImport = async () => ({ FilesetResolver: { forVisionTasks: async () => ({}) }, PoseLandmarker: { createFromOptions: poseCreate }, HandLandmarker: { createFromOptions: handCreate } })
+    const source = readFileSync('public/tracking-worker.js', 'utf8').replace('await import(data.moduleUrl)', 'await fakeImport(data.moduleUrl)')
+    runInNewContext(source, { self: scope, fakeImport, Error, OffscreenCanvas: class {} })
+    await scope.onmessage!({ data: { type: 'init', handEnabled: true, preferGpu: true, moduleUrl: '/vision.mjs' } })
+    expect(messages[0]).toEqual({ type: 'ready', delegates: { pose: 'GPU', hand: 'CPU' }, initializationErrors: ['Hand GPU: Hand WebGL unavailable'] })
+    expect(poseCreate).toHaveBeenCalledOnce()
+    expect(handCreate).toHaveBeenCalledTimes(2)
+  })
+  it('does not infer Pose on a Hand-only scheduled frame and preserves complete raw Hand output', async () => {
+    const pose = { detectForVideo: vi.fn() }, landmarks = Array.from({ length: 21 }, (_, i) => ({ x: i / 21, y: .5, z: -.1 }))
+    const handedness = [[{ categoryName: 'Left', score: .9 }]], worldLandmarks = [[{ x: 1, y: 2, z: 3 }]]
+    const hand = { detectForVideo: vi.fn(() => ({ landmarks: [landmarks], handedness, worldLandmarks })) }
+    const { scope, messages } = workerHarness(pose, hand)
+    const bitmap = { close: vi.fn() }
+    await scope.onmessage!({ data: { type: 'frame', id: 1, bitmap, timestamp: 10, hand: true, pose: false } })
+    expect(messages[0]).toMatchObject({ type: 'result', poseProcessed: false, handProcessed: true, poseInferenceMs: null, hands: [landmarks], handedness, handWorldLandmarks: worldLandmarks })
+    expect(pose.detectForVideo).not.toHaveBeenCalled()
+    expect(bitmap.close).toHaveBeenCalledOnce()
+  })
   it.each([
     { role: 'pose', handEnabled: true, expectedPose: 1, expectedHand: 0 },
     { role: 'hand', handEnabled: false, expectedPose: 0, expectedHand: 1 },
@@ -67,7 +94,7 @@ describe('classic tracking worker', () => {
     await scope.onmessage!({ data: { type: 'frame', id: 1, bitmap: first, timestamp: 10, hand: true } })
     await scope.onmessage!({ data: { type: 'frame', id: 2, bitmap: second, timestamp: 20, hand: true } })
     expect(messages[0]).toMatchObject({ type: 'result', id: 1, pose: [{ x: .2, y: .3 }], hands: [], handFailed: true })
-    expect(messages[1]).toMatchObject({ type: 'result', id: 2, pose: [{ x: .2, y: .3 }], hands: null })
+    expect(messages[1]).toMatchObject({ type: 'result', id: 2, pose: [{ x: .2, y: .3 }], hands: [], handFailed: true, handError: expect.stringContaining('hand failed'), handProcessed: false })
     expect(hand.detectForVideo).toHaveBeenCalledOnce(); expect(hand.close).toHaveBeenCalledOnce()
     expect(first.close).toHaveBeenCalledOnce(); expect(second.close).toHaveBeenCalledOnce()
   })

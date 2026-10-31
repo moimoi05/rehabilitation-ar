@@ -28,7 +28,6 @@ export function useFlowerGame({ demo, streamActive, tracking, mirrored, side, co
   const durationMs = workflow?.durationSeconds && Number.isFinite(workflow.durationSeconds) && workflow.durationSeconds > 0 && workflow.durationSeconds <= 600 ? workflow.durationSeconds * 1000 : ROUND_MS
   const [phase, setPhase] = useState<Phase>('idle')
   const [round, setRound] = useState<Round>(initialRound)
-  const [hasPointer, setHasPointer] = useState(false)
   const [geometryPaused, setGeometryPaused] = useState(false)
   const [resumePending, setResumePending] = useState(false)
   const [saveState, setSaveState] = useState<SaveState>('idle')
@@ -128,7 +127,7 @@ export function useFlowerGame({ demo, streamActive, tracking, mirrored, side, co
       const ctx = canvas.current?.getContext('2d')
       if (ctx) { const box = prepareOverlay(ctx, sourceWidth, sourceHeight, display); drawFlower(ctx, box.width, box.height, current.current.target, pointer) }
       if (now - lastUpdate >= 150 || current.current.finished) {
-        setRound(current.current); setHasPointer(Boolean(pointer) && !geometryLock); lastUpdate = now
+        setRound(current.current); lastUpdate = now
       }
       if (current.current.finished) { setPhase('finished'); return }
       frame = requestAnimationFrame(tick)
@@ -158,7 +157,7 @@ export function useFlowerGame({ demo, streamActive, tracking, mirrored, side, co
       }
     }
     current.current = initialRound(!demo && mapping?.current ? visibleVideoRegion(mapping.current) : undefined); setRound(current.current); demoPointer.current = null; resumeAfterCheck.current = null; lastGeometryChange.current = 0; setResumePending(false); setGeometryPaused(false)
-    pendingStart.current = null; setTrialId(persistedTrial); setRoundId(id); setSaveState('idle'); setHasPointer(false); setMessage(''); setPhase('playing')
+    pendingStart.current = null; setTrialId(persistedTrial); setRoundId(id); setSaveState('idle'); setMessage(''); setPhase('playing')
   }
   const stop = () => { setRound(current.current); setPhase('finished') }
   const requestResume = () => {
@@ -205,14 +204,19 @@ export function useFlowerGame({ demo, streamActive, tracking, mirrored, side, co
   }
 
   const overlay = phase !== 'idle' ? <canvas ref={canvas} width={size.width} height={size.height} className={`flower-overlay${demo && phase === 'playing' ? ' flower-demo-input' : ''}`} aria-label={demo ? 'Vùng chơi demo bằng chuột hoặc chạm' : 'Hoa và vị trí cổ tay'} onPointerMove={onPointer} onPointerDown={onPointer} onPointerLeave={() => { demoPointer.current = null }} /> : null
+  const hud = <div className="flower-game-hud" role="group" aria-label="Điểm và điều khiển trò chơi">
+    <div className="flower-game-hud-score" aria-live="polite"><small>Điểm</small><strong>{round.score}</strong></div>
+    <div className="flower-game-hud-time"><small>Thời gian</small><strong>{Math.max(0, Math.ceil((durationMs - round.elapsedMs) / 1000))}s</strong></div>
+    <button className="primary" disabled={!canStart || phase !== 'idle' || preparing} onClick={() => void start()}>{preparing ? 'Đang chuẩn bị…' : 'Bắt đầu trò chơi'}</button>
+    {phase === 'playing' && <button onClick={stop}>Dừng</button>}
+  </div>
   const panel = <div className="workspace-info flower-game">
     <div className="flower-game-heading"><div><strong>Trò chơi · {workflow?.exerciseName || 'Chạm hoa phát sáng'}</strong><p>Đưa cổ tay bên tập đến hoa, rồi rời hoa trước lần chạm tiếp theo. Nhân viên điều chỉnh tư thế theo khả năng; dừng khi khó chịu.</p></div><span>{durationMs / 1000} giây hoạt động</span></div>
-    {phase === 'idle' && <><p>{demo ? 'Demo: di chuyển chuột hoặc chạm trên khung hình để mô phỏng cổ tay. Không lưu dữ liệu demo.' : 'Chọn phiên đang thực hiện, bật camera và nhận diện, rồi xác nhận tư thế để bắt đầu.'}</p><button className="primary" disabled={!canStart || preparing} onClick={() => void start()}>{preparing ? 'Đang chuẩn bị lượt…' : 'Bắt đầu trò chơi'}</button></>}
-    {phase !== 'idle' && <><div className="flower-score"><div><small>Hoa đã chạm</small><strong>{round.score}</strong></div><div><small>Thời gian còn</small><strong>{Math.ceil((durationMs - round.elapsedMs) / 1000)}s</strong></div><div><small>Trạng thái</small><strong>{phase === 'finished' ? 'Đã kết thúc' : geometryPaused ? (resumePending ? 'Tạm dừng · chờ quan sát mới' : 'Tạm dừng · di chuyển cổ tay sau khi đổi khung hình') : hasPointer ? 'Đang chơi' : 'Tạm dừng · mất mốc'}</strong></div></div>
-      {phase === 'playing' ? <><p>{demo ? 'Di chuyển chuột hoặc chạm trong khung hình. Thời gian dừng khi không có con trỏ.' : 'Thời gian dừng khi không thấy cổ tay hoặc khung hình ngừng cập nhật.'}</p>{geometryPaused && <button onClick={requestResume} disabled={resumePending}>Tiếp tục sau khi kiểm tra</button>}<button onClick={stop}>Dừng và xem kết quả</button></> : <><p>Kết quả trò chơi chỉ là số hoa chạm được, không phải điểm FMA-UE hay kết luận lâm sàng.</p><div className="workspace-controls">{!workflow && <button onClick={reset} disabled={saveState === 'saving'}>Lượt mới</button>}{!demo && <button className="primary" onClick={save} disabled={round.elapsedMs <= 0 || saveState === 'saving' || saveState === 'saved'}>{saveState === 'saving' ? 'Đang lưu…' : saveState === 'saved' ? 'Đã lưu kết quả' : saveState === 'failed' ? 'Thử lưu lại' : 'Xác nhận lưu kết quả'}</button>}</div>{demo && <p>DEMO — kết quả này không được lưu.</p>}</>}
-    </>}
+    {phase === 'idle' && <p>{demo ? 'Demo: di chuyển chuột hoặc chạm trên khung hình để mô phỏng cổ tay. Không lưu dữ liệu demo.' : 'Bật camera và nhận diện; nút bắt đầu và điểm luôn nằm trên khung hình.'}</p>}
+    {phase === 'playing' && <><p>{demo ? 'Di chuyển chuột hoặc chạm trong khung hình. Thời gian dừng khi không có con trỏ.' : 'Thời gian dừng khi không thấy cổ tay hoặc khung hình ngừng cập nhật.'}</p>{geometryPaused && <button onClick={requestResume} disabled={resumePending}>Tiếp tục sau khi kiểm tra</button>}</>}
+    {phase === 'finished' && <><p>Kết quả trò chơi chỉ là số hoa chạm được, không phải điểm FMA-UE hay kết luận lâm sàng.</p><div className="workspace-controls">{!workflow && <button onClick={reset} disabled={saveState === 'saving'}>Lượt mới</button>}{!demo && <button className="primary" onClick={save} disabled={round.elapsedMs <= 0 || saveState === 'saving' || saveState === 'saved'}>{saveState === 'saving' ? 'Đang lưu…' : saveState === 'saved' ? 'Đã lưu kết quả' : saveState === 'failed' ? 'Thử lưu lại' : 'Xác nhận lưu kết quả'}</button>}</div>{demo && <p>DEMO — kết quả này không được lưu.</p>}</>}
     {message && <p role="status">{message}</p>}
     {workflow?.cancelTrial && phase === 'finished' && round.elapsedMs <= 0 && <button onClick={() => void cancelEmptyRound()} disabled={saveState === 'saving'}>{saveState === 'saving' ? 'Đang hủy lượt…' : 'Hủy lượt chưa có dữ liệu'}</button>}
   </div>
-  return { overlay, panel }
+  return { overlay, hud, panel }
 }

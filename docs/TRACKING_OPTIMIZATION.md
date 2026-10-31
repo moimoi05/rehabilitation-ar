@@ -1,5 +1,16 @@
 # Tracking optimization
 
+## Audit trước tối ưu GPU — 01-11-2026
+
+- Mã Workspace ép `delegate: CPU`; không có kiểm tra khả năng GPU hay lý do kỹ thuật bắt buộc CPU. Lab đã thử GPU riêng cho Pose/Hand nhưng mặc định tắt và bỏ qua nguyên nhân fallback.
+- `withOwnedMediaPipeLoader` gắn định danh URL và dọn đúng script của từng lần tạo model. Cần giữ helper cho document; Worker classic dùng loader khác. Khởi tạo nối tiếp tránh tranh chấp loader; generation guard đóng model hoàn thành sau khi người dùng dừng.
+- `detectForVideo` đồng bộ chặn main thread cả khi dùng GPU. Render rAF riêng không làm inference bất đồng bộ. GPU cần được xác nhận bằng kết quả khởi tạo từng model, không suy từ WebGL.
+- Scheduler hiện dùng callback frame video, bỏ trùng và không có hàng đợi; khoảng cách tính từ lần chạy cuối có thể làm hụt nhịp. Hand nằm dưới callback Pose nên chưa độc lập hoàn toàn. Worker giữ tối đa một capture/inference; hai Worker tạo hai bitmap độc lập, có chi phí copy và cạnh tranh tài nguyên.
+- Capture nghiên cứu dùng hàng đợi upload nối tiếp giới hạn 32 MiB, báo lỗi khi đầy; không await upload trong vòng inference. Benchmark cần kho riêng, không đi qua patient/session/trial.
+- One Euro giữ raw riêng, kiểm tra tọa độ/visibility và reset sau 500 ms. Quan sát rỗng trước đây chưa xóa lịch sử ngay, có thể lọc xuyên khoảng mất tracking ngắn; đã bổ sung reset riêng identity. Không đổi tham số mặc định chỉ vì hình trông mượt hơn.
+
+Phạm vi triển khai: khởi tạo GPU-first dùng chung, nhịp Pose/Hand riêng, Balanced 20/12 FPS, benchmark video cục bộ lưu artifact và kiểm tra độc lập. Giữ model, WASM, scoring và schema bệnh nhân. Kết quả lịch sử bên dưới không đại diện cho benchmark mới.
+
 ## Những gì đã xác nhận từ phiên bản ban đầu
 
 - `WorkspacePage.tsx` tải Pose Lite một lần khi bắt đầu theo dõi, ở `VIDEO`, `numPoses: 1`, CPU; Hand Landmarker CPU và `numHands: 2` chỉ tải khi người dùng bật lựa chọn bàn tay. Không sử dụng backend để inference từng frame.

@@ -11,6 +11,21 @@ class FakeWorker {
 }
 
 describe('worker tracker', () => {
+  it('reports actual mixed delegates and preserves independent observation metadata', async () => {
+    const worker = new FakeWorker(), result = vi.fn(), bitmap = { close: vi.fn() } as unknown as ImageBitmap
+    const pending = createWorkerTracker({ worker: worker as unknown as Worker, capture: async () => bitmap, onResult: result, onError: vi.fn(), handEnabled: true, preferGpu: true, moduleUrl: '/vision.mjs' })
+    expect(worker.postMessage).toHaveBeenCalledWith(expect.objectContaining({ preferGpu: true }))
+    worker.send({ type: 'ready', delegates: { pose: 'GPU', hand: 'CPU' }, initializationErrors: ['Hand GPU: unavailable'] })
+    const tracker = await pending
+    expect(tracker.delegates).toEqual({ pose: 'GPU', hand: 'CPU' })
+    expect(tracker.initializationErrors).toEqual(['Hand GPU: unavailable'])
+    tracker.submit({} as HTMLVideoElement, 10, true, false); await Promise.resolve(); await Promise.resolve()
+    expect(worker.postMessage).toHaveBeenLastCalledWith(expect.objectContaining({ pose: false, hand: true }), [bitmap])
+    const hands = [[{ x: .2, y: .3, z: -.1 }]], handedness = [[{ categoryName: 'Left', score: .9, index: 0, displayName: 'Left' }]]
+    worker.send({ type: 'result', id: 1, pose: [], hands, poseProcessed: false, handProcessed: true, poseInferenceMs: null, handInferenceMs: 12, poseWorldLandmarks: [], handWorldLandmarks: hands, handedness })
+    expect(result).toHaveBeenCalledWith(expect.objectContaining({ poseProcessed: false, handProcessed: true, poseInferenceMs: null, handInferenceMs: 12, handedness, handWorldLandmarks: hands }))
+    tracker.close()
+  })
   it.each(['pose', 'hand'] as const)('forwards the %s role during initialization and its independent result', async role => {
     const worker = new FakeWorker(), result = vi.fn(), bitmap = { close: vi.fn() } as unknown as ImageBitmap
     const pending = createWorkerTracker({ worker: worker as unknown as Worker, capture: async () => bitmap, onResult: result, onError: vi.fn(), role, handEnabled: false, moduleUrl: '/vision.mjs' })

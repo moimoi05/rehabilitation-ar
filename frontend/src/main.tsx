@@ -16,6 +16,7 @@ import QuestionnairesAdmin from './pages/admin/QuestionnairesAdmin'
 import ReportsPage from './pages/reports/ReportsPage'
 import WorkspacePage from './features/workspace/WorkspacePage'
 import TrackingTestLab from './features/workspace/ReplayTestPage'
+import TrackingBenchmarkPage from './features/workspace/TrackingBenchmarkPage'
 import './styles.css'
 function PatientProfileRoute() { const { patientId } = useParams(); return <PatientProfile key={patientId}/> }
 const router = createBrowserRouter([{ element: <Layout />, children: [
@@ -28,6 +29,7 @@ const router = createBrowserRouter([{ element: <Layout />, children: [
   { path: 'patients', element: <Patients /> },
   { path: 'patients/:id', element: <PatientDetail /> }, { path: 'sessions', element: <Sessions /> },
   { path: 'workspace', element: <WorkspacePage /> }, { path: 'tracking-lab', element: <TrackingTestLab /> },
+  { path: 'tracking-benchmark', element: <TrackingBenchmarkPage /> },
   { path: 'results', element: <Results /> }, { path: 'settings', element: <Settings /> },
   { path: '*', element: <div className="state">Không tìm thấy trang.</div> },
 ] }])

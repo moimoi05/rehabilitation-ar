@@ -26,7 +26,7 @@ async def lifespan(application):
 
 
 app = FastAPI(title='Rehabilitation AR - development only', version='0.1.0', lifespan=lifespan)
-origins = [value.strip() for value in os.getenv('CORS_ORIGINS', 'http://localhost:5173,http://127.0.0.1:5173').split(',') if value.strip()]
+origins = [value.strip() for value in os.getenv('CORS_ORIGINS', 'http://localhost:5173,http://127.0.0.1:5173,http://localhost:5174,http://127.0.0.1:5174').split(',') if value.strip()]
 app.add_middleware(CORSMiddleware, allow_origins=origins, allow_credentials=False, allow_methods=['GET', 'POST', 'PUT', 'PATCH'], allow_headers=['Content-Type', 'X-Chunk-SHA256'])
 
 @app.middleware('http')

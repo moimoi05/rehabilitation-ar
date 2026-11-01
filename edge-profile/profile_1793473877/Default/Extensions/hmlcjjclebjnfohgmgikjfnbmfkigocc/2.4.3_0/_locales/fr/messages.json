@@ -1,0 +1,756 @@
+{
+   "about": {
+      "message": "À propos"
+   },
+   "actions": {
+      "message": "Actions"
+   },
+   "add": {
+      "message": "Add"
+   },
+   "ai_overlay_close": {
+      "message": "Fermer"
+   },
+   "ai_overlay_copied": {
+      "message": "Copié"
+   },
+   "ai_overlay_copy": {
+      "message": "Copier"
+   },
+   "ai_overlay_error_generic": {
+      "message": "Une erreur s'est produite."
+   },
+   "ai_overlay_error_unavailable": {
+      "message": "L'IA intégrée n'est pas disponible sur cet appareil."
+   },
+   "ai_overlay_same_language": {
+      "message": "Même langue détectée."
+   },
+   "ai_overlay_summarizing": {
+      "message": "Résumé en cours…"
+   },
+   "ai_overlay_toggle_theme": {
+      "message": "Changer de thème"
+   },
+   "ai_overlay_translating": {
+      "message": "Traduction en cours…"
+   },
+   "all_extensions": {
+      "message": "Toutes les extensions ($ENABLED$/$TOTAL$)",
+      "placeholders": {
+         "enabled": {
+            "content": "$1"
+         },
+         "total": {
+            "content": "$2"
+         }
+      }
+   },
+   "anti_clickjacking": {
+      "message": "Anti-Clickjacking"
+   },
+   "anti_clickjacking_desc": {
+      "message": "Alerter quand des iframes détournent les clics"
+   },
+   "app_description": {
+      "message": "J2TEAM Security aide à se protéger contre les attaques de phishing."
+   },
+   "app_name": {
+      "message": "J2TEAM Security"
+   },
+   "are_you_sure": {
+      "message": "Êtes-vous sûr ?"
+   },
+   "auto_activate_on_domains": {
+      "message": "Auto-activate on domains"
+   },
+   "back_to_top": {
+      "message": "Retour en Haut"
+   },
+   "backup": {
+      "message": "Sauvegarde"
+   },
+   "backup_description": {
+      "message": "Cliquez sur le bouton ci-dessous pour télécharger la liste de toutes vos extensions installées sous forme de fichier texte."
+   },
+   "backup_file_header": {
+      "message": "Liste de vos extensions, sauvegardée par J2TEAM Security :"
+   },
+   "block_facebook_pixel": {
+      "message": "Bloquer Facebook Pixel"
+   },
+   "block_facebook_pixel_desc": {
+      "message": "Bloquer le pixel de suivi Facebook"
+   },
+   "block_list": {
+      "message": "Liste de blocage"
+   },
+   "block_page_heading": {
+      "message": "Le site que vous essayez d'atteindre contient des programmes dangereux"
+   },
+   "block_page_p1": {
+      "message": "Les attaquants sur"
+   },
+   "block_page_p2": {
+      "message": "la page que vous venez de cliquer"
+   },
+   "block_page_p3": {
+      "message": "peuvent essayer de vous tromper en installant des programmes qui nuisent à votre expérience de navigation (par exemple, en modifiant votre page d'accueil ou en affichant des publicités supplémentaires sur les sites que vous visitez)."
+   },
+   "block_page_p4": {
+      "message": "Comme vous utilisez"
+   },
+   "block_page_p5": {
+      "message": ", ce site a été bloqué pour votre sécurité !"
+   },
+   "block_page_title": {
+      "message": "Erreur de sécurité"
+   },
+   "block_seen_chat": {
+      "message": "Bloquer la fonction \"Vu\" dans la conversation"
+   },
+   "block_seen_in_chat": {
+      "message": "Bloquer Vu dans le Chat"
+   },
+   "block_seen_in_chat_desc": {
+      "message": "Désactive les confirmations de lecture de Messenger. Vous ne verrez plus non plus quand les autres ont lu vos messages"
+   },
+   "block_seen_in_story": {
+      "message": "Bloquer Vu dans le Story"
+   },
+   "block_seen_in_story_desc": {
+      "message": "Masquer le « vu » dans les Stories Instagram"
+   },
+   "block_seen_in_story_facebook": {
+      "message": "Bloquer Vu dans le Story"
+   },
+   "block_seen_in_story_facebook_desc": {
+      "message": "Masquer le « vu » dans les Stories Facebook"
+   },
+   "block_seen_in_zalo": {
+      "message": "Block Seen in Zalo"
+   },
+   "block_seen_in_zalo_desc": {
+      "message": "Hide your read status on Zalo Web"
+   },
+   "block_seen_story_facebook": {
+      "message": "Bloquer la fonction \"Vu\" dans les stories Facebook"
+   },
+   "block_seen_story_instagram": {
+      "message": "Bloquer la fonction \"Vu\" dans les stories Instagram"
+   },
+   "block_suggested_posts": {
+      "message": "Bloquer les publications suggérées"
+   },
+   "block_suggested_posts_desc": {
+      "message": "Masquer les publications « Suggestions pour vous » dans le fil d'actualité Facebook"
+   },
+   "block_typing_chat": {
+      "message": "Bloquer l'indicateur de saisie dans la conversation"
+   },
+   "block_typing_comment": {
+      "message": "Bloquer l'indicateur de saisie dans les commentaires"
+   },
+   "block_typing_in_chat": {
+      "message": "Bloquer En train d'écrire dans le Chat"
+   },
+   "block_typing_in_chat_desc": {
+      "message": "Masquer l’indicateur de frappe dans le chat"
+   },
+   "block_typing_in_zalo": {
+      "message": "Block Typing in Zalo"
+   },
+   "block_typing_in_zalo_desc": {
+      "message": "Hide your typing indicator on Zalo Web"
+   },
+   "blocked_url": {
+      "message": "URL bloquée : "
+   },
+   "buy_me_a_coffee": {
+      "message": "Offrez-moi un café"
+   },
+   "cancel": {
+      "message": "Annuler"
+   },
+   "changelog": {
+      "message": "Journal des Modifications"
+   },
+   "clear": {
+      "message": "Effacer"
+   },
+   "click_to_rate": {
+      "message": "(cliquez sur les étoiles pour noter)"
+   },
+   "context_menu_ai_summarize": {
+      "message": "Résumer la sélection"
+   },
+   "context_menu_ai_translate": {
+      "message": "Traduire la sélection"
+   },
+   "context_menu_block_domain": {
+      "message": "Bloquer/Débloquer ce domaine"
+   },
+   "context_menu_change_hotkey": {
+      "message": "Changer de raccourci clavier"
+   },
+   "context_menu_change_language": {
+      "message": "Changer de langue"
+   },
+   "context_menu_changelog": {
+      "message": "Afficher les modifications"
+   },
+   "context_menu_donate": {
+      "message": "Faire un don"
+   },
+   "context_menu_faq": {
+      "message": "Questions fréquentes"
+   },
+   "context_menu_help": {
+      "message": "Aide"
+   },
+   "context_menu_rate_me": {
+      "message": "Noter J2TEAM Security sur le Chrome Store"
+   },
+   "context_menu_report_abuse": {
+      "message": "Signaler un abus..."
+   },
+   "context_menu_report_badware": {
+      "message": "Logiciel malveillant"
+   },
+   "context_menu_report_phishing": {
+      "message": "Hameçonnage"
+   },
+   "context_menu_report_suggest": {
+      "message": "Signaler ou suggérer"
+   },
+   "context_menu_report_webspam": {
+      "message": "Spam sur le web"
+   },
+   "context_menu_save_image_as": {
+      "message": "Enregistrer l'image sous…"
+   },
+   "context_menu_view_facebook_shares": {
+      "message": "Voir qui a partagé cette publication"
+   },
+   "create": {
+      "message": "Créer"
+   },
+   "create_new_profile": {
+      "message": "Créer un nouveau profil"
+   },
+   "custom_block_list": {
+      "message": "Liste de blocage personnalisée"
+   },
+   "custom_block_list_legend": {
+      "message": "bloquera tous les sites figurant sur cette liste"
+   },
+   "dark_theme_editor": {
+      "message": "Éditeur de thème sombre"
+   },
+   "delete": {
+      "message": "Supprimer"
+   },
+   "document": {
+      "message": "Documentation"
+   },
+   "domain_input_placeholder": {
+      "message": "e.g. github.com"
+   },
+   "domain_profile_active": {
+      "message": "Active"
+   },
+   "domain_profile_active_banner": {
+      "message": "Domain profile active for $DOMAIN$",
+      "placeholders": {
+         "domain": {
+            "content": "$1"
+         }
+      }
+   },
+   "domain_profile_auto_managed": {
+      "message": "This profile is auto-managed by domain rules"
+   },
+   "download_extension_list": {
+      "message": "Télécharger la Liste des Extensions"
+   },
+   "enable_extension_manager": {
+      "message": "Activer le Gestionnaire d'Extensions"
+   },
+   "enable_right_click": {
+      "message": "Réactiver le clic droit, la sélection de texte, la copie et les raccourcis clavier sur les pages qui les bloquent"
+   },
+   "enable_right_click_exclusions_help": {
+      "message": "One domain per line. The unlock will not run on these sites. Major services are excluded by default: big tech, AI assistants, social networks, video platforms, and document/design tools."
+   },
+   "enable_right_click_exclusions_label": {
+      "message": "Excluded sites"
+   },
+   "enable_right_click_label": {
+      "message": "Débloquer clic droit & copier"
+   },
+   "error": {
+      "message": "Erreur"
+   },
+   "extension_manager": {
+      "message": "Gestionnaire d'Extensions"
+   },
+   "extension_manager_desc": {
+      "message": "Activer le gestionnaire d’extensions"
+   },
+   "extra_features": {
+      "message": "Fonctionnalités supplémentaires"
+   },
+   "facebook": {
+      "message": "Facebook"
+   },
+   "facebook_colon": {
+      "message": "Facebook :"
+   },
+   "facebook_kount": {
+      "message": "Facebook Kount"
+   },
+   "facebook_messenger_history": {
+      "message": "Historique de Facebook Messenger"
+   },
+   "facebook_security_tester": {
+      "message": "Testeur de sécurité Facebook"
+   },
+   "facebook_time_counter": {
+      "message": "Afficher le compteur d'utilisation de Facebook"
+   },
+   "feature_request": {
+      "message": "Demande de Fonctionnalité"
+   },
+   "follow_me": {
+      "message": "Suivez-moi"
+   },
+   "footer_text": {
+      "message": "J2TEAM ©$YEAR$ - Développé par $AUTHOR$ - Version $VERSION$",
+      "placeholders": {
+         "author": {
+            "content": "$2"
+         },
+         "version": {
+            "content": "$3"
+         },
+         "year": {
+            "content": "$1"
+         }
+      }
+   },
+   "free_tools": {
+      "message": "Outils gratuits"
+   },
+   "global_privacy_control": {
+      "message": "Envoyer les en-têtes Global Privacy Control (Sec-GPC) et Do Not Track (DNT) à chaque requête"
+   },
+   "global_privacy_control_label": {
+      "message": "Global Privacy Control"
+   },
+   "help": {
+      "message": "Aide"
+   },
+   "homepage": {
+      "message": "Page d'Accueil"
+   },
+   "include_subdomains": {
+      "message": "Include subdomains"
+   },
+   "instagram": {
+      "message": "Instagram"
+   },
+   "instagram_colon": {
+      "message": "Instagram :"
+   },
+   "install_type": {
+      "message": "Type d'installation : $TYPE$",
+      "placeholders": {
+         "type": {
+            "content": "$1"
+         }
+      }
+   },
+   "join_us": {
+      "message": "Rejoignez-nous"
+   },
+   "json_prettifier": {
+      "message": "Formater les réponses JSON avec coloration syntaxique"
+   },
+   "json_prettifier_label": {
+      "message": "Formateur JSON"
+   },
+   "keyboard_shortcuts": {
+      "message": "Raccourcis Clavier"
+   },
+   "languages": {
+      "message": "Langues"
+   },
+   "load": {
+      "message": "Charger"
+   },
+   "load_from_url": {
+      "message": "Charger depuis une URL"
+   },
+   "message": {
+      "message": "Message"
+   },
+   "more": {
+      "message": "plus"
+   },
+   "name": {
+      "message": "Nom"
+   },
+   "new_profile": {
+      "message": "Nouveau profil"
+   },
+   "no": {
+      "message": "Non"
+   },
+   "notif_block_domain_added": {
+      "message": "Domaine ajouté à la liste de blocage"
+   },
+   "notif_block_domain_removed": {
+      "message": "Domaine retiré de la liste de blocage"
+   },
+   "notif_save_image_as_failed": {
+      "message": "Échec de l'enregistrement de l'image"
+   },
+   "notif_view_facebook_shares_failed": {
+      "message": "Impossible d'extraire l'ID de la publication depuis cette URL."
+   },
+   "notification_upgrade_button": {
+      "message": "Voir les nouvelles fonctionnalités"
+   },
+   "notification_upgrade_message": {
+      "message": "Fonctionnalités de la version Premium : Téléchargement de vidéos / Reels, Top Interactions, Sauvegarde de la liste d'amis, etc."
+   },
+   "notification_upgrade_title": {
+      "message": "J2TEAM Security : Voulez-vous utiliser plus de fonctionnalités ?"
+   },
+   "open_side_panel": {
+      "message": "Ouvrir le Panneau Latéral"
+   },
+   "options": {
+      "message": "Options"
+   },
+   "options_saved": {
+      "message": "Options enregistrées !"
+   },
+   "others": {
+      "message": "Autres"
+   },
+   "others_colon": {
+      "message": "Autres :"
+   },
+   "perm_activeTab": {
+      "message": "Access current tab"
+   },
+   "perm_alarms": {
+      "message": "Schedule tasks"
+   },
+   "perm_bookmarks": {
+      "message": "Read and modify bookmarks"
+   },
+   "perm_browsingData": {
+      "message": "Delete browsing data"
+   },
+   "perm_clipboardRead": {
+      "message": "Read clipboard content"
+   },
+   "perm_clipboardWrite": {
+      "message": "Write to clipboard"
+   },
+   "perm_contentSettings": {
+      "message": "Change content settings"
+   },
+   "perm_contextMenus": {
+      "message": "Add right-click menu items"
+   },
+   "perm_cookies": {
+      "message": "Read and modify cookies"
+   },
+   "perm_debugger": {
+      "message": "Access browser debugger"
+   },
+   "perm_declarativeNetRequest": {
+      "message": "Block or modify network requests"
+   },
+   "perm_declarativeNetRequestFeedback": {
+      "message": "View blocked network requests"
+   },
+   "perm_declarativeNetRequestWithHostAccess": {
+      "message": "Block or modify network requests on specific sites"
+   },
+   "perm_desktopCapture": {
+      "message": "Capture screen content"
+   },
+   "perm_downloads": {
+      "message": "Manage downloads"
+   },
+   "perm_favicon": {
+      "message": "Access website icons"
+   },
+   "perm_fontSettings": {
+      "message": "Change font settings"
+   },
+   "perm_geolocation": {
+      "message": "Access your location"
+   },
+   "perm_history": {
+      "message": "Read browsing history"
+   },
+   "perm_identity": {
+      "message": "Sign in with your account"
+   },
+   "perm_idle": {
+      "message": "Detect when you're idle"
+   },
+   "perm_management": {
+      "message": "Manage other extensions"
+   },
+   "perm_nativeMessaging": {
+      "message": "Communicate with other programs"
+   },
+   "perm_notifications": {
+      "message": "Show notifications"
+   },
+   "perm_offscreen": {
+      "message": "Create offscreen documents"
+   },
+   "perm_pageCapture": {
+      "message": "Capture page content"
+   },
+   "perm_power": {
+      "message": "Prevent device from sleeping"
+   },
+   "perm_privacy": {
+      "message": "Change privacy settings"
+   },
+   "perm_proxy": {
+      "message": "Manage proxy settings"
+   },
+   "perm_runtime": {
+      "message": "Extension messaging"
+   },
+   "perm_scripting": {
+      "message": "Run scripts on pages"
+   },
+   "perm_search": {
+      "message": "Search with default engine"
+   },
+   "perm_sidePanel": {
+      "message": "Open side panel"
+   },
+   "perm_storage": {
+      "message": "Store extension data"
+   },
+   "perm_tabGroups": {
+      "message": "Organize tab groups"
+   },
+   "perm_tabs": {
+      "message": "Access browser tabs"
+   },
+   "perm_theme": {
+      "message": "Change browser theme"
+   },
+   "perm_topSites": {
+      "message": "Access most visited sites"
+   },
+   "perm_tts": {
+      "message": "Read text aloud"
+   },
+   "perm_unlimitedStorage": {
+      "message": "Use unlimited storage"
+   },
+   "perm_webNavigation": {
+      "message": "Track page navigation"
+   },
+   "perm_webRequest": {
+      "message": "Intercept network requests"
+   },
+   "perm_webRequestBlocking": {
+      "message": "Block network requests"
+   },
+   "permissions": {
+      "message": "Autorisations"
+   },
+   "pick_color_copied": {
+      "message": "Copied to clipboard"
+   },
+   "pick_color_failed": {
+      "message": "Unable to open color picker on this page."
+   },
+   "pick_color_menu": {
+      "message": "Pick Color (Eyedropper)"
+   },
+   "pick_color_title": {
+      "message": "J2TEAM Color Picker"
+   },
+   "pick_color_unsupported": {
+      "message": "EyeDropper API is not supported in this browser."
+   },
+   "pin_to_top": {
+      "message": "Épingler en Haut"
+   },
+   "pinned_extensions_tooltip": {
+      "message": "Les extensions épinglées ne seront pas désactivées par ce bouton"
+   },
+   "pinned_to_top": {
+      "message": "Épinglé en Haut"
+   },
+   "premium_dashboard": {
+      "message": "Tableau de bord Premium"
+   },
+   "premium_tools": {
+      "message": "Outils Premium"
+   },
+   "prevent_facebook_feed_reload": {
+      "message": "Empêcher l'actualisation automatique du fil d'actualité"
+   },
+   "prevent_facebook_feed_reload_desc": {
+      "message": "Empêche Facebook de recharger le fil d'actualité lorsque vous revenez à cet onglet"
+   },
+   "privacy": {
+      "message": "Vie privée sur Facebook"
+   },
+   "profile_name": {
+      "message": "Nom du profil"
+   },
+   "profile_name_required": {
+      "message": "Veuillez saisir le nom du profil !"
+   },
+   "profiles": {
+      "message": "Profils"
+   },
+   "profiles_description": {
+      "message": "Les profils vous permettent de regrouper des extensions"
+   },
+   "rating_message": {
+      "message": "Si vous aimez cette extension, pensez à lui donner une note de 5 étoiles :"
+   },
+   "real_time_protection": {
+      "message": "Protection en Temps Réel"
+   },
+   "real_time_protection_desc": {
+      "message": "Analyser les pages avec la liste antiphishing"
+   },
+   "realtime": {
+      "message": "Protection en temps réel"
+   },
+   "remove_tracking_params": {
+      "message": "Supprimer les paramètres de suivi des URLs (fbclid, UTM, gclid, etc.)"
+   },
+   "remove_tracking_params_label": {
+      "message": "Supprimer les paramètres de suivi"
+   },
+   "reviews": {
+      "message": "Avis"
+   },
+   "save": {
+      "message": "Enregistrer"
+   },
+   "save_options": {
+      "message": "Enregistrer les Options"
+   },
+   "search_extension": {
+      "message": "Rechercher une extension..."
+   },
+   "security": {
+      "message": "Sécurité"
+   },
+   "security_colon": {
+      "message": "Sécurité :"
+   },
+   "select_extension_required": {
+      "message": "Veuillez sélectionner au moins une extension !"
+   },
+   "select_extensions": {
+      "message": "Sélectionner des extensions"
+   },
+   "settings": {
+      "message": "Paramètres"
+   },
+   "shortcut_ai_summarize_description": {
+      "message": "Résumer le texte sélectionné avec l'IA"
+   },
+   "shortcut_ai_translate_description": {
+      "message": "Traduire le texte sélectionné avec l'IA"
+   },
+   "shortcut_pick_color_description": {
+      "message": "Choisir une couleur sur la page (Pipette)"
+   },
+   "show_time_counter": {
+      "message": "Afficher le Compteur de Temps"
+   },
+   "show_time_counter_desc": {
+      "message": "Afficher le temps passé sur Facebook"
+   },
+   "show_update_notification": {
+      "message": "Afficher la notification de mise à jour"
+   },
+   "show_update_notification_label": {
+      "message": "Notifications de mise à jour"
+   },
+   "status": {
+      "message": "Statut"
+   },
+   "stop_facebook_timeline": {
+      "message": "Arrêter la Timeline Facebook (fil d'actualités)"
+   },
+   "telegram_channel": {
+      "message": "Canal Telegram"
+   },
+   "toggle_all_extensions": {
+      "message": "Basculer toutes les extensions"
+   },
+   "toggle_block_seen_chat": {
+      "message": "Activer/désactiver la fonction \"Vu\""
+   },
+   "toggle_block_typing_chat": {
+      "message": "Activer/désactiver l'indicateur de saisie"
+   },
+   "tools": {
+      "message": "Outils"
+   },
+   "type": {
+      "message": "Type"
+   },
+   "uninstall": {
+      "message": "Désinstaller"
+   },
+   "unpin": {
+      "message": "Détacher"
+   },
+   "update": {
+      "message": "Mettre à jour"
+   },
+   "update_message": {
+      "message": "{appName} vient de mettre à jour vers la version {appVersion}. Cliquez ici pour voir les changements de cette version!"
+   },
+   "update_profile": {
+      "message": "Mettre à jour le profil : $NAME$",
+      "placeholders": {
+         "name": {
+            "content": "$1"
+         }
+      }
+   },
+   "upgrade_to_premium": {
+      "message": "Passer à Premium"
+   },
+   "user_info": {
+      "message": "Informations utilisateur"
+   },
+   "view": {
+      "message": "Voir"
+   },
+   "website": {
+      "message": "Site web"
+   },
+   "yes": {
+      "message": "Oui"
+   },
+   "zalo": {
+      "message": "Zalo"
+   }
+}

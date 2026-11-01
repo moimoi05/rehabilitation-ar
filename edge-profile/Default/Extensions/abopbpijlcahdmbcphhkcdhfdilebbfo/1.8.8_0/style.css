@@ -1,0 +1,207 @@
+/* public/style.css - 简化版，只保留不依赖主题的基础样式 */
+
+/* ============================
+   通用工具类 - 不依赖主题变量
+   ============================ */
+
+/* 禁用按钮通用样式 */
+.pp-btn-disabled {
+  cursor: not-allowed !important;
+  opacity: 0.5 !important;
+}
+
+/* 文本不可选择 */
+.pp-no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* 清除浮动 */
+.pp-clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* 隐藏元素 */
+.pp-hidden {
+  display: none !important;
+}
+
+/* 视觉隐藏但保持可访问性 */
+.pp-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ============================
+   特定站点的布局样式 - 这些不依赖主题
+   ============================ */
+
+/* Google Scholar 特定布局 */
+.pp-googlescholar-left-top {
+  margin: 0 40px 0 56px;
+  min-width: 120px;
+}
+
+.pp-googlescholar-title,
+.pp-pubmed-title {
+  white-space: nowrap;
+  display: inline-block;
+}
+
+/* ============================
+   过渡动画 - 通用
+   ============================ */
+.pp-transition {
+  transition: all 0.3s ease;
+}
+
+.pp-transition-fast {
+  transition: all 0.15s ease;
+}
+
+.pp-transition-slow {
+  transition: all 0.5s ease;
+}
+
+/* ============================
+   兼容性修复
+   ============================ */
+
+/* 修复某些网站的样式冲突 */
+.pp-journal-info-enhanced *,
+.pp-altmetric-info-enhanced * {
+  box-sizing: border-box;
+}
+
+/* 确保图标正确显示 */
+.pp-journal-info-enhanced img,
+.pp-altmetric-info-enhanced img {
+  max-width: none !important;
+  padding: 0 !important;
+  border: none !important;
+  background: none !important;
+  vertical-align: middle;
+}
+
+/* 防止字体被覆盖 */
+.pp-journal-info-enhanced,
+.pp-altmetric-info-enhanced,
+.pp-googlescholar-left-top,
+.pp-pubmed-left-top {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  line-height: normal !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+/* ============================
+   CNKI 期刊导航页（封面卡片）
+   原卡片固定高度且溢出隐藏：解除限制，扩展信息显示在封面下方，卡片随内容增高
+   ============================ */
+.pp-cnki-navi-list {
+  display: flex !important;
+  flex-wrap: wrap;
+  align-items: flex-start; /* 同行按最高卡片对齐，避免浮动错位 */
+  height: auto !important;
+  overflow: visible !important;
+}
+
+.pp-cnki-navi-card {
+  height: auto !important;
+  overflow: visible !important;
+}
+
+.pp-cnki-navi-card .pp-journal-info-enhanced {
+  margin: 2px 0 0;
+}
+
+.pp-cnki-navi-card .pp-journal-info-enhanced .pp-info-body {
+  gap: 2px;
+  height: unset !important;
+  border: unset !important;
+}
+
+/* 去掉排名前的占位间隔 */
+.pp-cnki-navi-card .pp-info-body > div:not([class]) {
+  display: none;
+}
+
+.pp-cnki-navi-card .pp-rankingTag {
+  margin: 0;
+  padding: 1px 4px;
+}
+
+.pp-cnki-navi-card .pp-jifBar,
+.pp-cnki-navi-card .pp-jif-icon,
+.pp-cnki-navi-card [class^="pp-jifQ"],
+.pp-cnki-navi-card [class^="pp-jifN"] {
+  margin: 0;
+}
+
+/* CNKI 文章详情页：扩展信息插在期刊名下方，.top-first 固定高度需解除 */
+.top-first:has(.pp-journal-info-enhanced) {
+  height: auto !important;
+}
+
+/* ============================
+   MDPI 期刊列表（/about/journals）
+   站点规则 .journaltable .journal-name-cell div
+   会命中扩展信息内所有 div：先统一清除，再按主题值还原被改写的属性
+   ============================ */
+.journaltable .journal-name-cell .pp-journal-info-enhanced,
+.journaltable .journal-name-cell .pp-journal-info-enhanced div {
+  display: block;
+  height: auto;
+  padding-left: 0;
+  padding-top: 0;
+  vertical-align: baseline;
+}
+
+/* 显示在期刊名下方，与名称文字左对齐（让出 logo 宽度） */
+.journaltable .journal-name-cell .pp-journal-info-enhanced {
+  display: flex;
+  margin-left: 53px;
+}
+
+.journaltable .journal-name-cell .pp-info-body .pp-rankingTag {
+  display: inline-flex;
+  padding-left: var(--pp-theme-spacing-sm);
+  padding-top: var(--pp-theme-spacing-xs);
+}
+
+.journaltable .journal-name-cell .pp-info-body .pp-jifBar {
+  display: flex;
+  height: 20px;
+  padding-left: var(--pp-theme-spacing-xs);
+}
+
+.journaltable .journal-name-cell .pp-info-body .pp-jif {
+  display: inline-flex;
+  height: 10px;
+}
+
+.journaltable .journal-name-cell .pp-info-body .pp-jif-value {
+  display: inline-flex;
+  height: 100%;
+  padding-left: var(--pp-theme-spacing-sm);
+}
+
+.journaltable .journal-name-cell .pp-info-body .pp-jif-icon {
+  padding-left: 2px;
+  padding-top: 2px;
+}
+
+.journaltable .journal-name-cell .pp-info-body [class^="pp-jifQ"],
+.journaltable .journal-name-cell .pp-info-body [class^="pp-jifN"] {
+  display: inline-flex;
+}

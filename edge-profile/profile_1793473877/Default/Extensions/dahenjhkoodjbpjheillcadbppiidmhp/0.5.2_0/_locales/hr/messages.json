@@ -1,0 +1,703 @@
+{
+   "1010": {
+      "message": "Izradi novu"
+   },
+   "1109": {
+      "message": "Nema rezultata za ovo pretraživanje."
+   },
+   "111": {
+      "message": "Sustav trenutno ne može provesti ovu radnju. Pokušajte ponovo kasnije."
+   },
+   "1301": {
+      "message": "Postavke"
+   },
+   "1343": {
+      "message": "Spremljeno u Moju knjižnicu"
+   },
+   "1441": {
+      "message": "Prethodno"
+   },
+   "1442": {
+      "message": "Sljedeće"
+   },
+   "1462": {
+      "message": "Zatvori"
+   },
+   "1463": {
+      "message": "Pošalji"
+   },
+   "1484": {
+      "message": "Prethodna stranica"
+   },
+   "1485": {
+      "message": "Sljedeća stranica"
+   },
+   "1486": {
+      "message": "Smanji"
+   },
+   "1487": {
+      "message": "Povećaj"
+   },
+   "1488": {
+      "message": "Prilagodi visini"
+   },
+   "1489": {
+      "message": "Prilagodi širini"
+   },
+   "1490": {
+      "message": "Zakreni"
+   },
+   "1491": {
+      "message": "Spremi u moju zbirku"
+   },
+   "1492": {
+      "message": "Preuzmi"
+   },
+   "1493": {
+      "message": "Ispis"
+   },
+   "1494": {
+      "message": "Više"
+   },
+   "1513": {
+      "message": "Minijature"
+   },
+   "1514": {
+      "message": "Sažmi sve"
+   },
+   "1515": {
+      "message": "Proširi sve"
+   },
+   "1542": {
+      "message": "Google znalac"
+   },
+   "1617": {
+      "message": "Pretražite Google"
+   },
+   "1618": {
+      "message": "Knjižnica Google znalca"
+   },
+   "1620": {
+      "message": "Došlo je do pogreške prilikom dohvaćanja rezultata. Pokušajte ponovno kasnije."
+   },
+   "1621": {
+      "message": "Pretraživanje na Znalcu..."
+   },
+   "1623": {
+      "message": "Spremi u zbirku Znalca"
+   },
+   "1626": {
+      "message": "Svojstva dokumenta"
+   },
+   "1627": {
+      "message": "Otvori u pregledniku Chrome"
+   },
+   "1628": {
+      "message": "Prikaži više"
+   },
+   "1629": {
+      "message": "Prikaži manje"
+   },
+   "1630": {
+      "message": "Prijavite se"
+   },
+   "1631": {
+      "message": "Spremljeno u $ANCHOR_BEGIN$Moju zbirku$ANCHOR_END$",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1632": {
+      "message": "Spremanje u Moju zbirku..."
+   },
+   "1633": {
+      "message": "Članak nije pronađen u Znalcu."
+   },
+   "1635": {
+      "message": "Naziv datoteke"
+   },
+   "1636": {
+      "message": "Veličina datoteke"
+   },
+   "1637": {
+      "message": "Naslov"
+   },
+   "1638": {
+      "message": "Autor"
+   },
+   "1639": {
+      "message": "Predmet"
+   },
+   "1640": {
+      "message": "Ključne riječi"
+   },
+   "1641": {
+      "message": "Izrađeno"
+   },
+   "1642": {
+      "message": "Izmijenjeno"
+   },
+   "1643": {
+      "message": "Aplikacija"
+   },
+   "1644": {
+      "message": " Alat za izradu PDF-a"
+   },
+   "1645": {
+      "message": "Verzija PDF-a"
+   },
+   "1646": {
+      "message": "Broj stranica"
+   },
+   "1647": {
+      "message": "Veličina stranice"
+   },
+   "1648": {
+      "message": "portret"
+   },
+   "1649": {
+      "message": "pejzaž"
+   },
+   "1650": {
+      "message": "kvadratno"
+   },
+   "1651": {
+      "message": "Razlikuje se"
+   },
+   "1652": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ inča ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1653": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1654": {
+      "message": "Brzi web-prikaz"
+   },
+   "1655": {
+      "message": "Da"
+   },
+   "1656": {
+      "message": "Ne"
+   },
+   "1660": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ inča ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1661": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1662": {
+      "message": "Pismo"
+   },
+   "1663": {
+      "message": "Legal"
+   },
+   "1664": {
+      "message": "Tabloid"
+   },
+   "1668": {
+      "message": "Učitavanje PDF dokumenta nije uspjelo."
+   },
+   "1669": {
+      "message": "Ponovo učitaj"
+   },
+   "1670": {
+      "message": "Pogreška"
+   },
+   "1673": {
+      "message": "Potrebna je zaporka"
+   },
+   "1674": {
+      "message": "Ovaj je dokument zaštićen zaporkom. Unesite zaporku."
+   },
+   "1675": {
+      "message": "Za ispis PDF dokumenta upotrijebite gumb Ispis na alatnoj traci."
+   },
+   "1676": {
+      "message": "Pogrešna zaporka."
+   },
+   "1677": {
+      "message": "Ispunjavanje obrasca još nije podržano u PDF čitaču Znalca."
+   },
+   "1678": {
+      "message": "PDF čitač Google znalca"
+   },
+   "1698": {
+      "message": "Pregled"
+   },
+   "1702": {
+      "message": "Omogući čitač Znalca"
+   },
+   "1703": {
+      "message": "Da biste čitali lokalne PDF-ove pomoću čitača Google znalca, omogućite pristup URL-ovima datoteka u postavkama, a zatim ponovno učitajte PDF."
+   },
+   "1704": {
+      "message": "Otvori postavke"
+   },
+   "1707": {
+      "message": "Način prikaza"
+   },
+   "1711": {
+      "message": "Cijeli zaslon"
+   },
+   "1712": {
+      "message": "Svijetli način rada"
+   },
+   "1713": {
+      "message": "Tamni način rada"
+   },
+   "1714": {
+      "message": "Noćni način rada"
+   },
+   "1715": {
+      "message": "Pogledajte u referencama"
+   },
+   "1716": {
+      "message": "Da biste omogućili spremanje u svoju zbirku na Znalcu, proširite PDF na cijeli zaslon."
+   },
+   "1717": {
+      "message": "Proširi"
+   },
+   "1718": {
+      "message": "Ne sad"
+   },
+   "1723": {
+      "message": "Da biste omogućili ispis, otvorite PDF u pregledniku Chrome."
+   },
+   "1724": {
+      "message": "Otvori"
+   },
+   "1726": {
+      "message": "Unaprijedite čitanje rada: slijedite reference, prelistajte pregled, preskočite na brojke, citirajte i spremite."
+   },
+   "1732": {
+      "message": "Način rada uređaja"
+   },
+   "1734": {
+      "message": "Prijavite problem"
+   },
+   "1741": {
+      "message": "Odjeljci"
+   },
+   "1742": {
+      "message": "AI struktura"
+   },
+   "1744": {
+      "message": "Postavke AI strukture"
+   },
+   "1745": {
+      "message": "Zatražite AI strukturu od Znalca:"
+   },
+   "1746": {
+      "message": "Samo kad kliknete $ICON$",
+      "placeholders": {
+         "ICON": {
+            "content": "$1"
+         }
+      }
+   },
+   "1748": {
+      "message": "Automatski kad otvorite bilo koji PDF"
+   },
+   "1749": {
+      "message": "AI strukture dostupne su samo za odabrane članke"
+   },
+   "1750": {
+      "message": "Želite li omogućiti AI strukturu za sve PDF-ove?"
+   },
+   "1751": {
+      "message": "Da bi prikazao strukturu, Čitač će pokušati pronaći PDF na Znalcu"
+   },
+   "1752": {
+      "message": "O AI strukturi"
+   },
+   "1753": {
+      "message": "Ključne točke za odjeljke članka"
+   },
+   "1754": {
+      "message": "AI strukture predstavljaju glavne točke za glavne dijelove dokumenta."
+   },
+   "1755": {
+      "message": "Pregledajte strukturu ili prijeđite na pojedinosti"
+   },
+   "1756": {
+      "message": "Ključne točke omogućuju vam brzi pregled. Kliknite zanimljive točke da biste prešli na pojedinosti."
+   },
+   "1757": {
+      "message": "AI strukture dostupne su samo za odabrane znanstvene radove na Znalcu. Generira ih računalni program i mogu sadržavati nepotpune ili netočne informacije."
+   },
+   "1758": {
+      "message": "Novo"
+   },
+   "1759": {
+      "message": "AI struktura nije dostupna za ovaj PDF."
+   },
+   "1760": {
+      "message": "AI struktura generirana je na temelju neke druge verzije ovog PDF-a."
+   },
+   "1766": {
+      "message": "Postavke Chromea"
+   },
+   "1768": {
+      "message": "Automatski kad otvorite PDF na većini akademskih web-lokacija"
+   },
+   "1773": {
+      "message": "Istaknuto"
+   },
+   "1775": {
+      "message": "Istaknuto"
+   },
+   "1778": {
+      "message": "Komentari"
+   },
+   "1779": {
+      "message": "Ovdje će se prikazivati vaši istaknuti sadržaji i komentari"
+   },
+   "1781": {
+      "message": "Pokušaj ponovno"
+   },
+   "1783": {
+      "message": "Vaša zbirka na Znalcu je puna"
+   },
+   "1785": {
+      "message": "Otvarori zbirku"
+   },
+   "1786": {
+      "message": "Odbaci"
+   },
+   "1787": {
+      "message": "Vaš je račun Znalca izbrisan"
+   },
+   "1788": {
+      "message": "Oporavite račun da biste istaknuli i komentirali PDF."
+   },
+   "1790": {
+      "message": "Ako zatvorite ili ponovno učitate ovu stranicu, nespremljene promjene će se izgubiti."
+   },
+   "1791": {
+      "message": "Pogreška poslužitelja"
+   },
+   "1793": {
+      "message": "Zanemari"
+   },
+   "1794": {
+      "message": "Vaš je preglednik offline"
+   },
+   "1796": {
+      "message": "Pokušajte ponovno"
+   },
+   "1797": {
+      "message": "Vaš je uređaj pun"
+   },
+   "1800": {
+      "message": "Prijavite se na svoj Google račun da biste spremili istaknute sadržaje i komentare."
+   },
+   "1801": {
+      "message": "Oslobodite prostor u svojoj zbirci na Znalcu da biste spremili istaknute sadržaje i komentare."
+   },
+   "1802": {
+      "message": "Prijavite se na $EMAIL_ADDRESS$ da biste spremili isticanja i komentare.",
+      "placeholders": {
+         "EMAIL_ADDRESS": {
+            "content": "$1"
+         }
+      }
+   },
+   "1803": {
+      "message": "Isticanja ili komentari nisu se mogli spremiti u vašu zbirku na Znalcu. Pokušat ćemo ponovno spremiti kasnije."
+   },
+   "1804": {
+      "message": "Povežite se s internetom da biste spremili isticanja i komentare. Pokušat ćemo ponovno spremiti kasnije."
+   },
+   "1805": {
+      "message": "Oslobodite prostor na uređaju da biste spremili istaknute sadržaje i komentare. U suprotnom, promjene se neće spremiti."
+   },
+   "1806": {
+      "message": "Sinkronizacija..."
+   },
+   "1807": {
+      "message": "Sinkronizacija nije uspjela"
+   },
+   "1808": {
+      "message": "Došlo je do pogreške prilikom sinkronizacije isticanja i komentara."
+   },
+   "1809": {
+      "message": "Uređaj je offline"
+   },
+   "1810": {
+      "message": "Povežite se s internetom da biste pogledali isticanja i komentare."
+   },
+   "1811": {
+      "message": "Prijavite se da biste pogledali isticanja i komentare."
+   },
+   "1812": {
+      "message": "Nespremljene promjene"
+   },
+   "1813": {
+      "message": "Kopiraj AI pregled dokumenta"
+   },
+   "1814": {
+      "message": "AI pregled dokumenta $BOLD_ANCHOR_BEGIN$čitača PDF-ova za Znalca$BOLD_ANCHOR_END$",
+      "placeholders": {
+         "BOLD_ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "BOLD_ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1815": {
+      "message": "AI pregled dokumenta kopiran je u međuspremnik"
+   },
+   "1816": {
+      "message": "Isticanja će se spremiti u vašu $ANCHOR_BEGIN$zbriku na Znalcu$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1817": {
+      "message": "Komentar će se spremiti u vašu zbirku na Znalcu."
+   },
+   "1818": {
+      "message": "Naslov nepoznat"
+   },
+   "1819": {
+      "message": "Pronađi na Znalcu"
+   },
+   "1822": {
+      "message": "Komentar"
+   },
+   "1823": {
+      "message": "Promijeni boju"
+   },
+   "1824": {
+      "message": "Spremljeno u $ANCHOR_BEGIN$vašu zbirku$ANCHOR_END$",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1825": {
+      "message": "Odaberite tekst za isticanje ili komentiranje."
+   },
+   "1826": {
+      "message": "Isticanja se spremaju u vašu $ANCHOR_BEGIN$zbirku na Znalcu$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1827": {
+      "message": "Označavanje PDF-ova"
+   },
+   "1830": {
+      "message": "Istaknuti dijelovi spremaju se online"
+   },
+   "1831": {
+      "message": "Vaša isticanja i komentari spremaju se u vašu $ANCHOR_BEGIN$zbirku na Znalcu$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1832": {
+      "message": "Pristupite svojim istaknutim dijelovima bilo gdje"
+   },
+   "1833": {
+      "message": "Istaknuti dijelovi prikazivat će se u PDF čitaču dok ste prijavljeni."
+   },
+   "1834": {
+      "message": "Otvori moju knjižnicu"
+   },
+   "1862": {
+      "message": "Povezivanje s pohranom preglednika nije uspjelo"
+   },
+   "1863": {
+      "message": "Isticanja su onemogućena u ovom pregledniku, ali druge značajke za čitanje PDF-ova i dalje funkcioniraju."
+   },
+   "1864": {
+      "message": "Da biste upotrebljavali istaknute značajke, pokušajte ponovo pokrenuti preglednik ili uređaj."
+   },
+   "1865": {
+      "message": "Povezivanje s pohranom preglednika nije uspjelo. Pokušajte ponovo pokrenuti preglednik ili uređaj."
+   },
+   "1866": {
+      "message": "Sinkronizacija s pohranom preglednika nije moguća"
+   },
+   "1867": {
+      "message": "Došlo je do pogreške prilikom sinkronizacije istaknutih dijelova s pohranom preglednika. Pokušajte ponovo pokrenuti preglednik ili uređaj."
+   },
+   "1868": {
+      "message": "Pohrana preglednika je puna"
+   },
+   "1869": {
+      "message": "Da biste koristili istaknute značajke, pokušajte osloboditi prostor na uređaju."
+   },
+   "1870": {
+      "message": "Pohrana preglednika je puna. Pokušajte osloboditi prostor na uređaju."
+   },
+   "1871": {
+      "message": "Da biste koristili istaknute značajke, osvježite predmemoriju istaknutih dijelova. To može potrajati neko vrijeme."
+   },
+   "1872": {
+      "message": "Osvježi predmemoriju"
+   },
+   "1873": {
+      "message": "Došlo je do pogreške prilikom sinkronizacije istaknutih dijelova s pohranom preglednika. Pokušajte osvježiti predmemoriju istaknutih dijelova. To može potrajati neko vrijeme."
+   },
+   "1874": {
+      "message": "Previše istaknutih dijelova"
+   },
+   "1875": {
+      "message": "U vašu se knjižnicu ne može dodati više nijedan istaknuti dio."
+   },
+   "1876": {
+      "message": "Da biste nastavili dodavati istaknute dijelove, uklonite neke od njih."
+   },
+   "1877": {
+      "message": "Odbaci izmjene"
+   },
+   "1882": {
+      "message": "Istaknuti dijelovi na previše verzija"
+   },
+   "1883": {
+      "message": "Možete dodati istaknute dijelove u najviše tri verzije istog članka."
+   },
+   "1884": {
+      "message": "Da biste nastavili dodavati istaknute dijelove u ovu verziju, uklonite istaknute dijelove iz druge verzije."
+   },
+   "1885": {
+      "message": "Upravljanje istaknutim dijelovima"
+   },
+   "1888": {
+      "message": " Prikaži u zbirci"
+   },
+   "1918": {
+      "message": "Sadržaj ovog URL-a je promijenjen. Imate istaknute dijelove u prethodnoj verziji."
+   },
+   "535": {
+      "message": "Pretraži Znalca"
+   },
+   "551": {
+      "message": "Ukloni članak"
+   },
+   "59": {
+      "message": "Citiraj"
+   },
+   "625": {
+      "message": "Učitavanje..."
+   },
+   "626": {
+      "message": "$PAGE_NUMBER$. stranica",
+      "placeholders": {
+         "PAGE_NUMBER": {
+            "content": "$1"
+         }
+      }
+   },
+   "64": {
+      "message": "Spremi"
+   },
+   "644": {
+      "message": "Završeno"
+   },
+   "649": {
+      "message": "Odbaci"
+   },
+   "732": {
+      "message": "Moja biblioteka"
+   },
+   "907": {
+      "message": "Obnovi račun"
+   },
+   "920": {
+      "message": "Pretraži"
+   },
+   "924": {
+      "message": "Označite kao:"
+   },
+   "96": {
+      "message": "Izbriši"
+   },
+   "965": {
+      "message": "Naravno"
+   },
+   "966": {
+      "message": "Ne, hvala"
+   },
+   "chrome_client_3269861059707096562": {
+      "message": "Dozvoli pristup URL-ovima datoteke"
+   }
+}

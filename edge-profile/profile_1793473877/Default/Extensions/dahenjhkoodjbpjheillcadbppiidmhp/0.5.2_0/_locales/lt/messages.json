@@ -1,0 +1,703 @@
+{
+   "1010": {
+      "message": "Sukurti naują"
+   },
+   "1109": {
+      "message": "Nerasta jokių šios paieškos rezultatų."
+   },
+   "111": {
+      "message": "Sistema negali atlikti operacijos. Bandykite vėliau dar kartą."
+   },
+   "1301": {
+      "message": "Nustatymai"
+   },
+   "1343": {
+      "message": "Išsaugota skiltyje „Mano biblioteka“"
+   },
+   "1441": {
+      "message": "Ankstesnis"
+   },
+   "1442": {
+      "message": "Kitas"
+   },
+   "1462": {
+      "message": "Uždaryti"
+   },
+   "1463": {
+      "message": "Pateikti"
+   },
+   "1484": {
+      "message": "Ankstesnis puslapis"
+   },
+   "1485": {
+      "message": "Kitas puslapis"
+   },
+   "1486": {
+      "message": "Tolinti"
+   },
+   "1487": {
+      "message": "Artinti"
+   },
+   "1488": {
+      "message": "Pritaikyti pagal aukštį"
+   },
+   "1489": {
+      "message": "Pritaikyti pagal plotį"
+   },
+   "1490": {
+      "message": "Pasukti"
+   },
+   "1491": {
+      "message": "Išsaugoti mano bibliotekoje"
+   },
+   "1492": {
+      "message": "Atsisiųsti"
+   },
+   "1493": {
+      "message": "Spausdinti"
+   },
+   "1494": {
+      "message": "Daugiau"
+   },
+   "1513": {
+      "message": "Miniatiūros"
+   },
+   "1514": {
+      "message": "Sutraukti viską"
+   },
+   "1515": {
+      "message": "Išskleisti viską"
+   },
+   "1542": {
+      "message": "„Google“ mokslinčius"
+   },
+   "1617": {
+      "message": "Ieškoti „Google“"
+   },
+   "1618": {
+      "message": "„Google“ mokslinčiaus biblioteka"
+   },
+   "1620": {
+      "message": "Gaunant rezultatus įvyko klaida. Vėliau bandykite dar kartą."
+   },
+   "1621": {
+      "message": "Ieškoma Mokslinčiuje..."
+   },
+   "1623": {
+      "message": "Išsaugoti Mokslinčiaus bibliotekoje"
+   },
+   "1626": {
+      "message": "Dokumento ypatybės"
+   },
+   "1627": {
+      "message": "Atidaryti naudojant „Chrome“ peržiūros priemonę"
+   },
+   "1628": {
+      "message": "Rodyti daugiau"
+   },
+   "1629": {
+      "message": "Rodyti mažiau"
+   },
+   "1630": {
+      "message": "Prisijungti"
+   },
+   "1631": {
+      "message": "Išsaugota skiltyje $ANCHOR_BEGIN$„Mano biblioteka“$ANCHOR_END$",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1632": {
+      "message": "Išsaugoma skiltyje „Mano biblioteka“..."
+   },
+   "1633": {
+      "message": "Straipsnis nerastas Mokslinčiuje."
+   },
+   "1635": {
+      "message": "Failo pavadinimas"
+   },
+   "1636": {
+      "message": "Failo dydis"
+   },
+   "1637": {
+      "message": "Pavadinimas"
+   },
+   "1638": {
+      "message": "Autorius"
+   },
+   "1639": {
+      "message": "Tema"
+   },
+   "1640": {
+      "message": "Raktiniai žodžiai"
+   },
+   "1641": {
+      "message": "Sukurtas"
+   },
+   "1642": {
+      "message": "Pakeistas"
+   },
+   "1643": {
+      "message": "Paraiška"
+   },
+   "1644": {
+      "message": " PDF failo rengėjas"
+   },
+   "1645": {
+      "message": "PDF versija"
+   },
+   "1646": {
+      "message": "Puslapių skaičius"
+   },
+   "1647": {
+      "message": "Puslapio dydis"
+   },
+   "1648": {
+      "message": "stačia"
+   },
+   "1649": {
+      "message": "gulsčia"
+   },
+   "1650": {
+      "message": "kvadratas"
+   },
+   "1651": {
+      "message": "Skiriasi"
+   },
+   "1652": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ col. ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1653": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1654": {
+      "message": "Spartusis žiniatinklio rodinys"
+   },
+   "1655": {
+      "message": "Taip"
+   },
+   "1656": {
+      "message": "Ne"
+   },
+   "1660": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ col. ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1661": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1662": {
+      "message": "Laiškas"
+   },
+   "1663": {
+      "message": "Teisinis"
+   },
+   "1664": {
+      "message": "Bulvarinė spauda"
+   },
+   "1668": {
+      "message": "PDF dokumento įkelti nepavyko."
+   },
+   "1669": {
+      "message": "Įkelti iš naujo"
+   },
+   "1670": {
+      "message": "Klaida"
+   },
+   "1673": {
+      "message": "Būtina nurodyti slaptažodį"
+   },
+   "1674": {
+      "message": "Šis dokumentas apsaugotas slaptažodžiu. Įveskite slaptažodį."
+   },
+   "1675": {
+      "message": "Jei norite spausdinti PDF dokumentą, naudokite įrankių juostoje esantį mygtuką „Spausdinti“."
+   },
+   "1676": {
+      "message": "Netinkamas slaptažodis."
+   },
+   "1677": {
+      "message": "Mokslinčiaus PDF skaitytuvas dar nepalaiko formų pildymo funkcijos."
+   },
+   "1678": {
+      "message": "„Google“ mokslinčiaus PDF skaitytuvas"
+   },
+   "1698": {
+      "message": "Kontūras"
+   },
+   "1702": {
+      "message": "Mokslinčiaus skaitytuvo įgalinimas"
+   },
+   "1703": {
+      "message": "Jei norite skaityti vietinius PDF failus naudodami „Google“ mokslinčiaus skaitytuvą, nustatymuose įgalinkite prieigą prie failų URL ir iš naujo įkelkite PDF."
+   },
+   "1704": {
+      "message": "Atidaryti nustatymus"
+   },
+   "1707": {
+      "message": "Rodymo režimas"
+   },
+   "1711": {
+      "message": "Visas ekranas"
+   },
+   "1712": {
+      "message": "Šviesus režimas"
+   },
+   "1713": {
+      "message": "Tamsus režimas"
+   },
+   "1714": {
+      "message": "Naktinis režimas"
+   },
+   "1715": {
+      "message": "Žr. skityje „Nuorodos“"
+   },
+   "1716": {
+      "message": "Norėdami įgalinti išsaugojimą Mokslinčiaus bibliotekoje, išskleiskite PDF viso ekrano režimu."
+   },
+   "1717": {
+      "message": "Išskleisti"
+   },
+   "1718": {
+      "message": "Ne dabar"
+   },
+   "1723": {
+      "message": "Jei norite įgalinti spausdinimą, atidarykite PDF naudodami „Chrome“ peržiūros priemonę."
+   },
+   "1724": {
+      "message": "Atidaryti"
+   },
+   "1726": {
+      "message": "Pagerinkite rašto darbą: stebėkite nuorodas, sparčiai peržiūrėkite planą, pereikite prie iliustracijų, cituokite ir išsaugokite."
+   },
+   "1732": {
+      "message": "Įrenginio režimas"
+   },
+   "1734": {
+      "message": "Pranešti apie problemą"
+   },
+   "1741": {
+      "message": "Skiltys"
+   },
+   "1742": {
+      "message": "DI struktūra"
+   },
+   "1744": {
+      "message": "DI plano nustatymai"
+   },
+   "1745": {
+      "message": "DI plano užklausa iš Mokslinčiaus:"
+   },
+   "1746": {
+      "message": "Tik spustelėjus $ICON$",
+      "placeholders": {
+         "ICON": {
+            "content": "$1"
+         }
+      }
+   },
+   "1748": {
+      "message": "Automatiškai atidarius bet kurį PDF failą"
+   },
+   "1749": {
+      "message": "Pasiekiami tik atrinktų straipsnių DI planai"
+   },
+   "1750": {
+      "message": "Įgalinti visų PDF failų DI planą?"
+   },
+   "1751": {
+      "message": "Kad būtų rodomas planas, skaitytuvas bandys rasti PDF failą Mokslinčiuje"
+   },
+   "1752": {
+      "message": "Apie DI planą"
+   },
+   "1753": {
+      "message": "Pagrindiniai straipsnio dalių punktai"
+   },
+   "1754": {
+      "message": "DI planuose pateikiami pagrindiniai svarbiausių dokumento dalių punktai."
+   },
+   "1755": {
+      "message": "Peržiūrėkite planą arba pereikite prie išsamios informacijos"
+   },
+   "1756": {
+      "message": "Peržiūrėkite pagrindinius punktus, kad gautumėte trumpą apžvalgą, ir spustelėkite įdomius taškus, kad pereitumėte prie išsamios informacijos."
+   },
+   "1757": {
+      "message": "Pasiekiami tik tam tikrų moksliniais tyrimais pagrįstų Mokslinčiaus straipsnių DI planai. Jie generuojami kompiuterio programos ir gali būti pateikiama neišsami arba netiksli informacija."
+   },
+   "1758": {
+      "message": "Naujiena"
+   },
+   "1759": {
+      "message": "Nepasiekiamas šio PDF failo DI planas."
+   },
+   "1760": {
+      "message": "DI planas buvo sukurtas naudojant kitą šio PDF failo versiją."
+   },
+   "1766": {
+      "message": "„Chrome“ nustatymai"
+   },
+   "1768": {
+      "message": "Automatiškai atidarius PDF failą daugelyje akademinių svetainių"
+   },
+   "1773": {
+      "message": "Paryškinimai"
+   },
+   "1775": {
+      "message": "Paryškinti"
+   },
+   "1778": {
+      "message": "Komentarai"
+   },
+   "1779": {
+      "message": "Čia bus rodomi jūsų paryškinimai ir komentarai"
+   },
+   "1781": {
+      "message": "Bandyti dar kartą"
+   },
+   "1783": {
+      "message": "Mokslinčiaus biblioteka užpildyta"
+   },
+   "1785": {
+      "message": "Atidaryti biblioteką"
+   },
+   "1786": {
+      "message": "Atmesti"
+   },
+   "1787": {
+      "message": "Mokslinčiaus paskyra ištrinta"
+   },
+   "1788": {
+      "message": "Atkurkite paskyrą, kad galėtumėte paryškinti ir komentuoti PDF."
+   },
+   "1790": {
+      "message": "Jei uždarysite arba iš naujo įkelsite šį puslapį, neišsaugoti pakeitimai bus prarasti."
+   },
+   "1791": {
+      "message": "Serverio klaida"
+   },
+   "1793": {
+      "message": "Nepaisyti"
+   },
+   "1794": {
+      "message": "Naršyklė neprijungta prie interneto"
+   },
+   "1796": {
+      "message": "Bandyti dar kartą"
+   },
+   "1797": {
+      "message": "Įrenginys užpildytas"
+   },
+   "1800": {
+      "message": "Prisijunkite prie „Google“ paskyros, kad galėtumėte išsaugoti paryškinimus ir komentarus."
+   },
+   "1801": {
+      "message": "Atlaisvinkite vietos Mokslinčiaus bibliotekoje, kad galėtumėte išsaugoti paryškinimus ir komentarus."
+   },
+   "1802": {
+      "message": "Prisijunkite prie $EMAIL_ADDRESS$, kad išsaugotumėte paryškinimus ir komentarus.",
+      "placeholders": {
+         "EMAIL_ADDRESS": {
+            "content": "$1"
+         }
+      }
+   },
+   "1803": {
+      "message": "Nepavyko išsaugoti paryškinimų ar komentarų Mokslinčiaus bibliotekoje. Vėliau bandysime išsaugoti dar kartą."
+   },
+   "1804": {
+      "message": "Prisijunkite prie interneto, kad galėtumėte išsaugoti paryškinimus ir komentarus. Vėliau bandysime išsaugoti dar kartą."
+   },
+   "1805": {
+      "message": "Atlaisvinkite vietos įrenginyje, kad galėtumėte išsaugoti paryškinimus ir komentarus. Priešingu atveju pakeitimai nebus išsaugoti."
+   },
+   "1806": {
+      "message": "Sinchronizuojama..."
+   },
+   "1807": {
+      "message": "Nepavyko sinchronizuoti"
+   },
+   "1808": {
+      "message": "Sinchronizuojant paryškinimus ir komentarus įvyko klaida."
+   },
+   "1809": {
+      "message": "Įrenginys neprijungtas"
+   },
+   "1810": {
+      "message": "Prisijunkite prie interneto, kad galėtumėte peržiūrėti paryškinimus ir komentarus."
+   },
+   "1811": {
+      "message": "Prisijunkite, galėtumėte peržiūrėti paryškinimus ir komentarus."
+   },
+   "1812": {
+      "message": "Neišsaugoti pakeitimai"
+   },
+   "1813": {
+      "message": "Kopijuoti DI planą"
+   },
+   "1814": {
+      "message": "$BOLD_ANCHOR_BEGIN$Mokslinčiaus PDF skaitytuvo$BOLD_ANCHOR_END$ DI planas",
+      "placeholders": {
+         "BOLD_ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "BOLD_ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1815": {
+      "message": "DI planas nukopijuotas į iškarpinę"
+   },
+   "1816": {
+      "message": "Paryškinimai bus išsaugoti $ANCHOR_BEGIN$Mokslinčiaus bibliotekoje$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1817": {
+      "message": "Komentarai bus išsaugoti Mokslinčiaus bibliotekoje."
+   },
+   "1818": {
+      "message": "Nežinomas pavadinimas"
+   },
+   "1819": {
+      "message": "Rasti Mokslinčiuje"
+   },
+   "1822": {
+      "message": "Komentuoti"
+   },
+   "1823": {
+      "message": "Pakeisti spalvą"
+   },
+   "1824": {
+      "message": "Išsaugota $ANCHOR_BEGIN$jūsų bibliotekoje$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1825": {
+      "message": "Pasirinkite tekstą, kurį norite paryškinti ar komentuoti."
+   },
+   "1826": {
+      "message": "Paryškinimai išsaugomi $ANCHOR_BEGIN$Mokslinčiaus bibliotekoje$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1827": {
+      "message": "Paryškinkite PDF failus"
+   },
+   "1830": {
+      "message": "Paryškinimai išsaugoti prisijungus"
+   },
+   "1831": {
+      "message": "Paryškinimai ir komentarai išsaugomi $ANCHOR_BEGIN$Mokslinčiaus bibliotekoje$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1832": {
+      "message": "Pasiekite paryškinimus, kad ir kur būtumėte"
+   },
+   "1833": {
+      "message": "Paryškinimai bus rodomi PDF skaitytuve, kol būsite prisijungę."
+   },
+   "1834": {
+      "message": "Eiti į Mano biblioteką"
+   },
+   "1862": {
+      "message": "Nepavyko prisijungti prie naršyklės saugyklos"
+   },
+   "1863": {
+      "message": "Šioje naršyklėje paryškinimai išjungti, bet kitos PDF skaitymo funkcijos veikia."
+   },
+   "1864": {
+      "message": "Jei norite naudoti paryškinimus, pabandykite iš naujo paleisti naršyklę arba įrenginį."
+   },
+   "1865": {
+      "message": "Nepavyko prisijungti prie naršyklės saugyklos. Pabandykite iš naujo paleisti naršyklę arba įrenginį."
+   },
+   "1866": {
+      "message": "Nepavyko sinchronizuoti su naršyklės saugykla"
+   },
+   "1867": {
+      "message": "Sinchronizuojant paryškinimus su naršyklės saugykla įvyko klaida. Pabandykite iš naujo paleisti naršyklę arba įrenginį."
+   },
+   "1868": {
+      "message": "Naršyklės saugykla pilna"
+   },
+   "1869": {
+      "message": "Jei norite naudoti paryškinimus, pabandykite atlaisvinti vietos įrenginyje."
+   },
+   "1870": {
+      "message": "Naršyklės saugykla pilna. Pabandykite atlaisvinti vietos įrenginyje."
+   },
+   "1871": {
+      "message": "Jei norite naudoti paryškinimus, atnaujinkite paryškinimų talpyklą. Tai gali šiek tiek užtrukti."
+   },
+   "1872": {
+      "message": "Atnaujinti talpyklą"
+   },
+   "1873": {
+      "message": "Sinchronizuojant paryškinimus su naršyklės saugykla įvyko klaida. Pabandykite atnaujinti paryškinimų talpyklą. Tai gali šiek tiek užtrukti."
+   },
+   "1874": {
+      "message": "Per daug paryškinimų"
+   },
+   "1875": {
+      "message": "Negalite pridėti daugiau paryškinimų prie bibliotekos."
+   },
+   "1876": {
+      "message": "Jei norite pridėti daugiau paryškinimų, kai kuriuos pašalinkite."
+   },
+   "1877": {
+      "message": "Atmesti pakeitimus"
+   },
+   "1882": {
+      "message": "Paryškinimų pridėta per daug versijų"
+   },
+   "1883": {
+      "message": "Paryškinimų galite pridėti prie daugiausia trijų to paties straipsnio versijų."
+   },
+   "1884": {
+      "message": "Jei norite pridėti daugiau paryškinimų prie šios versijos, pašalinkite paryškinimus iš kitos versijos."
+   },
+   "1885": {
+      "message": "Tvarkyti paryškinimus"
+   },
+   "1888": {
+      "message": " Peržiūrėti bibliotekoje"
+   },
+   "1918": {
+      "message": "Šio URL turinys pakeistas. Turite paryškinimų ankstesnėje versijoje."
+   },
+   "535": {
+      "message": "Ieškoti Mokslinčiuje"
+   },
+   "551": {
+      "message": "Pašalinti straipsnį"
+   },
+   "59": {
+      "message": "Cituoti"
+   },
+   "625": {
+      "message": "Įkeliama..."
+   },
+   "626": {
+      "message": "$PAGE_NUMBER$ psl.",
+      "placeholders": {
+         "PAGE_NUMBER": {
+            "content": "$1"
+         }
+      }
+   },
+   "64": {
+      "message": "Išsaugoti"
+   },
+   "644": {
+      "message": "Baigta"
+   },
+   "649": {
+      "message": "Atsisakyti"
+   },
+   "732": {
+      "message": "Mano biblioteka"
+   },
+   "907": {
+      "message": "Atkurti paskyrą"
+   },
+   "920": {
+      "message": "Ieškoti"
+   },
+   "924": {
+      "message": "Etiketė:"
+   },
+   "96": {
+      "message": "Ištrinti"
+   },
+   "965": {
+      "message": "Gerai"
+   },
+   "966": {
+      "message": "Ačiū, ne"
+   },
+   "chrome_client_3269861059707096562": {
+      "message": "Leisti pasiekti failo URL"
+   }
+}

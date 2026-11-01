@@ -1,0 +1,301 @@
+/* src/themes/clear/styles.css */
+
+/* ============================
+   变量定义
+   ============================ */
+:root {
+  /* 主色调 */
+  --pp-theme-primary: #5212e7;
+  --pp-theme-primary-light: #9a86d4;
+  --pp-theme-primary-lighter: #d3cce4;
+  
+  /* 背景色 */
+  --pp-theme-bg: #ffffff;
+  --pp-theme-bg-light: #f5f5f5;
+  
+  /* 文本色 */
+  --pp-theme-text: #333333;
+  --pp-theme-text-light: #666666;
+  
+  /* 边框色 */
+  --pp-theme-border: #e0e0e0;
+  
+  /* 状态色 */
+  --pp-theme-success: #50b154;
+  --pp-theme-warning: #f7ad0c;
+  --pp-theme-error: #ff5252;
+  
+  /* 圆角 */
+  --pp-theme-border-radius: 10px;
+  --pp-theme-border-radius-small: 6px;
+  
+  /* 阴影 */
+  --pp-theme-shadow: 0 2px 8px rgba(82, 18, 231, 0.1);
+  --pp-theme-shadow-light: 0 1px 4px rgba(82, 18, 231, 0.08);
+  --pp-theme-shadow-heavy: 0 4px 16px rgba(82, 18, 231, 0.15);
+  
+  /* 间距 */
+  --pp-theme-spacing-xs: 4px;
+  --pp-theme-spacing-sm: 8px;
+  --pp-theme-spacing-md: 12px;
+  --pp-theme-spacing-lg: 16px;
+  --pp-theme-spacing-xl: 24px;
+  
+  /* 字体 */
+  --pp-theme-font-size-xs: 10px;
+  --pp-theme-font-size-sm: 14px;
+  --pp-theme-font-size-md: 14px;
+  --pp-theme-font-size-lg: 16px;
+  --pp-theme-font-weight-normal: 400;
+  --pp-theme-font-weight-medium: 500;
+  --pp-theme-font-weight-bold: 600;
+  --pp-theme-line-height: 1.4;
+  
+  /* 影响因子等级色彩 */
+  --pp-theme-if-excellent: #800000;
+  --pp-theme-if-good: #800000;
+  --pp-theme-if-average: #800000;
+  --pp-theme-if-poor: #800000;
+}
+
+/* ============================
+   基础组件样式
+   ============================ */
+.pp-journal-info-enhanced {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+  color: var(--pp-theme-text);
+  transition: all 0.3s ease;
+  font-size: var(--pp-theme-font-size-md);
+  line-height: var(--pp-theme-line-height);
+  margin: var(--pp-theme-spacing-xs) 0;
+}
+
+/* ============================
+   期刊排名样式
+   ============================ */
+.pp-rankingTag {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--pp-theme-spacing-xs) var(--pp-theme-spacing-sm);
+  margin: 0 var(--pp-theme-spacing-xs) var(--pp-theme-spacing-xs) 0;
+  border: 1px solid rgba(82, 18, 231, 0.15);
+  border-radius: var(--pp-theme-border-radius-small);
+  background-color: var(--pp-theme-bg-light);
+  font-size: var(--pp-theme-font-size-md);
+  color: rgb(15, 112,1);
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  transform-origin: left center;
+  position: relative;
+}
+
+.pp-rankingTag:hover {
+  background-color: rgb(233, 228, 245);
+  border-color: rgb(202, 185, 240);
+  transform: scale(1.167);
+  z-index: 10;
+}
+
+/* ============================
+   影响因子样式
+   ============================ */
+.pp-jifBar {
+  display: flex;
+  align-items: center;
+  height: 20px;
+  width: auto;
+  white-space: nowrap;
+  padding: 0 var(--pp-theme-spacing-xs);
+  border-radius: var(--pp-theme-border-radius-small);
+  background-color: var(--pp-theme-bg);
+}
+
+.pp-jif {
+  padding: 0 var(--pp-theme-spacing-sm) 0 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--pp-theme-font-size-md);
+  height: 10px;
+  font-weight: var(--pp-theme-font-weight-bold);
+  margin: 0 0 0 var(--pp-theme-spacing-md);
+  border-right: 1px solid var(--pp-theme-primary-light);
+  color: var(--pp-theme-text);
+}
+
+.pp-jif-value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 var(--pp-theme-spacing-sm);
+  font-size: var(--pp-theme-font-size-md);
+  font-weight: var(--pp-theme-font-weight-bold);
+  color: var(--pp-theme-text);
+}
+
+/* 影响因子图标 */
+.pp-jif-icon {
+  margin: 0 0 0 var(--pp-theme-spacing-md);
+  padding: 2px;
+  border-radius: 4px;
+  background-color: var(--pp-theme-bg);
+}
+
+.pp-jif-icon img {
+  height: calc(var(--pp-theme-font-size-md) + 2px) !important;
+  width: calc(var(--pp-theme-font-size-md) + 2px) !important;
+  display: block;
+  margin: 0 auto;
+}
+
+/* 分区样式 Q1-Q4/N1-N4 */
+.pp-jifQ1, .pp-jifQ2, .pp-jifQ3, .pp-jifQ4,
+.pp-jifN1, .pp-jifN2, .pp-jifN3, .pp-jifN4 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--pp-theme-spacing-xl) + var(--pp-theme-spacing-xs));
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background-color: var(--pp-theme-bg);
+  font-size: var(--pp-theme-font-size-md);
+  font-weight: var(--pp-theme-font-weight-bold);
+  margin: 0 0 0 var(--pp-theme-spacing-xs);
+  transition: all 0.3s ease;
+}
+
+.pp-jifQ1, .pp-jifN1 { color: var(--pp-theme-if-excellent); }
+.pp-jifQ2, .pp-jifN2 { color: var(--pp-theme-if-good); }
+.pp-jifQ3, .pp-jifN3 { color: var(--pp-theme-if-average); }
+.pp-jifQ4, .pp-jifN4 { color: var(--pp-theme-if-poor); }
+
+/* ============================
+   DOI样式
+   ============================ */
+.pp-doi-container {
+  display: flex;
+  align-items: center;
+  margin: 0 var(--pp-theme-spacing-md);
+}
+
+.pp-doi-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  position: relative;
+  color: var(--pp-theme-primary);
+}
+
+.pp-doi-icon {
+  width: 22px !important;
+  height: 22px !important;
+  display: block;
+}
+
+.pp-doi-link:hover .pp-doi-icon {
+  opacity: 0.8;
+}
+
+.pp-doi-copied-tooltip {
+  position: absolute;
+  background-color: var(--pp-theme-success);
+  color: var(--pp-theme-bg);
+  padding: var(--pp-theme-spacing-xs) var(--pp-theme-spacing-sm);
+  border-radius: var(--pp-theme-border-radius-small);
+  font-size: var(--pp-theme-font-size-md);
+  bottom: calc(-1 * var(--pp-theme-spacing-xl) - var(--pp-theme-spacing-sm));
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* ============================
+   pubmed引用次数样式
+   ============================ */
+.pp-citation-info {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+}
+.pp-citation-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding-right: 2.4rem;
+}
+.pp-cited-icon {
+  width: 14px;
+  height: 14px;
+}
+.pp-cited-0 { color: #999; }
+.pp-cited-1 { color: #666; }
+.pp-cited-10 { color: #4a90d9; }
+.pp-cited-50 { color: #f5a623; }
+.pp-cited-100 { color: #d0021b; font-weight: bold; }
+
+/* ============================
+   排序按钮样式
+   ============================ */
+.pp-googlescholar-left-top,
+.pp-pubmed-left-top {
+  background: var(--pp-theme-bg);
+}
+
+/* Google Scholar 特定样式 */
+.pp-googlescholar-left-top {
+  margin: 20px 40px 0 56px;
+  min-width: 120px;
+  padding: unset !important;
+  box-shadow: unset !important;
+}
+
+/* PubMed 特定样式 */
+.pp-pubmed-left-top {
+  padding: unset !important;
+  box-shadow: unset !important;
+}
+
+/* ============================
+   通用工具样式
+   ============================ */
+.search-alert {
+  padding: var(--pp-theme-spacing-xs) var(--pp-theme-spacing-md);
+  text-align: center;
+  color: var(--pp-theme-warning);
+  background-color: var(--pp-theme-bg-light);
+  border-radius: var(--pp-theme-border-radius-small);
+}
+
+.pp-btn-disabled {
+  color: #c0c0c0 !important;
+  cursor: not-allowed !important;
+}
+
+/* ============================
+   双层wrapper兼容样式
+   所有非compact主题追加此段，保持原有展示行为不变
+   ============================ */
+
+/* trigger图标在非compact主题下隐藏 */
+.pp-journal-info-enhanced .pp-info-trigger {
+  display: none;
+}
+
+/* info-body在非compact主题下正常展示（覆盖compact可能的折叠状态） */
+.pp-journal-info-enhanced .pp-info-body {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: unset;
+  overflow: visible;
+  opacity: 1;
+}

@@ -1,0 +1,1 @@
+import{c as e}from"./config-CyQC15-F.js";import{t}from"./OptionsPanel-DETQhENQ.js";e(t,{showBack:!1}).mount(`#app`);

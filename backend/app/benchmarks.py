@@ -28,7 +28,7 @@ def local_only(request: Request):
     origin = request.headers.get('origin')
     if origin:
         parsed = urlsplit(origin)
-        if parsed.scheme != 'http' or parsed.hostname not in ('localhost', '127.0.0.1', '::1') or parsed.port not in (5173, 8001):
+        if parsed.scheme != 'http' or parsed.hostname not in ('localhost', '127.0.0.1', '::1') or parsed.port not in (5173, 5174, 5175, 8001):
             raise HTTPException(403, 'Benchmark API rejects this browser origin')
     if request.headers.get('sec-fetch-site') == 'cross-site':
         raise HTTPException(403, 'Cross-site benchmark access is not allowed')
@@ -140,3 +140,39 @@ async def finalize(run_id: str, request: Request):
     folder = run_folder(run_id)
     with exclusive(folder):
         return await asyncio.to_thread(storage.finalize, folder, error)
+
+
+MEDIA_TYPES = {
+    'annotated.mp4': 'video/mp4',
+    'annotated.webm': 'video/webm',
+    'recording.webm': 'video/webm',
+    'summary.json': 'application/json',
+    'manifest.json': 'application/json',
+    'landmarks.jsonl': 'application/x-ndjson',
+    'fps.csv': 'text/csv; charset=utf-8',
+    'report.md': 'text/markdown; charset=utf-8',
+}
+
+
+def serve_artifact(run_id: str, name: str):
+    folder = run_folder(run_id)
+    path = (folder / name).resolve()
+    if path.parent != folder:
+        raise HTTPException(403, 'Artifact path is outside the run directory')
+    if name not in MEDIA_TYPES and name not in LIMITS:
+        raise HTTPException(422, 'Artifact name is not allowed')
+    if not path.is_file():
+        raise HTTPException(404, 'Artifact not found')
+    media_type = MEDIA_TYPES.get(name)
+    return FileResponse(path, media_type=media_type)
+
+
+@router.get('/runs/{run_id}/artifacts/{name}')
+def get_artifact(run_id: str, name: str):
+    return serve_artifact(run_id, name)
+
+
+@router.get('/runs/{run_id}/{name}')
+def get_run_file(run_id: str, name: str):
+    return serve_artifact(run_id, name)
+

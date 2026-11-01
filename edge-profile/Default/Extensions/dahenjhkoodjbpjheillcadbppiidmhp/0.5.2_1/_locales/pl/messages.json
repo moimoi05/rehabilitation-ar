@@ -1,0 +1,703 @@
+{
+   "1010": {
+      "message": "Utwórz nową"
+   },
+   "1109": {
+      "message": "Brak wyników dla tego wyszukiwania."
+   },
+   "111": {
+      "message": "Nie można teraz wykonać tej operacji. Spróbuj ponownie później."
+   },
+   "1301": {
+      "message": "Ustawienia"
+   },
+   "1343": {
+      "message": "Zapisano w Mojej bibliotece"
+   },
+   "1441": {
+      "message": "Poprzednie"
+   },
+   "1442": {
+      "message": "Dalej"
+   },
+   "1462": {
+      "message": "Zamknij"
+   },
+   "1463": {
+      "message": "Prześlij"
+   },
+   "1484": {
+      "message": "Poprzednia strona"
+   },
+   "1485": {
+      "message": "Następna strona"
+   },
+   "1486": {
+      "message": "Pomniejsz"
+   },
+   "1487": {
+      "message": "Powiększ"
+   },
+   "1488": {
+      "message": "Dopasuj do wysokości"
+   },
+   "1489": {
+      "message": "Dopasuj do szerokości"
+   },
+   "1490": {
+      "message": "Obróć"
+   },
+   "1491": {
+      "message": "Zapisz w mojej bibliotece"
+   },
+   "1492": {
+      "message": "Pobierz"
+   },
+   "1493": {
+      "message": "Drukuj"
+   },
+   "1494": {
+      "message": "Więcej"
+   },
+   "1513": {
+      "message": "Miniatury"
+   },
+   "1514": {
+      "message": "Zwiń wszystko"
+   },
+   "1515": {
+      "message": "Rozwiń wszystko"
+   },
+   "1542": {
+      "message": "Google Scholar"
+   },
+   "1617": {
+      "message": "Szukaj w Google"
+   },
+   "1618": {
+      "message": "Biblioteka Google Scholar"
+   },
+   "1620": {
+      "message": "Podczas pobierania wyników wystąpił błąd. Spróbuj ponownie później."
+   },
+   "1621": {
+      "message": "Szukam w Google Scholar…"
+   },
+   "1623": {
+      "message": "Zapisz w bibliotece usługi Google Scholar"
+   },
+   "1626": {
+      "message": "Właściwości dokumentu"
+   },
+   "1627": {
+      "message": "Otwórz w czytniku Chrome"
+   },
+   "1628": {
+      "message": "Pokaż więcej"
+   },
+   "1629": {
+      "message": "Pokaż mniej"
+   },
+   "1630": {
+      "message": "Zaloguj się"
+   },
+   "1631": {
+      "message": "Zapisano w $ANCHOR_BEGIN$Mojej bibliotece$ANCHOR_END$",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1632": {
+      "message": "Zapisuję w Mojej bibliotece…"
+   },
+   "1633": {
+      "message": "Nie znaleziono artykułu w Google Scholar."
+   },
+   "1635": {
+      "message": "Nazwa pliku"
+   },
+   "1636": {
+      "message": "Rozmiar pliku"
+   },
+   "1637": {
+      "message": "Tytuł"
+   },
+   "1638": {
+      "message": "Autor"
+   },
+   "1639": {
+      "message": "Temat"
+   },
+   "1640": {
+      "message": "Słowa kluczowe"
+   },
+   "1641": {
+      "message": "Utworzono"
+   },
+   "1642": {
+      "message": "Zmodyfikowano"
+   },
+   "1643": {
+      "message": "Aplikacja"
+   },
+   "1644": {
+      "message": " Źródło pliku PDF"
+   },
+   "1645": {
+      "message": "Wersja pliku PDF"
+   },
+   "1646": {
+      "message": "Liczba stron"
+   },
+   "1647": {
+      "message": "Rozmiar strony"
+   },
+   "1648": {
+      "message": "orientacja pionowa"
+   },
+   "1649": {
+      "message": "orientacja pozioma"
+   },
+   "1650": {
+      "message": "kwadrat"
+   },
+   "1651": {
+      "message": "Różne opcje"
+   },
+   "1652": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ (w calach) ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1653": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1654": {
+      "message": "Szybkie wyświetlanie w sieci"
+   },
+   "1655": {
+      "message": "Tak"
+   },
+   "1656": {
+      "message": "Nie"
+   },
+   "1660": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ (w calach) ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1661": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1662": {
+      "message": "List"
+   },
+   "1663": {
+      "message": "Prawo"
+   },
+   "1664": {
+      "message": "Tabloid"
+   },
+   "1668": {
+      "message": "Nie udało się wczytać dokumentu PDF."
+   },
+   "1669": {
+      "message": "Załaduj ponownie"
+   },
+   "1670": {
+      "message": "Błąd"
+   },
+   "1673": {
+      "message": "Wymagane hasło"
+   },
+   "1674": {
+      "message": "Ten dokument jest chroniony hasłem. Podaj hasło."
+   },
+   "1675": {
+      "message": "Aby wydrukować dokument PDF, kliknij przycisk Drukuj na pasku narzędzi."
+   },
+   "1676": {
+      "message": "Nieprawidłowe hasło."
+   },
+   "1677": {
+      "message": "Czytnik plików PDF w Google Scholar nie obsługuje jeszcze wypełniania formularzy."
+   },
+   "1678": {
+      "message": "Czytnik PDF w usłudze Google Scholar"
+   },
+   "1698": {
+      "message": "Opis"
+   },
+   "1702": {
+      "message": "Włączanie Czytnika Google Scholar"
+   },
+   "1703": {
+      "message": "Aby otwierać lokalne pliki PDF w Czytniku Google Scholar, w ustawieniach włącz dostęp do adresów URL plików, a potem jeszcze raz załaduj plik PDF."
+   },
+   "1704": {
+      "message": "Otwórz ustawienia"
+   },
+   "1707": {
+      "message": "Tryb wyświetlania"
+   },
+   "1711": {
+      "message": "Pełny ekran"
+   },
+   "1712": {
+      "message": "Tryb jasny"
+   },
+   "1713": {
+      "message": "Tryb ciemny"
+   },
+   "1714": {
+      "message": "Tryb nocny"
+   },
+   "1715": {
+      "message": "Zobacz w bibliografii"
+   },
+   "1716": {
+      "message": "Aby włączyć zapisywanie w bibliotece usługi Google Scholar, rozwiń plik PDF do pełnego ekranu."
+   },
+   "1717": {
+      "message": "Rozwiń"
+   },
+   "1718": {
+      "message": "Nie teraz"
+   },
+   "1723": {
+      "message": "Aby włączyć drukowanie, otwórz plik PDF w przeglądarce Chrome."
+   },
+   "1724": {
+      "message": "Otwórz"
+   },
+   "1726": {
+      "message": "Usprawnij czytanie publikacji: śledź odniesienia, wyświetlaj opis, przechodź do ilustracji, cytuj i zapisuj."
+   },
+   "1732": {
+      "message": "Tryb urządzenia"
+   },
+   "1734": {
+      "message": "Zgłoś problem"
+   },
+   "1741": {
+      "message": "Sekcje"
+   },
+   "1742": {
+      "message": "Opis AI"
+   },
+   "1744": {
+      "message": "Ustawienia opisu AI"
+   },
+   "1745": {
+      "message": "Poproś o opis AI z usługi Scholar:"
+   },
+   "1746": {
+      "message": "Tylko wtedy, gdy klikniesz $ICON$",
+      "placeholders": {
+         "ICON": {
+            "content": "$1"
+         }
+      }
+   },
+   "1748": {
+      "message": "Automatycznie, gdy otworzysz dowolny plik PDF"
+   },
+   "1749": {
+      "message": "Opisy AI są dostępne tylko w wybranych artykułach"
+   },
+   "1750": {
+      "message": "Włączyć opis AI w przypadku wszystkich plików PDF?"
+   },
+   "1751": {
+      "message": "Aby wyświetlić opis, czytnik spróbuje znaleźć plik PDF w usłudze Scholar"
+   },
+   "1752": {
+      "message": "Informacje o opisie AI"
+   },
+   "1753": {
+      "message": "Najważniejsze informacje w sekcjach artykułu"
+   },
+   "1754": {
+      "message": "Opisy AI przedstawiają najważniejsze informacje z głównych sekcji dokumentu."
+   },
+   "1755": {
+      "message": "Przeczytaj pobieżnie opis lub przejdź do szczegółów"
+   },
+   "1756": {
+      "message": "Przejrzyj najważniejsze informacje, aby uzyskać streszczenie artykułu, i kliknij interesujące punkty, aby przejść do szczegółów."
+   },
+   "1757": {
+      "message": "Opisy AI są dostępne tylko w wybranych artykułach naukowych w usłudze Scholar. Są generowane przez program komputerowy i mogą zawierać niepełne lub niedokładne informacje."
+   },
+   "1758": {
+      "message": "Nowość"
+   },
+   "1759": {
+      "message": "Opis AI nie jest dostępny w przypadku tego pliku PDF."
+   },
+   "1760": {
+      "message": "Opis AI został utworzony na podstawie innej wersji tego pliku PDF."
+   },
+   "1766": {
+      "message": "Ustawienia Chrome"
+   },
+   "1768": {
+      "message": "Automatycznie, gdy otworzysz plik PDF w większości witryn akademickich"
+   },
+   "1773": {
+      "message": "Wyróżnione informacje"
+   },
+   "1775": {
+      "message": "Wyróżnij"
+   },
+   "1778": {
+      "message": "Komentarze"
+   },
+   "1779": {
+      "message": "Tutaj pojawią się wyróżnione informacje i komentarze"
+   },
+   "1781": {
+      "message": "Spróbuj ponownie"
+   },
+   "1783": {
+      "message": "Twoja biblioteka Scholar jest pełna"
+   },
+   "1785": {
+      "message": "Otwórz bibliotekę"
+   },
+   "1786": {
+      "message": "Odrzuć"
+   },
+   "1787": {
+      "message": "Twoje konto Scholar zostało usunięte"
+   },
+   "1788": {
+      "message": "Odzyskaj dostęp do konta, aby móc zaznaczać fragmenty i komentować pliki PDF."
+   },
+   "1790": {
+      "message": "Jeśli zamkniesz lub ponownie załadujesz tę stronę, niezapisane zmiany zostaną utracone."
+   },
+   "1791": {
+      "message": "Błąd serwera"
+   },
+   "1793": {
+      "message": "Ignoruj"
+   },
+   "1794": {
+      "message": "Twoja przeglądarka jest offline"
+   },
+   "1796": {
+      "message": "Spróbuj ponownie"
+   },
+   "1797": {
+      "message": "Urządzenie jest pełne"
+   },
+   "1800": {
+      "message": "Aby zapisać wyróżnione fragmenty i komentarze, zaloguj się na konto Google."
+   },
+   "1801": {
+      "message": "Aby zapisać wyróżnione fragmenty i komentarze, zwolnij miejsce w bibliotece Scholar."
+   },
+   "1802": {
+      "message": "Aby zapisać wyróżnione fragmenty i komentarze, zaloguj się na konto $EMAIL_ADDRESS$.",
+      "placeholders": {
+         "EMAIL_ADDRESS": {
+            "content": "$1"
+         }
+      }
+   },
+   "1803": {
+      "message": "Nie udało się zapisać wyróżnionych fragmentów lub komentarzy w bibliotece Scholar. Spróbujemy to zrobić później."
+   },
+   "1804": {
+      "message": "Aby zapisać wyróżnione fragmenty i komentarze, połącz się z internetem. Spróbujemy to zrobić później."
+   },
+   "1805": {
+      "message": "Aby zapisać wyróżnione fragmenty i komentarze, zwolnij miejsce na urządzeniu. W przeciwnym razie zmiany nie zostaną zapisane."
+   },
+   "1806": {
+      "message": "Synchronizuję…"
+   },
+   "1807": {
+      "message": "Synchronizacja nie powiodła się"
+   },
+   "1808": {
+      "message": "Podczas synchronizowania wyróżnionych fragmentów i komentarzy wystąpił błąd."
+   },
+   "1809": {
+      "message": "Urządzenie jest offline"
+   },
+   "1810": {
+      "message": "Aby wyświetlić wyróżnione fragmenty i komentarze, połącz się z internetem."
+   },
+   "1811": {
+      "message": "Aby wyświetlić wyróżnione fragmenty i komentarze, zaloguj się."
+   },
+   "1812": {
+      "message": "Niezapisane zmiany"
+   },
+   "1813": {
+      "message": "Skopiuj opis AI"
+   },
+   "1814": {
+      "message": "Opis AI: $BOLD_ANCHOR_BEGIN$czytnik PDF w Google Scholar$BOLD_ANCHOR_END$",
+      "placeholders": {
+         "BOLD_ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "BOLD_ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1815": {
+      "message": "Opis AI został skopiowany do schowka"
+   },
+   "1816": {
+      "message": "Wyróżnione fragmenty zostaną zapisane w Twojej $ANCHOR_BEGIN$bibliotece Scholar$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1817": {
+      "message": "Komentarze zostaną zapisane w Twojej bibliotece Scholar."
+   },
+   "1818": {
+      "message": "Nieznany tytuł"
+   },
+   "1819": {
+      "message": "Znajdź w Scholar"
+   },
+   "1822": {
+      "message": "Komentarz"
+   },
+   "1823": {
+      "message": "Zmień kolor"
+   },
+   "1824": {
+      "message": "Zapisano w $ANCHOR_BEGIN$Twojej bibliotece$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1825": {
+      "message": "Zaznacz tekst, aby go wyróżnić lub skomentować."
+   },
+   "1826": {
+      "message": "Wyróżnione fragmenty są zapisywane w Twojej $ANCHOR_BEGIN$bibliotece Scholar$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1827": {
+      "message": "Dodaj wyróżnienia do plików PDF"
+   },
+   "1830": {
+      "message": "Wyróżnione informacje są zapisywane online"
+   },
+   "1831": {
+      "message": "Wyróżnione informacje i komentarze są zapisywane w Twojej $ANCHOR_BEGIN$bibliotece Scholar$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1832": {
+      "message": "Masz dostęp do wyróżnionych informacji z dowolnego miejsca"
+   },
+   "1833": {
+      "message": "Wyróżnienia będą widoczne w czytniku PDF, dopóki się nie wylogujesz."
+   },
+   "1834": {
+      "message": "Przejdź do Mojej biblioteki"
+   },
+   "1862": {
+      "message": "Nie udało się połączyć z pamięcią przeglądarki"
+   },
+   "1863": {
+      "message": "W tej przeglądarce wyróżnione fragmenty są wyłączone, ale inne funkcje odczytywania plików PDF działają."
+   },
+   "1864": {
+      "message": "Aby używać wyróżnionych fragmentów, spróbuj ponownie uruchomić przeglądarkę lub urządzenie."
+   },
+   "1865": {
+      "message": "Nie udało się połączyć z pamięcią przeglądarki. Spróbuj ponownie uruchomić przeglądarkę lub urządzenie."
+   },
+   "1866": {
+      "message": "Nie udało się zsynchronizować z pamięcią przeglądarki"
+   },
+   "1867": {
+      "message": "Podczas synchronizowania wyróżnionych fragmentów z pamięcią przeglądarki wystąpił błąd. Spróbuj ponownie uruchomić przeglądarkę lub urządzenie."
+   },
+   "1868": {
+      "message": "Pamięć przeglądarki jest pełna"
+   },
+   "1869": {
+      "message": "Aby używać wyróżnionych fragmentów, spróbuj zwolnić miejsce na urządzeniu."
+   },
+   "1870": {
+      "message": "Pamięć przeglądarki jest pełna. Zwolnij miejsce na urządzeniu."
+   },
+   "1871": {
+      "message": "Aby używać wyróżniania, odśwież pamięć podręczną wyróżnionych fragmentów. Może to chwilę potrwać."
+   },
+   "1872": {
+      "message": "Odśwież pamięć podręczną"
+   },
+   "1873": {
+      "message": "Podczas synchronizowania wyróżnionych fragmentów z pamięcią przeglądarki wystąpił błąd. Spróbuj odświeżyć pamięć podręczną wyróżnionych fragmentów. Może to chwilę potrwać."
+   },
+   "1874": {
+      "message": "Zbyt wiele wyróżnionych fragmentów"
+   },
+   "1875": {
+      "message": "Nie możesz dodać więcej wyróżnionych fragmentów do swojej biblioteki."
+   },
+   "1876": {
+      "message": "Aby dodać więcej wyróżnionych fragmentów, usuń niektóre z nich."
+   },
+   "1877": {
+      "message": "Odrzuć zmiany"
+   },
+   "1882": {
+      "message": "Wyróżnione informacje w zbyt wielu wersjach"
+   },
+   "1883": {
+      "message": "Możesz dodać wyróżnione informacje do maksymalnie 3 wersji tego samego artykułu."
+   },
+   "1884": {
+      "message": "Aby dodać więcej wyróżnionych informacji do tej wersji, usuń wyróżnione informacje z innej wersji."
+   },
+   "1885": {
+      "message": "Zarządzaj wyróżnionymi informacjami"
+   },
+   "1888": {
+      "message": " Wyświetl w bibliotece"
+   },
+   "1918": {
+      "message": "Treść tego adresu URL uległa zmianie. Masz wyróżnione informacje w poprzedniej wersji."
+   },
+   "535": {
+      "message": "Szukaj w Google Scholar"
+   },
+   "551": {
+      "message": "Usuń artykuł"
+   },
+   "59": {
+      "message": "Cytuj"
+   },
+   "625": {
+      "message": "Wczytuję..."
+   },
+   "626": {
+      "message": "Strona $PAGE_NUMBER$",
+      "placeholders": {
+         "PAGE_NUMBER": {
+            "content": "$1"
+         }
+      }
+   },
+   "64": {
+      "message": "Zapisz"
+   },
+   "644": {
+      "message": "Gotowe"
+   },
+   "649": {
+      "message": "Ukryj"
+   },
+   "732": {
+      "message": "Moja biblioteka"
+   },
+   "907": {
+      "message": "Odzyskaj konto"
+   },
+   "920": {
+      "message": "Szukaj"
+   },
+   "924": {
+      "message": "Oznacz jako:"
+   },
+   "96": {
+      "message": "Usuń"
+   },
+   "965": {
+      "message": "OK"
+   },
+   "966": {
+      "message": "Nie, dziękuję"
+   },
+   "chrome_client_3269861059707096562": {
+      "message": "Zezwalaj na dostęp do adresów URL plików"
+   }
+}

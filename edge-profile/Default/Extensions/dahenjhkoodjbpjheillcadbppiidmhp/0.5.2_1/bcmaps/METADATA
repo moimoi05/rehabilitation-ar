@@ -1,0 +1,34 @@
+# Format: google3/devtools/metadata/metadata.proto (go/google3metadata)
+
+name: "pdfjs"
+description:
+  "pdf.js is an HTML5 technology experiment that explores building a "
+  "faithful and efficient Portable Document Format (PDF) renderer without "
+  "native code assistance. "
+  " "
+  "PDF.js is a Portable Document Format (PDF) viewer that is built with "
+  "HTML5. PDF.js is community-driven and supported by Mozilla Labs. Our goal "
+  "is to create a general-purpose, web standards-based platform for parsing "
+  "and rendering PDFs."
+
+third_party {
+  version: "47ad820d95e3382e844fccf77bd202448e933b00"
+  last_upgrade_date { year: 2025 month: 6 day: 4 }
+  identifier {
+    type: "Git"
+    value: "https://github.com/mozilla/pdf.js"
+    version: "47ad820d95e3382e844fccf77bd202448e933b00"
+    primary_source: true
+    closest_version: "v5.3.31"
+  }
+  identifier {
+    type: "npm"
+    value: "pdfjs-dist"
+    version: "5.3.31"
+  }
+}
+presubmit: {
+  check_tests: {
+    project: "third_party.javascript.pdfjs"
+  }
+}

@@ -1,0 +1,448 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/pages/Patients.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=8d437898"; const Fragment = __vite__cjsImport0_react_jsxDevRuntime["Fragment"]; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = RefreshRuntime.getRefreshReg("D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx");
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import __vite__cjsImport3_react from "/node_modules/.vite/deps/react.js?v=8d437898"; const useState = __vite__cjsImport3_react["useState"];
+import { Link } from "/node_modules/.vite/deps/react-router-dom.js?v=8d437898";
+import { ArrowRight, Plus, Search, UserRound } from "/node_modules/.vite/deps/lucide-react.js?v=8d437898";
+import { Button } from "/src/components/ui/button.tsx";
+import { Empty, ErrorState, Loading } from "/src/components/States.tsx";
+import { useData } from "/src/hooks/useData.ts";
+import { api } from "/src/services/api.ts";
+import { sideLabel } from "/src/types/index.ts";
+const initial = { research_code: "", affected_side: "left", dominant_hand: "right", notes: "" };
+export default function Patients() {
+  _s();
+  const { data, loading, error, reload } = useData(api.patients);
+  const [query, setQuery] = useState("");
+  const [form, setForm] = useState(initial);
+  const [editing, setEditing] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [formError, setFormError] = useState("");
+  function edit(patient) {
+    setEditing(patient.id);
+    setForm({ research_code: patient.research_code, affected_side: patient.affected_side, dominant_hand: patient.dominant_hand, notes: patient.notes ?? "" });
+    setFormError("");
+    setOpen(true);
+  }
+  function create() {
+    setEditing(null);
+    setForm(initial);
+    setFormError("");
+    setOpen(true);
+  }
+  async function submit(e) {
+    e.preventDefault();
+    setSaving(true);
+    setFormError("");
+    try {
+      const payload = { ...form, research_code: form.research_code.trim(), notes: form.notes.trim() || null };
+      if (editing) await api.updatePatient(editing, payload);
+      else await api.createPatient(payload);
+      setOpen(false);
+      await reload();
+    } catch (err) {
+      setFormError(err instanceof Error ? err.message : "Không lưu được bệnh nhân");
+    } finally {
+      setSaving(false);
+    }
+  }
+  const filtered = data?.filter((p) => p.research_code.toLowerCase().includes(query.toLowerCase())) ?? [];
+  return /* @__PURE__ */ jsxDEV(Fragment, { children: [
+    /* @__PURE__ */ jsxDEV("div", { className: "page-heading", children: [
+      /* @__PURE__ */ jsxDEV("div", { children: [
+        /* @__PURE__ */ jsxDEV("span", { className: "eyebrow", children: "HỒ SƠ NGHIÊN CỨU" }, void 0, false, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+          lineNumber: 36,
+          columnNumber: 47
+        }, this),
+        /* @__PURE__ */ jsxDEV("h1", { children: "Bệnh nhân" }, void 0, false, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+          lineNumber: 36,
+          columnNumber: 96
+        }, this),
+        /* @__PURE__ */ jsxDEV("p", { children: "Quản lý hồ sơ giả danh và theo dõi lịch sử phiên." }, void 0, false, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+          lineNumber: 36,
+          columnNumber: 114
+        }, this)
+      ] }, void 0, true, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+        lineNumber: 36,
+        columnNumber: 42
+      }, this),
+      /* @__PURE__ */ jsxDEV(Button, { onClick: create, children: [
+        /* @__PURE__ */ jsxDEV(Plus, { size: 18 }, void 0, false, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+          lineNumber: 36,
+          columnNumber: 201
+        }, this),
+        " Thêm bệnh nhân"
+      ] }, void 0, true, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+        lineNumber: 36,
+        columnNumber: 176
+      }, this)
+    ] }, void 0, true, {
+      fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+      lineNumber: 36,
+      columnNumber: 12
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "notice", children: [
+      /* @__PURE__ */ jsxDEV(UserRound, { size: 19 }, void 0, false, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+        lineNumber: 36,
+        columnNumber: 273
+      }, this),
+      /* @__PURE__ */ jsxDEV("span", { children: "Chỉ nhập mã nghiên cứu giả danh. Không nhập tên, thông tin liên hệ hoặc dữ liệu cá nhân thật." }, void 0, false, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+        lineNumber: 36,
+        columnNumber: 296
+      }, this)
+    ] }, void 0, true, {
+      fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+      lineNumber: 36,
+      columnNumber: 249
+    }, this),
+    /* @__PURE__ */ jsxDEV("section", { className: "panel", children: [
+      /* @__PURE__ */ jsxDEV("div", { className: "panel-heading", children: [
+        /* @__PURE__ */ jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDEV("h2", { children: "Danh sách bệnh nhân" }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+            lineNumber: 36,
+            columnNumber: 471
+          }, this),
+          /* @__PURE__ */ jsxDEV("p", { children: data ? `${data.length} hồ sơ` : "Dữ liệu từ cơ sở dữ liệu" }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+            lineNumber: 36,
+            columnNumber: 499
+          }, this)
+        ] }, void 0, true, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+          lineNumber: 36,
+          columnNumber: 466
+        }, this),
+        /* @__PURE__ */ jsxDEV("label", { className: "search", children: [
+          /* @__PURE__ */ jsxDEV(Search, { size: 17 }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+            lineNumber: 36,
+            columnNumber: 598
+          }, this),
+          /* @__PURE__ */ jsxDEV("input", { value: query, onChange: (e) => setQuery(e.target.value), placeholder: "Tìm mã nghiên cứu", "aria-label": "Tìm mã nghiên cứu" }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+            lineNumber: 36,
+            columnNumber: 618
+          }, this)
+        ] }, void 0, true, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+          lineNumber: 36,
+          columnNumber: 572
+        }, this)
+      ] }, void 0, true, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+        lineNumber: 36,
+        columnNumber: 435
+      }, this),
+      loading ? /* @__PURE__ */ jsxDEV(Loading, {}, void 0, false, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+        lineNumber: 36,
+        columnNumber: 772
+      }, this) : error ? /* @__PURE__ */ jsxDEV(ErrorState, { message: error, retry: () => void reload() }, void 0, false, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+        lineNumber: 36,
+        columnNumber: 794
+      }, this) : filtered.length === 0 ? /* @__PURE__ */ jsxDEV(Empty, { children: query ? "Không tìm thấy mã phù hợp." : "Chưa có bệnh nhân. Hãy thêm một hồ sơ giả lập." }, void 0, false, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+        lineNumber: 36,
+        columnNumber: 879
+      }, this) : /* @__PURE__ */ jsxDEV("div", { className: "table-wrap", children: /* @__PURE__ */ jsxDEV("table", { children: [
+        /* @__PURE__ */ jsxDEV("thead", { children: /* @__PURE__ */ jsxDEV("tr", { children: [
+          /* @__PURE__ */ jsxDEV("th", { children: "Mã nghiên cứu" }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+            lineNumber: 36,
+            columnNumber: 1032
+          }, this),
+          /* @__PURE__ */ jsxDEV("th", { children: "Tay ảnh hưởng" }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+            lineNumber: 36,
+            columnNumber: 1054
+          }, this),
+          /* @__PURE__ */ jsxDEV("th", { children: "Tay thuận" }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+            lineNumber: 36,
+            columnNumber: 1076
+          }, this),
+          /* @__PURE__ */ jsxDEV("th", { children: "Ngày tạo" }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+            lineNumber: 36,
+            columnNumber: 1094
+          }, this),
+          /* @__PURE__ */ jsxDEV("th", {}, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+            lineNumber: 36,
+            columnNumber: 1111
+          }, this)
+        ] }, void 0, true, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+          lineNumber: 36,
+          columnNumber: 1028
+        }, this) }, void 0, false, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+          lineNumber: 36,
+          columnNumber: 1021
+        }, this),
+        /* @__PURE__ */ jsxDEV("tbody", { children: filtered.map((p) => /* @__PURE__ */ jsxDEV("tr", { children: [
+          /* @__PURE__ */ jsxDEV("td", { children: /* @__PURE__ */ jsxDEV(Link, { className: "table-primary", to: `/patients/${p.id}`, children: p.research_code }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+            lineNumber: 36,
+            columnNumber: 1177
+          }, this) }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+            lineNumber: 36,
+            columnNumber: 1173
+          }, this),
+          /* @__PURE__ */ jsxDEV("td", { children: sideLabel(p.affected_side) }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+            lineNumber: 36,
+            columnNumber: 1263
+          }, this),
+          /* @__PURE__ */ jsxDEV("td", { children: sideLabel(p.dominant_hand) }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+            lineNumber: 36,
+            columnNumber: 1300
+          }, this),
+          /* @__PURE__ */ jsxDEV("td", { children: new Date(p.created_at).toLocaleDateString("vi-VN") }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+            lineNumber: 36,
+            columnNumber: 1337
+          }, this),
+          /* @__PURE__ */ jsxDEV("td", { className: "actions", children: [
+            /* @__PURE__ */ jsxDEV("button", { className: "text-link", onClick: () => edit(p), children: "Sửa" }, void 0, false, {
+              fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+              lineNumber: 36,
+              columnNumber: 1422
+            }, this),
+            /* @__PURE__ */ jsxDEV(Link, { className: "text-link", to: `/patients/${p.id}`, children: [
+              "Chi tiết ",
+              /* @__PURE__ */ jsxDEV(ArrowRight, { size: 15 }, void 0, false, {
+                fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+                lineNumber: 36,
+                columnNumber: 1550
+              }, this)
+            ] }, void 0, true, {
+              fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+              lineNumber: 36,
+              columnNumber: 1488
+            }, this)
+          ] }, void 0, true, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+            lineNumber: 36,
+            columnNumber: 1398
+          }, this)
+        ] }, p.id, true, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+          lineNumber: 36,
+          columnNumber: 1158
+        }, this)) }, void 0, false, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+          lineNumber: 36,
+          columnNumber: 1130
+        }, this)
+      ] }, void 0, true, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+        lineNumber: 36,
+        columnNumber: 1014
+      }, this) }, void 0, false, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+        lineNumber: 36,
+        columnNumber: 986
+      }, this)
+    ] }, void 0, true, {
+      fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+      lineNumber: 36,
+      columnNumber: 408
+    }, this),
+    open && /* @__PURE__ */ jsxDEV("div", { className: "modal-backdrop", onMouseDown: (e) => {
+      if (e.target === e.currentTarget) setOpen(false);
+    }, children: /* @__PURE__ */ jsxDEV("div", { className: "modal", role: "dialog", "aria-modal": "true", "aria-labelledby": "patient-title", children: [
+      /* @__PURE__ */ jsxDEV("div", { className: "panel-heading", children: [
+        /* @__PURE__ */ jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDEV("span", { className: "eyebrow", children: "HỒ SƠ GIẢ DANH" }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+            lineNumber: 36,
+            columnNumber: 1863
+          }, this),
+          /* @__PURE__ */ jsxDEV("h2", { id: "patient-title", children: editing ? "Sửa bệnh nhân" : "Thêm bệnh nhân" }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+            lineNumber: 36,
+            columnNumber: 1910
+          }, this)
+        ] }, void 0, true, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+          lineNumber: 36,
+          columnNumber: 1858
+        }, this),
+        /* @__PURE__ */ jsxDEV("button", { className: "close", onClick: () => setOpen(false), "aria-label": "Đóng", children: "×" }, void 0, false, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+          lineNumber: 36,
+          columnNumber: 1990
+        }, this)
+      ] }, void 0, true, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+        lineNumber: 36,
+        columnNumber: 1827
+      }, this),
+      /* @__PURE__ */ jsxDEV("form", { onSubmit: (e) => void submit(e), className: "form", children: [
+        /* @__PURE__ */ jsxDEV("label", { children: [
+          "Mã nghiên cứu",
+          /* @__PURE__ */ jsxDEV("input", { required: true, maxLength: 64, value: form.research_code, onChange: (e) => setForm({ ...form, research_code: e.target.value }), placeholder: "VD: NC-001" }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+            lineNumber: 36,
+            columnNumber: 2157
+          }, this)
+        ] }, void 0, true, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+          lineNumber: 36,
+          columnNumber: 2137
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "form-grid", children: [
+          /* @__PURE__ */ jsxDEV("label", { children: [
+            "Tay ảnh hưởng",
+            /* @__PURE__ */ jsxDEV("select", { value: form.affected_side, onChange: (e) => setForm({ ...form, affected_side: e.target.value }), children: [
+              /* @__PURE__ */ jsxDEV("option", { value: "left", children: "Trái" }, void 0, false, {
+                fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+                lineNumber: 36,
+                columnNumber: 2480
+              }, this),
+              /* @__PURE__ */ jsxDEV("option", { value: "right", children: "Phải" }, void 0, false, {
+                fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+                lineNumber: 36,
+                columnNumber: 2514
+              }, this)
+            ] }, void 0, true, {
+              fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+              lineNumber: 36,
+              columnNumber: 2367
+            }, this)
+          ] }, void 0, true, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+            lineNumber: 36,
+            columnNumber: 2347
+          }, this),
+          /* @__PURE__ */ jsxDEV("label", { children: [
+            "Tay thuận",
+            /* @__PURE__ */ jsxDEV("select", { value: form.dominant_hand, onChange: (e) => setForm({ ...form, dominant_hand: e.target.value }), children: [
+              /* @__PURE__ */ jsxDEV("option", { value: "left", children: "Trái" }, void 0, false, {
+                fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+                lineNumber: 36,
+                columnNumber: 2695
+              }, this),
+              /* @__PURE__ */ jsxDEV("option", { value: "right", children: "Phải" }, void 0, false, {
+                fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+                lineNumber: 36,
+                columnNumber: 2729
+              }, this)
+            ] }, void 0, true, {
+              fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+              lineNumber: 36,
+              columnNumber: 2582
+            }, this)
+          ] }, void 0, true, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+            lineNumber: 36,
+            columnNumber: 2566
+          }, this)
+        ] }, void 0, true, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+          lineNumber: 36,
+          columnNumber: 2320
+        }, this),
+        /* @__PURE__ */ jsxDEV("label", { children: [
+          "Ghi chú nghiên cứu",
+          /* @__PURE__ */ jsxDEV("textarea", { rows: 3, value: form.notes, onChange: (e) => setForm({ ...form, notes: e.target.value }), placeholder: "Không nhập thông tin định danh" }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+            lineNumber: 36,
+            columnNumber: 2812
+          }, this)
+        ] }, void 0, true, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+          lineNumber: 36,
+          columnNumber: 2787
+        }, this),
+        formError && /* @__PURE__ */ jsxDEV(ErrorState, { message: formError }, void 0, false, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+          lineNumber: 36,
+          columnNumber: 2981
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "form-actions", children: [
+          /* @__PURE__ */ jsxDEV(Button, { type: "button", variant: "outline", onClick: () => setOpen(false), children: "Hủy" }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+            lineNumber: 36,
+            columnNumber: 3046
+          }, this),
+          /* @__PURE__ */ jsxDEV(Button, { disabled: saving, children: saving ? "Đang lưu…" : "Lưu hồ sơ" }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+            lineNumber: 36,
+            columnNumber: 3129
+          }, this)
+        ] }, void 0, true, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+          lineNumber: 36,
+          columnNumber: 3016
+        }, this)
+      ] }, void 0, true, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+        lineNumber: 36,
+        columnNumber: 2081
+      }, this)
+    ] }, void 0, true, {
+      fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+      lineNumber: 36,
+      columnNumber: 1740
+    }, this) }, void 0, false, {
+      fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+      lineNumber: 36,
+      columnNumber: 1635
+    }, this)
+  ] }, void 0, true, {
+    fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx",
+    lineNumber: 36,
+    columnNumber: 10
+  }, this);
+}
+_s(Patients, "4afujgs6XSOpSaZDWQ+N/nFgBtw=", false, function() {
+  return [useData];
+});
+_c = Patients;
+var _c;
+$RefreshReg$(_c, "Patients");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Patients.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,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LFdBQXRqQztBQUFBO0FBQUE7QUFBQTtBQUFBLGFBQTRqQztBQUFBLFNBQS80QztBQUFBO0FBQUE7QUFBQTtBQUFBLFdBQXM1QyxLQUF2L0M7QUFBQTtBQUFBO0FBQUE7QUFBQSxXQUE2L0M7QUFBQSxPQUFsa0c7QUFBQTtBQUFBO0FBQUE7QUFBQSxTQUF5a0c7QUFDbGxHO0FBQUNkLEdBUnVCRCxVQUFRO0FBQUEsVUFDU1IsT0FBTztBQUFBO0FBQUEsS0FEeEJRO0FBQVEsSUFBQThDO0FBQUEsYUFBQUEsSUFBQSIsIm5hbWVzIjpbInVzZVN0YXRlIiwiTGluayIsIkFycm93UmlnaHQiLCJQbHVzIiwiU2VhcmNoIiwiVXNlclJvdW5kIiwiQnV0dG9uIiwiRW1wdHkiLCJFcnJvclN0YXRlIiwiTG9hZGluZyIsInVzZURhdGEiLCJhcGkiLCJzaWRlTGFiZWwiLCJpbml0aWFsIiwicmVzZWFyY2hfY29kZSIsImFmZmVjdGVkX3NpZGUiLCJkb21pbmFudF9oYW5kIiwibm90ZXMiLCJQYXRpZW50cyIsIl9zIiwiZGF0YSIsImxvYWRpbmciLCJlcnJvciIsInJlbG9hZCIsInBhdGllbnRzIiwicXVlcnkiLCJzZXRRdWVyeSIsImZvcm0iLCJzZXRGb3JtIiwiZWRpdGluZyIsInNldEVkaXRpbmciLCJvcGVuIiwic2V0T3BlbiIsInNhdmluZyIsInNldFNhdmluZyIsImZvcm1FcnJvciIsInNldEZvcm1FcnJvciIsImVkaXQiLCJwYXRpZW50IiwiaWQiLCJjcmVhdGUiLCJzdWJtaXQiLCJlIiwicHJldmVudERlZmF1bHQiLCJwYXlsb2FkIiwidHJpbSIsInVwZGF0ZVBhdGllbnQiLCJjcmVhdGVQYXRpZW50IiwiZXJyIiwiRXJyb3IiLCJtZXNzYWdlIiwiZmlsdGVyZWQiLCJmaWx0ZXIiLCJwIiwidG9Mb3dlckNhc2UiLCJpbmNsdWRlcyIsImxlbmd0aCIsInRhcmdldCIsInZhbHVlIiwibWFwIiwiRGF0ZSIsImNyZWF0ZWRfYXQiLCJ0b0xvY2FsZURhdGVTdHJpbmciLCJjdXJyZW50VGFyZ2V0IiwiX2MiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiUGF0aWVudHMudHN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IEZvcm1FdmVudCwgdXNlU3RhdGUgfSBmcm9tICdyZWFjdCdcbmltcG9ydCB7IExpbmsgfSBmcm9tICdyZWFjdC1yb3V0ZXItZG9tJ1xuaW1wb3J0IHsgQXJyb3dSaWdodCwgUGx1cywgU2VhcmNoLCBVc2VyUm91bmQgfSBmcm9tICdsdWNpZGUtcmVhY3QnXG5pbXBvcnQgeyBCdXR0b24gfSBmcm9tICcuLi9jb21wb25lbnRzL3VpL2J1dHRvbidcbmltcG9ydCB7IEVtcHR5LCBFcnJvclN0YXRlLCBMb2FkaW5nIH0gZnJvbSAnLi4vY29tcG9uZW50cy9TdGF0ZXMnXG5pbXBvcnQgeyB1c2VEYXRhIH0gZnJvbSAnLi4vaG9va3MvdXNlRGF0YSdcbmltcG9ydCB7IGFwaSB9IGZyb20gJy4uL3NlcnZpY2VzL2FwaSdcbmltcG9ydCB7IHNpZGVMYWJlbCwgdHlwZSBQYXRpZW50LCB0eXBlIFNpZGUgfSBmcm9tICcuLi90eXBlcydcbmNvbnN0IGluaXRpYWwgPSB7IHJlc2VhcmNoX2NvZGU6ICcnLCBhZmZlY3RlZF9zaWRlOiAnbGVmdCcgYXMgU2lkZSwgZG9taW5hbnRfaGFuZDogJ3JpZ2h0JyBhcyBTaWRlLCBub3RlczogJycgfVxuZXhwb3J0IGRlZmF1bHQgZnVuY3Rpb24gUGF0aWVudHMoKSB7XG4gIGNvbnN0IHtkYXRhLCBsb2FkaW5nLCBlcnJvciwgcmVsb2FkfSA9IHVzZURhdGEoYXBpLnBhdGllbnRzKVxuICBjb25zdCBbcXVlcnksc2V0UXVlcnldID0gdXNlU3RhdGUoJycpOyBjb25zdCBbZm9ybSxzZXRGb3JtXSA9IHVzZVN0YXRlKGluaXRpYWwpOyBjb25zdCBbZWRpdGluZyxzZXRFZGl0aW5nXSA9IHVzZVN0YXRlPG51bWJlciB8IG51bGw+KG51bGwpOyBjb25zdCBbb3BlbixzZXRPcGVuXSA9IHVzZVN0YXRlKGZhbHNlKTsgY29uc3QgW3NhdmluZyxzZXRTYXZpbmddID0gdXNlU3RhdGUoZmFsc2UpOyBjb25zdCBbZm9ybUVycm9yLHNldEZvcm1FcnJvcl0gPSB1c2VTdGF0ZSgnJylcbiAgZnVuY3Rpb24gZWRpdChwYXRpZW50OiBQYXRpZW50KSB7IHNldEVkaXRpbmcocGF0aWVudC5pZCk7IHNldEZvcm0oe3Jlc2VhcmNoX2NvZGU6cGF0aWVudC5yZXNlYXJjaF9jb2RlLGFmZmVjdGVkX3NpZGU6cGF0aWVudC5hZmZlY3RlZF9zaWRlLGRvbWluYW50X2hhbmQ6cGF0aWVudC5kb21pbmFudF9oYW5kLG5vdGVzOnBhdGllbnQubm90ZXMgPz8gJyd9KTsgc2V0Rm9ybUVycm9yKCcnKTsgc2V0T3Blbih0cnVlKSB9XG4gIGZ1bmN0aW9uIGNyZWF0ZSgpIHsgc2V0RWRpdGluZyhudWxsKTsgc2V0Rm9ybShpbml0aWFsKTsgc2V0Rm9ybUVycm9yKCcnKTsgc2V0T3Blbih0cnVlKSB9XG4gIGFzeW5jIGZ1bmN0aW9uIHN1Ym1pdChlOiBGb3JtRXZlbnQpIHsgZS5wcmV2ZW50RGVmYXVsdCgpOyBzZXRTYXZpbmcodHJ1ZSk7IHNldEZvcm1FcnJvcignJyk7IHRyeSB7IGNvbnN0IHBheWxvYWQgPSB7Li4uZm9ybSwgcmVzZWFyY2hfY29kZTogZm9ybS5yZXNlYXJjaF9jb2RlLnRyaW0oKSwgbm90ZXM6IGZvcm0ubm90ZXMudHJpbSgpIHx8IG51bGx9OyBpZihlZGl0aW5nKSBhd2FpdCBhcGkudXBkYXRlUGF0aWVudChlZGl0aW5nLHBheWxvYWQpOyBlbHNlIGF3YWl0IGFwaS5jcmVhdGVQYXRpZW50KHBheWxvYWQpOyBzZXRPcGVuKGZhbHNlKTsgYXdhaXQgcmVsb2FkKCkgfSBjYXRjaChlcnIpIHsgc2V0Rm9ybUVycm9yKGVyciBpbnN0YW5jZW9mIEVycm9yID8gZXJyLm1lc3NhZ2UgOiAnS2jDtG5nIGzGsHUgxJHGsOG7o2MgYuG7h25oIG5ow6JuJykgfSBmaW5hbGx5IHsgc2V0U2F2aW5nKGZhbHNlKSB9IH1cbiAgY29uc3QgZmlsdGVyZWQgPSBkYXRhPy5maWx0ZXIocD0+cC5yZXNlYXJjaF9jb2RlLnRvTG93ZXJDYXNlKCkuaW5jbHVkZXMocXVlcnkudG9Mb3dlckNhc2UoKSkpID8/IFtdXG4gIHJldHVybiA8PjxkaXYgY2xhc3NOYW1lPVwicGFnZS1oZWFkaW5nXCI+PGRpdj48c3BhbiBjbGFzc05hbWU9XCJleWVicm93XCI+SOG7kiBTxqAgTkdIScOKTiBD4buoVTwvc3Bhbj48aDE+QuG7h25oIG5ow6JuPC9oMT48cD5RdeG6o24gbMO9IGjhu5Mgc8ahIGdp4bqjIGRhbmggdsOgIHRoZW8gZMO1aSBs4buLY2ggc+G7rSBwaGnDqm4uPC9wPjwvZGl2PjxCdXR0b24gb25DbGljaz17Y3JlYXRlfT48UGx1cyBzaXplPXsxOH0vPiBUaMOqbSBi4buHbmggbmjDom48L0J1dHRvbj48L2Rpdj48ZGl2IGNsYXNzTmFtZT1cIm5vdGljZVwiPjxVc2VyUm91bmQgc2l6ZT17MTl9Lz48c3Bhbj5DaOG7iSBuaOG6rXAgbcOjIG5naGnDqm4gY+G7qXUgZ2nhuqMgZGFuaC4gS2jDtG5nIG5o4bqtcCB0w6puLCB0aMO0bmcgdGluIGxpw6puIGjhu4cgaG/hurdjIGThu68gbGnhu4d1IGPDoSBuaMOibiB0aOG6rXQuPC9zcGFuPjwvZGl2PjxzZWN0aW9uIGNsYXNzTmFtZT1cInBhbmVsXCI+PGRpdiBjbGFzc05hbWU9XCJwYW5lbC1oZWFkaW5nXCI+PGRpdj48aDI+RGFuaCBzw6FjaCBi4buHbmggbmjDom48L2gyPjxwPntkYXRhID8gYCR7ZGF0YS5sZW5ndGh9IGjhu5Mgc8ahYCA6ICdE4buvIGxp4buHdSB04burIGPGoSBz4bufIGThu68gbGnhu4d1J308L3A+PC9kaXY+PGxhYmVsIGNsYXNzTmFtZT1cInNlYXJjaFwiPjxTZWFyY2ggc2l6ZT17MTd9Lz48aW5wdXQgdmFsdWU9e3F1ZXJ5fSBvbkNoYW5nZT17ZT0+c2V0UXVlcnkoZS50YXJnZXQudmFsdWUpfSBwbGFjZWhvbGRlcj1cIlTDrG0gbcOjIG5naGnDqm4gY+G7qXVcIiBhcmlhLWxhYmVsPVwiVMOsbSBtw6MgbmdoacOqbiBj4bupdVwiLz48L2xhYmVsPjwvZGl2Pntsb2FkaW5nID8gPExvYWRpbmcvPiA6IGVycm9yID8gPEVycm9yU3RhdGUgbWVzc2FnZT17ZXJyb3J9IHJldHJ5PXsoKT0+dm9pZCByZWxvYWQoKX0vPiA6IGZpbHRlcmVkLmxlbmd0aCA9PT0gMCA/IDxFbXB0eT57cXVlcnkgPyAnS2jDtG5nIHTDrG0gdGjhuqV5IG3DoyBwaMO5IGjhu6NwLicgOiAnQ2jGsGEgY8OzIGLhu4duaCBuaMOibi4gSMOjeSB0aMOqbSBt4buZdCBo4buTIHPGoSBnaeG6oyBs4bqtcC4nfTwvRW1wdHk+IDogPGRpdiBjbGFzc05hbWU9XCJ0YWJsZS13cmFwXCI+PHRhYmxlPjx0aGVhZD48dHI+PHRoPk3DoyBuZ2hpw6puIGPhu6l1PC90aD48dGg+VGF5IOG6o25oIGjGsOG7n25nPC90aD48dGg+VGF5IHRodeG6rW48L3RoPjx0aD5OZ8OgeSB04bqhbzwvdGg+PHRoLz48L3RyPjwvdGhlYWQ+PHRib2R5PntmaWx0ZXJlZC5tYXAocD0+PHRyIGtleT17cC5pZH0+PHRkPjxMaW5rIGNsYXNzTmFtZT1cInRhYmxlLXByaW1hcnlcIiB0bz17YC9wYXRpZW50cy8ke3AuaWR9YH0+e3AucmVzZWFyY2hfY29kZX08L0xpbms+PC90ZD48dGQ+e3NpZGVMYWJlbChwLmFmZmVjdGVkX3NpZGUpfTwvdGQ+PHRkPntzaWRlTGFiZWwocC5kb21pbmFudF9oYW5kKX08L3RkPjx0ZD57bmV3IERhdGUocC5jcmVhdGVkX2F0KS50b0xvY2FsZURhdGVTdHJpbmcoJ3ZpLVZOJyl9PC90ZD48dGQgY2xhc3NOYW1lPVwiYWN0aW9uc1wiPjxidXR0b24gY2xhc3NOYW1lPVwidGV4dC1saW5rXCIgb25DbGljaz17KCk9PmVkaXQocCl9PlPhu61hPC9idXR0b24+PExpbmsgY2xhc3NOYW1lPVwidGV4dC1saW5rXCIgdG89e2AvcGF0aWVudHMvJHtwLmlkfWB9PkNoaSB0aeG6v3QgPEFycm93UmlnaHQgc2l6ZT17MTV9Lz48L0xpbms+PC90ZD48L3RyPil9PC90Ym9keT48L3RhYmxlPjwvZGl2Pn08L3NlY3Rpb24+e29wZW4gJiYgPGRpdiBjbGFzc05hbWU9XCJtb2RhbC1iYWNrZHJvcFwiIG9uTW91c2VEb3duPXtlPT57aWYoZS50YXJnZXQ9PT1lLmN1cnJlbnRUYXJnZXQpIHNldE9wZW4oZmFsc2UpfX0+PGRpdiBjbGFzc05hbWU9XCJtb2RhbFwiIHJvbGU9XCJkaWFsb2dcIiBhcmlhLW1vZGFsPVwidHJ1ZVwiIGFyaWEtbGFiZWxsZWRieT1cInBhdGllbnQtdGl0bGVcIj48ZGl2IGNsYXNzTmFtZT1cInBhbmVsLWhlYWRpbmdcIj48ZGl2PjxzcGFuIGNsYXNzTmFtZT1cImV5ZWJyb3dcIj5I4buSIFPGoCBHSeG6oiBEQU5IPC9zcGFuPjxoMiBpZD1cInBhdGllbnQtdGl0bGVcIj57ZWRpdGluZyA/ICdT4butYSBi4buHbmggbmjDom4nIDogJ1Row6ptIGLhu4duaCBuaMOibid9PC9oMj48L2Rpdj48YnV0dG9uIGNsYXNzTmFtZT1cImNsb3NlXCIgb25DbGljaz17KCk9PnNldE9wZW4oZmFsc2UpfSBhcmlhLWxhYmVsPVwixJDDs25nXCI+w5c8L2J1dHRvbj48L2Rpdj48Zm9ybSBvblN1Ym1pdD17ZT0+dm9pZCBzdWJtaXQoZSl9IGNsYXNzTmFtZT1cImZvcm1cIj48bGFiZWw+TcOjIG5naGnDqm4gY+G7qXU8aW5wdXQgcmVxdWlyZWQgbWF4TGVuZ3RoPXs2NH0gdmFsdWU9e2Zvcm0ucmVzZWFyY2hfY29kZX0gb25DaGFuZ2U9e2U9PnNldEZvcm0oey4uLmZvcm0scmVzZWFyY2hfY29kZTplLnRhcmdldC52YWx1ZX0pfSBwbGFjZWhvbGRlcj1cIlZEOiBOQy0wMDFcIi8+PC9sYWJlbD48ZGl2IGNsYXNzTmFtZT1cImZvcm0tZ3JpZFwiPjxsYWJlbD5UYXkg4bqjbmggaMaw4bufbmc8c2VsZWN0IHZhbHVlPXtmb3JtLmFmZmVjdGVkX3NpZGV9IG9uQ2hhbmdlPXtlPT5zZXRGb3JtKHsuLi5mb3JtLGFmZmVjdGVkX3NpZGU6ZS50YXJnZXQudmFsdWUgYXMgU2lkZX0pfT48b3B0aW9uIHZhbHVlPVwibGVmdFwiPlRyw6FpPC9vcHRpb24+PG9wdGlvbiB2YWx1ZT1cInJpZ2h0XCI+UGjhuqNpPC9vcHRpb24+PC9zZWxlY3Q+PC9sYWJlbD48bGFiZWw+VGF5IHRodeG6rW48c2VsZWN0IHZhbHVlPXtmb3JtLmRvbWluYW50X2hhbmR9IG9uQ2hhbmdlPXtlPT5zZXRGb3JtKHsuLi5mb3JtLGRvbWluYW50X2hhbmQ6ZS50YXJnZXQudmFsdWUgYXMgU2lkZX0pfT48b3B0aW9uIHZhbHVlPVwibGVmdFwiPlRyw6FpPC9vcHRpb24+PG9wdGlvbiB2YWx1ZT1cInJpZ2h0XCI+UGjhuqNpPC9vcHRpb24+PC9zZWxlY3Q+PC9sYWJlbD48L2Rpdj48bGFiZWw+R2hpIGNow7ogbmdoacOqbiBj4bupdTx0ZXh0YXJlYSByb3dzPXszfSB2YWx1ZT17Zm9ybS5ub3Rlc30gb25DaGFuZ2U9e2U9PnNldEZvcm0oey4uLmZvcm0sbm90ZXM6ZS50YXJnZXQudmFsdWV9KX0gcGxhY2Vob2xkZXI9XCJLaMO0bmcgbmjhuq1wIHRow7RuZyB0aW4gxJHhu4tuaCBkYW5oXCIvPjwvbGFiZWw+e2Zvcm1FcnJvciAmJiA8RXJyb3JTdGF0ZSBtZXNzYWdlPXtmb3JtRXJyb3J9Lz59PGRpdiBjbGFzc05hbWU9XCJmb3JtLWFjdGlvbnNcIj48QnV0dG9uIHR5cGU9XCJidXR0b25cIiB2YXJpYW50PVwib3V0bGluZVwiIG9uQ2xpY2s9eygpPT5zZXRPcGVuKGZhbHNlKX0+SOG7p3k8L0J1dHRvbj48QnV0dG9uIGRpc2FibGVkPXtzYXZpbmd9PntzYXZpbmcgPyAnxJBhbmcgbMawdeKApicgOiAnTMawdSBo4buTIHPGoSd9PC9CdXR0b24+PC9kaXY+PC9mb3JtPjwvZGl2PjwvZGl2Pn08Lz5cbn1cbiJdLCJmaWxlIjoiRDovcmVoYWJpbGl0YXRpb24vcmVoYWJpbGl0YXRpb24tYXIvZnJvbnRlbmQvc3JjL3BhZ2VzL1BhdGllbnRzLnRzeCJ9

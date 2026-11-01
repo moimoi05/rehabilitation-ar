@@ -1,0 +1,146 @@
+{
+   "action": {
+      "default_icon": "img/logo-48.png",
+      "default_popup": "popup.html",
+      "default_title": "J2TEAM Security"
+   },
+   "author": {
+      "email": "junookyo@gmail.com"
+   },
+   "background": {
+      "service_worker": "background.js"
+   },
+   "commands": {
+      "ai_summarize_selection": {
+         "description": "__MSG_shortcut_ai_summarize_description__"
+      },
+      "ai_translate_selection": {
+         "description": "__MSG_shortcut_ai_translate_description__",
+         "suggested_key": {
+            "default": "Ctrl+Shift+1",
+            "mac": "Command+Shift+1"
+         }
+      },
+      "pick_color": {
+         "description": "__MSG_shortcut_pick_color_description__"
+      }
+   },
+   "content_scripts": [ {
+      "all_frames": false,
+      "js": [ "content-scripts/ai-overlay.js", "content-scripts/anti-clickjacking.js" ],
+      "matches": [ "http://*/*", "https://*/*" ],
+      "run_at": "document_idle"
+   }, {
+      "all_frames": true,
+      "js": [ "content-scripts/anti-fb-phishing.js" ],
+      "matches": [ "http://*/*", "https://*/*" ],
+      "run_at": "document_idle"
+   }, {
+      "all_frames": true,
+      "exclude_matches": [ "https://*.anthropic.com/*", "https://*.apple.com/*", "https://*.canva.com/*", "https://*.chatgpt.com/*", "https://*.claude.ai/*", "https://*.claude.com/*", "https://*.discord.com/*", "https://*.facebook.com/*", "https://*.figma.com/*", "https://*.github.com/*", "https://*.google.com/*", "https://*.icloud.com/*", "https://*.instagram.com/*", "https://*.linkedin.com/*", "https://*.live.com/*", "https://*.microsoft.com/*", "https://*.notion.so/*", "https://*.office.com/*", "https://*.openai.com/*", "https://*.pinterest.com/*", "https://*.reddit.com/*", "https://*.sharepoint.com/*", "https://*.threads.com/*", "https://*.threads.net/*", "https://*.tiktok.com/*", "https://*.twitch.tv/*", "https://*.twitter.com/*", "https://*.vimeo.com/*", "https://*.x.com/*", "https://*.youtube.com/*", "https://github.dev/*" ],
+      "js": [ "content-scripts/enable-right-click.js" ],
+      "matches": [ "file:///*", "http://*/*", "https://*/*" ],
+      "run_at": "document_start"
+   }, {
+      "exclude_matches": [ "https://code.facebook.com/*", "https://developers.facebook.com/*", "https://graph.facebook.com/*", "https://m.facebook.com/*", "https://mbasic.facebook.com/*", "https://mobile.facebook.com/*", "https://touch.facebook.com/*" ],
+      "js": [ "content-scripts/fb-hide-suggested-bridge.js" ],
+      "matches": [ "https://*.facebook.com/*" ],
+      "run_at": "document_start"
+   }, {
+      "exclude_matches": [ "https://code.facebook.com/*", "https://developers.facebook.com/*", "https://graph.facebook.com/*", "https://m.facebook.com/*", "https://mbasic.facebook.com/*", "https://mobile.facebook.com/*", "https://touch.facebook.com/*" ],
+      "js": [ "content-scripts/fb-hide-suggested.js" ],
+      "matches": [ "https://*.facebook.com/*" ],
+      "run_at": "document_start",
+      "world": "MAIN"
+   }, {
+      "js": [ "content-scripts/fb-middleware.js" ],
+      "matches": [ "https://www.facebook.com/*", "https://www.messenger.com/t/*" ],
+      "run_at": "document_start"
+   }, {
+      "js": [ "content-scripts/fb-no-reload-bridge.js" ],
+      "matches": [ "https://*.facebook.com/*" ],
+      "run_at": "document_start"
+   }, {
+      "js": [ "content-scripts/fb-no-reload.js" ],
+      "matches": [ "https://*.facebook.com/*" ],
+      "run_at": "document_start",
+      "world": "MAIN"
+   }, {
+      "js": [ "content-scripts/fb-read-receipts-bridge.js" ],
+      "matches": [ "https://www.facebook.com/*" ],
+      "run_at": "document_idle"
+   }, {
+      "js": [ "content-scripts/fb-read-receipts.js" ],
+      "matches": [ "https://www.facebook.com/*" ],
+      "run_at": "document_idle",
+      "world": "MAIN"
+   }, {
+      "all_frames": false,
+      "exclude_matches": [ "https://code.facebook.com/*", "https://developers.facebook.com/*", "https://graph.facebook.com/*", "https://m.facebook.com/*", "https://mbasic.facebook.com/*", "https://mobile.facebook.com/*", "https://touch.facebook.com/*" ],
+      "js": [ "content-scripts/fb-timer.js" ],
+      "matches": [ "https://*.facebook.com/*" ],
+      "run_at": "document_end"
+   }, {
+      "all_frames": false,
+      "js": [ "content-scripts/instagram.js" ],
+      "matches": [ "https://*.instagram.com/*" ],
+      "run_at": "document_idle"
+   }, {
+      "all_frames": false,
+      "js": [ "content-scripts/json-prettifier.js" ],
+      "matches": [ "file:///*", "http://*/*", "https://*/*" ],
+      "run_at": "document_end"
+   }, {
+      "all_frames": false,
+      "js": [ "content-scripts/medium.js" ],
+      "matches": [ "https://*.medium.com/*" ],
+      "run_at": "document_start"
+   } ],
+   "content_security_policy": {
+      "extension_pages": "script-src 'self'; object-src 'self'"
+   },
+   "declarative_net_request": {
+      "rule_resources": [ {
+         "enabled": true,
+         "id": "ruleset_1",
+         "path": "rules_1.json"
+      } ]
+   },
+   "default_locale": "en",
+   "description": "__MSG_app_description__",
+   "externally_connectable": {
+      "matches": [ "https://j2team.dev/*", "https://j2team.org/*", "https://www.j2team.org/*" ]
+   },
+   "homepage_url": "https://j2team.org/",
+   "host_permissions": [ "http://*/*", "https://*/*" ],
+   "icons": {
+      "128": "img/logo-128.png",
+      "16": "img/logo-16.png",
+      "32": "img/logo-34.png",
+      "48": "img/logo-48.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqepQd+6I94dIYhNB19WS05uv3lZtW+QSVHjutYO3TGu/zrDEI3Jf8AXDdk97QwM+QQiqsTN8EXpGWFVgCno/TpQVWFhs89BRcnLtKzxCKx8P+hpuRi5wPGGtpAPhrydNdFr5necXjWvzs+xdLzHhCZ2P9EDLY6T+8it3itHcEwkfZAMjvPJq1CNVw8hDA2b8uKIGOfrHYv1LMbDQKgCw9HLRalhoeZ9kccxVrxv13QRlPUBN+6Us/aeuCe85vPyERPUiRCSnmS6a+JJYRwTqtdnHuWd6aMlDRHKonOtaanzBtZf1YaB0XI9mNdlhUl53j3YC9HGu5MynUjVgCRFSIQIDAQAB",
+   "manifest_version": 3,
+   "name": "J2TEAM Security",
+   "optional_permissions": [ "management", "bookmarks", "topSites", "tabGroups" ],
+   "options_ui": {
+      "open_in_tab": false,
+      "page": "options.html"
+   },
+   "permissions": [ "tabs", "notifications", "contextMenus", "cookies", "storage", "unlimitedStorage", "webRequest", "alarms", "scripting", "declarativeNetRequest", "sidePanel" ],
+   "side_panel": {
+      "default_path": "sidebar.html"
+   },
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "2.4.3",
+   "web_accessible_resources": [ {
+      "matches": [  ],
+      "resources": [ "img/juno_okyo.png" ]
+   }, {
+      "matches": [ "https://www.facebook.com/*", "https://www.messenger.com/*" ],
+      "resources": [ "js/fb-ws-hook.js" ]
+   }, {
+      "matches": [ "https://*.medium.com/*" ],
+      "resources": [ "css/medium-fix-vietnamese-font.css" ]
+   } ]
+}

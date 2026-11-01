@@ -1,0 +1,96 @@
+{
+   "action": {
+      "default_popup": "options.html"
+   },
+   "background": {
+      "service_worker": "js/background.bundle.js",
+      "type": "module"
+   },
+   "content_scripts": [ {
+      "css": [ "style.css" ],
+      "js": [ "src/themes/theme-manager.js", "libs/xlsx.mini.min.js", "libs/mermaid.min.js", "js/common.js", "js/journal-enhancer.js", "js/sort-excel-enhancer.js", "js/result-analyzer.js", "js/analysis-panel.js", "js/altmetric-manager.js", "js/permission-guard.js", "js/mermaid-renderer.js", "js/mindmap-generator.js", "js/abstract-interpretation-renderer.js", "js/ai-sender-constants.js", "enhancers/pubmedDetailManager.js", "enhancers/pubmed.js", "enhancers/pubmedArticle.js", "enhancers/ai-sender.js", "enhancers/commonArticleMindmap.js" ],
+      "matches": [ "https://pubmed.ncbi.nlm.nih.gov/*" ]
+   }, {
+      "css": [ "style.css" ],
+      "js": [ "libs/xlsx.mini.min.js", "libs/mermaid.min.js", "src/themes/theme-manager.js", "js/common.js", "js/journal-enhancer.js", "js/sort-excel-enhancer.js", "js/result-analyzer.js", "js/analysis-panel.js", "js/altmetric-manager.js", "js/permission-guard.js", "js/mermaid-renderer.js", "js/mindmap-generator.js", "js/abstract-interpretation-renderer.js", "js/ai-sender-constants.js", "enhancers/googleScholar.js", "enhancers/googleScholarCitations.js", "enhancers/ai-sender.js", "enhancers/commonArticleMindmap.js" ],
+      "matches": [ "https://scholar.google.com/*", "https://scholar.google.com.tw/*", "https://scholar.google.com.hk/*", "https://scholar.google.co.uk/*", "https://scholar.google.co.jp/*", "https://scholar.google.co.kr/*", "https://scholar.google.de/*", "https://scholar.google.fr/*", "https://scholar.google.it/*", "https://scholar.google.es/*", "https://scholar.google.com.au/*", "https://scholar.google.ca/*", "https://scholar.google.com.br/*" ]
+   }, {
+      "css": [ "style.css" ],
+      "js": [ "libs/mermaid.min.js", "src/themes/theme-manager.js", "js/common.js", "js/journal-enhancer.js", "js/mermaid-renderer.js", "js/mindmap-generator.js", "js/permission-guard.js", "js/abstract-interpretation-renderer.js", "js/ai-sender-constants.js", "enhancers/ai-sender.js", "enhancers/commonArticleMindmap.js", "enhancers/cnki.js" ],
+      "matches": [ "https://*.cnki.net/*" ]
+   }, {
+      "css": [ "style.css" ],
+      "js": [ "libs/mermaid.min.js", "src/themes/theme-manager.js", "js/common.js", "js/journal-enhancer.js", "js/altmetric-manager.js", "js/mermaid-renderer.js", "js/mindmap-generator.js", "js/permission-guard.js", "js/abstract-interpretation-renderer.js", "js/ai-sender-constants.js", "enhancers/ai-sender.js", "enhancers/commonArticleMindmap.js", "enhancers/wos.js" ],
+      "matches": [ "https://*.webofscience.com/*", "https://*.clarivate.com/*", "https://*.clarivate.cn/*" ]
+   }, {
+      "css": [ "style.css" ],
+      "js": [ "libs/mermaid.min.js", "src/themes/theme-manager.js", "js/common.js", "js/journal-enhancer.js", "js/altmetric-manager.js", "js/mermaid-renderer.js", "js/mindmap-generator.js", "js/permission-guard.js", "js/abstract-interpretation-renderer.js", "js/ai-sender-constants.js", "enhancers/ai-sender.js", "enhancers/commonArticleMindmap.js", "enhancers/scienceDirect.js" ],
+      "matches": [ "https://*.sciencedirect.com/*" ]
+   }, {
+      "css": [ "style.css" ],
+      "js": [ "libs/mermaid.min.js", "src/themes/theme-manager.js", "js/common.js", "js/journal-enhancer.js", "js/mermaid-renderer.js", "js/mindmap-generator.js", "js/permission-guard.js", "js/abstract-interpretation-renderer.js", "js/ai-sender-constants.js", "enhancers/ai-sender.js", "enhancers/commonArticleMindmap.js", "enhancers/engineeringVillage.js" ],
+      "matches": [ "https://*.engineeringvillage.com/*" ]
+   }, {
+      "css": [ "style.css" ],
+      "js": [ "src/themes/theme-manager.js", "js/common.js", "js/journal-enhancer.js", "enhancers/yuntsg.js" ],
+      "matches": [ "https://*.yuntsg.com/*" ]
+   }, {
+      "css": [ "style.css" ],
+      "js": [ "libs/mermaid.min.js", "src/themes/theme-manager.js", "js/common.js", "js/permission-guard.js", "js/journal-enhancer.js", "js/altmetric-manager.js", "js/mermaid-renderer.js", "js/mindmap-generator.js", "js/abstract-interpretation-renderer.js", "js/ai-sender-constants.js", "enhancers/baiduXueshu.js", "enhancers/ai-sender.js", "enhancers/commonArticleMindmap.js" ],
+      "matches": [ "https://xueshu.baidu.com/*" ]
+   }, {
+      "css": [ "style.css" ],
+      "js": [ "libs/mermaid.min.js", "src/themes/theme-manager.js", "js/common.js", "js/permission-guard.js", "js/journal-enhancer.js", "js/altmetric-manager.js", "js/mermaid-renderer.js", "js/mindmap-generator.js", "js/abstract-interpretation-renderer.js", "js/ai-sender-constants.js", "enhancers/ieee.js", "enhancers/ai-sender.js", "enhancers/commonArticleMindmap.js" ],
+      "matches": [ "https://ieeexplore.ieee.org/*" ]
+   }, {
+      "css": [ "style.css" ],
+      "js": [ "libs/mermaid.min.js", "src/themes/theme-manager.js", "js/common.js", "js/permission-guard.js", "js/journal-enhancer.js", "js/mermaid-renderer.js", "js/mindmap-generator.js", "js/abstract-interpretation-renderer.js", "js/ai-sender-constants.js", "enhancers/ai-sender.js", "enhancers/commonArticleMindmap.js", "enhancers/springer.js" ],
+      "matches": [ "https://*.springer.com/*" ]
+   }, {
+      "css": [ "style.css" ],
+      "js": [ "libs/mermaid.min.js", "src/themes/theme-manager.js", "js/common.js", "js/permission-guard.js", "js/journal-enhancer.js", "js/mermaid-renderer.js", "js/mindmap-generator.js", "js/abstract-interpretation-renderer.js", "js/ai-sender-constants.js", "enhancers/ai-sender.js", "enhancers/commonArticleMindmap.js", "enhancers/tandfonline.js" ],
+      "matches": [ "https://*.tandfonline.com/*" ]
+   }, {
+      "css": [ "style.css" ],
+      "js": [ "libs/mermaid.min.js", "src/themes/theme-manager.js", "js/common.js", "js/permission-guard.js", "js/journal-enhancer.js", "js/mermaid-renderer.js", "js/mindmap-generator.js", "js/abstract-interpretation-renderer.js", "js/ai-sender-constants.js", "enhancers/ai-sender.js", "enhancers/commonArticleMindmap.js", "enhancers/acs.js" ],
+      "matches": [ "https://*.acs.org/*" ]
+   }, {
+      "css": [ "style.css" ],
+      "js": [ "libs/mermaid.min.js", "src/themes/theme-manager.js", "js/common.js", "js/permission-guard.js", "js/journal-enhancer.js", "js/altmetric-manager.js", "js/mermaid-renderer.js", "js/mindmap-generator.js", "js/abstract-interpretation-renderer.js", "js/ai-sender-constants.js", "enhancers/ai-sender.js", "enhancers/commonArticleMindmap.js", "enhancers/mdpi.js" ],
+      "matches": [ "https://*.mdpi.com/*" ]
+   }, {
+      "js": [ "js/common.js", "js/permission-guard.js", "js/journal-enhancer.js", "js/mermaid-renderer.js", "js/mindmap-generator.js", "js/abstract-interpretation-renderer.js", "js/ai-sender-constants.js", "libs/mermaid.min.js", "enhancers/ai-sender.js", "enhancers/commonArticleMindmap.js" ],
+      "matches": [ "https://*.biomedcentral.com/*", "https://*.wiley.com/*", "https://*.chemrxiv.org/*", "https://*.arxiv.org/*", "https://pmc.ncbi.nlm.nih.gov/*", "https://patents.google.com/*", "https://*.sagepub.com/*", "https://*.cambridge.org/*", "https://*.plos.org/*", "https://*.academia.edu/*", "https://*.scopus.com/*", "https://*.researchgate.net/*", "https://*.aminer.cn/*" ]
+   }, {
+      "css": [ "style.css" ],
+      "js": [ "src/themes/theme-manager.js", "libs/xlsx.mini.min.js", "libs/mermaid.min.js", "js/common.js", "js/journal-enhancer.js", "js/sort-excel-enhancer.js", "js/result-analyzer.js", "js/analysis-panel.js", "js/permission-guard.js", "js/mermaid-renderer.js", "js/mindmap-generator.js", "js/altmetric-manager.js", "js/abstract-interpretation-renderer.js", "js/ai-sender-constants.js", "enhancers/wos.js", "enhancers/scienceDirect.js", "enhancers/engineeringVillage.js", "enhancers/cnki.js", "enhancers/ieee.js", "enhancers/pubmedDetailManager.js", "enhancers/pubmed.js", "enhancers/pubmedArticle.js", "enhancers/baiduXueshu.js", "enhancers/googleScholar.js", "enhancers/yuntsg.js", "enhancers/googleScholarCitations.js", "enhancers/tandfonline.js", "enhancers/acs.js", "enhancers/ai-sender.js", "enhancers/commonArticleMindmap.js" ],
+      "matches": [ "https://*.hku.hk/*" ]
+   }, {
+      "js": [ "js/content.js" ],
+      "matches": [ "https://*.byteslink.cn/*" ],
+      "run_at": "document_start"
+   } ],
+   "content_security_policy": {
+      "extension_pages": "script-src 'self'; object-src 'self';"
+   },
+   "default_locale": "zh_CN",
+   "description": "__MSG_extensionDescription__",
+   "host_permissions": [ "https://*.aliyuncs.com/*", "https://*.byteslink.cn/*" ],
+   "icons": {
+      "128": "icons/icon-128.png",
+      "16": "icons/icon-16.png",
+      "48": "icons/icon-48.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArSafB+KD2i7lN36A4gMlWWLbVxN2BaQ+xOG3tIw/VWO2qfk5pxfFI++uo4tGd7vS4G+35YGjnJYAGbp8MkPxk/gfc9YDLszRA5Yf3AtpG8DRFXux+OdpRLwGsms78RFLWMvdCc/uMdN3aBSXFvzDpCV7BlZ0Matn/BDD78JfSnfRsnQqeNGgkd4uEaatkinbI+KaecthHww+fLmBMhK6pQBRcvEa/vHlIPywwCFFZuCVY48NvXlzPnQsmI/909uz0nojdxBVcvKSgPJarAgtJ3Huup9QDEL3xXwgYxXGgLypekKlNTWSN5pw6+H8/WA2nVpgSAIhLRMUtuNrWS90WwIDAQAB",
+   "manifest_version": 3,
+   "minimum_chrome_version": "102",
+   "name": "__MSG_extensionName__",
+   "optional_host_permissions": [ "https://*/*", "http://*/*" ],
+   "permissions": [ "storage", "tabs", "scripting" ],
+   "update_url": "https://edge.microsoft.com/extensionwebstorebase/v1/crx",
+   "version": "1.8.8",
+   "web_accessible_resources": [ {
+      "matches": [ "\u003Call_urls>" ],
+      "resources": [ "src/themes/*", "src/styles/*", "data/*", "_locales/*/messages.json", "icons/*", "rank-settings.html", "ai-sender-settings.html" ]
+   } ]
+}

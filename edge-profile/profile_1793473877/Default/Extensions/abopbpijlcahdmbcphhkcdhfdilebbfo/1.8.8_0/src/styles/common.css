@@ -1,0 +1,228 @@
+/* src/styles/common.css */
+:root {
+    --pp-primary: #5212e7;
+    --pp-primary-lighten: #9a86d4;
+    --pp-bg-lighten: #ece8f5;
+    --pp-bg-gray: #e8eaeb;
+    --pp-primary-g: #1c922a;
+    --pp-border: #ebebeb;
+    --pp-text: #4a4a4a;
+    --pp-text-lighten: #8f8f8f;
+    --pp-success: #50b154;
+    --pp-warning: #f7ad0c;
+    --pp-error: #ff5252;
+}
+
+body {
+    color: var(--pp-text);
+}
+
+/* button */
+.el-switch.is-checked .el-switch__core {
+    background-color: var(--pp-success);
+    border-color: var(--pp-primary-g);
+}
+.el-button--text{
+    color: var(--pp-primary-lighten);
+}
+.el-button--text:hover, .el-button--text:focus {
+    color: var(--pp-primary);
+} 
+.el-button--primary {
+    background-color: var(--pp-primary);
+    border-color: var(--pp-primary);
+}
+ 
+.el-button--primary:hover {
+    background-color: var(--pp-primary);
+    border-color: var(--pp-primary);
+    opacity: 0.8;
+}
+ 
+.el-button--primary:focus {
+    background-color: var(--pp-primary);
+    border-color: var(--pp-primary);
+}
+
+/* plain button */
+.el-button--primary.is-plain {
+    color: var(--pp-primary);
+    background-color: var(--pp-bg-lighten);
+    border-color: var(--pp-primary-lighten);
+}
+
+.el-button--primary.is-plain:hover,
+.el-button--primary.is-plain:focus {
+    color: #fff;
+    background-color: var(--pp-primary);
+    border-color: var(--pp-primary);
+    opacity: 1;
+}
+
+.el-button--primary.is-plain:active {
+    color: #fff;
+    background-color: var(--pp-primary);
+    border-color: var(--pp-primary);
+    opacity: 0.8;
+}
+
+.el-button--primary.is-disabled, .el-button--primary.is-disabled:active, .el-button--primary.is-disabled:focus, .el-button--primary.is-disabled:hover {
+    color: var(--pp-primary-lighten);
+    background-color: var(--pp-bg-lighten);
+    border-color: var(--pp-primary-lighten);
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+ 
+/* checkbox */
+.el-checkbox__inner:hover {
+    border-color: var(--pp-primary);
+}
+ 
+.el-checkbox__input.is-focus .el-checkbox__inner {
+    border-color: var(--pp-primary);
+}
+ 
+.el-checkbox__input.is-checked .el-checkbox__inner {
+    background-color: var(--pp-primary);
+    border-color: var(--pp-primary);
+}
+ 
+.el-checkbox__input.is-checked+.el-checkbox__label {
+    color: var(--pp-primary);
+}
+ 
+.el-checkbox__input.is-indeterminate .el-checkbox__inner {
+    background-color: var(--pp-primary);
+    border-color: var(--pp-primary);
+}
+ 
+/* input */
+
+.el-input__inner {
+    border-color: var(--pp-border);
+}
+
+.el-input__inner:focus {
+    border-color: var(--pp-primary);
+}
+
+.el-range-editor.is-active, .el-range-editor.is-active:hover {
+    border-color: var(--pp-primary);
+}
+ 
+.el-time-panel__btn.confirm {
+    color: var(--pp-primary);
+}
+ 
+.el-picker-panel__icon-btn:hover {
+    color: var(--pp-primary);
+}
+ 
+.el-date-table td.available:hover {
+    color: var(--pp-primary);
+}
+ 
+.el-date-table td.start-date span {
+    background-color: var(--pp-primary);
+}
+ 
+.el-date-table td.end-date span {
+    background-color: var(--pp-primary);
+}
+ 
+.el-date-table td.today span {
+    color: var(--pp-primary);
+}
+ 
+/* 面包屑 */
+.el-breadcrumb__inner a:hover {
+    color: var(--pp-primary);
+}
+ 
+/* menu 导航栏 */
+.el-menu--horizontal>.el-menu-item.is-active {
+    border-bottom: 2px solid var(--pp-primary);
+    color: var(--pp-primary);
+}
+ 
+.el-menu--horizontal>.el-menu-item:hover {
+    color: var(--pp-primary);
+}
+ 
+.el-menu--horizontal .el-menu-item:not(.is-disabled):focus, .el-menu--horizontal .el-menu-item:not(.is-disabled):hover {
+    color: var(--pp-primary);
+}
+ 
+/* 下拉菜单 */
+.el-dropdown-menu__item:not(.is-disabled):hover {
+    background-color: var(--pp-bg-lighten);
+    color: var(--pp-primary);
+}
+ 
+/* el-select */
+.el-select .el-input.is-focus .el-input__inner {
+    border-color: var(--pp-primary);
+}
+ 
+.el-select .el-input__inner:focus {
+    border-color: var(--pp-primary);
+}
+ 
+.el-select-dropdown__item.selected,
+.el-select-dropdown.is-multiple .el-select-dropdown__item.selected {
+    color: var(--pp-primary);
+}
+ 
+/* .el-radio */
+.el-radio__input.is-checked .el-radio__inner {
+    background-color: var(--pp-primary);
+    border-color: var(--pp-primary);
+}
+ 
+.el-radio__inner:hover {
+    border-color: var(--pp-primary);
+}
+
+/* 针对确认对话框的样式优化 */
+.pp-confirm-dialog {
+  width: 300px !important;
+  max-width: 90vw !important;
+}
+
+.pp-confirm-dialog .el-message-box {
+  width: 300px !important;
+  max-width: 90vw !important;
+}
+
+.pp-confirm-dialog .el-message-box__content {
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.pp-confirm-dialog .el-message-box__btns {
+  text-align: center;
+  padding: 10px 15px 0;
+}
+
+.pp-confirm-dialog .el-message-box__btns .el-button {
+  margin: 0 5px;
+}
+
+/* others */
+
+.el-message .el-message__content {
+    white-space: normal !important;
+    word-break: normal !important;
+    width: auto !important;
+    max-width: 300px !important;
+}
+
+.el-tooltip__popper {
+    max-width: 200px; 
+    word-wrap: normal;
+}
+
+.el-popover{
+    word-break: normal !important;
+}

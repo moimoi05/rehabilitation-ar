@@ -1,0 +1,756 @@
+{
+   "about": {
+      "message": "Hakkında"
+   },
+   "actions": {
+      "message": "Eylemler"
+   },
+   "add": {
+      "message": "Add"
+   },
+   "ai_overlay_close": {
+      "message": "Kapat"
+   },
+   "ai_overlay_copied": {
+      "message": "Kopyalandı"
+   },
+   "ai_overlay_copy": {
+      "message": "Kopyala"
+   },
+   "ai_overlay_error_generic": {
+      "message": "Bir şeyler ters gitti."
+   },
+   "ai_overlay_error_unavailable": {
+      "message": "Cihaz üzerinde yapay zeka bu cihazda kullanılamıyor."
+   },
+   "ai_overlay_same_language": {
+      "message": "Aynı dil algılandı."
+   },
+   "ai_overlay_summarizing": {
+      "message": "Özetleniyor…"
+   },
+   "ai_overlay_toggle_theme": {
+      "message": "Temayı değiştir"
+   },
+   "ai_overlay_translating": {
+      "message": "Çevriliyor…"
+   },
+   "all_extensions": {
+      "message": "Tüm uzantılar ($ENABLED$/$TOTAL$)",
+      "placeholders": {
+         "enabled": {
+            "content": "$1"
+         },
+         "total": {
+            "content": "$2"
+         }
+      }
+   },
+   "anti_clickjacking": {
+      "message": "Anti-Clickjacking"
+   },
+   "anti_clickjacking_desc": {
+      "message": "Iframeler tıklamayı ele geçirirse uyar"
+   },
+   "app_description": {
+      "message": "J2TEAM Security phishing saldırılarına karşı koruma sağlar."
+   },
+   "app_name": {
+      "message": "J2TEAM Security"
+   },
+   "are_you_sure": {
+      "message": "Emin misiniz?"
+   },
+   "auto_activate_on_domains": {
+      "message": "Auto-activate on domains"
+   },
+   "back_to_top": {
+      "message": "Başa Dön"
+   },
+   "backup": {
+      "message": "Yedekleme"
+   },
+   "backup_description": {
+      "message": "Tüm yüklü uzantılarınızın listesini metin dosyası olarak indirmek için aşağıdaki düğmeye tıklayın."
+   },
+   "backup_file_header": {
+      "message": "Uzantılarınızın listesi, J2TEAM Security tarafından yedeklendi:"
+   },
+   "block_facebook_pixel": {
+      "message": "Facebook Pixel Engelle"
+   },
+   "block_facebook_pixel_desc": {
+      "message": "Facebook takip pikselini engelle"
+   },
+   "block_list": {
+      "message": "Engelleme listesi"
+   },
+   "block_page_heading": {
+      "message": "İleriye dönük site zararlı programlar içeriyor"
+   },
+   "block_page_p1": {
+      "message": "Saldırganlar"
+   },
+   "block_page_p2": {
+      "message": "yazdığınız sayfada"
+   },
+   "block_page_p3": {
+      "message": "sizi yanıltarak, tarama deneyiminizi bozan programları yüklemenize (örneğin ana sayfanızı değiştirerek veya ziyaret ettiğiniz sitelerde ekstra reklamlar göstererek) çalışabilirler."
+   },
+   "block_page_p4": {
+      "message": "Çünkü"
+   },
+   "block_page_p5": {
+      "message": " kullanıyorsunuz, bu site sizi korumak için engellendi!"
+   },
+   "block_page_title": {
+      "message": "Güvenlik hatası"
+   },
+   "block_seen_chat": {
+      "message": "Sohbetlerde \"görüldü\" özelliğini engelle"
+   },
+   "block_seen_in_chat": {
+      "message": "Sohbette Görüldü Engelle"
+   },
+   "block_seen_in_chat_desc": {
+      "message": "Messenger okundu bilgilerini kapatır. Başkalarının mesajlarınızı ne zaman okuduğunu da göremezsiniz"
+   },
+   "block_seen_in_story": {
+      "message": "Story'de Görüldü Engelle"
+   },
+   "block_seen_in_story_desc": {
+      "message": "Instagram Story’lerinde Görüldü’yü gizle"
+   },
+   "block_seen_in_story_facebook": {
+      "message": "Story'de Görüldü Engelle"
+   },
+   "block_seen_in_story_facebook_desc": {
+      "message": "Facebook Story’lerinde Görüldü’yü gizle"
+   },
+   "block_seen_in_zalo": {
+      "message": "Block Seen in Zalo"
+   },
+   "block_seen_in_zalo_desc": {
+      "message": "Hide your read status on Zalo Web"
+   },
+   "block_seen_story_facebook": {
+      "message": "Facebook hikayelerinde \"görüldü\" özelliğini engelle"
+   },
+   "block_seen_story_instagram": {
+      "message": "Instagram hikayelerinde \"görüldü\" özelliğini engelle"
+   },
+   "block_suggested_posts": {
+      "message": "Önerilen gönderileri engelle"
+   },
+   "block_suggested_posts_desc": {
+      "message": "Facebook akışınızdaki \"Sizin için önerilen\" gönderilerini gizleyin"
+   },
+   "block_typing_chat": {
+      "message": "Sohbetlerde yazıyor özelliğini engelle"
+   },
+   "block_typing_comment": {
+      "message": "Yorumlarda yazıyor özelliğini engelle"
+   },
+   "block_typing_in_chat": {
+      "message": "Sohbette Yazıyor Engelle"
+   },
+   "block_typing_in_chat_desc": {
+      "message": "Sohbette Yazıyor göstergesini gizle"
+   },
+   "block_typing_in_zalo": {
+      "message": "Block Typing in Zalo"
+   },
+   "block_typing_in_zalo_desc": {
+      "message": "Hide your typing indicator on Zalo Web"
+   },
+   "blocked_url": {
+      "message": "Engellenen URL: "
+   },
+   "buy_me_a_coffee": {
+      "message": "Bana bir kahve ısmarla"
+   },
+   "cancel": {
+      "message": "İptal"
+   },
+   "changelog": {
+      "message": "Değişiklik Günlüğü"
+   },
+   "clear": {
+      "message": "Temizle"
+   },
+   "click_to_rate": {
+      "message": "(puanlamak için yıldızlara tıklayın)"
+   },
+   "context_menu_ai_summarize": {
+      "message": "Seçimi özetle"
+   },
+   "context_menu_ai_translate": {
+      "message": "Seçimi çevir"
+   },
+   "context_menu_block_domain": {
+      "message": "Bu alan adını engelle/engelini kaldır"
+   },
+   "context_menu_change_hotkey": {
+      "message": "Kısayolu Değiştir"
+   },
+   "context_menu_change_language": {
+      "message": "Dili Değiştir"
+   },
+   "context_menu_changelog": {
+      "message": "Sürüm değişikliklerini görüntüle"
+   },
+   "context_menu_donate": {
+      "message": "Bağış yap"
+   },
+   "context_menu_faq": {
+      "message": "Sıkça Sorulan Sorular"
+   },
+   "context_menu_help": {
+      "message": "Yardım"
+   },
+   "context_menu_rate_me": {
+      "message": "J2TEAM Security'u Chrome Mağazasında değerlendirin"
+   },
+   "context_menu_report_abuse": {
+      "message": "Kötüye kullanımı bildir..."
+   },
+   "context_menu_report_badware": {
+      "message": "Kötü amaçlı yazılım"
+   },
+   "context_menu_report_phishing": {
+      "message": "Phishing"
+   },
+   "context_menu_report_suggest": {
+      "message": "Bildirin veya önerin"
+   },
+   "context_menu_report_webspam": {
+      "message": "Web spam'i"
+   },
+   "context_menu_save_image_as": {
+      "message": "Resmi farklı kaydet…"
+   },
+   "context_menu_view_facebook_shares": {
+      "message": "Bu gönderiyi kimin paylaştığını gör"
+   },
+   "create": {
+      "message": "Oluştur"
+   },
+   "create_new_profile": {
+      "message": "Yeni bir profil oluştur"
+   },
+   "custom_block_list": {
+      "message": "Özel engelleme listesi"
+   },
+   "custom_block_list_legend": {
+      "message": "bu listedeki tüm web sitelerini engelleyecektir"
+   },
+   "dark_theme_editor": {
+      "message": "Karanlık Tema Düzenleyicisi"
+   },
+   "delete": {
+      "message": "Sil"
+   },
+   "document": {
+      "message": "Belge"
+   },
+   "domain_input_placeholder": {
+      "message": "e.g. github.com"
+   },
+   "domain_profile_active": {
+      "message": "Active"
+   },
+   "domain_profile_active_banner": {
+      "message": "Domain profile active for $DOMAIN$",
+      "placeholders": {
+         "domain": {
+            "content": "$1"
+         }
+      }
+   },
+   "domain_profile_auto_managed": {
+      "message": "This profile is auto-managed by domain rules"
+   },
+   "download_extension_list": {
+      "message": "Uzantı Listesini İndir"
+   },
+   "enable_extension_manager": {
+      "message": "Uzantı Yöneticisini Etkinleştir"
+   },
+   "enable_right_click": {
+      "message": "Bunları engelleyen sayfalarda sağ tıklama, metin seçimi, kopyalama ve klavye kısayollarını yeniden etkinleştir"
+   },
+   "enable_right_click_exclusions_help": {
+      "message": "One domain per line. The unlock will not run on these sites. Major services are excluded by default: big tech, AI assistants, social networks, video platforms, and document/design tools."
+   },
+   "enable_right_click_exclusions_label": {
+      "message": "Excluded sites"
+   },
+   "enable_right_click_label": {
+      "message": "Sağ Tıklama ve Kopyalamayı Aç"
+   },
+   "error": {
+      "message": "Hata"
+   },
+   "extension_manager": {
+      "message": "Uzantı Yöneticisi"
+   },
+   "extension_manager_desc": {
+      "message": "Uzantı Yöneticisi panelini etkinleştir"
+   },
+   "extra_features": {
+      "message": "Ekstra özellikler"
+   },
+   "facebook": {
+      "message": "Facebook"
+   },
+   "facebook_colon": {
+      "message": "Facebook:"
+   },
+   "facebook_kount": {
+      "message": "Facebook Kount"
+   },
+   "facebook_messenger_history": {
+      "message": "Facebook Messenger Geçmişi"
+   },
+   "facebook_security_tester": {
+      "message": "Facebook güvenlik testi"
+   },
+   "facebook_time_counter": {
+      "message": "Facebook kullanım süresi sayacını göster"
+   },
+   "feature_request": {
+      "message": "Özellik İsteği"
+   },
+   "follow_me": {
+      "message": "Beni takip et"
+   },
+   "footer_text": {
+      "message": "J2TEAM ©$YEAR$ - $AUTHOR$ tarafından geliştirildi - Sürüm $VERSION$",
+      "placeholders": {
+         "author": {
+            "content": "$2"
+         },
+         "version": {
+            "content": "$3"
+         },
+         "year": {
+            "content": "$1"
+         }
+      }
+   },
+   "free_tools": {
+      "message": "Ücretsiz Araçlar"
+   },
+   "global_privacy_control": {
+      "message": "Her istekle Global Privacy Control (Sec-GPC) ve Do Not Track (DNT) başlıklarını gönder"
+   },
+   "global_privacy_control_label": {
+      "message": "Global Privacy Control"
+   },
+   "help": {
+      "message": "Yardım"
+   },
+   "homepage": {
+      "message": "Ana Sayfa"
+   },
+   "include_subdomains": {
+      "message": "Include subdomains"
+   },
+   "instagram": {
+      "message": "Instagram"
+   },
+   "instagram_colon": {
+      "message": "Instagram:"
+   },
+   "install_type": {
+      "message": "Yükleme türü: $TYPE$",
+      "placeholders": {
+         "type": {
+            "content": "$1"
+         }
+      }
+   },
+   "join_us": {
+      "message": "Bize Katılın"
+   },
+   "json_prettifier": {
+      "message": "JSON yanıtlarını sözdizimi vurgulama ile biçimlendir"
+   },
+   "json_prettifier_label": {
+      "message": "JSON Biçimlendirici"
+   },
+   "keyboard_shortcuts": {
+      "message": "Klavye Kısayolları"
+   },
+   "languages": {
+      "message": "Diller"
+   },
+   "load": {
+      "message": "Yükle"
+   },
+   "load_from_url": {
+      "message": "URL'den yükle"
+   },
+   "message": {
+      "message": "Mesaj"
+   },
+   "more": {
+      "message": "daha fazla"
+   },
+   "name": {
+      "message": "Ad"
+   },
+   "new_profile": {
+      "message": "Yeni profil"
+   },
+   "no": {
+      "message": "Hayır"
+   },
+   "notif_block_domain_added": {
+      "message": "Alan adı engelleme listesine eklendi"
+   },
+   "notif_block_domain_removed": {
+      "message": "Alan adı engelleme listesinden kaldırıldı"
+   },
+   "notif_save_image_as_failed": {
+      "message": "Resim kaydedilemedi"
+   },
+   "notif_view_facebook_shares_failed": {
+      "message": "Bu URL'den gönderi ID'si çıkarılamadı."
+   },
+   "notification_upgrade_button": {
+      "message": "Yeni özellikleri görüntüle"
+   },
+   "notification_upgrade_message": {
+      "message": "Premium sürümdeki özellikler: Video/Reel indirme, En Çok Etkileşim, Arkadaş Listesi Yedekleme vb."
+   },
+   "notification_upgrade_title": {
+      "message": "J2TEAM Security: Daha fazla özellik kullanmak ister misiniz?"
+   },
+   "open_side_panel": {
+      "message": "Yan Paneli Aç"
+   },
+   "options": {
+      "message": "Seçenekler"
+   },
+   "options_saved": {
+      "message": "Seçenekler kaydedildi!"
+   },
+   "others": {
+      "message": "Diğer"
+   },
+   "others_colon": {
+      "message": "Diğer:"
+   },
+   "perm_activeTab": {
+      "message": "Access current tab"
+   },
+   "perm_alarms": {
+      "message": "Schedule tasks"
+   },
+   "perm_bookmarks": {
+      "message": "Read and modify bookmarks"
+   },
+   "perm_browsingData": {
+      "message": "Delete browsing data"
+   },
+   "perm_clipboardRead": {
+      "message": "Read clipboard content"
+   },
+   "perm_clipboardWrite": {
+      "message": "Write to clipboard"
+   },
+   "perm_contentSettings": {
+      "message": "Change content settings"
+   },
+   "perm_contextMenus": {
+      "message": "Add right-click menu items"
+   },
+   "perm_cookies": {
+      "message": "Read and modify cookies"
+   },
+   "perm_debugger": {
+      "message": "Access browser debugger"
+   },
+   "perm_declarativeNetRequest": {
+      "message": "Block or modify network requests"
+   },
+   "perm_declarativeNetRequestFeedback": {
+      "message": "View blocked network requests"
+   },
+   "perm_declarativeNetRequestWithHostAccess": {
+      "message": "Block or modify network requests on specific sites"
+   },
+   "perm_desktopCapture": {
+      "message": "Capture screen content"
+   },
+   "perm_downloads": {
+      "message": "Manage downloads"
+   },
+   "perm_favicon": {
+      "message": "Access website icons"
+   },
+   "perm_fontSettings": {
+      "message": "Change font settings"
+   },
+   "perm_geolocation": {
+      "message": "Access your location"
+   },
+   "perm_history": {
+      "message": "Read browsing history"
+   },
+   "perm_identity": {
+      "message": "Sign in with your account"
+   },
+   "perm_idle": {
+      "message": "Detect when you're idle"
+   },
+   "perm_management": {
+      "message": "Manage other extensions"
+   },
+   "perm_nativeMessaging": {
+      "message": "Communicate with other programs"
+   },
+   "perm_notifications": {
+      "message": "Show notifications"
+   },
+   "perm_offscreen": {
+      "message": "Create offscreen documents"
+   },
+   "perm_pageCapture": {
+      "message": "Capture page content"
+   },
+   "perm_power": {
+      "message": "Prevent device from sleeping"
+   },
+   "perm_privacy": {
+      "message": "Change privacy settings"
+   },
+   "perm_proxy": {
+      "message": "Manage proxy settings"
+   },
+   "perm_runtime": {
+      "message": "Extension messaging"
+   },
+   "perm_scripting": {
+      "message": "Run scripts on pages"
+   },
+   "perm_search": {
+      "message": "Search with default engine"
+   },
+   "perm_sidePanel": {
+      "message": "Open side panel"
+   },
+   "perm_storage": {
+      "message": "Store extension data"
+   },
+   "perm_tabGroups": {
+      "message": "Organize tab groups"
+   },
+   "perm_tabs": {
+      "message": "Access browser tabs"
+   },
+   "perm_theme": {
+      "message": "Change browser theme"
+   },
+   "perm_topSites": {
+      "message": "Access most visited sites"
+   },
+   "perm_tts": {
+      "message": "Read text aloud"
+   },
+   "perm_unlimitedStorage": {
+      "message": "Use unlimited storage"
+   },
+   "perm_webNavigation": {
+      "message": "Track page navigation"
+   },
+   "perm_webRequest": {
+      "message": "Intercept network requests"
+   },
+   "perm_webRequestBlocking": {
+      "message": "Block network requests"
+   },
+   "permissions": {
+      "message": "İzinler"
+   },
+   "pick_color_copied": {
+      "message": "Copied to clipboard"
+   },
+   "pick_color_failed": {
+      "message": "Unable to open color picker on this page."
+   },
+   "pick_color_menu": {
+      "message": "Pick Color (Eyedropper)"
+   },
+   "pick_color_title": {
+      "message": "J2TEAM Color Picker"
+   },
+   "pick_color_unsupported": {
+      "message": "EyeDropper API is not supported in this browser."
+   },
+   "pin_to_top": {
+      "message": "Üste Sabitle"
+   },
+   "pinned_extensions_tooltip": {
+      "message": "Sabitlenen uzantılar bu düğmeyle devre dışı bırakılmaz"
+   },
+   "pinned_to_top": {
+      "message": "Üste Sabitlendi"
+   },
+   "premium_dashboard": {
+      "message": "Premium Paneli"
+   },
+   "premium_tools": {
+      "message": "Premium Araçlar"
+   },
+   "prevent_facebook_feed_reload": {
+      "message": "Haber Akışının otomatik yenilenmesini engelle"
+   },
+   "prevent_facebook_feed_reload_desc": {
+      "message": "Sekmeye geri döndüğünüzde Facebook'un Haber Akışını yeniden yüklemesini engeller"
+   },
+   "privacy": {
+      "message": "Facebook Gizlilik"
+   },
+   "profile_name": {
+      "message": "Profil adı"
+   },
+   "profile_name_required": {
+      "message": "Lütfen profil adını girin!"
+   },
+   "profiles": {
+      "message": "Profiller"
+   },
+   "profiles_description": {
+      "message": "Profiller uzantıları gruplandırmanıza olanak tanır"
+   },
+   "rating_message": {
+      "message": "Bu uzantıyı beğendiyseniz, lütfen 5 yıldız verin:"
+   },
+   "real_time_protection": {
+      "message": "Gerçek Zamanlı Koruma"
+   },
+   "real_time_protection_desc": {
+      "message": "Sayfaları kimlik avı listesine karşı tara"
+   },
+   "realtime": {
+      "message": "Gerçek zamanlı koruma"
+   },
+   "remove_tracking_params": {
+      "message": "URL'lerden izleme parametrelerini kaldır (fbclid, UTM, gclid vb.)"
+   },
+   "remove_tracking_params_label": {
+      "message": "İzleme parametrelerini kaldır"
+   },
+   "reviews": {
+      "message": "Değerlendirmeler"
+   },
+   "save": {
+      "message": "Kaydet"
+   },
+   "save_options": {
+      "message": "Seçenekleri Kaydet"
+   },
+   "search_extension": {
+      "message": "Uzantı ara..."
+   },
+   "security": {
+      "message": "Güvenlik"
+   },
+   "security_colon": {
+      "message": "Güvenlik:"
+   },
+   "select_extension_required": {
+      "message": "Lütfen en az bir uzantı seçin!"
+   },
+   "select_extensions": {
+      "message": "Uzantı seçin"
+   },
+   "settings": {
+      "message": "Ayarlar"
+   },
+   "shortcut_ai_summarize_description": {
+      "message": "Seçili metni yapay zeka ile özetle"
+   },
+   "shortcut_ai_translate_description": {
+      "message": "Seçili metni yapay zeka ile çevir"
+   },
+   "shortcut_pick_color_description": {
+      "message": "Sayfadan renk seç (Damlalık)"
+   },
+   "show_time_counter": {
+      "message": "Zaman Sayacını Göster"
+   },
+   "show_time_counter_desc": {
+      "message": "Facebook’da geçirilen süreyi göster"
+   },
+   "show_update_notification": {
+      "message": "Güncelleme bildirimini göster"
+   },
+   "show_update_notification_label": {
+      "message": "Güncelleme bildirimleri"
+   },
+   "status": {
+      "message": "Durum"
+   },
+   "stop_facebook_timeline": {
+      "message": "Facebook Zaman Tünelini (Haber Kaynağı) Durdur"
+   },
+   "telegram_channel": {
+      "message": "Telegram Kanalı"
+   },
+   "toggle_all_extensions": {
+      "message": "Tüm uzantıları değiştir"
+   },
+   "toggle_block_seen_chat": {
+      "message": "\"Görüldü\" özelliğini aç/kapat"
+   },
+   "toggle_block_typing_chat": {
+      "message": "Yazıyor özelliğini aç/kapat"
+   },
+   "tools": {
+      "message": "Araçlar"
+   },
+   "type": {
+      "message": "Tür"
+   },
+   "uninstall": {
+      "message": "Kaldır"
+   },
+   "unpin": {
+      "message": "Sabitlemeyi Kaldır"
+   },
+   "update": {
+      "message": "Güncelle"
+   },
+   "update_message": {
+      "message": "{appName}, {appVersion} sürümüne güncellendi. Bu sürümdeki değişiklikleri görmek için buraya tıklayın!"
+   },
+   "update_profile": {
+      "message": "Profili güncelle: $NAME$",
+      "placeholders": {
+         "name": {
+            "content": "$1"
+         }
+      }
+   },
+   "upgrade_to_premium": {
+      "message": "Premium'a yükselt"
+   },
+   "user_info": {
+      "message": "Kullanıcı Bilgileri"
+   },
+   "view": {
+      "message": "Görüntüle"
+   },
+   "website": {
+      "message": "Web sitesi"
+   },
+   "yes": {
+      "message": "Evet"
+   },
+   "zalo": {
+      "message": "Zalo"
+   }
+}

@@ -1,0 +1,32 @@
+{
+  "themes": {
+    "default": {
+      "name": "默认",
+      "nameEN": "Default",
+      "description": "经典风格",
+      "descriptionEN": "Classic style with rounded design",
+      "path": "default"
+    },
+    "compact": {
+      "name": "隐藏式",
+      "nameEN": "Peek",
+      "description": "默认隐藏，悬停时展开期刊信息",
+      "descriptionEN": "Hidden by default, hover to reveal journal details",
+      "path": "compact"
+    },
+    "noborder": {
+      "name": "经典无边框",
+      "nameEN": "Classic Borderless",
+      "description": "无边框设计，简洁大方",
+      "descriptionEN": "Borderless design for a clean and elegant look",
+      "path": "noborder"
+    },
+    "clear": {
+      "name": "极简大字体",
+      "nameEN": "Big-type minimalism",
+      "description": "大字体、高对比配色，确保阅读清晰",
+      "descriptionEN": "Large fonts and high-contrast colors for maximum readability",
+      "path": "clear"
+    }
+  }
+}

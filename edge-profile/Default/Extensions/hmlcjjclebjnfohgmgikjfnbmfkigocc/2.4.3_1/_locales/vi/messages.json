@@ -1,0 +1,756 @@
+{
+   "about": {
+      "message": "Thông tin"
+   },
+   "actions": {
+      "message": "Thao Tác"
+   },
+   "add": {
+      "message": "Thêm"
+   },
+   "ai_overlay_close": {
+      "message": "Đóng"
+   },
+   "ai_overlay_copied": {
+      "message": "Đã sao chép"
+   },
+   "ai_overlay_copy": {
+      "message": "Sao chép"
+   },
+   "ai_overlay_error_generic": {
+      "message": "Đã có lỗi xảy ra."
+   },
+   "ai_overlay_error_unavailable": {
+      "message": "AI cục bộ không khả dụng trên thiết bị này."
+   },
+   "ai_overlay_same_language": {
+      "message": "Phát hiện cùng ngôn ngữ."
+   },
+   "ai_overlay_summarizing": {
+      "message": "Đang tóm tắt…"
+   },
+   "ai_overlay_toggle_theme": {
+      "message": "Đổi giao diện"
+   },
+   "ai_overlay_translating": {
+      "message": "Đang dịch…"
+   },
+   "all_extensions": {
+      "message": "Tất cả tiện ích ($ENABLED$/$TOTAL$)",
+      "placeholders": {
+         "enabled": {
+            "content": "$1"
+         },
+         "total": {
+            "content": "$2"
+         }
+      }
+   },
+   "anti_clickjacking": {
+      "message": "Chặn Clickjacking"
+   },
+   "anti_clickjacking_desc": {
+      "message": "Cảnh báo khi iframe cố chiếm cú click"
+   },
+   "app_description": {
+      "message": "J2TEAM Security giúp chống lại các cuộc tấn công lừa đảo."
+   },
+   "app_name": {
+      "message": "J2TEAM Security"
+   },
+   "are_you_sure": {
+      "message": "Bạn có chắc không?"
+   },
+   "auto_activate_on_domains": {
+      "message": "Tự động kích hoạt theo domain"
+   },
+   "back_to_top": {
+      "message": "Lên Đầu Trang"
+   },
+   "backup": {
+      "message": "Sao lưu"
+   },
+   "backup_description": {
+      "message": "Nhấn nút bên dưới để tải danh sách tất cả tiện ích đã cài đặt dưới dạng tệp văn bản."
+   },
+   "backup_file_header": {
+      "message": "Danh sách tiện ích của bạn, sao lưu bởi J2TEAM Security:"
+   },
+   "block_facebook_pixel": {
+      "message": "Chặn Facebook Pixel"
+   },
+   "block_facebook_pixel_desc": {
+      "message": "Chặn pixel theo dõi của Facebook"
+   },
+   "block_list": {
+      "message": "Danh sách chặn"
+   },
+   "block_page_heading": {
+      "message": "Trang web sắp truy cập chứa chương trình độc hại"
+   },
+   "block_page_p1": {
+      "message": "Những kẻ tấn công trên trang"
+   },
+   "block_page_p2": {
+      "message": "bạn vừa click"
+   },
+   "block_page_p3": {
+      "message": "có thể đánh lừa bạn cài đặt các chương trình ảnh hưởng đến trải nghiệm duyệt web của bạn (ví dụ: bằng cách thay đổi trang chủ của bạn hoặc hiển thị thêm quảng cáo trên các trang bạn truy cập)."
+   },
+   "block_page_p4": {
+      "message": "Vì bạn sử dụng"
+   },
+   "block_page_p5": {
+      "message": " nên trang này đã bị chặn lại để giữ bạn an toàn!"
+   },
+   "block_page_title": {
+      "message": "Lỗi bảo mật"
+   },
+   "block_seen_chat": {
+      "message": "Chặn \"đã xem\" trong trò chuyện"
+   },
+   "block_seen_in_chat": {
+      "message": "Chặn đã xem tin nhắn"
+   },
+   "block_seen_in_chat_desc": {
+      "message": "Tắt thông báo đã xem của Messenger. Bạn cũng sẽ không thấy khi người khác đã xem tin nhắn của mình"
+   },
+   "block_seen_in_story": {
+      "message": "Chặn đã xem Story"
+   },
+   "block_seen_in_story_desc": {
+      "message": "Ẩn đã xem Story trên Instagram"
+   },
+   "block_seen_in_story_facebook": {
+      "message": "Chặn đã xem Story"
+   },
+   "block_seen_in_story_facebook_desc": {
+      "message": "Ẩn đã xem Story trên Facebook"
+   },
+   "block_seen_in_zalo": {
+      "message": "Chặn \"đã xem\" trên Zalo"
+   },
+   "block_seen_in_zalo_desc": {
+      "message": "Ẩn trạng thái đã đọc tin nhắn trên Zalo Web"
+   },
+   "block_seen_story_facebook": {
+      "message": "Chặn tính năng \"đã xem\" của câu chuyện trên Facebook"
+   },
+   "block_seen_story_instagram": {
+      "message": "Chặn tính năng \"đã xem\" của câu chuyện trên Instagram"
+   },
+   "block_suggested_posts": {
+      "message": "Chặn bài viết được đề xuất"
+   },
+   "block_suggested_posts_desc": {
+      "message": "Ẩn các bài \"Đề xuất cho bạn\" trên News Feed Facebook"
+   },
+   "block_typing_chat": {
+      "message": "Chặn \"đang trả lời...\" trong trò chuyện"
+   },
+   "block_typing_comment": {
+      "message": "Chặn \"đang trả lời...\" khi bình luận"
+   },
+   "block_typing_in_chat": {
+      "message": "Chặn đang nhập tin nhắn"
+   },
+   "block_typing_in_chat_desc": {
+      "message": "Ẩn dấu hiệu đang nhập trong chat"
+   },
+   "block_typing_in_zalo": {
+      "message": "Chặn \"đang nhập\" trên Zalo"
+   },
+   "block_typing_in_zalo_desc": {
+      "message": "Ẩn chỉ báo \"đang soạn tin\" trên Zalo Web"
+   },
+   "blocked_url": {
+      "message": "URL đã bị chặn: "
+   },
+   "buy_me_a_coffee": {
+      "message": "Mời tác giả cà phê"
+   },
+   "cancel": {
+      "message": "Hủy"
+   },
+   "changelog": {
+      "message": "Nhật Ký Thay Đổi"
+   },
+   "clear": {
+      "message": "Xóa tất cả"
+   },
+   "click_to_rate": {
+      "message": "(nhấn vào sao để đánh giá)"
+   },
+   "context_menu_ai_summarize": {
+      "message": "Tóm tắt đoạn đã chọn"
+   },
+   "context_menu_ai_translate": {
+      "message": "Dịch đoạn đã chọn"
+   },
+   "context_menu_block_domain": {
+      "message": "Chặn/Bỏ chặn tên miền này"
+   },
+   "context_menu_change_hotkey": {
+      "message": "Thay đổi phím tắt"
+   },
+   "context_menu_change_language": {
+      "message": "Thay đổi ngôn ngữ"
+   },
+   "context_menu_changelog": {
+      "message": "Xem nhật ký thay đổi"
+   },
+   "context_menu_donate": {
+      "message": "Ủng hộ tác giả"
+   },
+   "context_menu_faq": {
+      "message": "Câu hỏi thường gặp"
+   },
+   "context_menu_help": {
+      "message": "Hỗ trợ"
+   },
+   "context_menu_rate_me": {
+      "message": "Đánh giá trên Chrome Store"
+   },
+   "context_menu_report_abuse": {
+      "message": "Báo cáo lạm dụng..."
+   },
+   "context_menu_report_badware": {
+      "message": "Phần mềm độc hại"
+   },
+   "context_menu_report_phishing": {
+      "message": "Lừa đảo (phishing)"
+   },
+   "context_menu_report_suggest": {
+      "message": "Báo lỗi hoặc góp ý"
+   },
+   "context_menu_report_webspam": {
+      "message": "Webspam"
+   },
+   "context_menu_save_image_as": {
+      "message": "Lưu ảnh dạng khác…"
+   },
+   "context_menu_view_facebook_shares": {
+      "message": "Xem ai đã chia sẻ bài viết này"
+   },
+   "create": {
+      "message": "Tạo"
+   },
+   "create_new_profile": {
+      "message": "Tạo hồ sơ mới"
+   },
+   "custom_block_list": {
+      "message": "Tùy chỉnh danh sách chặn"
+   },
+   "custom_block_list_legend": {
+      "message": "sẽ chặn toàn bộ trang web trong danh sách này"
+   },
+   "dark_theme_editor": {
+      "message": "Dark Theme Editor"
+   },
+   "delete": {
+      "message": "Xóa"
+   },
+   "document": {
+      "message": "Tài Liệu"
+   },
+   "domain_input_placeholder": {
+      "message": "VD: github.com"
+   },
+   "domain_profile_active": {
+      "message": "Đang hoạt động"
+   },
+   "domain_profile_active_banner": {
+      "message": "Hồ sơ domain đang hoạt động cho $DOMAIN$",
+      "placeholders": {
+         "domain": {
+            "content": "$1"
+         }
+      }
+   },
+   "domain_profile_auto_managed": {
+      "message": "Hồ sơ này được quản lý tự động theo domain"
+   },
+   "download_extension_list": {
+      "message": "Tải Danh Sách Tiện Ích"
+   },
+   "enable_extension_manager": {
+      "message": "Bật Quản Lý Tiện Ích"
+   },
+   "enable_right_click": {
+      "message": "Bật lại chuột phải, bôi đen, sao chép và phím tắt trên các trang chặn"
+   },
+   "enable_right_click_exclusions_help": {
+      "message": "Mỗi dòng một tên miền. Tính năng mở khóa sẽ không chạy trên các trang này. Các nhóm dịch vụ lớn đã được loại trừ mặc định: big tech, trợ lý AI, mạng xã hội, nền tảng video, và công cụ tài liệu/thiết kế."
+   },
+   "enable_right_click_exclusions_label": {
+      "message": "Trang loại trừ"
+   },
+   "enable_right_click_label": {
+      "message": "Mở khóa chuột phải & sao chép"
+   },
+   "error": {
+      "message": "Lỗi"
+   },
+   "extension_manager": {
+      "message": "Quản Lý Tiện Ích"
+   },
+   "extension_manager_desc": {
+      "message": "Bật bảng Quản lý tiện ích"
+   },
+   "extra_features": {
+      "message": "Tính năng mở rộng"
+   },
+   "facebook": {
+      "message": "Facebook"
+   },
+   "facebook_colon": {
+      "message": "Facebook:"
+   },
+   "facebook_kount": {
+      "message": "Thống kê tin nhắn Facebook"
+   },
+   "facebook_messenger_history": {
+      "message": "Xem tin nhắn đầu tiên trên Facebook"
+   },
+   "facebook_security_tester": {
+      "message": "Kiểm tra bảo mật Facebook"
+   },
+   "facebook_time_counter": {
+      "message": "Hiển thị thời gian truy cập Facebook"
+   },
+   "feature_request": {
+      "message": "Yêu Cầu Tính Năng"
+   },
+   "follow_me": {
+      "message": "Theo dõi tác giả"
+   },
+   "footer_text": {
+      "message": "J2TEAM ©$YEAR$ - Phát triển bởi $AUTHOR$ - Phiên bản $VERSION$",
+      "placeholders": {
+         "author": {
+            "content": "$2"
+         },
+         "version": {
+            "content": "$3"
+         },
+         "year": {
+            "content": "$1"
+         }
+      }
+   },
+   "free_tools": {
+      "message": "Công Cụ Miễn Phí"
+   },
+   "global_privacy_control": {
+      "message": "Gửi header Global Privacy Control (Sec-GPC) và Do Not Track (DNT) trong mọi yêu cầu"
+   },
+   "global_privacy_control_label": {
+      "message": "Global Privacy Control"
+   },
+   "help": {
+      "message": "Hướng dẫn"
+   },
+   "homepage": {
+      "message": "Trang chủ"
+   },
+   "include_subdomains": {
+      "message": "Bao gồm subdomain"
+   },
+   "instagram": {
+      "message": "Instagram"
+   },
+   "instagram_colon": {
+      "message": "Instagram:"
+   },
+   "install_type": {
+      "message": "Kiểu cài đặt: $TYPE$",
+      "placeholders": {
+         "type": {
+            "content": "$1"
+         }
+      }
+   },
+   "join_us": {
+      "message": "Tham Gia Với Chúng Tôi"
+   },
+   "json_prettifier": {
+      "message": "Định dạng JSON với tô màu cú pháp"
+   },
+   "json_prettifier_label": {
+      "message": "Định dạng JSON"
+   },
+   "keyboard_shortcuts": {
+      "message": "Phím Tắt"
+   },
+   "languages": {
+      "message": "Ngôn Ngữ"
+   },
+   "load": {
+      "message": "Nạp"
+   },
+   "load_from_url": {
+      "message": "Nạp từ URL"
+   },
+   "message": {
+      "message": "Tin nhắn"
+   },
+   "more": {
+      "message": "thêm"
+   },
+   "name": {
+      "message": "Tên"
+   },
+   "new_profile": {
+      "message": "Hồ sơ mới"
+   },
+   "no": {
+      "message": "Không"
+   },
+   "notif_block_domain_added": {
+      "message": "Đã thêm tên miền vào danh sách chặn"
+   },
+   "notif_block_domain_removed": {
+      "message": "Đã gỡ tên miền khỏi danh sách chặn"
+   },
+   "notif_save_image_as_failed": {
+      "message": "Không thể lưu ảnh"
+   },
+   "notif_view_facebook_shares_failed": {
+      "message": "Không thể trích xuất ID bài viết từ liên kết này."
+   },
+   "notification_upgrade_button": {
+      "message": "Xem các tính năng mới"
+   },
+   "notification_upgrade_message": {
+      "message": "Các tính năng trong bản Premium: Tải video/reel, Ai tương tác với bạn nhiều nhất, Sao lưu danh sách bạn bè,..."
+   },
+   "notification_upgrade_title": {
+      "message": "J2TEAM Security: Bạn có muốn dùng thêm tính năng mới?"
+   },
+   "open_side_panel": {
+      "message": "Mở Bảng Bên"
+   },
+   "options": {
+      "message": "Tùy Chọn"
+   },
+   "options_saved": {
+      "message": "Đã lưu tùy chọn!"
+   },
+   "others": {
+      "message": "Khác"
+   },
+   "others_colon": {
+      "message": "Khác:"
+   },
+   "perm_activeTab": {
+      "message": "Truy cập tab hiện tại"
+   },
+   "perm_alarms": {
+      "message": "Lên lịch tác vụ"
+   },
+   "perm_bookmarks": {
+      "message": "Đọc và sửa đổi dấu trang"
+   },
+   "perm_browsingData": {
+      "message": "Xóa dữ liệu duyệt web"
+   },
+   "perm_clipboardRead": {
+      "message": "Đọc nội dung clipboard"
+   },
+   "perm_clipboardWrite": {
+      "message": "Ghi vào clipboard"
+   },
+   "perm_contentSettings": {
+      "message": "Thay đổi cài đặt nội dung"
+   },
+   "perm_contextMenus": {
+      "message": "Thêm mục vào menu chuột phải"
+   },
+   "perm_cookies": {
+      "message": "Đọc và sửa đổi cookie"
+   },
+   "perm_debugger": {
+      "message": "Truy cập trình gỡ lỗi"
+   },
+   "perm_declarativeNetRequest": {
+      "message": "Chặn hoặc thay đổi yêu cầu mạng"
+   },
+   "perm_declarativeNetRequestFeedback": {
+      "message": "Xem yêu cầu mạng bị chặn"
+   },
+   "perm_declarativeNetRequestWithHostAccess": {
+      "message": "Chặn hoặc thay đổi yêu cầu mạng trên trang cụ thể"
+   },
+   "perm_desktopCapture": {
+      "message": "Chụp nội dung màn hình"
+   },
+   "perm_downloads": {
+      "message": "Quản lý tải xuống"
+   },
+   "perm_favicon": {
+      "message": "Truy cập biểu tượng trang web"
+   },
+   "perm_fontSettings": {
+      "message": "Thay đổi cài đặt phông chữ"
+   },
+   "perm_geolocation": {
+      "message": "Truy cập vị trí của bạn"
+   },
+   "perm_history": {
+      "message": "Đọc lịch sử duyệt web"
+   },
+   "perm_identity": {
+      "message": "Đăng nhập bằng tài khoản của bạn"
+   },
+   "perm_idle": {
+      "message": "Phát hiện khi bạn không hoạt động"
+   },
+   "perm_management": {
+      "message": "Quản lý tiện ích mở rộng khác"
+   },
+   "perm_nativeMessaging": {
+      "message": "Giao tiếp với chương trình khác"
+   },
+   "perm_notifications": {
+      "message": "Hiển thị thông báo"
+   },
+   "perm_offscreen": {
+      "message": "Tạo tài liệu ngoài màn hình"
+   },
+   "perm_pageCapture": {
+      "message": "Chụp nội dung trang"
+   },
+   "perm_power": {
+      "message": "Ngăn thiết bị chuyển sang chế độ ngủ"
+   },
+   "perm_privacy": {
+      "message": "Thay đổi cài đặt quyền riêng tư"
+   },
+   "perm_proxy": {
+      "message": "Quản lý cài đặt proxy"
+   },
+   "perm_runtime": {
+      "message": "Nhắn tin giữa các tiện ích"
+   },
+   "perm_scripting": {
+      "message": "Chạy mã trên các trang"
+   },
+   "perm_search": {
+      "message": "Tìm kiếm với công cụ mặc định"
+   },
+   "perm_sidePanel": {
+      "message": "Mở bảng bên"
+   },
+   "perm_storage": {
+      "message": "Lưu trữ dữ liệu tiện ích"
+   },
+   "perm_tabGroups": {
+      "message": "Sắp xếp nhóm tab"
+   },
+   "perm_tabs": {
+      "message": "Truy cập các tab trình duyệt"
+   },
+   "perm_theme": {
+      "message": "Thay đổi giao diện trình duyệt"
+   },
+   "perm_topSites": {
+      "message": "Truy cập các trang hay truy cập nhất"
+   },
+   "perm_tts": {
+      "message": "Đọc văn bản thành tiếng"
+   },
+   "perm_unlimitedStorage": {
+      "message": "Sử dụng bộ nhớ không giới hạn"
+   },
+   "perm_webNavigation": {
+      "message": "Theo dõi điều hướng trang"
+   },
+   "perm_webRequest": {
+      "message": "Can thiệp yêu cầu mạng"
+   },
+   "perm_webRequestBlocking": {
+      "message": "Chặn yêu cầu mạng"
+   },
+   "permissions": {
+      "message": "Quyền"
+   },
+   "pick_color_copied": {
+      "message": "Đã sao chép vào bộ nhớ tạm"
+   },
+   "pick_color_failed": {
+      "message": "Không thể mở công cụ chọn màu trên trang này."
+   },
+   "pick_color_menu": {
+      "message": "Chọn màu (Eyedropper)"
+   },
+   "pick_color_title": {
+      "message": "J2TEAM Color Picker"
+   },
+   "pick_color_unsupported": {
+      "message": "Trình duyệt không hỗ trợ EyeDropper API."
+   },
+   "pin_to_top": {
+      "message": "Ghim lên đầu"
+   },
+   "pinned_extensions_tooltip": {
+      "message": "Tiện ích đã ghim sẽ không bị tắt bởi nút này"
+   },
+   "pinned_to_top": {
+      "message": "Đã ghim lên đầu"
+   },
+   "premium_dashboard": {
+      "message": "Truy cập trang Premium"
+   },
+   "premium_tools": {
+      "message": "Công Cụ Premium"
+   },
+   "prevent_facebook_feed_reload": {
+      "message": "Chặn News Feed tự động tải lại"
+   },
+   "prevent_facebook_feed_reload_desc": {
+      "message": "Ngăn Facebook tải lại News Feed khi bạn quay lại tab"
+   },
+   "privacy": {
+      "message": "Quyền riêng tư Facebook"
+   },
+   "profile_name": {
+      "message": "Tên hồ sơ"
+   },
+   "profile_name_required": {
+      "message": "Vui lòng nhập tên hồ sơ!"
+   },
+   "profiles": {
+      "message": "Hồ sơ"
+   },
+   "profiles_description": {
+      "message": "Hồ sơ cho phép bạn nhóm các tiện ích lại"
+   },
+   "rating_message": {
+      "message": "Nếu bạn thích tiện ích này, hãy cho chúng tôi 5 sao nhé:"
+   },
+   "real_time_protection": {
+      "message": "Bảo vệ thời gian thực"
+   },
+   "real_time_protection_desc": {
+      "message": "Quét trang web với danh sách chống lừa đảo"
+   },
+   "realtime": {
+      "message": "Bảo vệ theo thời gian thực"
+   },
+   "remove_tracking_params": {
+      "message": "Xóa các tham số theo dõi khỏi URL (fbclid, UTM, gclid, v.v.)"
+   },
+   "remove_tracking_params_label": {
+      "message": "Xóa tham số theo dõi"
+   },
+   "reviews": {
+      "message": "Đánh giá"
+   },
+   "save": {
+      "message": "Lưu lại"
+   },
+   "save_options": {
+      "message": "Lưu Tùy Chọn"
+   },
+   "search_extension": {
+      "message": "Tìm tiện ích..."
+   },
+   "security": {
+      "message": "Bảo mật"
+   },
+   "security_colon": {
+      "message": "Bảo mật:"
+   },
+   "select_extension_required": {
+      "message": "Vui lòng chọn ít nhất một tiện ích!"
+   },
+   "select_extensions": {
+      "message": "Chọn tiện ích"
+   },
+   "settings": {
+      "message": "Thiết lập"
+   },
+   "shortcut_ai_summarize_description": {
+      "message": "Tóm tắt văn bản đã chọn bằng AI"
+   },
+   "shortcut_ai_translate_description": {
+      "message": "Dịch văn bản đã chọn bằng AI"
+   },
+   "shortcut_pick_color_description": {
+      "message": "Chọn màu từ trang (Eyedropper)"
+   },
+   "show_time_counter": {
+      "message": "Hiển thị bộ đếm thời gian"
+   },
+   "show_time_counter_desc": {
+      "message": "Hiển thị thời gian sử dụng Facebook"
+   },
+   "show_update_notification": {
+      "message": "Hiển thị thông báo cập nhật"
+   },
+   "show_update_notification_label": {
+      "message": "Thông báo cập nhật"
+   },
+   "status": {
+      "message": "Trạng thái"
+   },
+   "stop_facebook_timeline": {
+      "message": "Dừng dòng thời gian trên Facebook"
+   },
+   "telegram_channel": {
+      "message": "Kênh Telegram"
+   },
+   "toggle_all_extensions": {
+      "message": "Bật/tắt tất cả tiện ích"
+   },
+   "toggle_block_seen_chat": {
+      "message": "Tắt/bật chặn \"đã xem\""
+   },
+   "toggle_block_typing_chat": {
+      "message": "Tắt/bật chặn \"đang trả lời...\""
+   },
+   "tools": {
+      "message": "Công cụ"
+   },
+   "type": {
+      "message": "Loại"
+   },
+   "uninstall": {
+      "message": "Gỡ cài đặt"
+   },
+   "unpin": {
+      "message": "Bỏ ghim"
+   },
+   "update": {
+      "message": "Cập nhật"
+   },
+   "update_message": {
+      "message": "{appName} vừa cập nhật lên phiên bản {appVersion}. Nhấn để xem những thay đổi trong phiên bản này!"
+   },
+   "update_profile": {
+      "message": "Cập nhật hồ sơ: $NAME$",
+      "placeholders": {
+         "name": {
+            "content": "$1"
+         }
+      }
+   },
+   "upgrade_to_premium": {
+      "message": "Nâng cấp lên Premium"
+   },
+   "user_info": {
+      "message": "Thông Tin Người Dùng"
+   },
+   "view": {
+      "message": "Xem"
+   },
+   "website": {
+      "message": "Trang web"
+   },
+   "yes": {
+      "message": "Có"
+   },
+   "zalo": {
+      "message": "Zalo"
+   }
+}

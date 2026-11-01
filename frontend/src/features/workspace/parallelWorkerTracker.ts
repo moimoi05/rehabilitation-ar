@@ -11,12 +11,15 @@ type Options = {
   onPoseError: (error: Error) => void
   onHandError: (error: Error) => void
   signal?: AbortSignal
+  preferGpu?: boolean
 }
 
 export type ParallelWorkerTracker = {
   submitPose: (video: HTMLVideoElement, timestamp: number) => boolean
   submitHand: (video: HTMLVideoElement, timestamp: number) => boolean
   close: () => void
+  readonly delegates: { pose: 'GPU' | 'CPU' | null; hand: 'GPU' | 'CPU' | null }
+  readonly initializationErrors: string[]
 }
 
 /** Each worker owns at most one pending capture/inference; no frames are queued.
@@ -57,11 +60,13 @@ export async function createParallelWorkerTracker(options: Options): Promise<Par
   }
   const poseInit = createWorkerTracker({
     worker: options.poseWorker, moduleUrl: options.moduleUrl, role: 'pose', handEnabled: false,
+    preferGpu: options.preferGpu ?? true,
     capture: options.capture, signal: controller.signal,
     onResult: result => { if (!closed) options.onPose(result) }, onError: poseError,
   }).then(tracker => { if (closed) tracker.close(); else poseTracker = tracker; return tracker })
   const handInit = createWorkerTracker({
     worker: options.handWorker, moduleUrl: options.moduleUrl, role: 'hand', handEnabled: true,
+    preferGpu: options.preferGpu ?? true,
     capture: options.capture, signal: controller.signal,
     onResult: result => {
       if (closed || !handAvailable) return
@@ -86,6 +91,18 @@ export async function createParallelWorkerTracker(options: Options): Promise<Par
       submitPose: (video, timestamp) => !closed && !!poseTracker?.submit(video, timestamp, false),
       submitHand: (video, timestamp) => !closed && handAvailable && !!handTracker?.submit(video, timestamp, true),
       close,
+      get delegates() {
+        return {
+          pose: poseTracker?.delegates.pose ?? null,
+          hand: handTracker?.delegates.hand ?? null,
+        }
+      },
+      get initializationErrors() {
+        return [
+          ...(poseTracker?.initializationErrors ?? []),
+          ...(handTracker?.initializationErrors ?? []),
+        ]
+      },
     }
   } catch (error) {
     close()

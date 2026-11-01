@@ -1,0 +1,703 @@
+{
+   "1010": {
+      "message": "Créer"
+   },
+   "1109": {
+      "message": "Aucun résultat ne correspond à cette recherche."
+   },
+   "111": {
+      "message": "Le système ne peut pas réaliser cette opération maintenant. Veuillez réessayer plus tard."
+   },
+   "1301": {
+      "message": "Paramètres"
+   },
+   "1343": {
+      "message": "Enregistré dans Ma bibliothèque"
+   },
+   "1441": {
+      "message": "Précédent"
+   },
+   "1442": {
+      "message": "Suivant"
+   },
+   "1462": {
+      "message": "Fermer"
+   },
+   "1463": {
+      "message": "Envoyer"
+   },
+   "1484": {
+      "message": "Page précédente"
+   },
+   "1485": {
+      "message": "Page suivante"
+   },
+   "1486": {
+      "message": "Zoom arrière"
+   },
+   "1487": {
+      "message": "Zoom avant"
+   },
+   "1488": {
+      "message": "Ajuster à la hauteur"
+   },
+   "1489": {
+      "message": "Ajuster à la largeur"
+   },
+   "1490": {
+      "message": "Faire pivoter"
+   },
+   "1491": {
+      "message": "Enregistrer dans ma bibliothèque"
+   },
+   "1492": {
+      "message": "Télécharger"
+   },
+   "1493": {
+      "message": "Imprimer"
+   },
+   "1494": {
+      "message": "Plus"
+   },
+   "1513": {
+      "message": "Vignettes"
+   },
+   "1514": {
+      "message": "Tout réduire"
+   },
+   "1515": {
+      "message": "Tout développer"
+   },
+   "1542": {
+      "message": "Google Scholar"
+   },
+   "1617": {
+      "message": "Rechercher sur Google"
+   },
+   "1618": {
+      "message": "Bibliothèque Google Scholar"
+   },
+   "1620": {
+      "message": "Une erreur s'est produite lors de la récupération des résultats. Veuillez réessayer plus tard."
+   },
+   "1621": {
+      "message": "Recherche sur Google Scholar…"
+   },
+   "1623": {
+      "message": "Enregistrer dans la bibliothèque Google Scholar"
+   },
+   "1626": {
+      "message": "Propriétés du document"
+   },
+   "1627": {
+      "message": "Ouvrir dans la visionneuse Chrome"
+   },
+   "1628": {
+      "message": "Afficher plus"
+   },
+   "1629": {
+      "message": "Afficher moins"
+   },
+   "1630": {
+      "message": "Se connecter"
+   },
+   "1631": {
+      "message": "Enregistré dans $ANCHOR_BEGIN$Ma bibliothèque$ANCHOR_END$",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1632": {
+      "message": "Enregistrement dans Ma bibliothèque…"
+   },
+   "1633": {
+      "message": "Article introuvable dans Google Scholar."
+   },
+   "1635": {
+      "message": "Nom du fichier"
+   },
+   "1636": {
+      "message": "Taille du fichier"
+   },
+   "1637": {
+      "message": "Titre"
+   },
+   "1638": {
+      "message": "Auteur"
+   },
+   "1639": {
+      "message": "Objet"
+   },
+   "1640": {
+      "message": "Mots clés"
+   },
+   "1641": {
+      "message": "Créé le"
+   },
+   "1642": {
+      "message": "Modifié le"
+   },
+   "1643": {
+      "message": "Application"
+   },
+   "1644": {
+      "message": " Outil de conversion PDF"
+   },
+   "1645": {
+      "message": "Version PDF"
+   },
+   "1646": {
+      "message": "Nombre de pages"
+   },
+   "1647": {
+      "message": "Format de page"
+   },
+   "1648": {
+      "message": "portrait"
+   },
+   "1649": {
+      "message": "paysage"
+   },
+   "1650": {
+      "message": "carré"
+   },
+   "1651": {
+      "message": "Variable"
+   },
+   "1652": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ pouces ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1653": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1654": {
+      "message": "Affichage Web rapide"
+   },
+   "1655": {
+      "message": "Oui"
+   },
+   "1656": {
+      "message": "Non"
+   },
+   "1660": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ pouces ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1661": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1662": {
+      "message": "Letter"
+   },
+   "1663": {
+      "message": "Legal"
+   },
+   "1664": {
+      "message": "Tabloid"
+   },
+   "1668": {
+      "message": "Échec du chargement du document PDF."
+   },
+   "1669": {
+      "message": "Actualiser"
+   },
+   "1670": {
+      "message": "Erreur"
+   },
+   "1673": {
+      "message": "Mot de passe obligatoire"
+   },
+   "1674": {
+      "message": "Ce document est protégé par mot de passe. Veuillez saisir ce dernier."
+   },
+   "1675": {
+      "message": "Pour imprimer le document PDF, veuillez utiliser le bouton Imprimer de la barre d'outils."
+   },
+   "1676": {
+      "message": "Mot de passe incorrect."
+   },
+   "1677": {
+      "message": "Le remplissage de formulaire n'est pas encore pris en charge dans le lecteur PDF Google Scholar."
+   },
+   "1678": {
+      "message": "Google Scholar PDF Reader"
+   },
+   "1698": {
+      "message": "Plan"
+   },
+   "1702": {
+      "message": "Activer PDF Reader"
+   },
+   "1703": {
+      "message": "Pour lire un PDF local avec Google Scholar PDF Reader, activez l'accès aux URL de fichier dans les paramètres, puis actualisez le PDF."
+   },
+   "1704": {
+      "message": "Ouvrir les paramètres"
+   },
+   "1707": {
+      "message": "Mode d'affichage"
+   },
+   "1711": {
+      "message": "Plein écran"
+   },
+   "1712": {
+      "message": "Mode clair"
+   },
+   "1713": {
+      "message": "Mode sombre"
+   },
+   "1714": {
+      "message": "Mode nuit"
+   },
+   "1715": {
+      "message": "Voir dans les références"
+   },
+   "1716": {
+      "message": "Pour activer l'enregistrement dans votre bibliothèque Google Scholar, affichez le PDF en plein écran."
+   },
+   "1717": {
+      "message": "Développer"
+   },
+   "1718": {
+      "message": "Pas maintenant"
+   },
+   "1723": {
+      "message": "Pour activer l'impression, ouvrez le PDF dans la visionneuse Chrome."
+   },
+   "1724": {
+      "message": "Ouvrir"
+   },
+   "1726": {
+      "message": "Optimisez votre lecture d'articles : suivez des références, survolez le plan, accédez aux chiffres, citez et enregistrez."
+   },
+   "1732": {
+      "message": "Mode Appareil"
+   },
+   "1734": {
+      "message": "Signaler un problème"
+   },
+   "1741": {
+      "message": "Sections"
+   },
+   "1742": {
+      "message": "Plan IA"
+   },
+   "1744": {
+      "message": "Paramètres de Plan IA"
+   },
+   "1745": {
+      "message": "Demander un plan IA à Scholar :"
+   },
+   "1746": {
+      "message": "Uniquement lorsque vous cliquez sur $ICON$",
+      "placeholders": {
+         "ICON": {
+            "content": "$1"
+         }
+      }
+   },
+   "1748": {
+      "message": "Automatiquement lorsque vous ouvrez un PDF"
+   },
+   "1749": {
+      "message": "Les plans IA ne sont disponibles que pour certains articles"
+   },
+   "1750": {
+      "message": "Activer Plan IA pour tous les PDF ?"
+   },
+   "1751": {
+      "message": "Pour afficher un plan, Reader tentera de trouver le PDF dans Google Scholar"
+   },
+   "1752": {
+      "message": "À propos de Plan IA"
+   },
+   "1753": {
+      "message": "Points clés des sections de l'article"
+   },
+   "1754": {
+      "message": "Les plans IA présentent les principaux points des principales sections du document."
+   },
+   "1755": {
+      "message": "Parcourez le plan ou accédez aux détails"
+   },
+   "1756": {
+      "message": "Parcourez les points clés pour obtenir un aperçu rapide, puis cliquez sur les points intéressants pour accéder aux détails."
+   },
+   "1757": {
+      "message": "Les plans IA ne sont disponibles que pour certains articles de recherche dans Google Scholar. Ils sont générés par un programme informatique et peuvent contenir des informations incomplètes ou inexactes."
+   },
+   "1758": {
+      "message": "Nouveau"
+   },
+   "1759": {
+      "message": "Plan IA n'est pas disponible pour ce PDF."
+   },
+   "1760": {
+      "message": "Le plan IA a été généré avec une autre version de ce PDF."
+   },
+   "1766": {
+      "message": "Paramètres de Chrome"
+   },
+   "1768": {
+      "message": "Automatiquement lorsque vous ouvrez un PDF sur la plupart des sites universitaires"
+   },
+   "1773": {
+      "message": "Mises en surbrillance"
+   },
+   "1775": {
+      "message": "Mettre en surbrillance"
+   },
+   "1778": {
+      "message": "Commentaires"
+   },
+   "1779": {
+      "message": "Vos mises en surbrillance et vos commentaires s'afficheront ici"
+   },
+   "1781": {
+      "message": "Réessayer"
+   },
+   "1783": {
+      "message": "Votre bibliothèque Scholar est pleine"
+   },
+   "1785": {
+      "message": "Ouvrir la bibliothèque"
+   },
+   "1786": {
+      "message": "Supprimer"
+   },
+   "1787": {
+      "message": "Votre compte Scholar a été supprimé"
+   },
+   "1788": {
+      "message": "Restaurez votre compte pour ajouter des mises en surbrillance et des commentaires à un PDF."
+   },
+   "1790": {
+      "message": "Si vous fermez ou actualisez cette page, vous perdrez les modifications non enregistrées."
+   },
+   "1791": {
+      "message": "Erreur du serveur"
+   },
+   "1793": {
+      "message": "Ignorer"
+   },
+   "1794": {
+      "message": "Votre navigateur est hors connexion"
+   },
+   "1796": {
+      "message": "Réessayer"
+   },
+   "1797": {
+      "message": "Votre appareil est plein"
+   },
+   "1800": {
+      "message": "Connectez-vous à votre compte Google pour enregistrer des mises en surbrillance et des commentaires."
+   },
+   "1801": {
+      "message": "Libérez de l'espace dans votre bibliothèque Scholar pour enregistrer des mises en surbrillance et des commentaires."
+   },
+   "1802": {
+      "message": "Connectez-vous à $EMAIL_ADDRESS$ pour enregistrer des mises en surbrillance et des commentaires.",
+      "placeholders": {
+         "EMAIL_ADDRESS": {
+            "content": "$1"
+         }
+      }
+   },
+   "1803": {
+      "message": "Impossible d'enregistrer les mises en surbrillance ou les commentaires dans votre bibliothèque Scholar. Nous réessaierons de les enregistrer plus tard."
+   },
+   "1804": {
+      "message": "Connectez-vous à Internet pour enregistrer des mises en surbrillance et des commentaires. Nous réessaierons de les enregistrer plus tard."
+   },
+   "1805": {
+      "message": "Libérez de l'espace sur votre appareil pour enregistrer des mises en surbrillance et des commentaires. Sinon, les modifications ne seront pas enregistrées."
+   },
+   "1806": {
+      "message": "Synchronisation..."
+   },
+   "1807": {
+      "message": "Échec de la synchronisation"
+   },
+   "1808": {
+      "message": "Une erreur s'est produite lors de la synchronisation des mises en surbrillance et des commentaires."
+   },
+   "1809": {
+      "message": "Appareil hors connexion"
+   },
+   "1810": {
+      "message": "Connectez-vous à Internet pour voir les mises en surbrillance et les commentaires."
+   },
+   "1811": {
+      "message": "Connectez-vous pour voir les mises en surbrillance et les commentaires."
+   },
+   "1812": {
+      "message": "Modifications non enregistrées"
+   },
+   "1813": {
+      "message": "Copier le plan IA"
+   },
+   "1814": {
+      "message": "Plan IA par $BOLD_ANCHOR_BEGIN$Scholar PDF Reader$BOLD_ANCHOR_END$",
+      "placeholders": {
+         "BOLD_ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "BOLD_ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1815": {
+      "message": "Plan IA copié dans le presse-papiers"
+   },
+   "1816": {
+      "message": "Les mises en surbrillance seront enregistrées dans votre $ANCHOR_BEGIN$bibliothèque Google Scholar$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1817": {
+      "message": "Les commentaires seront enregistrés dans votre bibliothèque Google Scholar."
+   },
+   "1818": {
+      "message": "Titre inconnu"
+   },
+   "1819": {
+      "message": "Rechercher dans Google Scholar"
+   },
+   "1822": {
+      "message": "Commenter"
+   },
+   "1823": {
+      "message": "Modifier la couleur"
+   },
+   "1824": {
+      "message": "Enregistré dans $ANCHOR_BEGIN$votre bibliothèque$ANCHOR_END$",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1825": {
+      "message": "Sélectionnez du texte pour le mettre en surbrillance ou ajouter un commentaire."
+   },
+   "1826": {
+      "message": "Les mises en surbrillance sont enregistrées dans votre $ANCHOR_BEGIN$bibliothèque Google Scholar$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1827": {
+      "message": "Mettez en surbrillance des éléments de PDF"
+   },
+   "1830": {
+      "message": "Les mises en surbrillance sont enregistrées en ligne"
+   },
+   "1831": {
+      "message": "Vos mises en surbrillance et vos commentaires sont enregistrés dans votre $ANCHOR_BEGIN$bibliothèque Google Scholar$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1832": {
+      "message": "Accédez à vos mises en surbrillance où que vous soyez"
+   },
+   "1833": {
+      "message": "Les mises en surbrillance s'afficheront dans Google Scholar PDF Reader tant que vous serez connecté."
+   },
+   "1834": {
+      "message": "Accéder à Ma bibliothèque"
+   },
+   "1862": {
+      "message": "Impossible de se connecter au stockage sur le navigateur"
+   },
+   "1863": {
+      "message": "Les mises en surbrillance sont désactivées dans ce navigateur, mais les autres fonctionnalités de lecture de PDF sont toujours disponibles."
+   },
+   "1864": {
+      "message": "Pour utiliser des mises en surbrillance, essayez de redémarrer le navigateur ou l'appareil."
+   },
+   "1865": {
+      "message": "Impossible de se connecter au stockage sur le navigateur. Essayez de redémarrer le navigateur ou l'appareil."
+   },
+   "1866": {
+      "message": "Impossible de synchroniser avec le stockage sur le navigateur"
+   },
+   "1867": {
+      "message": "Une erreur s'est produite lors de la synchronisation des mises en surbrillance avec le stockage sur le navigateur. Essayez de redémarrer le navigateur ou l'appareil."
+   },
+   "1868": {
+      "message": "Le stockage sur le navigateur est plein"
+   },
+   "1869": {
+      "message": "Pour utiliser des mises en surbrillance, essayez de libérer de l'espace sur l'appareil."
+   },
+   "1870": {
+      "message": "Le stockage sur le navigateur est plein. Essayez de libérer de l'espace sur l'appareil."
+   },
+   "1871": {
+      "message": "Pour utiliser les mises en surbrillance, actualisez leur cache. Cela peut prendre un certain temps."
+   },
+   "1872": {
+      "message": "Actualiser le cache"
+   },
+   "1873": {
+      "message": "Une erreur s'est produite lors de la synchronisation des mises en surbrillance avec le stockage sur le navigateur. Essayez d'actualiser le cache des mises en surbrillance. Cela peut prendre un certain temps."
+   },
+   "1874": {
+      "message": "Trop de mises en surbrillance"
+   },
+   "1875": {
+      "message": "Impossible d'ajouter d'autres mises en surbrillance à votre bibliothèque."
+   },
+   "1876": {
+      "message": "Pour continuer à ajouter des mises en surbrillance, supprimez-en."
+   },
+   "1877": {
+      "message": "Supprimer les modifications"
+   },
+   "1882": {
+      "message": "Mises en surbrillance dans trop de versions"
+   },
+   "1883": {
+      "message": "Vous pouvez ajouter des mises en surbrillance dans un maximum de trois versions du même article."
+   },
+   "1884": {
+      "message": "Pour continuer à ajouter des mises en surbrillance à cette version, supprimez-en d'une autre version."
+   },
+   "1885": {
+      "message": "Gérer les mises en surbrillance"
+   },
+   "1888": {
+      "message": " Afficher dans la bibliothèque"
+   },
+   "1918": {
+      "message": "Le contenu de cette URL a été modifié. Vous avez des mises en surbrillance dans une version précédente."
+   },
+   "535": {
+      "message": "Rechercher sur Google Scholar"
+   },
+   "551": {
+      "message": "Supprimer l'article"
+   },
+   "59": {
+      "message": "Citer"
+   },
+   "625": {
+      "message": "Chargement en cours…"
+   },
+   "626": {
+      "message": "Page $PAGE_NUMBER$",
+      "placeholders": {
+         "PAGE_NUMBER": {
+            "content": "$1"
+         }
+      }
+   },
+   "64": {
+      "message": "Enregistrer"
+   },
+   "644": {
+      "message": "OK"
+   },
+   "649": {
+      "message": "Ignorer"
+   },
+   "732": {
+      "message": "Ma bibliothèque"
+   },
+   "907": {
+      "message": "Restaurer le compte"
+   },
+   "920": {
+      "message": "Rechercher"
+   },
+   "924": {
+      "message": "Associer au libellé :"
+   },
+   "96": {
+      "message": "Supprimer"
+   },
+   "965": {
+      "message": "OK"
+   },
+   "966": {
+      "message": "Non, merci"
+   },
+   "chrome_client_3269861059707096562": {
+      "message": "Autoriser l'accès aux URL de fichier"
+   }
+}

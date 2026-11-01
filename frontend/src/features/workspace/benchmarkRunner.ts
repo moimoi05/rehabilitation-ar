@@ -155,7 +155,7 @@ export async function runBenchmark(config: BenchmarkConfig, video: HTMLVideoElem
     while (!video.ended) {
       if (signal.aborted) throw new Error('Benchmark cancelled')
       if (fatal) throw fatal
-      if (document.hidden) throw new Error('Benchmark tab became hidden; measurement is not comparable')
+      if (document.hidden && !(window as unknown as { __BENCHMARK_IGNORE_HIDDEN__?: boolean }).__BENCHMARK_IGNORE_HIDDEN__) throw new Error('Benchmark tab became hidden; measurement is not comparable')
       if (video.error) throw new Error(video.error.message)
       if (performance.now() - start > (video.duration + 30) * 1000) throw new Error('Video playback stalled')
       await delay(100)

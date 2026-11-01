@@ -1,0 +1,703 @@
+{
+   "1010": {
+      "message": "Yeni etiket oluştur"
+   },
+   "1109": {
+      "message": "Bu arama için sonuç yok."
+   },
+   "111": {
+      "message": "Sistem, işlemi şu anda gerçekleştiremiyor. Daha sonra yeniden deneyin."
+   },
+   "1301": {
+      "message": "Ayarlar"
+   },
+   "1343": {
+      "message": "Kitaplığım'a kaydedildi"
+   },
+   "1441": {
+      "message": "Önceki"
+   },
+   "1442": {
+      "message": "Sonraki"
+   },
+   "1462": {
+      "message": "Kapat"
+   },
+   "1463": {
+      "message": "Gönder"
+   },
+   "1484": {
+      "message": "Önceki sayfa"
+   },
+   "1485": {
+      "message": "Sonraki sayfa"
+   },
+   "1486": {
+      "message": "Uzaklaştır"
+   },
+   "1487": {
+      "message": "Yakınlaştır"
+   },
+   "1488": {
+      "message": "Yüksekliğe sığdır"
+   },
+   "1489": {
+      "message": "Genişliğe sığdır"
+   },
+   "1490": {
+      "message": "Döndür"
+   },
+   "1491": {
+      "message": "Kitaplığıma kaydet"
+   },
+   "1492": {
+      "message": "İndir"
+   },
+   "1493": {
+      "message": "Yazdır"
+   },
+   "1494": {
+      "message": "Daha Fazlası"
+   },
+   "1513": {
+      "message": "Küçük resimler"
+   },
+   "1514": {
+      "message": "Tümünü daralt"
+   },
+   "1515": {
+      "message": "Tümünü genişlet"
+   },
+   "1542": {
+      "message": "Google Akademik"
+   },
+   "1617": {
+      "message": "Google’da Ara"
+   },
+   "1618": {
+      "message": "Google Akademik Kitaplığı"
+   },
+   "1620": {
+      "message": "Sonuçlar alınırken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
+   },
+   "1621": {
+      "message": "Google Akademik'te aranıyor..."
+   },
+   "1623": {
+      "message": "Google Akademik Kitaplığı'na kaydet"
+   },
+   "1626": {
+      "message": "Doküman özellikleri"
+   },
+   "1627": {
+      "message": "Chrome görüntüleyicide aç"
+   },
+   "1628": {
+      "message": "Daha fazla göster"
+   },
+   "1629": {
+      "message": "Daha az göster"
+   },
+   "1630": {
+      "message": "Oturum aç"
+   },
+   "1631": {
+      "message": "$ANCHOR_BEGIN$Kitaplığım$ANCHOR_END$'a kaydedildi",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1632": {
+      "message": "Kitaplığım'a kaydediliyor..."
+   },
+   "1633": {
+      "message": "Makale, Google Akademik'te bulunamadı."
+   },
+   "1635": {
+      "message": "Dosya adı"
+   },
+   "1636": {
+      "message": "Dosya boyutu"
+   },
+   "1637": {
+      "message": "Başlık"
+   },
+   "1638": {
+      "message": "Yazar"
+   },
+   "1639": {
+      "message": "Konu"
+   },
+   "1640": {
+      "message": "Anahtar kelimeler"
+   },
+   "1641": {
+      "message": "Oluşturulma tarihi"
+   },
+   "1642": {
+      "message": "Değiştirilme tarihi"
+   },
+   "1643": {
+      "message": "Uygulama"
+   },
+   "1644": {
+      "message": " PDF üreticisi"
+   },
+   "1645": {
+      "message": "PDF sürümü"
+   },
+   "1646": {
+      "message": "Sayfa sayısı"
+   },
+   "1647": {
+      "message": "Sayfa boyutu"
+   },
+   "1648": {
+      "message": "dikey"
+   },
+   "1649": {
+      "message": "yatay"
+   },
+   "1650": {
+      "message": "kare"
+   },
+   "1651": {
+      "message": "Değişkenlik gösterir"
+   },
+   "1652": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ inç ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1653": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1654": {
+      "message": "Hızlı web görüntüleme"
+   },
+   "1655": {
+      "message": "Evet"
+   },
+   "1656": {
+      "message": "Hayır"
+   },
+   "1660": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ inç ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1661": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1662": {
+      "message": "Letter"
+   },
+   "1663": {
+      "message": "Legal"
+   },
+   "1664": {
+      "message": "Tabloid"
+   },
+   "1668": {
+      "message": "PDF dokümanı yüklenemedi."
+   },
+   "1669": {
+      "message": "Yeniden yükle"
+   },
+   "1670": {
+      "message": "Hata"
+   },
+   "1673": {
+      "message": "Şifre zorunlu"
+   },
+   "1674": {
+      "message": "Doküman şifre korumalı. Lütfen şifreyi girin."
+   },
+   "1675": {
+      "message": "PDF dokümanını yazdırmak için lütfen araç çubuğundaki Yazdır düğmesini kullanın."
+   },
+   "1676": {
+      "message": "Hatalı şifre."
+   },
+   "1677": {
+      "message": "Form doldurma, Google Akademik PDF Okuyucu'da henüz desteklenmiyor."
+   },
+   "1678": {
+      "message": "Google Akademik PDF Okuyucu"
+   },
+   "1698": {
+      "message": "Özet"
+   },
+   "1702": {
+      "message": "Google Akademik Okuyucu'yu etkinleştirin"
+   },
+   "1703": {
+      "message": "Yerel PDF'leri Google Akademik Okuyucu ile okumak için ayarlardan dosya URL'lerine erişimi etkinleştirin ve ardından PDF'yi yeniden yükleyin."
+   },
+   "1704": {
+      "message": "Ayarları aç"
+   },
+   "1707": {
+      "message": "Görüntüleme modu"
+   },
+   "1711": {
+      "message": "Tam ekran"
+   },
+   "1712": {
+      "message": "Açık mod"
+   },
+   "1713": {
+      "message": "Koyu mod"
+   },
+   "1714": {
+      "message": "Gece modu"
+   },
+   "1715": {
+      "message": "Referanslarda Göster"
+   },
+   "1716": {
+      "message": "Google Akademik kitaplığınıza kaydetmeyi etkinleştirmek için PDF'yi tam ekrana genişletin."
+   },
+   "1717": {
+      "message": "Genişlet"
+   },
+   "1718": {
+      "message": "Şimdi değil"
+   },
+   "1723": {
+      "message": "Yazdırmayı etkinleştirmek için PDF'yi Chrome görüntüleyicide açın."
+   },
+   "1724": {
+      "message": "Aç"
+   },
+   "1726": {
+      "message": "Makale okuma sürecini verimli hale getirin: Referansları takip edin, özete hızlıca göz atın, şekillere gidin, alıntılayın ve kaydedin."
+   },
+   "1732": {
+      "message": "Cihaz modu"
+   },
+   "1734": {
+      "message": "Sorun bildirin"
+   },
+   "1741": {
+      "message": "Bölümler"
+   },
+   "1742": {
+      "message": "Yapay zeka özeti"
+   },
+   "1744": {
+      "message": "Yapay Zeka Özeti ayarları"
+   },
+   "1745": {
+      "message": "Aşağıdaki durumda Google Akademik'ten yapay zeka özeti iste:"
+   },
+   "1746": {
+      "message": "Yalnızca $ICON$ öğesini tıkladığımda",
+      "placeholders": {
+         "ICON": {
+            "content": "$1"
+         }
+      }
+   },
+   "1748": {
+      "message": "Herhangi bir PDF'yi açtığımda otomatik olarak"
+   },
+   "1749": {
+      "message": "Yapay zeka özetleri yalnızca belirli makalelerde kullanılabilir"
+   },
+   "1750": {
+      "message": "Yapay Zeka Özeti tüm PDF'lerde etkinleştirilsin mi?"
+   },
+   "1751": {
+      "message": "Okuyucu, özeti görüntülemek için PDF'yi Google Akademik'te bulmaya çalışır"
+   },
+   "1752": {
+      "message": "Yapay Zeka Özeti hakkında"
+   },
+   "1753": {
+      "message": "Makale bölümlerinin ana noktaları"
+   },
+   "1754": {
+      "message": "Yapay zeka özetlerinde, belgenin önemli bölümlerinin ana noktaları yer alır."
+   },
+   "1755": {
+      "message": "Ana hatlara hızlıca göz atın veya ayrıntılara geçin"
+   },
+   "1756": {
+      "message": "Ana noktalara göz atarak hızlıca genel bir fikir edinin ve ilginizi çeken maddeleri tıklayarak ayrıntıları öğrenin."
+   },
+   "1757": {
+      "message": "Yapay zeka özetlerini yalnızca Google Akademik'teki belirli araştırma makalelerinde kullanabilirsiniz. Özetler bir bilgisayar programı tarafından oluşturulur ve eksik ya da yanlış bilgiler içerebilir."
+   },
+   "1758": {
+      "message": "Yeni"
+   },
+   "1759": {
+      "message": "Yapay Zeka Özeti bu PDF'de kullanılamıyor."
+   },
+   "1760": {
+      "message": "Yapay zeka özeti, bu PDF'nin farklı bir versiyonuyla oluşturuldu."
+   },
+   "1766": {
+      "message": "Chrome ayarları"
+   },
+   "1768": {
+      "message": "Akademik sitelerin çoğunda bir PDF'yi açtığımda otomatik olarak"
+   },
+   "1773": {
+      "message": "Vurgulananlar"
+   },
+   "1775": {
+      "message": "Vurgula"
+   },
+   "1778": {
+      "message": "Yorumlar"
+   },
+   "1779": {
+      "message": "Vurguladığınız yerler ve yorumlarınız burada gösterilir"
+   },
+   "1781": {
+      "message": "Tekrar dene"
+   },
+   "1783": {
+      "message": "Google Akademik kitaplığınız dolu"
+   },
+   "1785": {
+      "message": "Kitaplığı aç"
+   },
+   "1786": {
+      "message": "Sil"
+   },
+   "1787": {
+      "message": "Google Akademik hesabınız silindi"
+   },
+   "1788": {
+      "message": "PDF'de metin vurgulamak ve yorum eklemek için hesabınızı kurtarın."
+   },
+   "1790": {
+      "message": "Bu sayfayı kapatır veya yeniden yüklerseniz kaydedilmemiş değişiklikleriniz kaybolur."
+   },
+   "1791": {
+      "message": "Sunucu hatası"
+   },
+   "1793": {
+      "message": "Yoksay"
+   },
+   "1794": {
+      "message": "Tarayıcınız çevrimdışı"
+   },
+   "1796": {
+      "message": "Tekrar dene"
+   },
+   "1797": {
+      "message": "Cihazınız dolu"
+   },
+   "1800": {
+      "message": "Vurgulananları ve yorumları kaydetmek için Google Hesabınızda oturum açın."
+   },
+   "1801": {
+      "message": "Vurgulananları ve yorumları kaydetmek için Google Akademik kitaplığınızda yer açın."
+   },
+   "1802": {
+      "message": "Vurgulananları ve yorumları kaydetmek için $EMAIL_ADDRESS$ hesabında oturum açın.",
+      "placeholders": {
+         "EMAIL_ADDRESS": {
+            "content": "$1"
+         }
+      }
+   },
+   "1803": {
+      "message": "Vurgulananlar veya yorumlar, Google Akademik kitaplığınıza kaydedilemedi. Daha sonra tekrar kaydetmeyi deneyeceğiz."
+   },
+   "1804": {
+      "message": "Vurgulananları ve yorumları kaydetmek için internete bağlanın. Daha sonra tekrar kaydetmeyi deneyeceğiz."
+   },
+   "1805": {
+      "message": "Vurgulananları ve yorumları kaydetmek için cihazınızda yer açın. Aksi takdirde değişiklikler kaydedilmez."
+   },
+   "1806": {
+      "message": "Senkronize ediliyor..."
+   },
+   "1807": {
+      "message": "Senkronizasyon başarısız oldu"
+   },
+   "1808": {
+      "message": "Öne çıkanlar ve yorumlar senkronize edilirken bir hata oluştu."
+   },
+   "1809": {
+      "message": "Cihaz çevrimdışı"
+   },
+   "1810": {
+      "message": "Vurgulananları ve yorumları görmek için internete bağlanın."
+   },
+   "1811": {
+      "message": "Vurgulananları ve yorumları görmek için oturum açın."
+   },
+   "1812": {
+      "message": "Kaydedilmemiş değişiklikler"
+   },
+   "1813": {
+      "message": "Yapay zeka destekli ana hattı kopyala"
+   },
+   "1814": {
+      "message": "$BOLD_ANCHOR_BEGIN$Akademik PDF Okuyucu$BOLD_ANCHOR_END$ tarafından sağlanan yapay zeka destekli ana hat",
+      "placeholders": {
+         "BOLD_ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "BOLD_ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1815": {
+      "message": "Yapay zeka destekli ana hat panoya kopyalandı"
+   },
+   "1816": {
+      "message": "Vurgulanan metinler $ANCHOR_BEGIN$Google Akademik kitaplığınıza$ANCHOR_END$ kaydedilir.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1817": {
+      "message": "Yorumlar, Google Akademik kitaplığınıza kaydedilir."
+   },
+   "1818": {
+      "message": "Bilinmeyen Başlık"
+   },
+   "1819": {
+      "message": "Google Akademik'te bul"
+   },
+   "1822": {
+      "message": "Yorum"
+   },
+   "1823": {
+      "message": "Rengi değiştir"
+   },
+   "1824": {
+      "message": "$ANCHOR_BEGIN$Kitaplığınıza$ANCHOR_END$ kaydedildi",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1825": {
+      "message": "Vurgulamak veya yorum eklemek için metni seçin."
+   },
+   "1826": {
+      "message": "Vurgulanan metinler $ANCHOR_BEGIN$Google Akademik kitaplığınıza$ANCHOR_END$ kaydedilir.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1827": {
+      "message": "PDF'lerde önemli yerleri vurgulayın"
+   },
+   "1830": {
+      "message": "Vurgulanan bölümler internete kaydedilir"
+   },
+   "1831": {
+      "message": "Vurguladığınız metinler ve yorumlarınız $ANCHOR_BEGIN$Google Akademik kitaplığınıza$ANCHOR_END$ kaydedilir.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1832": {
+      "message": "Vurguladığınız bölümlere her yerden erişin"
+   },
+   "1833": {
+      "message": "Oturumunuz açık olduğu sürece vurgular PDF okuyucuda gösterilir."
+   },
+   "1834": {
+      "message": "Kitaplığıma git"
+   },
+   "1862": {
+      "message": "Tarayıcı depolama alanına bağlanılamıyor"
+   },
+   "1863": {
+      "message": "Bu tarayıcıda vurgular devre dışı olsa da diğer PDF okuma özellikleri çalışmaya devam ediyor."
+   },
+   "1864": {
+      "message": "Vurguları kullanmak için tarayıcınızı veya cihazınızı yeniden başlatmayı deneyin."
+   },
+   "1865": {
+      "message": "Tarayıcı depolama alanına bağlanılamıyor. Tarayıcınızı veya cihazınızı yeniden başlatmayı deneyin."
+   },
+   "1866": {
+      "message": "Tarayıcı depolama alanıyla senkronize edilemiyor"
+   },
+   "1867": {
+      "message": "Vurgular, tarayıcı depolama alanıyla senkronize edilirken bir hata oluştu. Tarayıcınızı veya cihazınızı yeniden başlatmayı deneyin."
+   },
+   "1868": {
+      "message": "Tarayıcı depolama alanınız dolu"
+   },
+   "1869": {
+      "message": "Vurguları kullanmak için cihazınızda yer açmayı deneyin."
+   },
+   "1870": {
+      "message": "Tarayıcı depolama alanınız dolu. Cihazınızda yer açmayı deneyin."
+   },
+   "1871": {
+      "message": "Vurguları kullanmak için vurgu önbelleğinizi yenileyin. Bu işlem biraz zaman alabilir."
+   },
+   "1872": {
+      "message": "Önbelleği yenile"
+   },
+   "1873": {
+      "message": "Vurgular, tarayıcı depolama alanıyla senkronize edilirken bir hata oluştu. Vurgu önbelleğinizi yenilemeyi deneyin. Bu işlem biraz zaman alabilir."
+   },
+   "1874": {
+      "message": "Çok fazla vurgu var"
+   },
+   "1875": {
+      "message": "Kitaplığınıza daha fazla vurgu eklenemez."
+   },
+   "1876": {
+      "message": "Vurgu eklemeye devam etmek için bazılarını kaldırın."
+   },
+   "1877": {
+      "message": "Değişiklikleri sil"
+   },
+   "1882": {
+      "message": "Çok fazla sürümde vurgu var"
+   },
+   "1883": {
+      "message": "Aynı makalenin en fazla 3 sürümüne vurgu ekleyebilirsiniz."
+   },
+   "1884": {
+      "message": "Bu sürüme vurgu eklemeye devam etmek için başka bir sürümdeki vurguları kaldırın."
+   },
+   "1885": {
+      "message": "Vurguları yönet"
+   },
+   "1888": {
+      "message": " Kitaplıkta görüntüleme"
+   },
+   "1918": {
+      "message": "Bu URL'nin içeriği değişti. Önceki bir sürümde vurguladığınız yerler var."
+   },
+   "535": {
+      "message": "Google Akademik'te ara"
+   },
+   "551": {
+      "message": "Makaleyi kaldır"
+   },
+   "59": {
+      "message": "Alıntı yap"
+   },
+   "625": {
+      "message": "Yükleniyor..."
+   },
+   "626": {
+      "message": "$PAGE_NUMBER$. sayfa",
+      "placeholders": {
+         "PAGE_NUMBER": {
+            "content": "$1"
+         }
+      }
+   },
+   "64": {
+      "message": "Kaydet"
+   },
+   "644": {
+      "message": "Tamamlandı"
+   },
+   "649": {
+      "message": "Kapat"
+   },
+   "732": {
+      "message": "Kitaplığım"
+   },
+   "907": {
+      "message": "Hesabı kurtar"
+   },
+   "920": {
+      "message": "Ara"
+   },
+   "924": {
+      "message": "Şununla etiketle:"
+   },
+   "96": {
+      "message": "Sil"
+   },
+   "965": {
+      "message": "Evet, lütfen"
+   },
+   "966": {
+      "message": "Hayır, teşekkürler"
+   },
+   "chrome_client_3269861059707096562": {
+      "message": "Dosya URL'lerine erişime izin ver"
+   }
+}

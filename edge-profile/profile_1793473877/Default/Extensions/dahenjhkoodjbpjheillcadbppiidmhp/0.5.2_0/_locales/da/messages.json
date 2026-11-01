@@ -1,0 +1,703 @@
+{
+   "1010": {
+      "message": "Opret ny"
+   },
+   "1109": {
+      "message": "Der er ingen resultater for denne søgning."
+   },
+   "111": {
+      "message": "Systemet kan ikke foretage handlingen nu. Prøv igen senere."
+   },
+   "1301": {
+      "message": "Indstillinger"
+   },
+   "1343": {
+      "message": "Gemt i Min samling"
+   },
+   "1441": {
+      "message": "Forrige"
+   },
+   "1442": {
+      "message": "Næste"
+   },
+   "1462": {
+      "message": "Luk"
+   },
+   "1463": {
+      "message": "Send"
+   },
+   "1484": {
+      "message": "Forrige side"
+   },
+   "1485": {
+      "message": "Næste side"
+   },
+   "1486": {
+      "message": "Zoom ud"
+   },
+   "1487": {
+      "message": "Zoom ind"
+   },
+   "1488": {
+      "message": "Tilpas til højde"
+   },
+   "1489": {
+      "message": "Tilpas til bredde"
+   },
+   "1490": {
+      "message": "Roter"
+   },
+   "1491": {
+      "message": "Gem i min samling"
+   },
+   "1492": {
+      "message": "Download"
+   },
+   "1493": {
+      "message": "Udskriv"
+   },
+   "1494": {
+      "message": "Flere"
+   },
+   "1513": {
+      "message": "Miniaturer"
+   },
+   "1514": {
+      "message": "Skjul alle"
+   },
+   "1515": {
+      "message": "Udvid alle"
+   },
+   "1542": {
+      "message": "Google Scholar"
+   },
+   "1617": {
+      "message": "Søg på Google"
+   },
+   "1618": {
+      "message": "Google Scholar-samling"
+   },
+   "1620": {
+      "message": "Der opstod en fejl under hentningen af resultaterne. Prøv igen senere."
+   },
+   "1621": {
+      "message": "Søger i Scholar…"
+   },
+   "1623": {
+      "message": "Gem i Scholar-samling"
+   },
+   "1626": {
+      "message": "Dokumentegenskaber"
+   },
+   "1627": {
+      "message": "Åbn i Chrome-visningsprogrammet"
+   },
+   "1628": {
+      "message": "Se mere"
+   },
+   "1629": {
+      "message": "Se mindre"
+   },
+   "1630": {
+      "message": "Log ind"
+   },
+   "1631": {
+      "message": "Gemt i $ANCHOR_BEGIN$Min samling$ANCHOR_END$",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1632": {
+      "message": "Gemmer i Min samling…"
+   },
+   "1633": {
+      "message": "Artiklen blev ikke fundet i Scholar."
+   },
+   "1635": {
+      "message": "Filnavn"
+   },
+   "1636": {
+      "message": "Filstørrelse"
+   },
+   "1637": {
+      "message": "Titel"
+   },
+   "1638": {
+      "message": "Forfatter"
+   },
+   "1639": {
+      "message": "Emne"
+   },
+   "1640": {
+      "message": "Søgeord"
+   },
+   "1641": {
+      "message": "Oprettet"
+   },
+   "1642": {
+      "message": "Ændret"
+   },
+   "1643": {
+      "message": "Ansøgning"
+   },
+   "1644": {
+      "message": " PDF-konvertér"
+   },
+   "1645": {
+      "message": "PDF-version"
+   },
+   "1646": {
+      "message": "Sideantal"
+   },
+   "1647": {
+      "message": "Sidestørrelse"
+   },
+   "1648": {
+      "message": "stående format"
+   },
+   "1649": {
+      "message": "liggende format"
+   },
+   "1650": {
+      "message": "firkant"
+   },
+   "1651": {
+      "message": "Varierer"
+   },
+   "1652": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ i ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1653": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1654": {
+      "message": "Hurtig webvisning"
+   },
+   "1655": {
+      "message": "Ja"
+   },
+   "1656": {
+      "message": "Nej"
+   },
+   "1660": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ i ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1661": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1662": {
+      "message": "Letter"
+   },
+   "1663": {
+      "message": "Legal"
+   },
+   "1664": {
+      "message": "Tabloid"
+   },
+   "1668": {
+      "message": "PDF-dokumentet kunne ikke indlæses."
+   },
+   "1669": {
+      "message": "Genindlæs"
+   },
+   "1670": {
+      "message": "Fejl"
+   },
+   "1673": {
+      "message": "En adgangskode er påkrævet"
+   },
+   "1674": {
+      "message": "Dette dokument er adgangskodebeskyttet. Angiv en adgangskode."
+   },
+   "1675": {
+      "message": "Hvis du vil udskrive PDF-dokumentet, skal du bruge knappen Udskriv på værktøjslinjen."
+   },
+   "1676": {
+      "message": "Ugyldig adgangskode."
+   },
+   "1677": {
+      "message": "Formularudfyldning understøttes endnu ikke i Scholar PDF-læseren."
+   },
+   "1678": {
+      "message": "Google Scholar PDF-læser"
+   },
+   "1698": {
+      "message": "Oversigt"
+   },
+   "1702": {
+      "message": "Aktivér Scholar-læseren"
+   },
+   "1703": {
+      "message": "Hvis du vil læse lokale PDF-filer med Google Scholar-læseren, skal du aktivere adgang til filwebadresser i indstillingerne og derefter genindlæse PDF-filen."
+   },
+   "1704": {
+      "message": "Åbn Indstillinger"
+   },
+   "1707": {
+      "message": "Visningstilstand"
+   },
+   "1711": {
+      "message": "Fuld skærm"
+   },
+   "1712": {
+      "message": "Lys tilstand"
+   },
+   "1713": {
+      "message": "Mørk tilstand"
+   },
+   "1714": {
+      "message": "Nattilstand"
+   },
+   "1715": {
+      "message": "Se i Referencer"
+   },
+   "1716": {
+      "message": "Du kan gemme i din Scholar-samling ved at udvide PDF-filen til fuld skærm."
+   },
+   "1717": {
+      "message": "Udvid"
+   },
+   "1718": {
+      "message": "Ikke nu"
+   },
+   "1723": {
+      "message": "Åbn PDF-filen i Chrome-visningsprogrammet for at udskrive dokumentet."
+   },
+   "1724": {
+      "message": "Åbn"
+   },
+   "1726": {
+      "message": "Få en bedre læseoplevelse, se referencer, tjek oversigter, gå til figurer, henvis og gem."
+   },
+   "1732": {
+      "message": "Enhedstilstand"
+   },
+   "1734": {
+      "message": "Rapportér et problem"
+   },
+   "1741": {
+      "message": "Sektioner"
+   },
+   "1742": {
+      "message": "AI-oversigt"
+   },
+   "1744": {
+      "message": "Indstillinger for AI-oversigt"
+   },
+   "1745": {
+      "message": "Anmod om en AI-oversigt fra Scholar:"
+   },
+   "1746": {
+      "message": "Kun når du klikker på $ICON$",
+      "placeholders": {
+         "ICON": {
+            "content": "$1"
+         }
+      }
+   },
+   "1748": {
+      "message": "Automatisk, når du åbner en PDF-fil"
+   },
+   "1749": {
+      "message": "AI-oversigter er kun tilgængelige for udvalgte artikler"
+   },
+   "1750": {
+      "message": "Vil du aktivere AI-oversigt for alle PDF-filer?"
+   },
+   "1751": {
+      "message": "Læseren forsøger at finde PDF-filen i Scholar for at vise en oversigt"
+   },
+   "1752": {
+      "message": "Om AI-oversigt"
+   },
+   "1753": {
+      "message": "Hovedpunkter fra artikeldele"
+   },
+   "1754": {
+      "message": "AI-oversigter præsenterer hovedpunkterne fra de mest omfattende dele af dokumentet."
+   },
+   "1755": {
+      "message": "Læs oversigten, eller gå til oplysningerne"
+   },
+   "1756": {
+      "message": "Læs de vigtigste punkter for at få en hurtig oversigt, og klik på de interessante punkter for at gå til oplysningerne."
+   },
+   "1757": {
+      "message": "AI-oversigter er kun tilgængelige for udvalgte forskningsartikler i Scholar. De genereres af et computerprogram og kan indeholde ufuldstændige eller unøjagtige oplysninger."
+   },
+   "1758": {
+      "message": "Nyhed"
+   },
+   "1759": {
+      "message": "AI-oversigt er ikke tilgængelig for denne PDF-fil."
+   },
+   "1760": {
+      "message": "AI-oversigt blev genereret med en anden version af denne PDF."
+   },
+   "1766": {
+      "message": "Indstillinger for Chrome"
+   },
+   "1768": {
+      "message": "Automatisk, når du åbner en PDF-fil på de fleste akademiske websites"
+   },
+   "1773": {
+      "message": "Fremhævet"
+   },
+   "1775": {
+      "message": "Fremhæv"
+   },
+   "1778": {
+      "message": "Kommentarer"
+   },
+   "1779": {
+      "message": "Dine højdepunkter og kommentarer vises her"
+   },
+   "1781": {
+      "message": "Prøv igen"
+   },
+   "1783": {
+      "message": "Der er ikke mere plads i din Scholar-samling"
+   },
+   "1785": {
+      "message": "Åbn samling"
+   },
+   "1786": {
+      "message": "Kassér"
+   },
+   "1787": {
+      "message": "Din Scholar-konto er slettet"
+   },
+   "1788": {
+      "message": "Gendan din konto for at fremhæve og kommentere indhold i en PDF."
+   },
+   "1790": {
+      "message": "Hvis du lukker eller genindlæser denne side, går eventuelle ændringer, du ikke har gemt, tabt."
+   },
+   "1791": {
+      "message": "Serverfejl"
+   },
+   "1793": {
+      "message": "Ignorer"
+   },
+   "1794": {
+      "message": "Din browser er offline"
+   },
+   "1796": {
+      "message": "Prøv igen"
+   },
+   "1797": {
+      "message": "Der er ikke mere plads på din enhed"
+   },
+   "1800": {
+      "message": "Log ind på din Google-konto for at gemme fremhævninger og kommentarer."
+   },
+   "1801": {
+      "message": "Frigør plads i din Scholar-samling for at gemme fremhævninger og kommentarer."
+   },
+   "1802": {
+      "message": "Log ind på $EMAIL_ADDRESS$ for at gemme fremhævninger og kommentarer.",
+      "placeholders": {
+         "EMAIL_ADDRESS": {
+            "content": "$1"
+         }
+      }
+   },
+   "1803": {
+      "message": "Fremhævninger eller kommentarer kunne ikke gemmes i din Scholar-samling. Vi forsøger at gemme dem igen senere."
+   },
+   "1804": {
+      "message": "Opret forbindelse til internettet for at gemme fremhævninger og kommentarer. Vi forsøger at gemme dem igen senere."
+   },
+   "1805": {
+      "message": "Frigør plads på din enhed for at gemme fremhævninger og kommentarer. Ellers bliver ændringerne ikke gemt."
+   },
+   "1806": {
+      "message": "Synkroniserer…"
+   },
+   "1807": {
+      "message": "Synkroniseringen mislykkedes"
+   },
+   "1808": {
+      "message": "Der opstod en fejl under synkroniseringen af fremhævninger og kommentarer."
+   },
+   "1809": {
+      "message": "Enheden er offline"
+   },
+   "1810": {
+      "message": "Opret forbindelse til internettet for at se fremhævninger og kommentarer."
+   },
+   "1811": {
+      "message": "Log ind for at se fremhævninger og kommentarer."
+   },
+   "1812": {
+      "message": "Ændringer, der ikke er gemt"
+   },
+   "1813": {
+      "message": "Kopiér AI-oversigt"
+   },
+   "1814": {
+      "message": "AI-oversigt fra $BOLD_ANCHOR_BEGIN$Scholar PDF-læser$BOLD_ANCHOR_END$",
+      "placeholders": {
+         "BOLD_ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "BOLD_ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1815": {
+      "message": "AI-oversigten er kopieret til udklipsholderen"
+   },
+   "1816": {
+      "message": "Fremhævningerne gemmes i din $ANCHOR_BEGIN$Scholar-samling$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1817": {
+      "message": "Kommentarerne gemmes i din Scholar-samling."
+   },
+   "1818": {
+      "message": "Ukendt titel"
+   },
+   "1819": {
+      "message": "Find i Scholar"
+   },
+   "1822": {
+      "message": "Kommentar"
+   },
+   "1823": {
+      "message": "Skift farve"
+   },
+   "1824": {
+      "message": "Gemt i $ANCHOR_BEGIN$din samling$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1825": {
+      "message": "Vælg tekst, du vil fremhæve eller kommentere."
+   },
+   "1826": {
+      "message": "Fremhævet tekst gemmes i din $ANCHOR_BEGIN$Scholar-samling$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1827": {
+      "message": "Fremhæv tekst i PDF-filer"
+   },
+   "1830": {
+      "message": "Fremhævet tekst gemmes online"
+   },
+   "1831": {
+      "message": "Dine kommentarer og fremhævede tekster gemmes i din $ANCHOR_BEGIN$Scholar-samling$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1832": {
+      "message": "Få adgang til dine fremhævede tekster overalt"
+   },
+   "1833": {
+      "message": "Fremhævet tekst vises i PDF-læseren, så længe du er logget ind."
+   },
+   "1834": {
+      "message": "Gå til Min samling"
+   },
+   "1862": {
+      "message": "Der kan ikke oprettes forbindelse til browserlageret"
+   },
+   "1863": {
+      "message": "Fremhævninger er deaktiveret i denne browser, men andre funktioner til læsning af PDF-filer fungerer stadig."
+   },
+   "1864": {
+      "message": "Hvis du vil bruge fremhævninger, kan du prøve at genstarte din browser eller enhed."
+   },
+   "1865": {
+      "message": "Der kan ikke oprettes forbindelse til browserlageret. Prøv at genstarte din browser eller enhed."
+   },
+   "1866": {
+      "message": "Browserlageret kunne ikke synkroniseres"
+   },
+   "1867": {
+      "message": "Der opstod en fejl under synkroniseringen af fremhævninger til browserlageret. Prøv at genstarte din browser eller enhed."
+   },
+   "1868": {
+      "message": "Dit browserlager er fuldt"
+   },
+   "1869": {
+      "message": "Hvis du vil bruge fremhævninger, kan du prøve at frigøre plads på din enhed."
+   },
+   "1870": {
+      "message": "Dit browserlager er fuldt. Prøv at frigøre plads på din enhed."
+   },
+   "1871": {
+      "message": "Hvis du vil bruge fremhævninger, skal du opdatere din fremhævningscache. Dette kan tage et stykke tid."
+   },
+   "1872": {
+      "message": "Opdater cache"
+   },
+   "1873": {
+      "message": "Der opstod en fejl under synkroniseringen af fremhævninger til browserlageret. Prøv at opdatere din fremhævningscache. Dette kan tage et stykke tid."
+   },
+   "1874": {
+      "message": "For mange fremhævninger"
+   },
+   "1875": {
+      "message": "Der kan ikke føjes flere artikler til din samling."
+   },
+   "1876": {
+      "message": "Hvis du vil fortsætte med at tilføje fremhævninger, skal du fjerne nogle af de eksisterende."
+   },
+   "1877": {
+      "message": "Kassér ændringer"
+   },
+   "1882": {
+      "message": "Du har fremhævet indhold i for mange versioner"
+   },
+   "1883": {
+      "message": "Du kan tilføje fremhævninger i op til 3 versioner af den samme artikel."
+   },
+   "1884": {
+      "message": "Hvis du vil fortsætte med at tilføje fremhævninger i denne version, skal du fjerne fremhævninger fra en anden version."
+   },
+   "1885": {
+      "message": "Administrer fremhævninger"
+   },
+   "1888": {
+      "message": " Vis i samling"
+   },
+   "1918": {
+      "message": "Indholdet på denne webadresse er blevet ændret. Du har fremhævet indhold i en tidligere version."
+   },
+   "535": {
+      "message": "Søg i Scholar"
+   },
+   "551": {
+      "message": "Fjern artiklen"
+   },
+   "59": {
+      "message": "Citer"
+   },
+   "625": {
+      "message": "Indlæser..."
+   },
+   "626": {
+      "message": "Side $PAGE_NUMBER$",
+      "placeholders": {
+         "PAGE_NUMBER": {
+            "content": "$1"
+         }
+      }
+   },
+   "64": {
+      "message": "Gem"
+   },
+   "644": {
+      "message": "Udfør"
+   },
+   "649": {
+      "message": "Luk"
+   },
+   "732": {
+      "message": "Min samling"
+   },
+   "907": {
+      "message": "Gendan konto"
+   },
+   "920": {
+      "message": "Søg"
+   },
+   "924": {
+      "message": "Markér som:"
+   },
+   "96": {
+      "message": "Slet"
+   },
+   "965": {
+      "message": "Okay"
+   },
+   "966": {
+      "message": "Nej tak"
+   },
+   "chrome_client_3269861059707096562": {
+      "message": "Tillad adgang til webadresser på filer"
+   }
+}

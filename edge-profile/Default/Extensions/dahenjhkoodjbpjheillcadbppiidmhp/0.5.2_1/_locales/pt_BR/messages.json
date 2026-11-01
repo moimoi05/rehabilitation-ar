@@ -1,0 +1,703 @@
+{
+   "1010": {
+      "message": "Criar novo"
+   },
+   "1109": {
+      "message": "Nenhum resultado para a pesquisa."
+   },
+   "111": {
+      "message": "O sistema não pode executar a operação agora. Tente novamente mais tarde."
+   },
+   "1301": {
+      "message": "Configurações"
+   },
+   "1343": {
+      "message": "Salvo em \"Minha biblioteca\""
+   },
+   "1441": {
+      "message": "Anterior"
+   },
+   "1442": {
+      "message": "Avançar"
+   },
+   "1462": {
+      "message": "Fechar"
+   },
+   "1463": {
+      "message": "Enviar"
+   },
+   "1484": {
+      "message": "Página anterior"
+   },
+   "1485": {
+      "message": "Próxima página"
+   },
+   "1486": {
+      "message": "Diminuir zoom"
+   },
+   "1487": {
+      "message": "Aumentar zoom"
+   },
+   "1488": {
+      "message": "Ajustar à altura"
+   },
+   "1489": {
+      "message": "Ajustar à largura"
+   },
+   "1490": {
+      "message": "Girar"
+   },
+   "1491": {
+      "message": "Salvar na minha biblioteca"
+   },
+   "1492": {
+      "message": "Fazer o download"
+   },
+   "1493": {
+      "message": "Imprimir"
+   },
+   "1494": {
+      "message": "Mais"
+   },
+   "1513": {
+      "message": "Miniaturas"
+   },
+   "1514": {
+      "message": "Fechar tudo"
+   },
+   "1515": {
+      "message": "Abrir tudo"
+   },
+   "1542": {
+      "message": "Google Acadêmico"
+   },
+   "1617": {
+      "message": "Pesquisar no Google"
+   },
+   "1618": {
+      "message": "Biblioteca do Google Acadêmico"
+   },
+   "1620": {
+      "message": "Ocorreu um erro ao recuperar os resultados. Tente de novo mais tarde."
+   },
+   "1621": {
+      "message": "Pesquisando no Google Acadêmico…"
+   },
+   "1623": {
+      "message": "Salvar na Biblioteca do Google Acadêmico"
+   },
+   "1626": {
+      "message": "Propriedades do documento"
+   },
+   "1627": {
+      "message": "Abrir no leitor do Chrome"
+   },
+   "1628": {
+      "message": "Mostrar mais"
+   },
+   "1629": {
+      "message": "Mostrar menos"
+   },
+   "1630": {
+      "message": "Fazer login"
+   },
+   "1631": {
+      "message": "Salvo em $ANCHOR_BEGIN$Minha biblioteca$ANCHOR_END$",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1632": {
+      "message": "Salvando em \"Minha biblioteca\"…"
+   },
+   "1633": {
+      "message": "Artigo não encontrado no Google Acadêmico."
+   },
+   "1635": {
+      "message": "Nome do arquivo"
+   },
+   "1636": {
+      "message": "Tamanho do arquivo"
+   },
+   "1637": {
+      "message": "Título"
+   },
+   "1638": {
+      "message": "Autor"
+   },
+   "1639": {
+      "message": "Assunto"
+   },
+   "1640": {
+      "message": "Palavras-chave"
+   },
+   "1641": {
+      "message": "Criado em"
+   },
+   "1642": {
+      "message": "Última modificação"
+   },
+   "1643": {
+      "message": "Aplicativo"
+   },
+   "1644": {
+      "message": " Criador do PDF"
+   },
+   "1645": {
+      "message": "Versão do PDF"
+   },
+   "1646": {
+      "message": "Contagem de páginas"
+   },
+   "1647": {
+      "message": "Tamanho da página"
+   },
+   "1648": {
+      "message": "retrato"
+   },
+   "1649": {
+      "message": "paisagem"
+   },
+   "1650": {
+      "message": "quadrado"
+   },
+   "1651": {
+      "message": "Varia"
+   },
+   "1652": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ pol. ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1653": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1654": {
+      "message": "Exibição rápida da Web"
+   },
+   "1655": {
+      "message": "Sim"
+   },
+   "1656": {
+      "message": "Não"
+   },
+   "1660": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ pol. ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1661": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1662": {
+      "message": "Carta"
+   },
+   "1663": {
+      "message": "Legal"
+   },
+   "1664": {
+      "message": "Tabloide"
+   },
+   "1668": {
+      "message": "Falha ao carregar documento PDF."
+   },
+   "1669": {
+      "message": "Atualizar"
+   },
+   "1670": {
+      "message": "Erro"
+   },
+   "1673": {
+      "message": "Senha obrigatória"
+   },
+   "1674": {
+      "message": "Este documento está protegido por senha. Digite a senha."
+   },
+   "1675": {
+      "message": "Para imprimir o documento PDF, use o botão \"Imprimir\" na barra de ferramentas."
+   },
+   "1676": {
+      "message": "Senha incorreta."
+   },
+   "1677": {
+      "message": "O leitor de PDF do Google Acadêmico ainda não oferece suporte ao preenchimento de formulários."
+   },
+   "1678": {
+      "message": "Leitor de PDF do Google Acadêmico"
+   },
+   "1698": {
+      "message": "Sumário"
+   },
+   "1702": {
+      "message": "Ativar o Leitor do Google Acadêmico"
+   },
+   "1703": {
+      "message": "Para ler PDFs locais com o Leitor do Google Acadêmico, ative o acesso aos URLs do arquivo nas configurações e atualize o PDF."
+   },
+   "1704": {
+      "message": "Abrir configurações"
+   },
+   "1707": {
+      "message": "Modo de exibição"
+   },
+   "1711": {
+      "message": "Tela cheia"
+   },
+   "1712": {
+      "message": "Modo claro"
+   },
+   "1713": {
+      "message": "Modo escuro"
+   },
+   "1714": {
+      "message": "Modo noturno"
+   },
+   "1715": {
+      "message": "Mostrar nas \"Referências\""
+   },
+   "1716": {
+      "message": "Para ativar o salvamento na Biblioteca do Google Acadêmico, abra o PDF em tela cheia."
+   },
+   "1717": {
+      "message": "Abrir"
+   },
+   "1718": {
+      "message": "Agora não"
+   },
+   "1723": {
+      "message": "Para ativar a impressão, abra o PDF no leitor do Chrome."
+   },
+   "1724": {
+      "message": "Abrir"
+   },
+   "1726": {
+      "message": "Turbine sua leitura de documentos: acesse referências, navegue pelo sumário, vá direto para as imagens, faça citações e salve."
+   },
+   "1732": {
+      "message": "Modo do dispositivo"
+   },
+   "1734": {
+      "message": "Informar um problema"
+   },
+   "1741": {
+      "message": "Seções"
+   },
+   "1742": {
+      "message": "Sumário gerado com IA"
+   },
+   "1744": {
+      "message": "Configurações do Sumário gerado com IA"
+   },
+   "1745": {
+      "message": "Peça um sumário gerado com IA no Google Acadêmico:"
+   },
+   "1746": {
+      "message": "Apenas ao clicar no ícone $ICON$",
+      "placeholders": {
+         "ICON": {
+            "content": "$1"
+         }
+      }
+   },
+   "1748": {
+      "message": "Automaticamente ao abrir qualquer PDF"
+   },
+   "1749": {
+      "message": "Os sumários gerados com IA só estão disponíveis para artigos selecionados"
+   },
+   "1750": {
+      "message": "Ativar o Sumário gerado com IA para todos os PDFs?"
+   },
+   "1751": {
+      "message": "Para mostrar um sumário, o Leitor tentará encontrar o PDF no Google Acadêmico"
+   },
+   "1752": {
+      "message": "Sobre o Sumário gerado com IA"
+   },
+   "1753": {
+      "message": "Principais pontos das seções do artigo"
+   },
+   "1754": {
+      "message": "Os sumários gerados com IA apresentam os principais pontos das seções mais importantes do documento."
+   },
+   "1755": {
+      "message": "Veja o sumário ou vá para os detalhes"
+   },
+   "1756": {
+      "message": "Confira os principais pontos para ter uma visão geral rápida e clique em marcadores de texto interessantes para ver os detalhes."
+   },
+   "1757": {
+      "message": "Os sumários gerados com IA só estão disponíveis para alguns documentos no Google Acadêmico. Eles são gerados por um programa de computador e podem conter informações incompletas ou imprecisas."
+   },
+   "1758": {
+      "message": "Novidade"
+   },
+   "1759": {
+      "message": "O Sumário gerado com IA não está disponível para este PDF."
+   },
+   "1760": {
+      "message": "O sumário gerado com IA foi criado com uma versão diferente deste PDF."
+   },
+   "1766": {
+      "message": "Configurações do Chrome"
+   },
+   "1768": {
+      "message": "Automaticamente ao abrir um PDF na maioria dos sites acadêmicos"
+   },
+   "1773": {
+      "message": "Destaques"
+   },
+   "1775": {
+      "message": "Destaque"
+   },
+   "1778": {
+      "message": "Comentários"
+   },
+   "1779": {
+      "message": "Seus destaques e comentários vão aparecer aqui"
+   },
+   "1781": {
+      "message": "Tentar de novo"
+   },
+   "1783": {
+      "message": "Sua Biblioteca do Google Acadêmico está cheia"
+   },
+   "1785": {
+      "message": "Abrir a Biblioteca"
+   },
+   "1786": {
+      "message": "Descartar"
+   },
+   "1787": {
+      "message": "Sua conta do Google Acadêmico foi excluída"
+   },
+   "1788": {
+      "message": "Recupere sua conta para destacar e comentar em um PDF."
+   },
+   "1790": {
+      "message": "Se você fechar ou atualizar esta página, as mudanças não salvas serão perdidas."
+   },
+   "1791": {
+      "message": "Erro no servidor"
+   },
+   "1793": {
+      "message": "Ignorar"
+   },
+   "1794": {
+      "message": "Seu navegador está off-line"
+   },
+   "1796": {
+      "message": "Tentar de novo"
+   },
+   "1797": {
+      "message": "Seu dispositivo está cheio"
+   },
+   "1800": {
+      "message": "Faça login na sua Conta do Google para salvar destaques e comentários."
+   },
+   "1801": {
+      "message": "Libere espaço na Biblioteca do Google Acadêmico para salvar destaques e comentários."
+   },
+   "1802": {
+      "message": "Faça login na conta $EMAIL_ADDRESS$ para salvar destaques e comentários.",
+      "placeholders": {
+         "EMAIL_ADDRESS": {
+            "content": "$1"
+         }
+      }
+   },
+   "1803": {
+      "message": "Não foi possível salvar destaques ou comentários na sua Biblioteca do Google Acadêmico. Vamos tentar de novo mais tarde."
+   },
+   "1804": {
+      "message": "Conecte-se à Internet para salvar destaques e comentários. Vamos tentar de novo mais tarde."
+   },
+   "1805": {
+      "message": "Libere espaço no dispositivo para salvar destaques e comentários. Caso contrário, as mudanças não serão salvas."
+   },
+   "1806": {
+      "message": "Sincronizando…"
+   },
+   "1807": {
+      "message": "Falha na sincronização"
+   },
+   "1808": {
+      "message": "Ocorreu um erro ao sincronizar os destaques e comentários."
+   },
+   "1809": {
+      "message": "Dispositivo off-line"
+   },
+   "1810": {
+      "message": "Conecte-se à Internet para ver os destaques e comentários."
+   },
+   "1811": {
+      "message": "Faça login para ver os destaques e comentários."
+   },
+   "1812": {
+      "message": "Mudanças não foram salvas"
+   },
+   "1813": {
+      "message": "Copiar o Sumário gerado com IA"
+   },
+   "1814": {
+      "message": "Sumário gerado com IA do $BOLD_ANCHOR_BEGIN$Leitor de PDF do Google Acadêmico$BOLD_ANCHOR_END$",
+      "placeholders": {
+         "BOLD_ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "BOLD_ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1815": {
+      "message": "Sumário gerado com IA copiado para a área de transferência"
+   },
+   "1816": {
+      "message": "Os destaques serão salvos na sua $ANCHOR_BEGIN$Biblioteca do Google Acadêmico$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1817": {
+      "message": "Os comentários serão salvos na sua Biblioteca do Google Acadêmico."
+   },
+   "1818": {
+      "message": "Título desconhecido"
+   },
+   "1819": {
+      "message": "Encontrar no Google Acadêmico"
+   },
+   "1822": {
+      "message": "Comentar"
+   },
+   "1823": {
+      "message": "Mudar cor"
+   },
+   "1824": {
+      "message": "Salvo na $ANCHOR_BEGIN$sua Biblioteca$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1825": {
+      "message": "Selecione o texto para destacar ou comentar."
+   },
+   "1826": {
+      "message": "Os destaques são salvos na sua $ANCHOR_BEGIN$Biblioteca do Google Acadêmico$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1827": {
+      "message": "Destaque PDFs"
+   },
+   "1830": {
+      "message": "Os destaques são salvos on-line"
+   },
+   "1831": {
+      "message": "Os destaques e comentários são salvos na sua $ANCHOR_BEGIN$Biblioteca do Google Acadêmico$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1832": {
+      "message": "Acesse seus destaques em qualquer lugar"
+   },
+   "1833": {
+      "message": "Os destaques vão aparecer no Leitor de PDF enquanto sua conta estiver conectada."
+   },
+   "1834": {
+      "message": "Acessar Minha Biblioteca"
+   },
+   "1862": {
+      "message": "Não foi possível fazer a conexão com o armazenamento do navegador"
+   },
+   "1863": {
+      "message": "Os destaques estão desativados neste navegador, mas outros recursos de leitor de PDF continuam funcionando."
+   },
+   "1864": {
+      "message": "Para usar os destaques, reinicie o navegador ou o dispositivo."
+   },
+   "1865": {
+      "message": "Não foi possível fazer a conexão com o armazenamento do navegador. Reinicie o navegador ou o dispositivo."
+   },
+   "1866": {
+      "message": "Não foi possível sincronizar com o armazenamento do navegador"
+   },
+   "1867": {
+      "message": "Ocorreu um erro ao sincronizar os destaques com o armazenamento do navegador. Reinicie o navegador ou o dispositivo."
+   },
+   "1868": {
+      "message": "O armazenamento do navegador está cheio"
+   },
+   "1869": {
+      "message": "Para usar os destaques, tente liberar espaço no dispositivo."
+   },
+   "1870": {
+      "message": "O armazenamento do navegador está cheio. Tente liberar espaço no dispositivo."
+   },
+   "1871": {
+      "message": "Para usar os destaques, atualize o cache desse recurso. Isso pode demorar um pouco."
+   },
+   "1872": {
+      "message": "Atualizar cache"
+   },
+   "1873": {
+      "message": "Ocorreu um erro ao sincronizar os destaques com o armazenamento do navegador. Tente atualizar o cache de destaques. Isso pode demorar um pouco."
+   },
+   "1874": {
+      "message": "Muitos destaques"
+   },
+   "1875": {
+      "message": "Não é possível adicionar mais destaques a sua biblioteca."
+   },
+   "1876": {
+      "message": "Para continuar adicionando destaques, remova alguns."
+   },
+   "1877": {
+      "message": "Descartar edições"
+   },
+   "1882": {
+      "message": "Destaques em muitas versões"
+   },
+   "1883": {
+      "message": "Você pode adicionar destaques em até 3 versões do mesmo artigo."
+   },
+   "1884": {
+      "message": "Para continuar adicionando destaques a esta versão, remova os de outra."
+   },
+   "1885": {
+      "message": "Gerenciar destaques"
+   },
+   "1888": {
+      "message": " Ver na biblioteca"
+   },
+   "1918": {
+      "message": "O conteúdo deste URL mudou. Você tem destaques em uma versão anterior."
+   },
+   "535": {
+      "message": "Pesquisar no Google Acadêmico"
+   },
+   "551": {
+      "message": "Remover artigo"
+   },
+   "59": {
+      "message": "Citar"
+   },
+   "625": {
+      "message": "Carregando..."
+   },
+   "626": {
+      "message": "Página $PAGE_NUMBER$",
+      "placeholders": {
+         "PAGE_NUMBER": {
+            "content": "$1"
+         }
+      }
+   },
+   "64": {
+      "message": "Salvar"
+   },
+   "644": {
+      "message": "Concluído"
+   },
+   "649": {
+      "message": "Dispensar"
+   },
+   "732": {
+      "message": "Minha biblioteca"
+   },
+   "907": {
+      "message": "Recuperar conta"
+   },
+   "920": {
+      "message": "Pesquisar"
+   },
+   "924": {
+      "message": "Marcar como:"
+   },
+   "96": {
+      "message": "Excluir "
+   },
+   "965": {
+      "message": "Claro"
+   },
+   "966": {
+      "message": "Não"
+   },
+   "chrome_client_3269861059707096562": {
+      "message": "Permitir acesso a URLs de arquivo\n"
+   }
+}

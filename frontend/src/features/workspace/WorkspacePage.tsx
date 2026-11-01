@@ -396,13 +396,20 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
         poseThread = new Worker('/tracking-worker.js'); handThread = new Worker('/tracking-worker.js')
         const moduleUrl = new URL('../../../node_modules/@mediapipe/tasks-vision/vision_bundle.mjs', import.meta.url).href
         ownedByCoordinator = true
-        const tracker = await createParallelWorkerTracker({ poseWorker: poseThread, handWorker: handThread, moduleUrl, signal: controller.signal, capture: element => createImageBitmap(element),
+        const tracker = await createParallelWorkerTracker({ poseWorker: poseThread, handWorker: handThread, moduleUrl, signal: controller.signal, capture: element => createImageBitmap(element), preferGpu: true,
           onPose: result => { if (requestId === generation.current) budget?.recordResult('pose', { timestamp: result.timestamp, receivedAt: performance.now(), inferenceMs: result.inferenceMs }); acceptPose(result.pose, result.timestamp) },
           onHand: result => { if (result.handFailed) disableHand(); else { if (requestId === generation.current && handActive) budget?.recordResult('hand', { timestamp: result.timestamp, receivedAt: performance.now(), inferenceMs: result.inferenceMs }); handSides.current = handFreshness(result.hands ?? [], result.handedness ?? [], result.timestamp); acceptHand(result.hands ?? [], result.timestamp) } },
           onPoseError: fallback, onHandError: disableHand,
         })
         if (requestId !== generation.current) { tracker.close(); return }
         parallelWorkerRef.current = tracker
+        setModelDelegates({
+          pose: tracker.delegates.pose || '—',
+          hand: tracker.delegates.hand || (handActive ? '—' : 'Tắt'),
+        })
+        if (tracker.initializationErrors.length) {
+          setModelErrors(previous => [...previous, ...tracker.initializationErrors])
+        }
         schedule('parallel', (timestamp, doHand, now) => {
           if (!budget || budget.canSubmit('pose', now)) { if (tracker.submitPose(video, timestamp)) budget?.submitted('pose', now) }
           if (!doHand || (budget && !budget.canSubmit('hand', now))) return false
@@ -421,7 +428,7 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
       const worker = new Worker('/tracking-worker.js')
       // Vite emits the MediaPipe module as a same-origin asset for production builds.
       const moduleUrl = new URL('../../../node_modules/@mediapipe/tasks-vision/vision_bundle.mjs', import.meta.url).href
-      const tracker = await createWorkerTracker({ worker, moduleUrl, handEnabled, signal: controller.signal, capture: element => createImageBitmap(element), onResult: result => {
+      const tracker = await createWorkerTracker({ worker, moduleUrl, handEnabled, preferGpu: true, signal: controller.signal, capture: element => createImageBitmap(element), onResult: result => {
         if (requestId !== generation.current) return
         if (result.handFailed && handActive) {
           // The failure applies to the model, even when this frame is too old to display.
@@ -439,6 +446,13 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
       } })
       if (requestId !== generation.current) { tracker.close(); return }
       workerRef.current = tracker
+      setModelDelegates({
+        pose: tracker.delegates.pose || '—',
+        hand: tracker.delegates.hand || (handActive ? '—' : 'Tắt'),
+      })
+      if (tracker.initializationErrors.length) {
+        setModelErrors(previous => [...previous, ...tracker.initializationErrors])
+      }
       schedule('worker', (timestamp, doHand) => tracker.submit(video, timestamp, doHand))
     } catch {
       if (requestId === generation.current) { setMessage('Worker không khả dụng; đang chuyển sang nhận diện trên luồng chính.'); await startMainThread() }
@@ -642,7 +656,7 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
           {!workflow && <button onClick={() => { stopCamera(); setDemo(value => !value); setSize({ width: 1280, height: 720 }); setMessage('') }}>{demo ? 'Thoát demo' : 'Chạy demo'}</button>}
           <button disabled={!streamActive || demo || starting} onClick={tracking ? stopTracking : startTracking}>{starting ? 'Đang tải…' : tracking ? 'Dừng nhận diện' : 'Bắt đầu nhận diện'}</button>
         </div>
-        {!workflow && <div className="workspace-meta"><span>{demo ? 'Mốc mô phỏng' : status}</span><span>{fps} FPS suy luận Pose</span>{activeEngine && <span>{activeEngine === 'parallel' ? parallelHandAvailable ? 'CPU · hai Worker' : 'CPU · Worker Pose' : activeEngine === 'worker' ? 'CPU · Worker' : `Pose: ${modelDelegates.pose} | Hand: ${modelDelegates.hand} · luồng chính`}</span>}<span>Yêu cầu camera: {requestedCameraSize.width} × {requestedCameraSize.height}</span>{streamActive && <span>Camera thực tế: {actualCameraSize ? `${actualCameraSize.width} × ${actualCameraSize.height}` : 'không xác định'}</span>}</div>}
+        {!workflow && <div className="workspace-meta"><span>{demo ? 'Mốc mô phỏng' : status}</span><span>{fps} FPS suy luận Pose</span>{activeEngine && <span>Pose: {modelDelegates.pose} | Hand: {modelDelegates.hand} · {activeEngine === 'parallel' ? (parallelHandAvailable ? 'hai Worker' : 'Worker Pose') : activeEngine === 'worker' ? 'Worker' : 'luồng chính'}</span>}<span>Yêu cầu camera: {requestedCameraSize.width} × {requestedCameraSize.height}</span>{streamActive && <span>Camera thực tế: {actualCameraSize ? `${actualCameraSize.width} × ${actualCameraSize.height}` : 'không xác định'}</span>}</div>}
         {!workflow && budgetStatus && <p>Giới hạn tự điều chỉnh Pose {budgetStatus.poseFps.toFixed(1)} / Hand {budgetStatus.handAvailable ? `${budgetStatus.handFps.toFixed(1)} FPS` : 'không khả dụng'} · {budgetStatus.phase === 'normal' ? 'bình thường' : 'đã giảm tải'}</p>}
         {!workflow && <><p><a href="/tracking-lab">Mở Tracking Test Lab</a></p>
         <div className="workspace-panel" aria-label="Thu thập dữ liệu nghiên cứu">
@@ -678,7 +692,7 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
         <label className="check"><input type="checkbox" disabled={tracking || starting || !handEnabled} checked={preferParallel} onChange={event => setPreferParallel(event.target.checked)} /> Sử dụng hai Worker CPU (thử nghiệm)</label>
         <label className="check"><input type="checkbox" disabled={tracking || starting || !preferParallel} checked={adaptiveParallel} onChange={event => setAdaptiveParallel(event.target.checked)} /> Tự điều chỉnh nhịp hai Worker (thử nghiệm)</label>
         {preferParallel && <p className="workspace-hint">Tự điều chỉnh dùng thời gian nhận kết quả và độ phản hồi giao diện; không đo hoặc bảo đảm phần CPU còn lại của toàn máy. Giới hạn FPS không phải FPS thực tế.</p>}
-        {activeEngine === 'main' && <p role="status">Pose: {modelDelegates.pose} | Hand: {modelDelegates.hand}</p>}
+        {activeEngine && <p role="status">Pose: {modelDelegates.pose} | Hand: {modelDelegates.hand}</p>}
         {modelErrors.length > 0 && <details><summary>Lỗi khởi tạo / suy luận MediaPipe</summary>{modelErrors.map((error, index) => <p key={index}>{error}</p>)}</details>}
         <p className="workspace-hint">Dừng nhận diện để thay đổi. Hai Worker cần bật bàn tay và có thể xử lý các frame khác nhau. Nếu Pose Worker không khả dụng, hệ thống sẽ thử GPU trên luồng chính, rồi CPU nếu GPU lỗi.</p>
         <label>Độ trong suốt <span>{Math.round(ghost.opacity * 100)}%</span><input type="range" min="0.1" max="1" step="0.05" value={ghost.opacity} onChange={event => updateGhost({ opacity: Number(event.target.value) })} /></label>

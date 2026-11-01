@@ -1,0 +1,703 @@
+{
+   "1010": {
+      "message": "Ustvari novo"
+   },
+   "1109": {
+      "message": "Za to iskanje ni rezultatov."
+   },
+   "111": {
+      "message": "Sistem trenutno ne more izvesti postopka. Poskusite znova pozneje."
+   },
+   "1301": {
+      "message": "Nastavitve"
+   },
+   "1343": {
+      "message": "Shranjeno v Mojo knjižnico"
+   },
+   "1441": {
+      "message": "Nazaj"
+   },
+   "1442": {
+      "message": "Naprej"
+   },
+   "1462": {
+      "message": "Zapri"
+   },
+   "1463": {
+      "message": "Pošlji"
+   },
+   "1484": {
+      "message": "Prejšnja stran"
+   },
+   "1485": {
+      "message": "Naslednja stran"
+   },
+   "1486": {
+      "message": "Pomanjšaj"
+   },
+   "1487": {
+      "message": "Povečaj"
+   },
+   "1488": {
+      "message": "Prilagodi višini"
+   },
+   "1489": {
+      "message": "Prilagodi širini"
+   },
+   "1490": {
+      "message": "Zavrti"
+   },
+   "1491": {
+      "message": "Shrani v mojo knjižnico"
+   },
+   "1492": {
+      "message": "Prenos"
+   },
+   "1493": {
+      "message": "Natisni"
+   },
+   "1494": {
+      "message": "Več"
+   },
+   "1513": {
+      "message": "Sličice"
+   },
+   "1514": {
+      "message": "Strni vse"
+   },
+   "1515": {
+      "message": "Razširi vse"
+   },
+   "1542": {
+      "message": "Google Učenjak"
+   },
+   "1617": {
+      "message": "Iskanje Google"
+   },
+   "1618": {
+      "message": "Knjižnica Google Učenjaka"
+   },
+   "1620": {
+      "message": "Pri pridobivanju rezultatov je prišlo do napake. Poskusite znova pozneje."
+   },
+   "1621": {
+      "message": "Iskanje v Učenjaku …"
+   },
+   "1623": {
+      "message": "Shrani v knjižnico Učenjaka"
+   },
+   "1626": {
+      "message": "Lastnosti dokumenta"
+   },
+   "1627": {
+      "message": "Odpri v pregledovalniku Chroma"
+   },
+   "1628": {
+      "message": "Pokaži več"
+   },
+   "1629": {
+      "message": "Pokaži manj"
+   },
+   "1630": {
+      "message": "Prijava"
+   },
+   "1631": {
+      "message": "Shranjeno v $ANCHOR_BEGIN$Mojo knjižnico$ANCHOR_END$",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1632": {
+      "message": "Shranjevanje v Mojo knjižnico …"
+   },
+   "1633": {
+      "message": "Članka ni mogoče najti v Učenjaku."
+   },
+   "1635": {
+      "message": "Ime datoteke"
+   },
+   "1636": {
+      "message": "Velikost datoteke"
+   },
+   "1637": {
+      "message": "Naslov"
+   },
+   "1638": {
+      "message": "Avtor"
+   },
+   "1639": {
+      "message": "Zadeva"
+   },
+   "1640": {
+      "message": "Ključne besede"
+   },
+   "1641": {
+      "message": "Ustvarjeno"
+   },
+   "1642": {
+      "message": "Spremenjeno"
+   },
+   "1643": {
+      "message": "Program"
+   },
+   "1644": {
+      "message": " Program za pretvorbo v PDF"
+   },
+   "1645": {
+      "message": "Različica dokumenta PDF"
+   },
+   "1646": {
+      "message": "Število strani"
+   },
+   "1647": {
+      "message": "Velikost strani"
+   },
+   "1648": {
+      "message": "navpično"
+   },
+   "1649": {
+      "message": "ležeče"
+   },
+   "1650": {
+      "message": "kvadrat"
+   },
+   "1651": {
+      "message": "Različno"
+   },
+   "1652": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ v palcih ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1653": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1654": {
+      "message": "Hiter spletni ogled"
+   },
+   "1655": {
+      "message": "Da"
+   },
+   "1656": {
+      "message": "Ne"
+   },
+   "1660": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ v palcih ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1661": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1662": {
+      "message": "Letter"
+   },
+   "1663": {
+      "message": "Legal"
+   },
+   "1664": {
+      "message": "Tabloid"
+   },
+   "1668": {
+      "message": "Dokumenta PDF ni bilo mogoče naložiti."
+   },
+   "1669": {
+      "message": "Znova naloži"
+   },
+   "1670": {
+      "message": "Napaka"
+   },
+   "1673": {
+      "message": "Vnesite geslo"
+   },
+   "1674": {
+      "message": "Dokument je zaščiten z geslom. Vnesite geslo."
+   },
+   "1675": {
+      "message": "Če želite natisniti dokument PDF, uporabite gumb za tiskanje v orodni vrstici."
+   },
+   "1676": {
+      "message": "Nepravilno geslo."
+   },
+   "1677": {
+      "message": "Izpolnjevanje obrazcev še ni podprto v bralniku PDF-jev za Učenjaka."
+   },
+   "1678": {
+      "message": "Bralnik datotek PDF Google Učenjaka"
+   },
+   "1698": {
+      "message": "Pregled"
+   },
+   "1702": {
+      "message": "Omogočite bralnik Google Učenjaka"
+   },
+   "1703": {
+      "message": "Če želite brati lokalne datoteke PDF z bralnikom Google Učenjaka, v nastavitvah omogočite dostop do URL-jev datotek in znova naložite PDF."
+   },
+   "1704": {
+      "message": "Odpri nastavitve"
+   },
+   "1707": {
+      "message": "Način prikaza"
+   },
+   "1711": {
+      "message": "Celozaslonski način"
+   },
+   "1712": {
+      "message": "Svetli način"
+   },
+   "1713": {
+      "message": "Temni način"
+   },
+   "1714": {
+      "message": "Nočni način"
+   },
+   "1715": {
+      "message": "Ogled v referenčnem gradivu"
+   },
+   "1716": {
+      "message": "Če želite omogočiti shranjevanje v knjižnico Učenjaka, razširite PDF v celozaslonski način."
+   },
+   "1717": {
+      "message": "Razširi"
+   },
+   "1718": {
+      "message": "Ne zdaj"
+   },
+   "1723": {
+      "message": "Če želite omogočiti tiskanje, odprite PDF v pregledovalniku Chroma."
+   },
+   "1724": {
+      "message": "Odpri"
+   },
+   "1726": {
+      "message": "Izboljšajte branje razprav: Sledite referencam, preletite orise, skočite na številke, navajajte in shranjujte."
+   },
+   "1732": {
+      "message": "Način naprave"
+   },
+   "1734": {
+      "message": "Prijava težave"
+   },
+   "1741": {
+      "message": "Razdelki"
+   },
+   "1742": {
+      "message": "Oris umetne inteligence"
+   },
+   "1744": {
+      "message": "Nastavitve orisa umetne inteligence"
+   },
+   "1745": {
+      "message": "Učenjaka prosite za oris umetne inteligence:"
+   },
+   "1746": {
+      "message": "Samo, ko kliknete $ICON$",
+      "placeholders": {
+         "ICON": {
+            "content": "$1"
+         }
+      }
+   },
+   "1748": {
+      "message": "Samodejno, ko odprete katero koli datoteko PDF"
+   },
+   "1749": {
+      "message": "Orisi umetne inteligence so na voljo samo za izbrane članke"
+   },
+   "1750": {
+      "message": "Želite omogočiti oris umetne inteligence za vse datoteke PDF?"
+   },
+   "1751": {
+      "message": "Za prikaz orisa bo Bralnik poskusil poiskati datoteko PDF v Učenjaku"
+   },
+   "1752": {
+      "message": "O orisu umetne inteligence"
+   },
+   "1753": {
+      "message": "Ključne točke za rubrike člankov"
+   },
+   "1754": {
+      "message": "V orisih umetne inteligence so predstavljene glavne točke glavnih razdelkov dokumenta."
+   },
+   "1755": {
+      "message": "Preletite oris ali pojdite na podrobnosti"
+   },
+   "1756": {
+      "message": "Oglejte si ključne točke za hiter pregled in kliknite zanimive vrstične oznake za več podrobnosti."
+   },
+   "1757": {
+      "message": "Orisi umetne inteligence so na voljo samo za izbrane znanstvene razprave v Učenjaku. Generira jih računalniški program in lahko vsebujejo nepopolne ali netočne informacije."
+   },
+   "1758": {
+      "message": "Novo"
+   },
+   "1759": {
+      "message": "Oris umetne inteligence ni na voljo za to datoteko PDF."
+   },
+   "1760": {
+      "message": "Oris umetne inteligence je bil ustvarjen z drugo različico te datoteke PDF."
+   },
+   "1766": {
+      "message": "Chromove nastavitve"
+   },
+   "1768": {
+      "message": "Samodejno, ko odprete datoteko PDF na večini akademskih spletnih mest"
+   },
+   "1773": {
+      "message": "Označeno"
+   },
+   "1775": {
+      "message": "Označi"
+   },
+   "1778": {
+      "message": "Komentarji"
+   },
+   "1779": {
+      "message": "Poudarki in komentarji bodo prikazani tukaj"
+   },
+   "1781": {
+      "message": "Poskusi znova"
+   },
+   "1783": {
+      "message": "Vaša knjižnica Učenjaka je polna"
+   },
+   "1785": {
+      "message": "Odpri knjižnico"
+   },
+   "1786": {
+      "message": "Zavrzi"
+   },
+   "1787": {
+      "message": "Vaš račun Scholar je izbrisan"
+   },
+   "1788": {
+      "message": "Obnovite račun, če želite označiti in komentirati datoteko PDF."
+   },
+   "1790": {
+      "message": "Če zaprete ali znova naložite to stran, bodo neshranjene spremembe izgubljene."
+   },
+   "1791": {
+      "message": "Napaka strežnika"
+   },
+   "1793": {
+      "message": "Prezri"
+   },
+   "1794": {
+      "message": "Brskalnik nima povezave"
+   },
+   "1796": {
+      "message": "Poskusi znova"
+   },
+   "1797": {
+      "message": "Naprava je polna"
+   },
+   "1800": {
+      "message": "Če želite shraniti poudarke in komentarje, se prijavite v račun Google."
+   },
+   "1801": {
+      "message": "Sprostite prostor v knjižnici Učenjaka, da boste lahko shranili poudarke in komentarje."
+   },
+   "1802": {
+      "message": "Če želite shraniti poudarke in komentarje, se prijavite v $EMAIL_ADDRESS$.",
+      "placeholders": {
+         "EMAIL_ADDRESS": {
+            "content": "$1"
+         }
+      }
+   },
+   "1803": {
+      "message": "Poudarkov ali komentarjev ni bilo mogoče shraniti v knjižnico Učenjaka. Spremembe bomo poskusili znova shraniti pozneje."
+   },
+   "1804": {
+      "message": "Če želite shraniti poudarke in komentarje, vzpostavite internetno povezavo. Spremembe bomo poskusili znova shraniti pozneje."
+   },
+   "1805": {
+      "message": "Sprostite prostor v napravi, da shranite poudarke in komentarje. V nasprotnem primeru spremembe ne bodo shranjene."
+   },
+   "1806": {
+      "message": "Sinhroniziranje …"
+   },
+   "1807": {
+      "message": "Sinhronizacija ni uspela"
+   },
+   "1808": {
+      "message": "Pri sinhroniziranju poudarkov in komentarjev je prišlo do napake."
+   },
+   "1809": {
+      "message": "Naprava nima povezave"
+   },
+   "1810": {
+      "message": "Če si želite ogledati poudarke in komentarje, vzpostavite internetno povezavo."
+   },
+   "1811": {
+      "message": "Če si želite ogledati poudarke in komentarje, se prijavite."
+   },
+   "1812": {
+      "message": "Neshranjene spremembe"
+   },
+   "1813": {
+      "message": "Kopiranje orisa umetne inteligence"
+   },
+   "1814": {
+      "message": "Oris umetne inteligence z $BOLD_ANCHOR_BEGIN$Bralnikom PDF-jev Učenjaka$BOLD_ANCHOR_END$",
+      "placeholders": {
+         "BOLD_ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "BOLD_ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1815": {
+      "message": "Oris umetne inteligence je kopiran v odložišče"
+   },
+   "1816": {
+      "message": "Označeni deli bodo shranjeni v $ANCHOR_BEGIN$knjižnico Učenjaka$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1817": {
+      "message": "Komentarji bodo shranjeni v knjižnico Učenjaka."
+   },
+   "1818": {
+      "message": "Neznan naslov"
+   },
+   "1819": {
+      "message": "Poiščite v Učenjaku"
+   },
+   "1822": {
+      "message": "Komentar"
+   },
+   "1823": {
+      "message": "Spremeni barvo"
+   },
+   "1824": {
+      "message": "Shranjeno v $ANCHOR_BEGIN$knjižnico$ANCHOR_END$",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1825": {
+      "message": "Izberite besedilo, ki ga želite označiti ali komentirati."
+   },
+   "1826": {
+      "message": "Označbe so shranjene v $ANCHOR_BEGIN$knjižnici Učenjaka$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1827": {
+      "message": "Označevanje datotek PDF"
+   },
+   "1830": {
+      "message": "Označbe so shranjene v spletu"
+   },
+   "1831": {
+      "message": "Označbe in komentarji so shranjeni v $ANCHOR_BEGIN$knjižnici Učenjaka$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1832": {
+      "message": "Dostop do označb kjer koli"
+   },
+   "1833": {
+      "message": "Označbe bodo v bralniku datotek PDF prikazane, dokler boste prijavljeni."
+   },
+   "1834": {
+      "message": "Odpri Mojo knjižnico"
+   },
+   "1862": {
+      "message": "Povezave s shrambo brskalnika ni mogoče vzpostaviti"
+   },
+   "1863": {
+      "message": "Označeni elementi so v tem brskalniku onemogočeni, vendar druge funkcije branja PDF-jev še naprej delujejo."
+   },
+   "1864": {
+      "message": "Če želite uporabljati označene elemente, poskusite znova zagnati brskalnik ali napravo."
+   },
+   "1865": {
+      "message": "Povezave s shrambo brskalnika ni mogoče vzpostaviti. Poskusite znova zagnati brskalnik ali napravo."
+   },
+   "1866": {
+      "message": "Sinhronizacija s shrambo brskalnika ni mogoča"
+   },
+   "1867": {
+      "message": "Pri sinhroniziranju označenih elementov v shrambi brskalnika je prišlo do napake. Poskusite znova zagnati brskalnik ali napravo."
+   },
+   "1868": {
+      "message": "Shramba brskalnika je polna"
+   },
+   "1869": {
+      "message": "Če želite uporabljati označene elemente, sprostite prostor v napravi."
+   },
+   "1870": {
+      "message": "Shramba brskalnika je polna. Poskusite sprostiti prostor v napravi."
+   },
+   "1871": {
+      "message": "Če želite uporabljati označene elemente, osvežite predpomnilnik označenih elementov. To lahko traja nekaj časa."
+   },
+   "1872": {
+      "message": "Osveži predpomnilnik"
+   },
+   "1873": {
+      "message": "Pri sinhroniziranju označenih elementov v shrambi brskalnika je prišlo do napake. Poskusite osvežiti predpomnilnik označenih elementov. To lahko traja nekaj časa."
+   },
+   "1874": {
+      "message": "Preveč označenih elementov"
+   },
+   "1875": {
+      "message": "Knjižnica je polna, zato označenih elementov ni mogoče dodati."
+   },
+   "1876": {
+      "message": "Če želite še naprej označevati, odstranite nekaj označenih elementov."
+   },
+   "1877": {
+      "message": "Zavrzi spremembe"
+   },
+   "1882": {
+      "message": "Poudarki so v preveč različicah"
+   },
+   "1883": {
+      "message": "Poudarke lahko dodate do 3 različicam istega članka."
+   },
+   "1884": {
+      "message": "Če želite še naprej dodajati poudarke v to različico, odstranite poudarke iz druge različice."
+   },
+   "1885": {
+      "message": "Upravljanje poudarkov"
+   },
+   "1888": {
+      "message": " Ogled v knjižnici"
+   },
+   "1918": {
+      "message": "Vsebina tega URL-ja se je spremenila. Označeni deli so v prejšnji različici."
+   },
+   "535": {
+      "message": "Iskanje po Google Učenjaku"
+   },
+   "551": {
+      "message": "Odstrani članek"
+   },
+   "59": {
+      "message": "Navedi"
+   },
+   "625": {
+      "message": "Nalaganje ..."
+   },
+   "626": {
+      "message": "$PAGE_NUMBER$. stran",
+      "placeholders": {
+         "PAGE_NUMBER": {
+            "content": "$1"
+         }
+      }
+   },
+   "64": {
+      "message": "Shrani"
+   },
+   "644": {
+      "message": "Končano"
+   },
+   "649": {
+      "message": "Opusti"
+   },
+   "732": {
+      "message": "Moja knjižnica"
+   },
+   "907": {
+      "message": "Obnovi račun"
+   },
+   "920": {
+      "message": "Išči"
+   },
+   "924": {
+      "message": "Dodajanje oznake:"
+   },
+   "96": {
+      "message": "Izbriši"
+   },
+   "965": {
+      "message": "Z veseljem"
+   },
+   "966": {
+      "message": "Ne, hvala"
+   },
+   "chrome_client_3269861059707096562": {
+      "message": "Dovoli dostop do URL-jev datoteke"
+   }
+}

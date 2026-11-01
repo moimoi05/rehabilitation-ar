@@ -1,0 +1,230 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/components/TransferDialog.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=8d437898"; const Fragment = __vite__cjsImport0_react_jsxDevRuntime["Fragment"]; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = RefreshRuntime.getRefreshReg("D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx");
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import __vite__cjsImport3_react from "/node_modules/.vite/deps/react.js?v=8d437898"; const useCallback = __vite__cjsImport3_react["useCallback"]; const useState = __vite__cjsImport3_react["useState"];
+import { useData } from "/src/hooks/useData.ts";
+import { rehabApi } from "/src/services/rehab.ts";
+import { Empty, ErrorState, Loading } from "/src/components/States.tsx";
+import { Button } from "/src/components/ui/button.tsx";
+export default function TransferDialog({ patient, baselineSessionId, onClose, onTransferred }) {
+  _s();
+  const load = useCallback(async () => {
+    const [sessions, config] = await Promise.all([rehabApi.assessments({ patient_id: patient.id, status: "completed" }), rehabApi.config()]);
+    return { sessions: sessions.filter((session) => session.status === "completed"), config };
+  }, [patient.id]);
+  const { data, loading, error, reload } = useData(load);
+  const [baseline, setBaseline] = useState(baselineSessionId ? String(baselineSessionId) : "");
+  const [reason, setReason] = useState("");
+  const [exception, setException] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [formError, setFormError] = useState("");
+  const admission = patient.patient_type === "outpatient";
+  const hasBaseline = Boolean(data?.sessions.some((session) => String(session.id) === baseline));
+  const withoutBaseline = admission && !hasBaseline;
+  const canTransfer = !!data && !saving && (admission ? hasBaseline || data.config.allow_transfer_without_baseline && exception && reason.trim().length >= 10 : reason.trim().length > 0);
+  async function transfer() {
+    if (!canTransfer) return;
+    setSaving(true);
+    setFormError("");
+    try {
+      const result = await rehabApi.transfer(patient.id, { to_type: admission ? "inpatient" : "outpatient", baseline_assessment_session_id: admission && hasBaseline ? Number(baseline) : null, reason: reason.trim() || null, ...admission ? { admitted_at: (/* @__PURE__ */ new Date()).toISOString() } : {}, ...withoutBaseline ? { allow_without_baseline: true } : {} });
+      onTransferred(result.patient);
+    } catch (cause) {
+      setFormError(cause instanceof Error ? cause.message : "Không chuyển được nhóm bệnh nhân.");
+      setSaving(false);
+    }
+  }
+  return /* @__PURE__ */ jsxDEV("div", { className: "modal-backdrop", children: /* @__PURE__ */ jsxDEV("div", { className: "modal", role: "dialog", "aria-modal": "true", "aria-labelledby": "transfer-title", children: [
+    /* @__PURE__ */ jsxDEV("div", { className: "panel-heading", children: [
+      /* @__PURE__ */ jsxDEV("div", { children: [
+        /* @__PURE__ */ jsxDEV("span", { className: "eyebrow", children: "CHUYỂN NHÓM" }, void 0, false, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+          lineNumber: 48,
+          columnNumber: 166
+        }, this),
+        /* @__PURE__ */ jsxDEV("h2", { id: "transfer-title", children: admission ? "Chuyển sang bệnh nhân điều trị" : "Chuyển về nhóm đến khám" }, void 0, false, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+          lineNumber: 48,
+          columnNumber: 210
+        }, this),
+        /* @__PURE__ */ jsxDEV("p", { children: [
+          patient.research_code,
+          " · ",
+          patient.full_name || "Chưa có họ tên"
+        ] }, void 0, true, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+          lineNumber: 48,
+          columnNumber: 313
+        }, this)
+      ] }, void 0, true, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+        lineNumber: 48,
+        columnNumber: 161
+      }, this),
+      /* @__PURE__ */ jsxDEV("button", { className: "close", onClick: onClose, disabled: saving, "aria-label": "Đóng", children: "×" }, void 0, false, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+        lineNumber: 48,
+        columnNumber: 391
+      }, this)
+    ] }, void 0, true, {
+      fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+      lineNumber: 48,
+      columnNumber: 130
+    }, this),
+    loading ? /* @__PURE__ */ jsxDEV(Loading, {}, void 0, false, {
+      fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+      lineNumber: 49,
+      columnNumber: 16
+    }, this) : error ? /* @__PURE__ */ jsxDEV(ErrorState, { message: error, retry: () => void reload() }, void 0, false, {
+      fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+      lineNumber: 49,
+      columnNumber: 38
+    }, this) : data && /* @__PURE__ */ jsxDEV("div", { className: "form", children: [
+      admission && /* @__PURE__ */ jsxDEV(Fragment, { children: [
+        /* @__PURE__ */ jsxDEV("label", { children: [
+          "Đánh giá đầu vào (Baseline)",
+          /* @__PURE__ */ jsxDEV("select", { value: baseline, onChange: (event) => {
+            setBaseline(event.target.value);
+            setException(false);
+          }, disabled: saving, children: [
+            /* @__PURE__ */ jsxDEV("option", { value: "", children: "Chọn đánh giá đã hoàn thành" }, void 0, false, {
+              fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+              lineNumber: 50,
+              columnNumber: 177
+            }, this),
+            data.sessions.map((session) => /* @__PURE__ */ jsxDEV("option", { value: session.id, children: [
+              "Đánh giá #",
+              session.id,
+              " · ",
+              new Date(session.created_at).toLocaleDateString("vi-VN")
+            ] }, session.id, true, {
+              fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+              lineNumber: 50,
+              columnNumber: 262
+            }, this))
+          ] }, void 0, true, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+            lineNumber: 50,
+            columnNumber: 57
+          }, this)
+        ] }, void 0, true, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+          lineNumber: 50,
+          columnNumber: 23
+        }, this),
+        !data.sessions.length && /* @__PURE__ */ jsxDEV(Empty, { children: "Chưa có đánh giá hoàn thành. Hãy hoàn tất đánh giá trước khi nhập viện." }, void 0, false, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+          lineNumber: 50,
+          columnNumber: 443
+        }, this),
+        withoutBaseline && data.config.allow_transfer_without_baseline && /* @__PURE__ */ jsxDEV("div", { className: "notice", children: "Quy trình cho phép ngoại lệ. Cần lý do và xác nhận của nhân viên trước khi chuyển thiếu Baseline." }, void 0, false, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+          lineNumber: 50,
+          columnNumber: 597
+        }, this)
+      ] }, void 0, true, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+        lineNumber: 50,
+        columnNumber: 21
+      }, this),
+      /* @__PURE__ */ jsxDEV("label", { children: [
+        "Lý do chuyển nhóm",
+        /* @__PURE__ */ jsxDEV("textarea", { required: !admission || withoutBaseline, rows: 3, maxLength: 2e3, value: reason, disabled: saving, onChange: (event) => setReason(event.target.value) }, void 0, false, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+          lineNumber: 51,
+          columnNumber: 31
+        }, this)
+      ] }, void 0, true, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+        lineNumber: 51,
+        columnNumber: 7
+      }, this),
+      withoutBaseline && data.config.allow_transfer_without_baseline && /* @__PURE__ */ jsxDEV("label", { className: "checkbox", children: [
+        /* @__PURE__ */ jsxDEV("input", { type: "checkbox", checked: exception, disabled: saving, onChange: (event) => setException(event.target.checked) }, void 0, false, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+          lineNumber: 52,
+          columnNumber: 102
+        }, this),
+        " Xác nhận ngoại lệ không có đánh giá đầu vào"
+      ] }, void 0, true, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+        lineNumber: 52,
+        columnNumber: 74
+      }, this),
+      /* @__PURE__ */ jsxDEV("p", { className: "help", children: "Hồ sơ và toàn bộ lịch sử đánh giá được giữ lại khi chuyển nhóm." }, void 0, false, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+        lineNumber: 53,
+        columnNumber: 7
+      }, this)
+    ] }, void 0, true, {
+      fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+      lineNumber: 49,
+      columnNumber: 107
+    }, this),
+    formError && /* @__PURE__ */ jsxDEV(ErrorState, { message: formError }, void 0, false, {
+      fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+      lineNumber: 55,
+      columnNumber: 19
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "form-actions", children: [
+      /* @__PURE__ */ jsxDEV(Button, { variant: "outline", onClick: onClose, disabled: saving, children: "Hủy" }, void 0, false, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+        lineNumber: 55,
+        columnNumber: 84
+      }, this),
+      /* @__PURE__ */ jsxDEV(Button, { onClick: () => void transfer(), disabled: !canTransfer, children: saving ? "Đang chuyển…" : "Xác nhận chuyển nhóm" }, void 0, false, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+        lineNumber: 55,
+        columnNumber: 158
+      }, this)
+    ] }, void 0, true, {
+      fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+      lineNumber: 55,
+      columnNumber: 54
+    }, this)
+  ] }, void 0, true, {
+    fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+    lineNumber: 48,
+    columnNumber: 42
+  }, this) }, void 0, false, {
+    fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx",
+    lineNumber: 48,
+    columnNumber: 10
+  }, this);
+}
+_s(TransferDialog, "4kA2v6CQsleQq2ofbzRrrFfJBxo=", false, function() {
+  return [useData];
+});
+_c = TransferDialog;
+var _c;
+$RefreshReg$(_c, "TransferDialog");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("D:/rehabilitation/rehabilitation-ar/frontend/src/components/TransferDialog.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,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QUFBO0FBQUEsV0FLcEc7QUFBQSxJQUNDaEMsYUFBYSx1QkFBQyxjQUFXLFNBQVNBLGFBQXJCO0FBQUE7QUFBQTtBQUFBO0FBQUEsV0FBK0I7QUFBQSxJQUFHLHVCQUFDLFNBQUksV0FBVSxnQkFBZTtBQUFBLDZCQUFDLFVBQU8sU0FBUSxXQUFVLFNBQVMzQixTQUFTLFVBQVV5QixRQUFRLG1CQUE5RDtBQUFBO0FBQUE7QUFBQTtBQUFBLGFBQWlFO0FBQUEsTUFBUyx1QkFBQyxVQUFPLFNBQVMsTUFBTSxLQUFLYyxTQUFTLEdBQUcsVUFBVSxDQUFDSixhQUFjVixtQkFBUyxpQkFBaUIsMEJBQTNGO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFBa0g7QUFBQSxTQUExTjtBQUFBO0FBQUE7QUFBQTtBQUFBLFdBQW1PO0FBQUEsT0FQOU87QUFBQTtBQUFBO0FBQUE7QUFBQSxTQVFyQyxLQVJLO0FBQUE7QUFBQTtBQUFBO0FBQUEsU0FRQztBQUNWO0FBQUN2QixHQTdCdUJMLGdCQUFjO0FBQUEsVUFFS04sT0FBTztBQUFBO0FBQUEsS0FGMUJNO0FBQWMsSUFBQStEO0FBQUEsYUFBQUEsSUFBQSIsIm5hbWVzIjpbInVzZUNhbGxiYWNrIiwidXNlU3RhdGUiLCJ1c2VEYXRhIiwicmVoYWJBcGkiLCJFbXB0eSIsIkVycm9yU3RhdGUiLCJMb2FkaW5nIiwiQnV0dG9uIiwiVHJhbnNmZXJEaWFsb2ciLCJwYXRpZW50IiwiYmFzZWxpbmVTZXNzaW9uSWQiLCJvbkNsb3NlIiwib25UcmFuc2ZlcnJlZCIsIl9zIiwibG9hZCIsInNlc3Npb25zIiwiY29uZmlnIiwiUHJvbWlzZSIsImFsbCIsImFzc2Vzc21lbnRzIiwicGF0aWVudF9pZCIsImlkIiwic3RhdHVzIiwiZmlsdGVyIiwic2Vzc2lvbiIsImRhdGEiLCJsb2FkaW5nIiwiZXJyb3IiLCJyZWxvYWQiLCJiYXNlbGluZSIsInNldEJhc2VsaW5lIiwiU3RyaW5nIiwicmVhc29uIiwic2V0UmVhc29uIiwiZXhjZXB0aW9uIiwic2V0RXhjZXB0aW9uIiwic2F2aW5nIiwic2V0U2F2aW5nIiwiZm9ybUVycm9yIiwic2V0Rm9ybUVycm9yIiwiYWRtaXNzaW9uIiwicGF0aWVudF90eXBlIiwiaGFzQmFzZWxpbmUiLCJCb29sZWFuIiwic29tZSIsIndpdGhvdXRCYXNlbGluZSIsImNhblRyYW5zZmVyIiwiYWxsb3dfdHJhbnNmZXJfd2l0aG91dF9iYXNlbGluZSIsInRyaW0iLCJsZW5ndGgiLCJ0cmFuc2ZlciIsInJlc3VsdCIsInRvX3R5cGUiLCJiYXNlbGluZV9hc3Nlc3NtZW50X3Nlc3Npb25faWQiLCJOdW1iZXIiLCJhZG1pdHRlZF9hdCIsIkRhdGUiLCJ0b0lTT1N0cmluZyIsImFsbG93X3dpdGhvdXRfYmFzZWxpbmUiLCJjYXVzZSIsIkVycm9yIiwibWVzc2FnZSIsInJlc2VhcmNoX2NvZGUiLCJmdWxsX25hbWUiLCJldmVudCIsInRhcmdldCIsInZhbHVlIiwibWFwIiwiY3JlYXRlZF9hdCIsInRvTG9jYWxlRGF0ZVN0cmluZyIsImNoZWNrZWQiLCJfYyJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlcyI6WyJUcmFuc2ZlckRpYWxvZy50c3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgdXNlQ2FsbGJhY2ssIHVzZVN0YXRlIH0gZnJvbSAncmVhY3QnXG5pbXBvcnQgeyB1c2VEYXRhIH0gZnJvbSAnLi4vaG9va3MvdXNlRGF0YSdcbmltcG9ydCB7IHJlaGFiQXBpIH0gZnJvbSAnLi4vc2VydmljZXMvcmVoYWInXG5pbXBvcnQgdHlwZSB7IFJlaGFiUGF0aWVudCB9IGZyb20gJy4uL3R5cGVzL3JlaGFiJ1xuaW1wb3J0IHsgRW1wdHksIEVycm9yU3RhdGUsIExvYWRpbmcgfSBmcm9tICcuL1N0YXRlcydcbmltcG9ydCB7IEJ1dHRvbiB9IGZyb20gJy4vdWkvYnV0dG9uJ1xuXG50eXBlIFByb3BzID0geyBwYXRpZW50OiBSZWhhYlBhdGllbnQ7IGJhc2VsaW5lU2Vzc2lvbklkPzogbnVtYmVyOyBvbkNsb3NlOiAoKSA9PiB2b2lkOyBvblRyYW5zZmVycmVkOiAocGF0aWVudDogUmVoYWJQYXRpZW50KSA9PiB2b2lkIH1cbmV4cG9ydCBkZWZhdWx0IGZ1bmN0aW9uIFRyYW5zZmVyRGlhbG9nKHsgcGF0aWVudCwgYmFzZWxpbmVTZXNzaW9uSWQsIG9uQ2xvc2UsIG9uVHJhbnNmZXJyZWQgfTogUHJvcHMpIHtcbiAgY29uc3QgbG9hZCA9IHVzZUNhbGxiYWNrKGFzeW5jICgpID0+IHsgY29uc3QgW3Nlc3Npb25zLCBjb25maWddID0gYXdhaXQgUHJvbWlzZS5hbGwoW3JlaGFiQXBpLmFzc2Vzc21lbnRzKHsgcGF0aWVudF9pZDogcGF0aWVudC5pZCwgc3RhdHVzOiAnY29tcGxldGVkJyB9KSwgcmVoYWJBcGkuY29uZmlnKCldKTsgcmV0dXJuIHsgc2Vzc2lvbnM6IHNlc3Npb25zLmZpbHRlcihzZXNzaW9uID0+IHNlc3Npb24uc3RhdHVzID09PSAnY29tcGxldGVkJyksIGNvbmZpZyB9IH0sIFtwYXRpZW50LmlkXSlcbiAgY29uc3QgeyBkYXRhLCBsb2FkaW5nLCBlcnJvciwgcmVsb2FkIH0gPSB1c2VEYXRhKGxvYWQpXG4gIGNvbnN0IFtiYXNlbGluZSwgc2V0QmFzZWxpbmVdID0gdXNlU3RhdGUoYmFzZWxpbmVTZXNzaW9uSWQgPyBTdHJpbmcoYmFzZWxpbmVTZXNzaW9uSWQpIDogJycpXG4gIGNvbnN0IFtyZWFzb24sIHNldFJlYXNvbl0gPSB1c2VTdGF0ZSgnJylcbiAgY29uc3QgW2V4Y2VwdGlvbiwgc2V0RXhjZXB0aW9uXSA9IHVzZVN0YXRlKGZhbHNlKVxuICBjb25zdCBbc2F2aW5nLCBzZXRTYXZpbmddID0gdXNlU3RhdGUoZmFsc2UpXG4gIGNvbnN0IFtmb3JtRXJyb3IsIHNldEZvcm1FcnJvcl0gPSB1c2VTdGF0ZSgnJylcbiAgY29uc3QgYWRtaXNzaW9uID0gcGF0aWVudC5wYXRpZW50X3R5cGUgPT09ICdvdXRwYXRpZW50J1xuICBjb25zdCBoYXNCYXNlbGluZSA9IEJvb2xlYW4oZGF0YT8uc2Vzc2lvbnMuc29tZShzZXNzaW9uID0+IFN0cmluZyhzZXNzaW9uLmlkKSA9PT0gYmFzZWxpbmUpKVxuICBjb25zdCB3aXRob3V0QmFzZWxpbmUgPSBhZG1pc3Npb24gJiYgIWhhc0Jhc2VsaW5lXG4gIGNvbnN0IGNhblRyYW5zZmVyID0gISFkYXRhICYmICFzYXZpbmcgJiYgKGFkbWlzc2lvbiA/IGhhc0Jhc2VsaW5lIHx8IChkYXRhLmNvbmZpZy5hbGxvd190cmFuc2Zlcl93aXRob3V0X2Jhc2VsaW5lICYmIGV4Y2VwdGlvbiAmJiByZWFzb24udHJpbSgpLmxlbmd0aCA+PSAxMCkgOiByZWFzb24udHJpbSgpLmxlbmd0aCA+IDApXG4gIGFzeW5jIGZ1bmN0aW9uIHRyYW5zZmVyKCkge1xuICAgIGlmICghY2FuVHJhbnNmZXIpIHJldHVyblxuICAgIHNldFNhdmluZyh0cnVlKTsgc2V0Rm9ybUVycm9yKCcnKVxuICAgIHRyeSB7XG4gICAgICBjb25zdCByZXN1bHQgPSBhd2FpdCByZWhhYkFwaS50cmFuc2ZlcihwYXRpZW50LmlkLCB7IHRvX3R5cGU6IGFkbWlzc2lvbiA/ICdpbnBhdGllbnQnIDogJ291dHBhdGllbnQnLCBiYXNlbGluZV9hc3Nlc3NtZW50X3Nlc3Npb25faWQ6IGFkbWlzc2lvbiAmJiBoYXNCYXNlbGluZSA/IE51bWJlcihiYXNlbGluZSkgOiBudWxsLCByZWFzb246IHJlYXNvbi50cmltKCkgfHwgbnVsbCwgLi4uKGFkbWlzc2lvbiA/IHsgYWRtaXR0ZWRfYXQ6IG5ldyBEYXRlKCkudG9JU09TdHJpbmcoKSB9IDoge30pLCAuLi4od2l0aG91dEJhc2VsaW5lID8geyBhbGxvd193aXRob3V0X2Jhc2VsaW5lOiB0cnVlIH0gOiB7fSkgfSlcbiAgICAgIG9uVHJhbnNmZXJyZWQocmVzdWx0LnBhdGllbnQpXG4gICAgfSBjYXRjaCAoY2F1c2UpIHsgc2V0Rm9ybUVycm9yKGNhdXNlIGluc3RhbmNlb2YgRXJyb3IgPyBjYXVzZS5tZXNzYWdlIDogJ0tow7RuZyBjaHV54buDbiDEkcaw4bujYyBuaMOzbSBi4buHbmggbmjDom4uJyk7IHNldFNhdmluZyhmYWxzZSkgfVxuICB9XG4gIHJldHVybiA8ZGl2IGNsYXNzTmFtZT1cIm1vZGFsLWJhY2tkcm9wXCI+PGRpdiBjbGFzc05hbWU9XCJtb2RhbFwiIHJvbGU9XCJkaWFsb2dcIiBhcmlhLW1vZGFsPVwidHJ1ZVwiIGFyaWEtbGFiZWxsZWRieT1cInRyYW5zZmVyLXRpdGxlXCI+PGRpdiBjbGFzc05hbWU9XCJwYW5lbC1oZWFkaW5nXCI+PGRpdj48c3BhbiBjbGFzc05hbWU9XCJleWVicm93XCI+Q0hVWeG7gk4gTkjDk008L3NwYW4+PGgyIGlkPVwidHJhbnNmZXItdGl0bGVcIj57YWRtaXNzaW9uID8gJ0NodXnhu4NuIHNhbmcgYuG7h25oIG5ow6JuIMSRaeG7gXUgdHLhu4snIDogJ0NodXnhu4NuIHbhu4EgbmjDs20gxJHhur9uIGtow6FtJ308L2gyPjxwPntwYXRpZW50LnJlc2VhcmNoX2NvZGV9IMK3IHtwYXRpZW50LmZ1bGxfbmFtZSB8fCAnQ2jGsGEgY8OzIGjhu40gdMOqbid9PC9wPjwvZGl2PjxidXR0b24gY2xhc3NOYW1lPVwiY2xvc2VcIiBvbkNsaWNrPXtvbkNsb3NlfSBkaXNhYmxlZD17c2F2aW5nfSBhcmlhLWxhYmVsPVwixJDDs25nXCI+w5c8L2J1dHRvbj48L2Rpdj5cbiAgICB7bG9hZGluZyA/IDxMb2FkaW5nLz4gOiBlcnJvciA/IDxFcnJvclN0YXRlIG1lc3NhZ2U9e2Vycm9yfSByZXRyeT17KCkgPT4gdm9pZCByZWxvYWQoKX0vPiA6IGRhdGEgJiYgPGRpdiBjbGFzc05hbWU9XCJmb3JtXCI+XG4gICAgICB7YWRtaXNzaW9uICYmIDw+PGxhYmVsPsSQw6FuaCBnacOhIMSR4bqndSB2w6BvIChCYXNlbGluZSk8c2VsZWN0IHZhbHVlPXtiYXNlbGluZX0gb25DaGFuZ2U9e2V2ZW50ID0+IHsgc2V0QmFzZWxpbmUoZXZlbnQudGFyZ2V0LnZhbHVlKTsgc2V0RXhjZXB0aW9uKGZhbHNlKSB9fSBkaXNhYmxlZD17c2F2aW5nfT48b3B0aW9uIHZhbHVlPVwiXCI+Q2jhu41uIMSRw6FuaCBnacOhIMSRw6MgaG/DoG4gdGjDoG5oPC9vcHRpb24+e2RhdGEuc2Vzc2lvbnMubWFwKHNlc3Npb24gPT4gPG9wdGlvbiBrZXk9e3Nlc3Npb24uaWR9IHZhbHVlPXtzZXNzaW9uLmlkfT7EkMOhbmggZ2nDoSAje3Nlc3Npb24uaWR9IMK3IHtuZXcgRGF0ZShzZXNzaW9uLmNyZWF0ZWRfYXQpLnRvTG9jYWxlRGF0ZVN0cmluZygndmktVk4nKX08L29wdGlvbj4pfTwvc2VsZWN0PjwvbGFiZWw+eyFkYXRhLnNlc3Npb25zLmxlbmd0aCAmJiA8RW1wdHk+Q2jGsGEgY8OzIMSRw6FuaCBnacOhIGhvw6BuIHRow6BuaC4gSMOjeSBob8OgbiB04bqldCDEkcOhbmggZ2nDoSB0csaw4bubYyBraGkgbmjhuq1wIHZp4buHbi48L0VtcHR5Pn17d2l0aG91dEJhc2VsaW5lICYmIGRhdGEuY29uZmlnLmFsbG93X3RyYW5zZmVyX3dpdGhvdXRfYmFzZWxpbmUgJiYgPGRpdiBjbGFzc05hbWU9XCJub3RpY2VcIj5RdXkgdHLDrG5oIGNobyBwaMOpcCBuZ2/huqFpIGzhu4cuIEPhuqduIGzDvSBkbyB2w6AgeMOhYyBuaOG6rW4gY+G7p2EgbmjDom4gdmnDqm4gdHLGsOG7m2Mga2hpIGNodXnhu4NuIHRoaeG6v3UgQmFzZWxpbmUuPC9kaXY+fTwvPn1cbiAgICAgIDxsYWJlbD5Mw70gZG8gY2h1eeG7g24gbmjDs208dGV4dGFyZWEgcmVxdWlyZWQ9eyFhZG1pc3Npb24gfHwgd2l0aG91dEJhc2VsaW5lfSByb3dzPXszfSBtYXhMZW5ndGg9ezIwMDB9IHZhbHVlPXtyZWFzb259IGRpc2FibGVkPXtzYXZpbmd9IG9uQ2hhbmdlPXtldmVudCA9PiBzZXRSZWFzb24oZXZlbnQudGFyZ2V0LnZhbHVlKX0vPjwvbGFiZWw+XG4gICAgICB7d2l0aG91dEJhc2VsaW5lICYmIGRhdGEuY29uZmlnLmFsbG93X3RyYW5zZmVyX3dpdGhvdXRfYmFzZWxpbmUgJiYgPGxhYmVsIGNsYXNzTmFtZT1cImNoZWNrYm94XCI+PGlucHV0IHR5cGU9XCJjaGVja2JveFwiIGNoZWNrZWQ9e2V4Y2VwdGlvbn0gZGlzYWJsZWQ9e3NhdmluZ30gb25DaGFuZ2U9e2V2ZW50ID0+IHNldEV4Y2VwdGlvbihldmVudC50YXJnZXQuY2hlY2tlZCl9Lz4gWMOhYyBuaOG6rW4gbmdv4bqhaSBs4buHIGtow7RuZyBjw7MgxJHDoW5oIGdpw6EgxJHhuqd1IHbDoG88L2xhYmVsPn1cbiAgICAgIDxwIGNsYXNzTmFtZT1cImhlbHBcIj5I4buTIHPGoSB2w6AgdG/DoG4gYuG7mSBs4buLY2ggc+G7rSDEkcOhbmggZ2nDoSDEkcaw4bujYyBnaeG7ryBs4bqhaSBraGkgY2h1eeG7g24gbmjDs20uPC9wPlxuICAgIDwvZGl2Pn1cbiAgICB7Zm9ybUVycm9yICYmIDxFcnJvclN0YXRlIG1lc3NhZ2U9e2Zvcm1FcnJvcn0vPn08ZGl2IGNsYXNzTmFtZT1cImZvcm0tYWN0aW9uc1wiPjxCdXR0b24gdmFyaWFudD1cIm91dGxpbmVcIiBvbkNsaWNrPXtvbkNsb3NlfSBkaXNhYmxlZD17c2F2aW5nfT5I4buneTwvQnV0dG9uPjxCdXR0b24gb25DbGljaz17KCkgPT4gdm9pZCB0cmFuc2ZlcigpfSBkaXNhYmxlZD17IWNhblRyYW5zZmVyfT57c2F2aW5nID8gJ8SQYW5nIGNodXnhu4Nu4oCmJyA6ICdYw6FjIG5o4bqtbiBjaHV54buDbiBuaMOzbSd9PC9CdXR0b24+PC9kaXY+XG4gICAgPC9kaXY+PC9kaXY+XG59XG4iXSwiZmlsZSI6IkQ6L3JlaGFiaWxpdGF0aW9uL3JlaGFiaWxpdGF0aW9uLWFyL2Zyb250ZW5kL3NyYy9jb21wb25lbnRzL1RyYW5zZmVyRGlhbG9nLnRzeCJ9

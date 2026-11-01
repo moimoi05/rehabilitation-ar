@@ -1,0 +1,37 @@
+{
+   "action": {
+      "default_icon": "images/icon-999.png",
+      "default_popup": "popup.html"
+   },
+   "background": {
+      "service_worker": "js/background/index.js"
+   },
+   "commands": {
+      "_execute_action": {
+         "suggested_key": {
+            "default": "Alt+Shift+P"
+         }
+      }
+   },
+   "default_locale": "en",
+   "description": "__MSG_appDesc__",
+   "icons": {
+      "128": "images/icon128-999.png",
+      "16": "images/icon16-999.png",
+      "48": "images/icon48-999.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAq4S1Pog6TpNqnpYGef4J+wS5zmRgH0i52HcacxKFRCCZv7/XZjKv9NAmHmXfE22KX4Nxd9IH+AldRR3ZhciBjjGcjSY0l4AWkgiP+zk/oVJxXBQL0Jxr3uqQwVlm4l3RjvYSw1KDjajtveVTBhb6ets4heiRet2YuuFgzwSpCxt0kBLc5PrXBfcLEPFVrsg556Ugxa2rN3iq87+fTv4X6peli419g0+pPSTFr8MV0sRGQEhj+s5dzPIOllK4vmlXLHBGIAbdd/6/Tnkc5+X63vtu/EdlIaB1ZbtALvVpw3ARFPx1BoemTVOJ10Wr95JadrUu2kSZKuBCyH92ZO5V6wIDAQAB",
+   "manifest_version": 3,
+   "minimum_chrome_version": "102",
+   "name": "GoFullPage - Full Page Screen Capture",
+   "optional_host_permissions": [ "\u003Call_urls>", "file://*/*" ],
+   "optional_permissions": [ "downloads", "tabs", "webNavigation" ],
+   "options_page": "options.html",
+   "permissions": [ "activeTab", "scripting", "storage", "unlimitedStorage" ],
+   "update_url": "https://edge.microsoft.com/extensionwebstorebase/v1/crx",
+   "version": "8.10",
+   "web_accessible_resources": [ {
+      "matches": [ "*://*.gofullpage.com/*" ],
+      "resources": [ "p/*" ]
+   } ]
+}

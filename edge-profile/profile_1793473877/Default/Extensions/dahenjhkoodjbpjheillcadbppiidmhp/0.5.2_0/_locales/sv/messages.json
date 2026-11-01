@@ -1,0 +1,703 @@
+{
+   "1010": {
+      "message": "Skapa ny"
+   },
+   "1109": {
+      "message": "Inga resultat för denna sökning."
+   },
+   "111": {
+      "message": "Systemet kan inte utföra åtgärden just nu. Försök igen senare."
+   },
+   "1301": {
+      "message": "Inställningar"
+   },
+   "1343": {
+      "message": "Har sparats i Mitt bibliotek"
+   },
+   "1441": {
+      "message": "Tidigare"
+   },
+   "1442": {
+      "message": "Nästa"
+   },
+   "1462": {
+      "message": "Stäng"
+   },
+   "1463": {
+      "message": "Skicka"
+   },
+   "1484": {
+      "message": "Föregående sida"
+   },
+   "1485": {
+      "message": "Nästa sida"
+   },
+   "1486": {
+      "message": "Zooma ut"
+   },
+   "1487": {
+      "message": "Zooma in"
+   },
+   "1488": {
+      "message": "Anpassa efter höjd"
+   },
+   "1489": {
+      "message": "Anpassa efter bredd"
+   },
+   "1490": {
+      "message": "Rotera"
+   },
+   "1491": {
+      "message": "Spara i mitt bibliotek"
+   },
+   "1492": {
+      "message": "Ladda ned"
+   },
+   "1493": {
+      "message": "Skriv ut"
+   },
+   "1494": {
+      "message": "Fler"
+   },
+   "1513": {
+      "message": "Miniatyrer"
+   },
+   "1514": {
+      "message": "Komprimera alla"
+   },
+   "1515": {
+      "message": "Utöka alla"
+   },
+   "1542": {
+      "message": "Google Scholar"
+   },
+   "1617": {
+      "message": "Sök på Google"
+   },
+   "1618": {
+      "message": "Google Scholar-bibliotek"
+   },
+   "1620": {
+      "message": "Ett fel uppstod när resultaten skulle hämtas. Försök igen senare."
+   },
+   "1621": {
+      "message": "Söker på Scholar …"
+   },
+   "1623": {
+      "message": "Spara i Scholar-biblioteket"
+   },
+   "1626": {
+      "message": "Dokumentegenskaper"
+   },
+   "1627": {
+      "message": "Öppna i Chrome-visaren"
+   },
+   "1628": {
+      "message": "Visa mer"
+   },
+   "1629": {
+      "message": "Visa mindre"
+   },
+   "1630": {
+      "message": "Logga in"
+   },
+   "1631": {
+      "message": "Har sparats i $ANCHOR_BEGIN$Mitt bibliotek$ANCHOR_END$",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1632": {
+      "message": "Sparar i Mitt bibliotek …"
+   },
+   "1633": {
+      "message": "Artikeln hittades inte i Scholar."
+   },
+   "1635": {
+      "message": "Filnamn"
+   },
+   "1636": {
+      "message": "Filstorlek"
+   },
+   "1637": {
+      "message": "Titel"
+   },
+   "1638": {
+      "message": "Författare"
+   },
+   "1639": {
+      "message": "Ämne"
+   },
+   "1640": {
+      "message": "Sökord"
+   },
+   "1641": {
+      "message": "Skapad"
+   },
+   "1642": {
+      "message": "Ändrades"
+   },
+   "1643": {
+      "message": "Program"
+   },
+   "1644": {
+      "message": " PDF-källa"
+   },
+   "1645": {
+      "message": "PDF-version"
+   },
+   "1646": {
+      "message": "Sidantal"
+   },
+   "1647": {
+      "message": "Sidstorlek"
+   },
+   "1648": {
+      "message": "stående"
+   },
+   "1649": {
+      "message": "liggande"
+   },
+   "1650": {
+      "message": "kvadrat"
+   },
+   "1651": {
+      "message": "Varierar"
+   },
+   "1652": {
+      "message": "$PAGE_WIDTH$ x $PAGE_HEIGHT$ tum ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1653": {
+      "message": "$PAGE_WIDTH$ x $PAGE_HEIGHT$ mm ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1654": {
+      "message": "Snabbvy på webben"
+   },
+   "1655": {
+      "message": "Ja"
+   },
+   "1656": {
+      "message": "Nej"
+   },
+   "1660": {
+      "message": "$PAGE_WIDTH$ x $PAGE_HEIGHT$ tum ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1661": {
+      "message": "$PAGE_WIDTH$ x $PAGE_HEIGHT$ mm ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1662": {
+      "message": "Letter"
+   },
+   "1663": {
+      "message": "Legal"
+   },
+   "1664": {
+      "message": "Tabloid"
+   },
+   "1668": {
+      "message": "Det gick inte att läsa in PDF-dokumentet."
+   },
+   "1669": {
+      "message": "Läs in igen"
+   },
+   "1670": {
+      "message": "Fel"
+   },
+   "1673": {
+      "message": "Lösenord krävs"
+   },
+   "1674": {
+      "message": "Dokumentet är lösenordsskyddat. Ange ett lösenord."
+   },
+   "1675": {
+      "message": "Använd utskriftsknappen i verktygsfältet om du vill skriva ut ett PDF-dokument."
+   },
+   "1676": {
+      "message": "Fel lösenord."
+   },
+   "1677": {
+      "message": "Det går inte att fylla i formulär i Google Scholars PDF-läsare ännu."
+   },
+   "1678": {
+      "message": "Google Scholar Reader för PDF-filer"
+   },
+   "1698": {
+      "message": "Disposition"
+   },
+   "1702": {
+      "message": "Aktivera Scholar Reader"
+   },
+   "1703": {
+      "message": "Om du vill läsa lokala PDF-filer med Google Scholar Reader behöver du aktivera åtkomst till filwebbadresser i inställningarna och sedan läsa in PDF-filen igen."
+   },
+   "1704": {
+      "message": "Öppna inställningarna"
+   },
+   "1707": {
+      "message": "Visningsläge"
+   },
+   "1711": {
+      "message": "Helskärm"
+   },
+   "1712": {
+      "message": "Ljust läge"
+   },
+   "1713": {
+      "message": "Mörkt läge"
+   },
+   "1714": {
+      "message": "Nattläge"
+   },
+   "1715": {
+      "message": "Visa i referenser"
+   },
+   "1716": {
+      "message": "Utöka PDF-filen till helskärm för att kunna spara i Scholar-biblioteket"
+   },
+   "1717": {
+      "message": "Utöka"
+   },
+   "1718": {
+      "message": "Inte nu"
+   },
+   "1723": {
+      "message": "Öppna PDF-filen i Chrome-visaren om du vill aktivera utskrift."
+   },
+   "1724": {
+      "message": "Öppna"
+   },
+   "1726": {
+      "message": "Läs artiklar på ett bättre sätt: följ referenser, skumma igenom disposition, hoppa till figurer, citera och spara."
+   },
+   "1732": {
+      "message": "Enhetsläge"
+   },
+   "1734": {
+      "message": "Rapportera ett problem"
+   },
+   "1741": {
+      "message": "Avsnitt"
+   },
+   "1742": {
+      "message": "AI-disposition"
+   },
+   "1744": {
+      "message": "Inställningar för AI Outline"
+   },
+   "1745": {
+      "message": "Begär en AI-struktur från Scholar:"
+   },
+   "1746": {
+      "message": "Endast när du klickar på $ICON$",
+      "placeholders": {
+         "ICON": {
+            "content": "$1"
+         }
+      }
+   },
+   "1748": {
+      "message": "Automatiskt när du öppnar alla PDF-filer"
+   },
+   "1749": {
+      "message": "AI-strukturer är endast tillgängliga för utvalda artiklar"
+   },
+   "1750": {
+      "message": "Vill du aktivera AI Outline för alla PDF-filer?"
+   },
+   "1751": {
+      "message": "För att visa en översikt försöker läsaren hitta PDF-filen i Scholar"
+   },
+   "1752": {
+      "message": "Om AI Outline"
+   },
+   "1753": {
+      "message": "De viktigaste punkterna i artikelavsnitt"
+   },
+   "1754": {
+      "message": "AI-strukturer presenterar de viktigaste punkterna i dokumentets avsnitt."
+   },
+   "1755": {
+      "message": "Ögna igenom strukturen eller hoppa till detaljerna"
+   },
+   "1756": {
+      "message": "Ögna igenom de viktigaste punkterna för att få en snabb överblick och klicka på intressanta punkter för att hoppa direkt till detaljerna."
+   },
+   "1757": {
+      "message": "AI-strukturer är endast tillgängliga för utvalda artiklar i Scholar. De genereras av ett datorprogram och kan innehålla ofullständig eller felaktig information."
+   },
+   "1758": {
+      "message": "Ny"
+   },
+   "1759": {
+      "message": "AI Outline är inte tillgängligt för den här PDF-filen."
+   },
+   "1760": {
+      "message": "AI-strukturen genererades med en annan version av denna PDF-fil."
+   },
+   "1766": {
+      "message": "Inställningar för Chrome"
+   },
+   "1768": {
+      "message": "Automatiskt när du öppnar en PDF på de flesta akademiska webbplatser"
+   },
+   "1773": {
+      "message": "Markeringar"
+   },
+   "1775": {
+      "message": "Markera"
+   },
+   "1778": {
+      "message": "Kommentarer"
+   },
+   "1779": {
+      "message": "Dina markeringar och kommentarer visas här"
+   },
+   "1781": {
+      "message": "Försök igen"
+   },
+   "1783": {
+      "message": "Ditt Scholar-bibliotek är fullt"
+   },
+   "1785": {
+      "message": "Öppna biblioteket"
+   },
+   "1786": {
+      "message": "Släng"
+   },
+   "1787": {
+      "message": "Ditt Scholar-konto har raderats"
+   },
+   "1788": {
+      "message": "Återställ ditt konto om du vill markera och kommentera en PDF."
+   },
+   "1790": {
+      "message": "Om du stänger eller läser in sidan igen går ändringar som inte sparats förlorade."
+   },
+   "1791": {
+      "message": "Serverfel"
+   },
+   "1793": {
+      "message": "Ignorera"
+   },
+   "1794": {
+      "message": "Din webbläsare är offline"
+   },
+   "1796": {
+      "message": "Försök igen"
+   },
+   "1797": {
+      "message": "Enheten är full"
+   },
+   "1800": {
+      "message": "Logga in på ditt Google-konto om du vill spara markeringar och kommentarer."
+   },
+   "1801": {
+      "message": "Frigör utrymme i Scholar-biblioteket om du vill spara markeringar och kommentarer."
+   },
+   "1802": {
+      "message": "Logga in på $EMAIL_ADDRESS$ för att spara markeringar och kommentarer.",
+      "placeholders": {
+         "EMAIL_ADDRESS": {
+            "content": "$1"
+         }
+      }
+   },
+   "1803": {
+      "message": "Det gick inte att spara markeringar eller kommentarer i Scholar-biblioteket. Vi försöker spara igen senare."
+   },
+   "1804": {
+      "message": "Anslut till internet om du vill spara markeringar och kommentarer. Vi försöker spara igen senare."
+   },
+   "1805": {
+      "message": "Frigör utrymme på enheten om du vill spara markeringar och kommentarer. Annars sparas inte ändringarna."
+   },
+   "1806": {
+      "message": "Synkroniserar …"
+   },
+   "1807": {
+      "message": "Det gick inte att synkronisera"
+   },
+   "1808": {
+      "message": "Ett fel uppstod när markeringar och kommentarer skulle synkroniseras."
+   },
+   "1809": {
+      "message": "Enheten är offline"
+   },
+   "1810": {
+      "message": "Anslut till internet om du vill se markeringar och kommentarer."
+   },
+   "1811": {
+      "message": "Logga in för att se markeringar och kommentarer."
+   },
+   "1812": {
+      "message": "Ändringar har inte sparats"
+   },
+   "1813": {
+      "message": "Kopiera AI-disposition"
+   },
+   "1814": {
+      "message": "AI-disposition från $BOLD_ANCHOR_BEGIN$Scholar PDF Reader$BOLD_ANCHOR_END$",
+      "placeholders": {
+         "BOLD_ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "BOLD_ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1815": {
+      "message": "AI-dispositionen har kopierats till urklipp"
+   },
+   "1816": {
+      "message": "Markeringar sparas i $ANCHOR_BEGIN$Scholar-biblioteket$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1817": {
+      "message": "Kommentarer sparas i Scholar-biblioteket."
+   },
+   "1818": {
+      "message": "Okänd titel"
+   },
+   "1819": {
+      "message": "Hitta i Scholar"
+   },
+   "1822": {
+      "message": "Kommentar"
+   },
+   "1823": {
+      "message": "Ändra färg"
+   },
+   "1824": {
+      "message": "Sparades i $ANCHOR_BEGIN$biblioteket$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1825": {
+      "message": "Välj text för att markera den eller kommentera."
+   },
+   "1826": {
+      "message": "Markeringar sparas i $ANCHOR_BEGIN$Scholar-biblioteket$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1827": {
+      "message": "Markera PDF-filer"
+   },
+   "1830": {
+      "message": "Höjdpunkter sparas online"
+   },
+   "1831": {
+      "message": "Dina markeringar och kommentarer sparas i $ANCHOR_BEGIN$Scholar-biblioteket$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1832": {
+      "message": "Få åtkomst till dina markeringar var som helst"
+   },
+   "1833": {
+      "message": "Markeringar visas i PDF-läsaren så länge du är inloggad."
+   },
+   "1834": {
+      "message": "Öppna Mitt bibliotek"
+   },
+   "1862": {
+      "message": "Det gick inte att ansluta till webbläsarens lagringsutrymme"
+   },
+   "1863": {
+      "message": "Markeringar har inaktiverats i den här webbläsaren, men andra funktioner för att läsa PDF-filer fungerar fortfarande."
+   },
+   "1864": {
+      "message": "Om du vill använda markeringar kan du testa att starta om webbläsaren eller enheten."
+   },
+   "1865": {
+      "message": "Det gick inte att ansluta till webbläsarens lagringsutrymme. Testa att starta om webbläsaren eller enheten."
+   },
+   "1866": {
+      "message": "Det går inte att synkronisera med webbläsarens lagringsutrymme"
+   },
+   "1867": {
+      "message": "Ett fel uppstod när markeringar skulle synkroniseras med webbläsarens lagringsutrymme. Testa att starta om webbläsaren eller enheten."
+   },
+   "1868": {
+      "message": "Webbläsarens lagringsutrymme är fullt"
+   },
+   "1869": {
+      "message": "Frigör utrymme på enheten om du vill använda markeringar."
+   },
+   "1870": {
+      "message": "Webbläsarens lagringsutrymme är fullt. Testa att frigöra utrymme på enheten."
+   },
+   "1871": {
+      "message": "Uppdatera cacheminnet för markeringar om du vill använda markeringar. Det kan ta en liten stund."
+   },
+   "1872": {
+      "message": "Uppdatera cacheminnet"
+   },
+   "1873": {
+      "message": "Ett fel uppstod när markeringar skulle synkroniseras med webbläsarens lagringsutrymme. Testa att uppdatera cacheminnet för markeringar. Det kan ta en liten stund."
+   },
+   "1874": {
+      "message": "För många markeringar"
+   },
+   "1875": {
+      "message": "Det går inte att lägga till fler markeringar i ditt bibliotek."
+   },
+   "1876": {
+      "message": "Om du vill fortsätta lägga till markeringar måste du ta bort några."
+   },
+   "1877": {
+      "message": "Ignorera ändringar"
+   },
+   "1882": {
+      "message": "Markeringar i för många versioner"
+   },
+   "1883": {
+      "message": "Du kan lägga till markeringar i upp till tre versioner av samma artikel."
+   },
+   "1884": {
+      "message": "Om du vill fortsätta lägga till markeringar i den här versionen måste du ta bort dem från en annan version."
+   },
+   "1885": {
+      "message": "Hantera markeringar"
+   },
+   "1888": {
+      "message": " Visa i biblioteket"
+   },
+   "1918": {
+      "message": "Innehållet på den här webbadressen har ändrats. Du har gjort markeringar i en tidigare version."
+   },
+   "535": {
+      "message": "Sök på Scholar"
+   },
+   "551": {
+      "message": "Ta bort artikeln"
+   },
+   "59": {
+      "message": "Citera"
+   },
+   "625": {
+      "message": "Läser in ..."
+   },
+   "626": {
+      "message": "Sida $PAGE_NUMBER$",
+      "placeholders": {
+         "PAGE_NUMBER": {
+            "content": "$1"
+         }
+      }
+   },
+   "64": {
+      "message": "Spara"
+   },
+   "644": {
+      "message": "Klar"
+   },
+   "649": {
+      "message": "Stäng"
+   },
+   "732": {
+      "message": "Mitt bibliotek"
+   },
+   "907": {
+      "message": "Återskapa konto"
+   },
+   "920": {
+      "message": "Sök"
+   },
+   "924": {
+      "message": "Märk med:"
+   },
+   "96": {
+      "message": "Ta bort"
+   },
+   "965": {
+      "message": "Ja tack"
+   },
+   "966": {
+      "message": "Nej tack"
+   },
+   "chrome_client_3269861059707096562": {
+      "message": "Tillåt åtkomst till webbadresser i filen"
+   }
+}

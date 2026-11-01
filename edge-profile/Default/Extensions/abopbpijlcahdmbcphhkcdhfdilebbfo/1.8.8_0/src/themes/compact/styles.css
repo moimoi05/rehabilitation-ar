@@ -1,0 +1,287 @@
+/* src/themes/compact/styles.css */
+/* 隐藏式主题：默认只显示小图标，hover时展开完整信息 */
+
+/* ============================
+   继承 default 主题的变量定义
+   ============================ */
+:root {
+  --pp-theme-primary: #5212e7;
+  --pp-theme-primary-light: #9a86d4;
+  --pp-theme-primary-lighter: #d3cce4;
+
+  --pp-theme-bg: #ffffff;
+  --pp-theme-bg-light: #f5f5f5;
+
+  --pp-theme-text: #333333;
+  --pp-theme-text-light: #666666;
+
+  --pp-theme-border: #e0e0e0;
+
+  --pp-theme-success: #50b154;
+  --pp-theme-warning: #f7ad0c;
+  --pp-theme-error: #ff5252;
+
+  --pp-theme-border-radius: 10px;
+  --pp-theme-border-radius-small: 6px;
+
+  --pp-theme-shadow: 0 2px 8px rgba(82, 18, 231, 0.1);
+  --pp-theme-shadow-light: 0 1px 4px rgba(82, 18, 231, 0.08);
+  --pp-theme-shadow-heavy: 0 4px 16px rgba(82, 18, 231, 0.15);
+
+  --pp-theme-spacing-xs: 4px;
+  --pp-theme-spacing-sm: 8px;
+  --pp-theme-spacing-md: 12px;
+  --pp-theme-spacing-lg: 16px;
+  --pp-theme-spacing-xl: 24px;
+
+  --pp-theme-font-size-xs: 10px;
+  --pp-theme-font-size-sm: 12px;
+  --pp-theme-font-size-md: 14px;
+  --pp-theme-font-weight-normal: 400;
+  --pp-theme-font-weight-medium: 500;
+  --pp-theme-font-weight-bold: 600;
+  --pp-theme-line-height: 1.4;
+
+  --pp-theme-if-excellent: #ffa60f;
+  --pp-theme-if-good: #e4bf11;
+  --pp-theme-if-average: #41ae3c;
+  --pp-theme-if-poor: #314a43;
+
+  /* compact 专属变量 */
+  --pp-compact-trigger-size: 14px;
+  --pp-compact-expand-duration: 0.25s;
+}
+
+/* ============================
+   基础组件（复用default）
+   ============================ */
+.pp-journal-info-enhanced {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  box-sizing: border-box;
+  font-size: var(--pp-theme-font-size-sm);
+  line-height: var(--pp-theme-line-height);
+  margin: var(--pp-theme-spacing-xs) 0;
+  gap: 0;
+}
+
+/* ============================
+   Compact 核心：触发器图标
+   ============================ */
+.pp-journal-info-enhanced .pp-info-trigger {
+  display: inline-block;
+  width: var(--pp-compact-trigger-size);
+  height: var(--pp-compact-trigger-size);
+  flex-shrink: 0;
+  opacity: 0.45;
+  cursor: default;
+  transition: opacity 0.15s ease;
+  /* 确保图标不被内容撑开 */
+  vertical-align: middle;
+  margin: 0px 5px;
+}
+
+.pp-journal-info-enhanced:hover .pp-info-trigger {
+  opacity: 1;
+}
+
+/* ============================
+   Compact 核心：内容区域折叠/展开
+   使用绝对定位，展开内容不影响文档流，避免换行抖动
+   ============================ */
+.pp-journal-info-enhanced .pp-info-body {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  position: absolute;
+  left: calc(var(--pp-compact-trigger-size) + 4px); /* 触发器宽度 + margin-left + 间距 */
+  top: 50%;
+  transform: translateY(-50%);
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  background: var(--pp-theme-bg);
+  padding: var(--pp-theme-spacing-xs) var(--pp-theme-spacing-sm);
+  border-radius: var(--pp-theme-border-radius-small);
+  box-shadow: var(--pp-theme-shadow);
+  z-index: 100;
+  max-width: 600px;
+  width: max-content;
+}
+
+.pp-journal-info-enhanced:hover .pp-info-body {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ============================
+   以下样式与 default/styles.css 保持一致
+   ============================ */
+.pp-rankingTag {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--pp-theme-spacing-xs) var(--pp-theme-spacing-sm);
+  margin: 0 var(--pp-theme-spacing-xs) 0 0;
+  border: 1px solid rgba(82, 18, 231, 0.15);
+  border-radius: var(--pp-theme-border-radius-small);
+  font-size: var(--pp-theme-font-size-xs);
+  color: var(--pp-theme-text);
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+
+.pp-rankingTag:hover {
+  background-color: rgb(233, 228, 245);
+  border-color: rgb(202, 185, 240);
+}
+
+.pp-jifBar {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  white-space: nowrap;
+  border: 1px solid var(--pp-theme-primary-light);
+  border-radius: var(--pp-theme-border-radius);
+  padding: 0 var(--pp-theme-spacing-xs);
+  margin: 0 0 0 var(--pp-theme-spacing-md);
+  background-color: var(--pp-theme-bg);
+}
+
+.pp-jif {
+  padding: 0 var(--pp-theme-spacing-sm) 0 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--pp-theme-font-size-xs);
+  height: 10px;
+  font-weight: var(--pp-theme-font-weight-bold);
+  margin: 0 0 0 var(--pp-theme-spacing-md);
+  border-right: 1px solid var(--pp-theme-primary-light);
+  color: var(--pp-theme-text);
+}
+
+.pp-jif-value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 var(--pp-theme-spacing-sm);
+  font-size: var(--pp-theme-font-size-xs);
+  font-weight: var(--pp-theme-font-weight-bold);
+  color: var(--pp-theme-text);
+}
+
+.pp-jif-icon {
+  margin: 0 0 0 var(--pp-theme-spacing-md);
+}
+
+.pp-jif-icon img {
+  height: calc(var(--pp-theme-font-size-md) - 2px) !important;
+  width: calc(var(--pp-theme-font-size-md) - 2px) !important;
+  display: block;
+  margin: 0 auto;
+}
+
+.pp-jifQ1, .pp-jifQ2, .pp-jifQ3, .pp-jifQ4,
+.pp-jifN1, .pp-jifN2, .pp-jifN3, .pp-jifN4 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--pp-theme-spacing-xl) + var(--pp-theme-spacing-xs));
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  font-size: var(--pp-theme-font-size-xs);
+  font-weight: var(--pp-theme-font-weight-bold);
+  margin: 0 0 0 var(--pp-theme-spacing-xs);
+  border: 1px solid currentColor;
+}
+
+.pp-jifQ1, .pp-jifN1 { color: var(--pp-theme-if-excellent); }
+.pp-jifQ2, .pp-jifN2 { color: var(--pp-theme-if-good); }
+.pp-jifQ3, .pp-jifN3 { color: var(--pp-theme-if-average); }
+.pp-jifQ4, .pp-jifN4 { color: var(--pp-theme-if-poor); }
+
+.pp-doi-container {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 var(--pp-theme-spacing-md);
+}
+
+.pp-doi-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  position: relative;
+  color: var(--pp-theme-primary);
+}
+
+.pp-doi-icon {
+  width: 18px !important;
+  height: 18px !important;
+  display: block;
+}
+
+.pp-doi-copied-tooltip {
+  position: absolute;
+  background-color: var(--pp-theme-success);
+  color: var(--pp-theme-bg);
+  padding: var(--pp-theme-spacing-xs) var(--pp-theme-spacing-sm);
+  border-radius: var(--pp-theme-border-radius-small);
+  font-size: var(--pp-theme-font-size-xs);
+  bottom: calc(-1 * var(--pp-theme-spacing-xl) - var(--pp-theme-spacing-sm));
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.pp-citation-info {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+}
+
+.pp-citation-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding-right: 2.4rem;
+}
+
+.pp-cited-icon { width: 14px; height: 14px; }
+.pp-cited-0  { color: #999; }
+.pp-cited-1  { color: #666; }
+.pp-cited-10 { color: #4a90d9; }
+.pp-cited-50 { color: #f5a623; }
+.pp-cited-100 { color: #d0021b; font-weight: bold; }
+
+.pp-googlescholar-left-top,
+.pp-pubmed-left-top {
+  background: var(--pp-theme-bg);
+  border-radius: var(--pp-theme-border-radius);
+}
+
+.pp-googlescholar-left-top {
+  margin: 20px 40px 0 56px;
+  min-width: 120px;
+}
+
+.search-alert {
+  padding: var(--pp-theme-spacing-xs) var(--pp-theme-spacing-md);
+  text-align: center;
+  color: var(--pp-theme-warning);
+  background-color: var(--pp-theme-bg-light);
+  border-radius: var(--pp-theme-border-radius-small);
+}
+
+.pp-btn-disabled {
+  color: #c0c0c0 !important;
+  cursor: not-allowed !important;
+}

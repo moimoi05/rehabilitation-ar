@@ -1,0 +1,398 @@
+{
+   "abstractInterpretation": {
+      "message": "摘要解读"
+   },
+   "aiGenerated": {
+      "message": "内容由AI生成，请谨慎对待"
+   },
+   "aiSendBtn": {
+      "message": "我的AI"
+   },
+   "aiSenderCopied": {
+      "message": "已复制 ✓"
+   },
+   "aiSenderCopyOnly": {
+      "message": "仅复制提示词"
+   },
+   "aiSenderEditedBadge": {
+      "message": "已编辑"
+   },
+   "aiSenderFieldAbstract": {
+      "message": "摘要"
+   },
+   "aiSenderFieldTitle": {
+      "message": "标题"
+   },
+   "aiSenderIncludeLabel": {
+      "message": "包含内容"
+   },
+   "aiSenderManageTip": {
+      "message": "设置"
+   },
+   "aiSenderOpening": {
+      "message": "已复制，跳转中..."
+   },
+   "aiSenderPreview": {
+      "message": "提示词预览"
+   },
+   "aiSenderPromptLabel": {
+      "message": "提示词"
+   },
+   "aiSenderRegenToast": {
+      "message": "已根据新选项重新生成"
+   },
+   "aiSenderReplyLangLabel": {
+      "message": "回答语言"
+   },
+   "aiSenderResetBtn": {
+      "message": "重置"
+   },
+   "aiSenderResetTip": {
+      "message": "重置为自动生成"
+   },
+   "aiSenderSendBtn": {
+      "message": "复制并跳转"
+   },
+   "aiSenderTargetLabel": {
+      "message": "目标AI"
+   },
+   "aiSenderTitle": {
+      "message": "跳转至设定的第三方AI"
+   },
+   "aiSenderTplFieldsHint": {
+      "message": "已使用模板变量，勾选项不生效，内容以提示词为准"
+   },
+   "analysisComplete": {
+      "message": "解读完成"
+   },
+   "analysisError": {
+      "message": "解读失败，请重试"
+   },
+   "analysisNotAvailable": {
+      "message": "分析结果不可用"
+   },
+   "analysisResult": {
+      "message": "分析结果"
+   },
+   "analysisResults": {
+      "message": "AI 综述"
+   },
+   "analysisStopped": {
+      "message": "解读已停止"
+   },
+   "analysisTime": {
+      "message": "分析时间"
+   },
+   "analyzeResults": {
+      "message": "AI 综述"
+   },
+   "analyzing": {
+      "message": "正在解读中..."
+   },
+   "btnDisplayMode": {
+      "message": "显示模式"
+   },
+   "btnModeCollapse": {
+      "message": "折叠模式"
+   },
+   "btnModeFull": {
+      "message": "完整模式"
+   },
+   "btnModeIcon": {
+      "message": "仅图标"
+   },
+   "cancel": {
+      "message": "取消"
+   },
+   "close": {
+      "message": "关闭"
+   },
+   "closePanel": {
+      "message": "关闭"
+   },
+   "closeTooltip": {
+      "message": "解读结果不会保存，需要时可导出文件"
+   },
+   "codeView": {
+      "message": "代码视图"
+   },
+   "confirm": {
+      "message": "确认"
+   },
+   "confirmClose": {
+      "message": "确认关闭"
+   },
+   "copied": {
+      "message": "✓ 已复制"
+   },
+   "copiedShort": {
+      "message": "✓"
+   },
+   "copyAll": {
+      "message": "复制全部"
+   },
+   "copyCode": {
+      "message": "复制代码"
+   },
+   "doiCite": {
+      "message": "下载引用"
+   },
+   "doiCopy": {
+      "message": "复制 DOI"
+   },
+   "doiOpen": {
+      "message": "打开链接"
+   },
+   "dontShowAgain": {
+      "message": "下次不再提醒"
+   },
+   "expand": {
+      "message": "展开"
+   },
+   "export": {
+      "message": "导出"
+   },
+   "exportCitationExcel": {
+      "message": "导出引用 (Excel)"
+   },
+   "exportCitationRis": {
+      "message": "导出引用 (RIS)"
+   },
+   "exportDisclaimer": {
+      "message": "内容由文献泡泡通过AI生成，请谨慎对待"
+   },
+   "exportImage": {
+      "message": "导出图片"
+   },
+   "exportMarkdown": {
+      "message": "导出Markdown"
+   },
+   "exportMd": {
+      "message": "导出MD"
+   },
+   "exportText": {
+      "message": "导出文本"
+   },
+   "extensionDescription": {
+      "message": "自动显示期刊排名与分区，支持自定义数据集；文章生成思维导图，AI综述搜索结果"
+   },
+   "extensionName": {
+      "message": "文献泡泡 - 期刊排名与AI科研助手"
+   },
+   "generateComplete": {
+      "message": "完成"
+   },
+   "generateError": {
+      "message": "生成过程中出现错误。请重新尝试"
+   },
+   "generateMindmap": {
+      "message": "导图"
+   },
+   "generating": {
+      "message": "生成中..."
+   },
+   "generatingMindmap": {
+      "message": "正在生成思维导图..."
+   },
+   "goLogin": {
+      "message": "去登录"
+   },
+   "help": {
+      "message": "帮助"
+   },
+   "interpretationBtn": {
+      "message": "解读"
+   },
+   "interpretationFailed": {
+      "message": "解读失败，请稍后重试"
+   },
+   "interpretationServiceError": {
+      "message": "解读服务异常，请稍后重试"
+   },
+   "interpreting": {
+      "message": "解读中..."
+   },
+   "loginRequired": {
+      "message": "需要登录后使用"
+   },
+   "loginRequiredForAnalysis": {
+      "message": "登录后可使用解读功能"
+   },
+   "loginRequiredForInterpretation": {
+      "message": "请先登录后再使用解读功能"
+   },
+   "mindmap": {
+      "message": "思维导图"
+   },
+   "mindmapError": {
+      "message": "思维导图生成失败"
+   },
+   "noAbstractForInterpretation": {
+      "message": "未找到文章摘要"
+   },
+   "noAbstractFound": {
+      "message": "未找到文章摘要"
+   },
+   "onlineEdit": {
+      "message": "在线编辑"
+   },
+   "preview": {
+      "message": "预览视图"
+   },
+   "proRequired": {
+      "message": "此功能仅限 Pro 用户使用"
+   },
+   "query": {
+      "message": "查询"
+   },
+   "quotaReached": {
+      "message": "使用额度已达上限，{0}小时后重置"
+   },
+   "rateLimitFallback": {
+      "message": "请求失败，请稍后重试"
+   },
+   "rateLimitFreeDesc": {
+      "message": "免费版额度有限，升级专业版享受更多配额"
+   },
+   "rateLimitHours": {
+      "message": "使用次数已达上限，请 {0} 小时后再试"
+   },
+   "rateLimitProDesc": {
+      "message": "额度将在下一个时间窗口自动恢复"
+   },
+   "rateLimitQuotaExhausted": {
+      "message": "本时段使用额度已用完"
+   },
+   "rateLimitResetIn": {
+      "message": "约 {0} 小时后重置"
+   },
+   "rateLimitResetSoon": {
+      "message": "即将重置"
+   },
+   "rateLimitResetTime": {
+      "message": "重置时间：{0}"
+   },
+   "rateLimitSeconds": {
+      "message": "请求过于频繁，请等待 {0} 秒"
+   },
+   "rateLimitTooFrequent": {
+      "message": "请求过于频繁"
+   },
+   "rateLimitUpgradeBtn": {
+      "message": "升级专业版，解锁更多额度"
+   },
+   "rateLimitWaitMoment": {
+      "message": "稍等片刻，马上就可以继续使用～"
+   },
+   "rateLimitWaitSeconds": {
+      "message": "请等待 {0} 秒后重试"
+   },
+   "referenceList": {
+      "message": "引用列表"
+   },
+   "requestTooFrequent": {
+      "message": "'休息，休息一下～' 几秒后请再次发起光波攻击！"
+   },
+   "roleChangeNotice": {
+      "message": "角色已修改，下次解读时将生效"
+   },
+   "roleMasterStudent": {
+      "message": "硕士生"
+   },
+   "rolePhDStudent": {
+      "message": "博士生"
+   },
+   "roleResearcher": {
+      "message": "研究员"
+   },
+   "sceneLabel1": {
+      "message": "场景一：文献初筛"
+   },
+   "sceneLabel2": {
+      "message": "场景二：写综述/找引用"
+   },
+   "sceneLabel3": {
+      "message": "场景三：研究对比/找差异"
+   },
+   "searchMindmap": {
+      "message": "导图速览"
+   },
+   "searchNext": {
+      "message": "创新挖掘"
+   },
+   "selectRole": {
+      "message": "选择角色将影响AI解读深度"
+   },
+   "setJIFTip": {
+      "message": "期刊等级未显示，请在设置中开启"
+   },
+   "settingsBtnTitle": {
+      "message": "按钮显示设置"
+   },
+   "settingsVisLabel": {
+      "message": "显示按钮"
+   },
+   "sortBy": {
+      "message": "文献泡泡"
+   },
+   "sortByCited": {
+      "message": "引用排序"
+   },
+   "sortByIF": {
+      "message": "JIF 排序"
+   },
+   "source": {
+      "message": "来源"
+   },
+   "stopAnalysis": {
+      "message": "停止"
+   },
+   "stopGeneration": {
+      "message": "停止"
+   },
+   "switchTheme": {
+      "message": "切换主题"
+   },
+   "syntaxError": {
+      "message": "语法错误"
+   },
+   "themeBase": {
+      "message": "简洁"
+   },
+   "themeDefault": {
+      "message": "颜色"
+   },
+   "themeForest": {
+      "message": "森林"
+   },
+   "themeInk": {
+      "message": "水墨"
+   },
+   "toExcel": {
+      "message": "列表导出"
+   },
+   "upgradeForMoreQuota": {
+      "message": "升级专业版享受更多额度"
+   },
+   "upgradeRequiredForAnalysis": {
+      "message": "升级到专业版可使用解读功能"
+   },
+   "upgradeToPro": {
+      "message": "升级 Pro"
+   },
+   "usageLimitReached": {
+      "message": "使用额度已达上限，{0}小时后重置。"
+   },
+   "waitingForInterpretation": {
+      "message": "等待解读..."
+   },
+   "zoomIn": {
+      "message": "放大"
+   },
+   "zoomOut": {
+      "message": "缩小"
+   },
+   "zoomReset": {
+      "message": "还原大小"
+   }
+}

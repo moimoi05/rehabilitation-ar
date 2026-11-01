@@ -1,0 +1,1124 @@
+{
+   "_1filecouldnotberemoved": {
+      "description": "[aws:2019-09-23 19:30:18] 1 file could not be removed.",
+      "message": "1 fichier n'a pas pu être supprimé."
+   },
+   "_1filewassuccessfullyremoved": {
+      "description": "[aws:2019-09-23 19:30:19] 1 file was successfully removed.",
+      "message": "1 fichier a été supprimé avec succès."
+   },
+   "_ActivateallthelinksonthepagewhendownloadingasaPDFClickingonthelinkinthePDFwillopenapageinyourbrowser": {
+      "description": "[claude:2026-10-22] Activate all the links on the page when downloading as a PDF. Clicking on the link in the PDF will open a page in your browser.",
+      "message": "Active tous les liens de la page lors du téléchargement au format PDF. Cliquer sur un lien dans le PDF ouvrira une page dans votre navigateur."
+   },
+   "_ActiveLinks": {
+      "description": "[claude:2026-10-22] Active Links",
+      "message": "Liens actifs"
+   },
+   "_AddURLanddatetime": {
+      "description": "[claude:2026-10-22] Add URL and date/time",
+      "message": "Ajouter l’URL et la date/heure"
+   },
+   "_AddyourscreenshotsURLandcapturedatetimewhenexportingtoPDFfromthemainviewscreenshotpageYoucanaddURLandcapturedateintheEditorfromtheMoremenu": {
+      "description": "[claude:2026-10-22] Add your screenshot’s URL and capture date/time when exporting to PDF from the main view screenshot page. You can add URL and capture date in the Editor from the “More” menu.",
+      "message": "Ajoutez l’URL et la date/heure de capture de votre capture d’écran lors de l’exportation en PDF depuis la page principale de la capture. Dans l’Éditeur, vous pouvez ajouter l’URL et la date de capture depuis le menu « Plus »."
+   },
+   "_Adjustrepeatingelements": {
+      "description": "[aws:2019-09-23 19:30:19] Adjust repeating elements",
+      "message": "Ajuster les éléments répétitifs"
+   },
+   "_Advancedscrolling": {
+      "description": "[aws:2019-09-23 19:30:20] Advanced scrolling",
+      "message": "Défilement avancé"
+   },
+   "_Align": {
+      "description": "[aws:2019-09-23 19:30:21] Align",
+      "message": "Aligner"
+   },
+   "_Alleditsareautosaved": {
+      "description": "[claude:2026-10-22] All edits are auto-saved",
+      "message": "Toutes les modifications sont enregistrées automatiquement"
+   },
+   "_AllowsGoFullPagetocollectbasictechnicalandinteractiondataegbrowsertypefeatureusagetohelpimprovetheextensionNodataiscollecteduntilthisisgranted": {
+      "description": "[claude:2026-10-22] Allows GoFullPage to collect basic technical and interaction data (e.g. browser type, feature usage) to help improve the extension. No data is collected until this is granted.",
+      "message": "Autorise GoFullPage à collecter des données techniques et d’interaction de base (par ex. type de navigateur, utilisation des fonctionnalités) afin d’améliorer l’extension. Aucune donnée n’est collectée tant que cette autorisation n’est pas accordée."
+   },
+   "_Analyticspermission": {
+      "description": "[claude:2026-10-22] Analytics permission",
+      "message": "Autorisation d’analyse"
+   },
+   "_AndclickthepinnexttoGoFullPagesoitturnsblue": {
+      "description": "[claude:2026-10-22] And click the pin next to “GoFullPage” so it turns blue:",
+      "message": "Puis cliquez sur l’épingle à côté de « GoFullPage » pour qu’elle devienne bleue :"
+   },
+   "_Anyissues": {
+      "description": "[aws:2019-09-23 19:30:22] Any issues?",
+      "message": "Des problèmes ?"
+   },
+   "_Areyouenjoyingthisextension": {
+      "description": "[aws:2019-09-23 19:30:23] Are you enjoying this extension?",
+      "message": "Vous aimez cette extension ?"
+   },
+   "_Areyousureyouwanttodelete1screencaptureThisactioncannotbeundone": {
+      "description": "[aws:2019-09-23 19:30:24] Are you sure you want to delete 1 screencapture?\n (This action cannot be undone.)",
+      "message": "Êtes-vous sûr de vouloir supprimer 1 capture d'écran ?\n (Cette action ne peut pas être annulée.)"
+   },
+   "_AreyousureyouwanttodeletecountscreencapturesThisactioncannotbeundone": {
+      "description": "[aws:2019-09-23 19:30:25] Are you sure you want to delete $count$ screen captures?\n (This action cannot be undone.)",
+      "message": "Êtes-vous sûr de vouloir supprimer les captures d'écran $count$ ?\n (Cette action ne peut pas être annulée.)",
+      "placeholders": {
+         "count": {
+            "content": "$1",
+            "example": "2"
+         }
+      }
+   },
+   "_AreyousureyouwanttodeletethisscreenshotThisactioncannotbeundone": {
+      "description": "[aws:2019-09-23 19:30:26] Are you sure you want to delete this screenshot?\n(This action cannot be undone.)",
+      "message": "Êtes-vous sûr de vouloir supprimer cette capture d'écran ?\n(Cette action ne peut pas être annulée.)"
+   },
+   "_Areyousureyouwanttoresettotheextensionsoriginalthemedefaults": {
+      "description": "[aws:2019-09-23 19:30:27] Are you sure you want to reset to the extension’s original theme defaults?",
+      "message": "Êtes-vous sûr de vouloir réinitialiser les valeurs par défaut du thème d'origine de l'extension ?"
+   },
+   "_Arrow": {
+      "description": "[aws:2019-09-23 19:30:27] Arrow",
+      "message": "Flèche"
+   },
+   "_Autodownloadfiles": {
+      "description": "[aws:2019-09-23 19:30:28] Auto-download files",
+      "message": "Téléchargement automatique des fichiers"
+   },
+   "_AutomaticallydownloadyourscreenshotasanimageinsteadofopeningitinanewwindowThismeanstheextensioncapturetabwillnotopenYoucanreturnbackherebyrightclickingontheextensionandselectingOptions": {
+      "description": "[claude:2026-10-22] Automatically download your screenshot as an image instead of opening it in a new window.This means the extension capture tab will not open. You can return back here by right-clicking on the extension and selecting \"Options\".",
+      "message": "Téléchargez automatiquement votre capture d’écran sous forme d’image au lieu de l’ouvrir dans une nouvelle fenêtre. L’onglet de capture de l’extension ne s’ouvrira donc pas. Vous pouvez revenir ici en faisant un clic droit sur l’extension et en sélectionnant « Options »."
+   },
+   "_AutomaticallyshowasaveasdialogwhendownloadingyourscreenshotsIftheAskwheretosaveeachfilebeforedownloadingoptionisenabledinyourbrowserssettingsthenthattakespriority": {
+      "description": "[claude:2026-10-22] Automatically show a \"save as\" dialog when downloading your screenshots. If the “Ask where to save each file before downloading” option is enabled in your browser’s settings, then that takes priority.",
+      "message": "Affiche automatiquement une boîte de dialogue « Enregistrer sous » lors du téléchargement de vos captures d’écran. Si l’option « Toujours demander où enregistrer les fichiers » est activée dans les paramètres de votre navigateur, celle-ci est prioritaire."
+   },
+   "_Backtocapturechangesareautosavedintheeditor": {
+      "description": "[claude:2026-10-22] Back to capture (changes are auto-saved in the editor)",
+      "message": "Retour à la capture (les modifications sont enregistrées automatiquement dans l’éditeur)"
+   },
+   "_Betafeatures": {
+      "description": "[claude:2026-10-22] Beta features",
+      "message": "Fonctionnalités bêta"
+   },
+   "_Blur": {
+      "description": "[aws:2019-09-23 19:30:35] Blur",
+      "message": "Flou"
+   },
+   "_Bold": {
+      "description": "[aws:2019-09-23 19:30:35] Bold",
+      "message": "Gras"
+   },
+   "_Bonuswehaveaddednewtimestampformatstoo": {
+      "description": "[claude:2026-10-22] Bonus: we have added new timestamp formats too!",
+      "message": "Bonus : nous avons aussi ajouté de nouveaux formats d’horodatage !"
+   },
+   "_Cannotdownloadfiles": {
+      "description": "[aws:2019-09-23 19:30:38] Cannot download files",
+      "message": "Impossible de télécharger les fichiers"
+   },
+   "_Capture": {
+      "description": "[aws:2019-09-23 19:30:39] Capture",
+      "message": "Capture"
+   },
+   "_Clickdraginlayerspane": {
+      "description": "[aws:2019-09-23 19:30:41] Click + drag in layers pane",
+      "message": "Cliquez + glisser dans le volet des calques"
+   },
+   "_Color": {
+      "description": "[aws:2019-09-23 19:30:42] Color",
+      "message": "Couleur"
+   },
+   "_Continueediting": {
+      "description": "[aws:2019-09-23 19:30:45] Continue editing",
+      "message": "Poursuivre l'édition"
+   },
+   "_CopyImage": {
+      "description": "[claude:2026-10-22] Copy Image",
+      "message": "Copier l’image"
+   },
+   "_Copyingimagepleasewait": {
+      "description": "[claude:2026-10-22] Copying image, please wait…",
+      "message": "Copie de l’image en cours, veuillez patienter…"
+   },
+   "_CopyoriginalURL": {
+      "description": "[claude:2026-10-22] Copy original URL",
+      "message": "Copier l’URL d’origine"
+   },
+   "_Copytoclipboard": {
+      "description": "[claude:2026-10-22] Copy to clipboard",
+      "message": "Copier dans le presse-papiers"
+   },
+   "_CreatedPDF": {
+      "description": "[claude:2026-10-22] Created PDF!",
+      "message": "PDF créé !"
+   },
+   "_CreatingPDF": {
+      "description": "[claude:2026-10-22] Creating PDF:",
+      "message": "Création du PDF :"
+   },
+   "_CropImage": {
+      "description": "[aws:2019-09-23 19:30:46] Crop Image",
+      "message": "Recadrer l'image"
+   },
+   "_Cropeditannotateandexportpremium": {
+      "description": "[claude:2026-10-22] Crop, edit, annotate, and export (premium)",
+      "message": "Recadrez, modifiez, annotez et exportez (premium)"
+   },
+   "_Customfilename": {
+      "description": "[claude:2026-10-22] Custom filename",
+      "message": "Nom de fichier personnalisé"
+   },
+   "_DateTimeofCapture": {
+      "description": "[claude:2026-10-22] Date & Time of Capture",
+      "message": "Date et heure de capture"
+   },
+   "_Dateformat": {
+      "description": "[claude:2026-10-22] Date format",
+      "message": "Format de date"
+   },
+   "_Delete": {
+      "description": "[aws:2019-09-23 19:30:47] Delete",
+      "message": "Supprimer"
+   },
+   "_Deletecurrentselection": {
+      "description": "[aws:2019-09-23 19:30:47] Delete current selection",
+      "message": "Supprimer la sélection actuelle"
+   },
+   "_Demovideos": {
+      "description": "[claude:2026-10-22] Demo videos",
+      "message": "Vidéos de démonstration"
+   },
+   "_Directory": {
+      "description": "[aws:2019-09-23 19:30:48] Directory",
+      "message": "Répertoire"
+   },
+   "_Displaythecapturedateinthisformatorhideitentirely": {
+      "description": "[claude:2026-10-22] Display the capture date in this format or hide it entirely.",
+      "message": "Affichez la date de capture dans ce format ou masquez-la entièrement."
+   },
+   "_Document": {
+      "description": "[aws:2019-09-23 19:30:49] Document",
+      "message": "Document"
+   },
+   "_Documentedits": {
+      "description": "[aws:2019-09-23 19:30:50] Document edits",
+      "message": "Moditions de documents"
+   },
+   "_DoneCropping": {
+      "description": "[aws:2019-09-23 19:30:52] Done Cropping",
+      "message": "Recadrage terminé"
+   },
+   "_DontworryyourfavoritefeaturesarestillhereCropURLdatestampandpaddingarenowinthenewFormattingmenuWatchahrefhttpsgofullpagecomdemoseditortargetblankandrelnoopenernoreferrerthedemoatoseemore": {
+      "description": "[claude:2026-10-22] Don’t worry, your favorite features are still here! Crop, URL, datestamp, and padding are now in the new “Formatting” menu. Watch \u003Ca href=\"https://gofullpage.com/demos#editor\" target=\"_blank\" and rel=\"noopener noreferrer\">the demo\u003C/a> to see more.",
+      "message": "Pas d’inquiétude, vos fonctionnalités préférées sont toujours là ! Le recadrage, l’URL, l’horodatage et les marges se trouvent désormais dans le nouveau menu « Mise en forme ». Regardez \u003Ca href=\"https://gofullpage.com/demos#editor\" target=\"_blank\" and rel=\"noopener noreferrer\">la démo\u003C/a> pour en savoir plus."
+   },
+   "_Download": {
+      "description": "[aws:2019-09-23 19:30:52] Download",
+      "message": "Télécharger"
+   },
+   "_DownloadExport": {
+      "description": "[aws:2019-09-23 19:30:53] Download & Export",
+      "message": "Télécharger & Exporter"
+   },
+   "_Downloadpermissionisrequired": {
+      "description": "[aws:2019-09-23 19:30:54] Download permission is required",
+      "message": "Autorisation de téléchargement requise"
+   },
+   "_Downloadpermissionnotgranted": {
+      "description": "[aws:2019-09-23 19:30:55] Download permission not granted",
+      "message": "Autorisation de téléchargement non accordée"
+   },
+   "_Downloads": {
+      "description": "[claude:2026-10-22] Downloads",
+      "message": "Téléchargements"
+   },
+   "_Downloadspermission": {
+      "description": "[aws:2019-09-23 19:30:55] Downloads permission",
+      "message": "Autorisation de téléchargement"
+   },
+   "_Draglayercontrolpoints": {
+      "description": "[aws:2019-09-23 19:30:56] Drag layer control points",
+      "message": "Faites glisser les points de contrôle de la couche"
+   },
+   "_Duplicateselection": {
+      "description": "[aws:2019-09-23 19:30:57] Duplicate selection",
+      "message": "Dupliquer la sélection"
+   },
+   "_EditImage": {
+      "description": "[claude:2026-10-22] Edit Image",
+      "message": "Modifier l’image"
+   },
+   "_Edited": {
+      "description": "[aws:2019-09-23 19:30:57] Edited",
+      "message": "Edité"
+   },
+   "_Elements": {
+      "description": "[aws:2019-09-23 19:30:58] Elements",
+      "message": "Éléments"
+   },
+   "_Emoji": {
+      "description": "[aws:2019-09-23 19:31:00] Emoji",
+      "message": "Emoji"
+   },
+   "_Enabled": {
+      "description": "[aws:2019-09-23 19:31:00] Enabled",
+      "message": "Activé"
+   },
+   "_Entertexthere": {
+      "description": "[aws:2019-09-23 19:31:01] Enter text here",
+      "message": "Entrez le texte ici"
+   },
+   "_ErrorcopyingURL": {
+      "description": "[claude:2026-10-22] Error copying URL",
+      "message": "Erreur lors de la copie de l’URL"
+   },
+   "_Errordownloadingfile": {
+      "description": "[aws:2019-09-23 19:31:02] Error downloading file",
+      "message": "Erreur lors du téléchargement du fichier"
+   },
+   "_Errordownloadingfiles": {
+      "description": "[aws:2019-09-23 19:31:03] Error downloading files",
+      "message": "Erreur lors du téléchargement des fichiers"
+   },
+   "_ErrorhandlingfilesPleasereportthisviatheflagreportingbuttonabove": {
+      "description": "[aws:2019-09-23 19:31:04] Error handling files. Please report this via the flag reporting button above.",
+      "message": "Erreur lors de la gestion des fichiers. Veuillez le signaler via le bouton « Signaler » ci-dessus."
+   },
+   "_Errorloadinghistory": {
+      "description": "[aws:2019-09-23 19:31:05] Error loading history",
+      "message": "Erreur lors du chargement de l'historique"
+   },
+   "_Errorloadingimage": {
+      "description": "[aws:2019-09-23 19:31:05] Error loading image",
+      "message": "Erreur lors du chargement de l'image"
+   },
+   "_Erroropeningscreenshot": {
+      "description": "[aws:2019-09-23 19:31:06] Error opening screenshot",
+      "message": "Erreur lors de l'ouverture de la capture d'écran"
+   },
+   "_Errorremovingscreenshot": {
+      "description": "[aws:2019-09-23 19:31:07] Error removing screenshot",
+      "message": "Erreur lors de la suppression de la capture d'écran"
+   },
+   "_Example": {
+      "description": "[claude:2026-10-22] Example:",
+      "message": "Exemple :"
+   },
+   "_Exitzoom": {
+      "description": "[aws:2019-09-23 19:31:07] Exit zoom",
+      "message": "Quitter le zoom"
+   },
+   "_Export": {
+      "description": "[aws:2019-09-23 19:31:08] Export",
+      "message": "Exporter"
+   },
+   "_ExportImageAs": {
+      "description": "[claude:2026-10-22] Export Image As…",
+      "message": "Exporter l’image sous…"
+   },
+   "_ExportPDFAs": {
+      "description": "[claude:2026-10-22] Export PDF As…",
+      "message": "Exporter le PDF sous…"
+   },
+   "_Exportsaveas": {
+      "description": "[claude:2026-10-22] Export save as",
+      "message": "Exporter/enregistrer sous"
+   },
+   "_Filenolongerexistsperhapsithasbeenclearedfromyourbrowser": {
+      "description": "[aws:2019-09-23 19:31:11] File no longer exists—perhaps it has been cleared from your browser",
+      "message": "Le fichier n'existe plus, peut-être qu'il a été effacé de votre navigateur"
+   },
+   "_Files": {
+      "description": "[claude:2026-10-22] Files",
+      "message": "Fichiers"
+   },
+   "_Fill": {
+      "description": "[aws:2019-09-23 19:31:12] Fill",
+      "message": "Remplir"
+   },
+   "_FitcopiestoGoogleDocslimits": {
+      "description": "[claude:2026-10-22] Fit copies to Google Docs limits",
+      "message": "Adapter les copies aux limites de Google Docs"
+   },
+   "_Font": {
+      "description": "[aws:2019-09-23 19:31:13] Font",
+      "message": "Fonte"
+   },
+   "_Foradditionalinformationyoucancheckout": {
+      "description": "[claude:2026-10-22] For additional information, you can check out:",
+      "message": "Pour plus d’informations, vous pouvez consulter :"
+   },
+   "_Format": {
+      "description": "[claude:2026-10-22] Format",
+      "message": "Format"
+   },
+   "_Formatting": {
+      "description": "[claude:2026-10-22] Formatting",
+      "message": "Mise en forme"
+   },
+   "_Frequentlyaskedquestions": {
+      "description": "[claude:2026-10-22] Frequently asked questions",
+      "message": "Foire aux questions"
+   },
+   "_Getstarted": {
+      "description": "[aws:2019-09-23 19:31:17] Get started",
+      "message": "Commencer"
+   },
+   "_Goback": {
+      "description": "[claude:2026-10-22] Go back",
+      "message": "Retour"
+   },
+   "_Gotit": {
+      "description": "[aws:2019-09-23 19:31:18] Got it!",
+      "message": "Je l'ai !"
+   },
+   "_GotoAccount": {
+      "description": "[claude:2026-10-22] Go to Account",
+      "message": "Accéder au compte"
+   },
+   "_GotoFiles": {
+      "description": "[claude:2026-10-22] Go to Files",
+      "message": "Accéder aux fichiers"
+   },
+   "_GotoOptions": {
+      "description": "[claude:2026-10-22] Go to Options",
+      "message": "Accéder aux options"
+   },
+   "_Help": {
+      "description": "[aws:2019-09-23 19:31:20] Help",
+      "message": "Aider"
+   },
+   "_HelpShortcuts": {
+      "description": "[aws:2019-09-23 19:31:20] Help / Shortcuts",
+      "message": "Aide/Raccourcis"
+   },
+   "_Hooray": {
+      "description": "[aws:2019-09-23 19:31:22] Hooray",
+      "message": "Hourra"
+   },
+   "_Icon": {
+      "description": "[aws:2019-09-23 19:31:22] Icon",
+      "message": "Icône"
+   },
+   "_Ifthispersistspleasereportitviatheflagreportingbuttonabove": {
+      "description": "[aws:2019-09-23 19:31:24] If this persists, please report it via the flag reporting button above.",
+      "message": "Si cela persiste, veuillez le signaler via le bouton « Signaler » ci-dessus."
+   },
+   "_IfyoudliketotrythisfeatureinthefutureclickontheEditbuttonuptop": {
+      "description": "[aws:2019-09-23 19:31:24] If you’d like to try this feature in the future, click on the “Edit” button up top.",
+      "message": "Si vous souhaitez essayer cette fonctionnalité à l'avenir, cliquez sur le bouton « Modifier » en haut."
+   },
+   "_IfyoudontseethecameraiconthenclicktheExtensionspuzzleiconinthetoprightofyourbrowser": {
+      "description": "[claude:2026-10-22] If you don’t see the camera icon, then click the “Extensions” puzzle icon in the top right of your browser:",
+      "message": "Si vous ne voyez pas l’icône de l’appareil photo, cliquez sur l’icône en forme de pièce de puzzle « Extensions » en haut à droite de votre navigateur :"
+   },
+   "_Imagecopiedtoclipboard": {
+      "description": "[claude:2026-10-22] Image copied to clipboard",
+      "message": "Image copiée dans le presse-papiers"
+   },
+   "_Imagedeleted": {
+      "description": "[aws:2019-09-23 19:31:25] Image deleted",
+      "message": "Image supprimée"
+   },
+   "_Imageformat": {
+      "description": "[claude:2026-10-22] Image format",
+      "message": "Format de l'image"
+   },
+   "_Insertshapes": {
+      "description": "[aws:2019-09-23 19:31:26] Insert shapes",
+      "message": "Insérer des formes"
+   },
+   "_Italic": {
+      "description": "[aws:2019-09-23 19:31:28] Italic",
+      "message": "Italique"
+   },
+   "_Layers": {
+      "description": "[aws:2019-09-23 19:31:28] Layers",
+      "message": "Couches"
+   },
+   "_Learnmore": {
+      "description": "[aws:2019-09-23 19:31:29] Learn more",
+      "message": "En savoir plus"
+   },
+   "_Line": {
+      "description": "[aws:2019-09-23 19:31:30] Line",
+      "message": "Ligne"
+   },
+   "_LogintoExport": {
+      "description": "[aws:2019-09-23 19:31:33] Login to Export",
+      "message": "Se connecter à Exporter"
+   },
+   "_Lookforanelementwithinthepagewithitsownscrollbarsandscrollthatitemduringthecapture": {
+      "description": "[aws:2019-09-23 19:31:34] Look for an element within the page with its own scroll bars and scroll that item during the capture.",
+      "message": "Recherchez un élément dans la page avec ses propres barres de défilement et faites défiler cet élément pendant la capture."
+   },
+   "_Mightyouconsidertakingaminutetorateitinthewebstore": {
+      "description": "[claude:2026-10-22] Might you consider taking a minute to rate it in the $webstore$?",
+      "message": "Pourriez-vous prendre une minute pour l’évaluer sur le $webstore$ ?",
+      "placeholders": {
+         "webstore": {
+            "content": "$1",
+            "example": "web store"
+         }
+      }
+   },
+   "_More": {
+      "description": "[aws:2019-09-23 19:31:35] More",
+      "message": "Plus"
+   },
+   "_Mouseorarrowkeys": {
+      "description": "[aws:2019-09-23 19:31:36] Mouse or arrow keys",
+      "message": "Touches de la souris ou des touches fléchées"
+   },
+   "_Mouseorlayerspane": {
+      "description": "[aws:2019-09-23 19:31:37] Mouse or layers pane",
+      "message": "Volet de la souris ou des calques"
+   },
+   "_Movelayer": {
+      "description": "[aws:2019-09-23 19:31:37] Move layer",
+      "message": "Déplacer la couche"
+   },
+   "_None": {
+      "description": "[aws:2019-09-23 19:31:39] None",
+      "message": "Aucun"
+   },
+   "_NoscreencapturesfoundGomakesome": {
+      "description": "[aws:2019-09-23 19:31:40] No screen captures found. Go make some!",
+      "message": "Aucune capture d'écran trouvée. Va en faire !"
+   },
+   "_Nothanks": {
+      "description": "[aws:2019-09-23 19:31:43] No, thanks.",
+      "message": "Non, merci."
+   },
+   "_Nothankscontinueediting": {
+      "description": "[aws:2019-09-23 19:31:44] No thanks continue editing",
+      "message": "Non merci continuer l'édition"
+   },
+   "_Notreally": {
+      "description": "[aws:2019-09-23 19:31:44] Not really",
+      "message": "Pas vraiment."
+   },
+   "_On": {
+      "description": "[aws:2019-09-23 19:31:48] On",
+      "message": "Sur"
+   },
+   "_OpenoriginalURL": {
+      "description": "[claude:2026-10-22] Open original URL",
+      "message": "Ouvrir l’URL d’origine"
+   },
+   "_Orderlayer": {
+      "description": "[aws:2019-09-23 19:31:51] Order layer",
+      "message": "Calque de commande"
+   },
+   "_Outline": {
+      "description": "[aws:2019-09-23 19:31:52] Outline",
+      "message": "Esquisse"
+   },
+   "_Oval": {
+      "description": "[aws:2019-09-23 19:31:52] Oval",
+      "message": "Ovale"
+   },
+   "_PDFexport": {
+      "description": "[claude:2026-10-22] PDF export",
+      "message": "Exportation PDF"
+   },
+   "_PNGislosslessandshouldmatchexactlywhatisseenonthescreenbutwillusuallyhavelargerfilesizesthanJPGwhichusescompression": {
+      "description": "[aws:2019-09-23 19:32:00] PNG is lossless and should match exactly what is seen on the screen, but will usually have larger file sizes than JPG, which uses compression.",
+      "message": "PNG est sans perte et devrait correspondre exactement à ce qui est vu à l'écran, mais aura généralement des tailles de fichiers plus grandes que JPG, qui utilise la compression."
+   },
+   "_Pad": {
+      "description": "[aws:2019-09-23 19:31:53] Pad",
+      "message": "Tampon"
+   },
+   "_Padding": {
+      "description": "[aws:2019-09-23 19:31:53] Padding",
+      "message": "Rembourrage"
+   },
+   "_PaddingBorder": {
+      "description": "[aws:2019-09-23 19:31:54] Padding / Border",
+      "message": "Rembourrage/bordure"
+   },
+   "_Papersize": {
+      "description": "[claude:2026-10-22] Paper size",
+      "message": "Format du papier"
+   },
+   "_PerformextracheckswhensplittingaPDFacrossmultiplepagestotrytopreventitfromcuttinglinesoftextinhalfOtherwisethescreenshotissplitatthepapersizeheightregardlessofitscontent": {
+      "description": "[claude:2026-10-22] Perform extra checks when splitting a PDF across multiple pages to try to prevent it from cutting lines of text in half. Otherwise, the screenshot is split at the paper size height regardless of its content.",
+      "message": "Effectue des vérifications supplémentaires lors de la division d’un PDF sur plusieurs pages pour éviter de couper des lignes de texte en deux. Sinon, la capture d’écran est divisée à la hauteur du format de papier, quel que soit son contenu."
+   },
+   "_Permissionneededtodownloadfiles": {
+      "description": "[aws:2019-09-23 19:31:56] Permission needed to download files",
+      "message": "Autorisation nécessaire pour télécharger des fichiers"
+   },
+   "_Permissions": {
+      "description": "[aws:2019-09-23 19:31:57] Permissions",
+      "message": "Autorisations"
+   },
+   "_Persistiframepermissions": {
+      "description": "[claude:2026-10-22] Persist iframe permissions",
+      "message": "Conserver les autorisations des iframes"
+   },
+   "_PleasetryagainandwaittoseetheImagecopiedtoclipboardmessagebeforeswitchingtoanotherwindow": {
+      "description": "[claude:2026-10-22] Please try again and wait to see the “Image copied to clipboard” message before switching to another window.",
+      "message": "Veuillez réessayer et attendre le message « Image copiée dans le presse-papiers » avant de passer à une autre fenêtre."
+   },
+   "_Position": {
+      "description": "[aws:2019-09-23 19:32:00] Position",
+      "message": "Position"
+   },
+   "_Premiumfeature": {
+      "description": "[claude:2026-10-22] Premium feature",
+      "message": "Fonctionnalité premium"
+   },
+   "_Radius": {
+      "description": "[aws:2019-09-23 19:32:01] Radius",
+      "message": "Rayon"
+   },
+   "_Rectangle": {
+      "description": "[aws:2019-09-23 19:32:02] Rectangle",
+      "message": "Rectangle"
+   },
+   "_Redo": {
+      "description": "[aws:2019-09-23 19:32:03] Redo",
+      "message": "Refaire"
+   },
+   "_Removefiles": {
+      "description": "[aws:2019-09-23 19:32:03] Remove files",
+      "message": "Supprimer des fichiers"
+   },
+   "_Reportissue": {
+      "description": "[aws:2019-09-23 19:32:04] Report issue.",
+      "message": "Signaler un problème."
+   },
+   "_Resizelayer": {
+      "description": "[aws:2019-09-23 19:32:05] Resize layer",
+      "message": "Redimensionner le calque"
+   },
+   "_Roundedcorners": {
+      "description": "[aws:2019-09-23 19:32:07] Rounded corners",
+      "message": "Coins arrondis"
+   },
+   "_SaveImageAs": {
+      "description": "[claude:2026-10-22] Save Image As…",
+      "message": "Enregistrer l’image sous…"
+   },
+   "_SavePDFAs": {
+      "description": "[claude:2026-10-22] Save PDF As…",
+      "message": "Enregistrer le PDF sous…"
+   },
+   "_Saveas": {
+      "description": "[aws:2019-09-23 19:32:08] Save as",
+      "message": "Enregistrer sous"
+   },
+   "_SavethispermissionifacceptedforfuturecapturesItcanstillberevokedlaterfromtheoptionspage": {
+      "description": "[aws:2019-09-23 19:32:09] Save this permission (if accepted) for future captures. It can still be revoked later from the options page.",
+      "message": "Enregistrez cette autorisation (si elle est acceptée) pour les captures futures. Il peut toujours être révoqué plus tard à partir de la page des options."
+   },
+   "_Select1ormorescreenshotstousethisaction": {
+      "description": "[aws:2019-09-23 19:32:11] Select 1 or more screenshots to use this action.",
+      "message": "Sélectionnez 1 ou plusieurs captures d'écran pour utiliser cette action."
+   },
+   "_Selected": {
+      "description": "[aws:2019-09-23 19:32:13] Selected",
+      "message": "Sélectionné"
+   },
+   "_Selectlayer": {
+      "description": "[aws:2019-09-23 19:32:13] Select layer",
+      "message": "Sélectionner un calque"
+   },
+   "_Setthemedefaults": {
+      "description": "[aws:2019-09-23 19:32:14] Set theme defaults",
+      "message": "Définir les paramètres par défaut du thème"
+   },
+   "_Shapes": {
+      "description": "[aws:2019-09-23 19:32:15] Shapes",
+      "message": "Formes"
+   },
+   "_SignIn": {
+      "description": "[claude:2026-10-22] Sign In",
+      "message": "Se connecter"
+   },
+   "_SignUp": {
+      "description": "[claude:2026-10-22] Sign Up",
+      "message": "S’inscrire"
+   },
+   "_Signinwithexistingaccount": {
+      "description": "[claude:2026-10-22] Sign in with existing account",
+      "message": "Se connecter avec un compte existant"
+   },
+   "_SignupforPremiuminordertoexportyouredits": {
+      "description": "[claude:2026-10-22] Sign up for Premium in order to export your edits.",
+      "message": "Abonnez-vous à Premium pour exporter vos modifications."
+   },
+   "_Signupforafree7daytrialtounlocktheeditoranddownloadyourmasterpiece": {
+      "description": "[aws:2019-09-23 19:32:16] Sign up for a free 7-day trial to unlock the editor and download your masterpiece.",
+      "message": "Inscrivez-vous pour un essai gratuit de 7 jours pour débloquer l'éditeur et télécharger votre chef-d'œuvre."
+   },
+   "_SignuptoExport": {
+      "description": "[aws:2019-09-23 19:32:16] Sign up to Export",
+      "message": "S'inscrire à Exporter"
+   },
+   "_Size": {
+      "description": "[aws:2019-09-23 19:32:17] Size",
+      "message": "Taille"
+   },
+   "_Smartpagesplitting": {
+      "description": "[claude:2026-10-22] Smart page splitting",
+      "message": "Découpage intelligent des pages"
+   },
+   "_Somemenuoptionshavemoved": {
+      "description": "[claude:2026-10-22] Some menu options have moved!",
+      "message": "Certaines options du menu ont été déplacées !"
+   },
+   "_Somethingwentwrongdeletingyourscreenshot": {
+      "description": "[aws:2019-09-23 19:32:18] Something went wrong deleting your screenshot.",
+      "message": "Quelque chose s'est mal passé en supprimant votre capture d'écran."
+   },
+   "_Somethingwentwrongopeningthisscreenshotintoanew": {
+      "description": "[aws:2019-09-23 19:32:18] Something went wrong opening this screenshot into a new.",
+      "message": "Quelque chose s'est mal passé en ouvrant cette capture d'écran dans une nouvelle."
+   },
+   "_SometimeselementslikeabacktotopbuttonorastickyfooterwillrepeatonthepageThistriestopositionthemabsolutelytostopthemfromrepeatinginascreeshot": {
+      "description": "[aws:2019-09-23 19:32:21] Sometimes elements, like a “back to top” button or a sticky footer will repeat on the page. This tries to position them absolutely to stop them from repeating in a screeshot.",
+      "message": "Parfois, des éléments, comme un bouton « retour en haut » ou un pied de page collant se répètent sur la page. Cela essaie de les positionner absolument pour les empêcher de se répéter dans un screeshot."
+   },
+   "_Sorry": {
+      "description": "[aws:2019-09-23 19:32:22] Sorry",
+      "message": "Désolée"
+   },
+   "_SpecifyadirectoryunderneathyourdownloadsdirectorytosaveyourscreenshotssuchasscreencapturesDefaultstothedownloadsdirectoryifblankPleaselimitittolettersnumbersdashesunderscoresandslashesinvalidcharacterswillautomaticallyberemoved": {
+      "description": "[aws:2019-09-23 19:32:24] Specify a directory underneath your downloads directory to save your screenshots, such as “screencaptures”. Defaults to the downloads directory if blank. (Please limit it to letters, numbers, dashes, underscores, and slashes—invalid characters will automatically be removed).",
+      "message": "Spécifiez un répertoire sous votre répertoire de téléchargements pour enregistrer vos captures d'écran, par exemple « screencaptures ». Par défaut, le répertoire des téléchargements s'il est vide. (Veuillez le limiter aux lettres, aux chiffres, aux tirets, aux traits de soulignement et aux barres obliques : les caractères non valides seront automatiquement supprimés)."
+   },
+   "_SpecifytheformatsizeofPDFsforwhenexportingtoPDF": {
+      "description": "[aws:2019-09-23 19:32:26] Specify the format size of PDFs for when exporting to PDF.",
+      "message": "Spécifiez la taille de format des PDF lors de l'exportation au format PDF."
+   },
+   "_Startyourfreetrial": {
+      "description": "[aws:2019-09-23 19:32:26] Start your free trial",
+      "message": "Commencez votre essai gratuit"
+   },
+   "_Stickers": {
+      "description": "[aws:2019-09-23 19:32:27] Stickers",
+      "message": "Autocollants"
+   },
+   "_Stillloading": {
+      "description": "[aws:2019-09-23 19:32:28] Still loading",
+      "message": "Toujours en cours de chargement"
+   },
+   "_Tabspermission": {
+      "description": "[claude:2026-10-22] Tabs permission",
+      "message": "Autorisation des onglets"
+   },
+   "_Takeascreenshotofanentirewebpageinjustoneclickoftheextensionsiconinthetoprightofbrowser": {
+      "description": "[claude:2026-10-22] Take a screenshot of an entire web page in just one click of the extension’s icon in the top right of $browser$",
+      "message": "Capturez une page web entière en un seul clic sur l’icône de l’extension, en haut à droite de $browser$",
+      "placeholders": {
+         "browser": {
+            "content": "$1",
+            "example": "Chrome"
+         }
+      }
+   },
+   "_Takemetothewebstore": {
+      "description": "[claude:2026-10-22] Take me to the $webstore$!",
+      "message": "Emmenez-moi sur le $webstore$ !",
+      "placeholders": {
+         "webstore": {
+            "content": "$1",
+            "example": "web store"
+         }
+      }
+   },
+   "_Text": {
+      "description": "[aws:2019-09-23 19:32:29] Text",
+      "message": "Texte"
+   },
+   "_ThankyouforsupportingGoFullPage": {
+      "description": "[claude:2026-10-22] Thank you for supporting GoFullPage",
+      "message": "Merci de soutenir GoFullPage"
+   },
+   "_Thebestandsafestwaytocaptureascreenshotofanentirewebpage": {
+      "description": "[aws:2019-09-23 19:32:31] The best and safest way to capture a screenshot of an entire web page.",
+      "message": "Le moyen le plus sûr et le plus sûr de capturer une capture d'écran d'une page web entière."
+   },
+   "_ThebrowserpreventsextensionsfromsavingfilesoutsideofthedefaultdownloadsdirectoryThepathyouenteredhasbeenupdatedaccordinglySorry": {
+      "description": "[claude:2026-10-22] The browser prevents extensions from saving files outside of the default downloads directory. The path you entered has been updated accordingly. Sorry!",
+      "message": "Le navigateur empêche les extensions d’enregistrer des fichiers en dehors du dossier de téléchargement par défaut. Le chemin que vous avez saisi a été modifié en conséquence. Désolé !"
+   },
+   "_ThedownloadpermissionisrequiredtoenablethedownloadasPDFfeature": {
+      "description": "[aws:2019-09-23 19:32:33] The download permission is required to enable the download as PDF feature.",
+      "message": "L'autorisation de téléchargement est requise pour activer la fonctionnalité de téléchargement au format PDF."
+   },
+   "_Theextensioncannotscrollthispagebutyoucanstillcapturethevisiblecontent": {
+      "description": "[claude:2026-10-22] The extension cannot scroll this page, but you can still capture the visible content.",
+      "message": "L’extension ne peut pas faire défiler cette page, mais vous pouvez toujours capturer le contenu visible."
+   },
+   "_Thefollowingfilescouldnotbedownloaded": {
+      "description": "[aws:2019-09-23 19:32:34] The following files could not be downloaded:",
+      "message": "Les fichiers suivants n'ont pas pu être téléchargés :"
+   },
+   "_ThemeDefaults": {
+      "description": "[aws:2019-09-23 19:32:35] Theme Defaults",
+      "message": "Paramètres par défaut du thème"
+   },
+   "_Thereareissueswithsaveasforautodownloadandwhendownloadingmultiplefilessoitisdisabledinthosescenarios": {
+      "description": "[claude:2026-10-22] There are issues with \"save as\" for auto-download and when downloading multiple files, so it is disabled in those scenarios.",
+      "message": "L’option « Enregistrer sous » pose problème avec le téléchargement automatique et le téléchargement de plusieurs fichiers ; elle est donc désactivée dans ces cas."
+   },
+   "_Therewasanerrordownloadingfilespleasereportitviatheflagbuttonabove": {
+      "description": "[aws:2019-09-23 19:32:36] There was an error downloading files, please report it via the flag button above.",
+      "message": "Une erreur s'est produite lors du téléchargement des fichiers, veuillez le signaler via le bouton drapeau ci-dessus."
+   },
+   "_ThesesettingswillapplytoallfutureeditsofscreenshotsChangesareautosaved": {
+      "description": "[aws:2019-09-23 19:32:37] These settings will apply to all future edits of screenshots. Changes are autosaved.",
+      "message": "Ces paramètres s'appliqueront à toutes les modifications futures des captures d'écran. Les modifications sont enregistrées automatiquement."
+   },
+   "_Thespecifiedimagecouldnotbefound": {
+      "description": "[aws:2019-09-23 19:32:38] The specified image could not be found.",
+      "message": "L'image spécifiée est introuvable."
+   },
+   "_ThisallowstheextensiontoreadtheURLwhencapturingarestrictedpagesuchasanewtabbrowsersettingspageorlocalfile": {
+      "description": "[claude:2026-10-22] This allows the extension to read the URL when capturing a restricted page (such as a new tab, $browser$ settings page, or local file).",
+      "message": "Permet à l’extension de lire l’URL lors de la capture d’une page restreinte (comme un nouvel onglet, une page de paramètres de $browser$ ou un fichier local).",
+      "placeholders": {
+         "browser": {
+            "content": "$1",
+            "example": "Chrome"
+         }
+      }
+   },
+   "_ThisextensiontakesalotofworktomaintainItsreallymeaningfultohearthatyoufindituseful": {
+      "description": "[aws:2019-09-23 19:32:39] This extension takes a lot of work to maintain. It’s really meaningful to hear that you find it useful!",
+      "message": "Cette extension prend beaucoup de travail à maintenir. C'est vraiment significatif d'entendre que vous le trouvez utile !"
+   },
+   "_ThisfeatureisincompatiblewiththeAskwheretosaveeachfilebeforedownloadingbrowsersettingandcanresultinerrorswiththesavedialogifthatisenabledtoo": {
+      "description": "[claude:2026-10-22] This feature is incompatible with the “Ask where to save each file before downloading” browser setting and can result in errors with the save dialog if that is enabled too.",
+      "message": "Cette fonctionnalité est incompatible avec le paramètre du navigateur « Toujours demander où enregistrer les fichiers » et peut provoquer des erreurs dans la boîte de dialogue d’enregistrement si celui-ci est également activé."
+   },
+   "_Thisisrequiredforthedownloadbuttonsandtheautodownloadfeature": {
+      "description": "[claude:2026-10-22] This is required for the download buttons and the auto-download feature.",
+      "message": "Requis pour les boutons de téléchargement et la fonctionnalité de téléchargement automatique."
+   },
+   "_Thisisrequiredinordertoscrolltheinnercontentsofiframesorframesets": {
+      "description": "[claude:2026-10-22] This is required in order to scroll the inner contents of $iframes$ or $framesets$.",
+      "message": "Requis pour faire défiler le contenu interne des $iframes$ ou des $framesets$.",
+      "placeholders": {
+         "framesets": {
+            "content": "\u003Ca class=\"dim\" target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Element/frameset\">framesets\u003C/a>",
+            "example": "framesets"
+         },
+         "iframes": {
+            "content": "\u003Ca class=\"dim\" target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe\">iframes\u003C/a>",
+            "example": "iframes"
+         }
+      }
+   },
+   "_ThisistakinglongertoloadthanexpectedHangtightIfnothingupdatesafterawhilepleasereportthisviathereportingflagbuttonabove": {
+      "description": "[aws:2019-09-23 19:32:40] This is taking longer to load than expected. Hang tight! If nothing updates after a while, please report this via the reporting flag button above.",
+      "message": "Cela prend plus de temps à charger que prévu. Attends bien ! Si rien n'est mis à jour après un certain temps, veuillez le signaler via le bouton indicateur ci-dessus."
+   },
+   "_ThislookslikearestrictedpagesuchasanewtaborabrowsersettingspageWeneedtorequestthetabspermissiontoidentifytheURL": {
+      "description": "[claude:2026-10-22] This looks like a restricted page (such as a new tab or a $browser$ settings page). We need to request the “tabs” permission to identify the URL.",
+      "message": "Cette page semble restreinte (comme un nouvel onglet ou une page de paramètres de $browser$). Nous devons demander l’autorisation « onglets » pour identifier l’URL.",
+      "placeholders": {
+         "browser": {
+            "content": "$1",
+            "example": "Chrome"
+         }
+      }
+   },
+   "_ThispermissionallowsgreatercontroloverhowdownloadsworkwithintheextensionYourpreferencehasbeensavedandthisdownloadbuttonwillnowfallbacktodefaultbrowseronclickdownloadsHoweveryouwillstillbepromptedforitinordertouseanyoftheadvancedfeaturesontheFilesorEditpagessincetheyneedthispermissionstowork": {
+      "description": "[claude:2026-10-22] This permission allows greater control over how downloads work within the extension. Your preference has been saved, and this download button will now fall back to default browser on-click downloads. However, you will still be prompted for it in order to use any of the advanced features on the Files or Edit pages, since they need this permissions to work.",
+      "message": "Cette autorisation offre un meilleur contrôle sur le fonctionnement des téléchargements dans l’extension. Votre préférence a été enregistrée et ce bouton utilisera désormais le téléchargement par défaut du navigateur. Elle vous sera toutefois redemandée pour utiliser les fonctionnalités avancées des pages Fichiers ou Modifier, qui en ont besoin pour fonctionner."
+   },
+   "_Thisscreenshotbeensuccessfullyremoved": {
+      "description": "[aws:2019-09-23 19:32:43] This screenshot been successfully removed.",
+      "message": "Cette capture d'écran a été supprimée avec succès."
+   },
+   "_ToggleURLbrowser": {
+      "description": "[aws:2019-09-23 19:32:47] Toggle URL / browser",
+      "message": "Basculer l'URL/navigateur"
+   },
+   "_Togglecrop": {
+      "description": "[aws:2019-09-23 19:32:46] Toggle crop",
+      "message": "Basculer le recadrage"
+   },
+   "_Togglepaddingborder": {
+      "description": "[aws:2019-09-23 19:32:47] Toggle padding / border",
+      "message": "Basculer le rembourrage/bordure"
+   },
+   "_Type": {
+      "description": "[aws:2019-09-23 19:32:49] Type",
+      "message": "Tapez"
+   },
+   "_URLBrowser": {
+      "description": "[aws:2019-09-23 19:32:53] URL / Browser",
+      "message": "URL/Navigateur"
+   },
+   "_URLDate": {
+      "description": "[claude:2026-10-22] URL / Date",
+      "message": "URL / Date"
+   },
+   "_URLcopiedtoclipboard": {
+      "description": "[claude:2026-10-22] URL copied to clipboard",
+      "message": "URL copiée dans le presse-papiers"
+   },
+   "_URLonbottom": {
+      "description": "[aws:2019-09-23 19:32:53] URL on bottom",
+      "message": "URL en bas"
+   },
+   "_URLontop": {
+      "description": "[aws:2019-09-23 19:32:54] URL on top",
+      "message": "URL en haut"
+   },
+   "_Unabletocopyimage": {
+      "description": "[claude:2026-10-22] Unable to copy image",
+      "message": "Impossible de copier l’image"
+   },
+   "_Unabletofindimage": {
+      "description": "[aws:2019-09-23 19:32:50] Unable to find image",
+      "message": "Impossible de trouver l'image"
+   },
+   "_Unabletoloadimage": {
+      "description": "[aws:2019-09-23 19:32:50] Unable to load image",
+      "message": "Impossible de charger l'image"
+   },
+   "_Undo": {
+      "description": "[aws:2019-09-23 19:32:51] Undo",
+      "message": "Annuler"
+   },
+   "_WatchDemo": {
+      "description": "[aws:2019-09-23 19:32:57] Watch Demo",
+      "message": "Regarder la démo"
+   },
+   "_WelcometoGoFullPage": {
+      "description": "[claude:2026-10-22] Welcome to GoFullPage",
+      "message": "Bienvenue sur GoFullPage"
+   },
+   "_WelcometotheGoFullPageEditor": {
+      "description": "[claude:2026-10-22] Welcome to the GoFullPage Editor!",
+      "message": "Bienvenue dans l’Éditeur GoFullPage !"
+   },
+   "_WelcometotheofficialGoFullPageEditor": {
+      "description": "[claude:2026-10-22] Welcome to the official GoFullPage Editor!",
+      "message": "Bienvenue dans l’Éditeur officiel GoFullPage !"
+   },
+   "_Wereexcitedtohaveyouaboard": {
+      "description": "[aws:2019-09-23 19:33:00] We’re excited to have you aboard.",
+      "message": "Nous sommes ravis de vous avoir à bord."
+   },
+   "_WhencopyingascreenshottoyourclipboardautoresizeitifitexceedstheGoogleDocscopypastelimit25000000pixelsYoumaystillexperienceissuespastingverylargeimagesintootherapplicationsforexampleGoogleDocssometimestruncatestheimageunlessyouresizeitmuchsmaller": {
+      "description": "[claude:2026-10-22] When copying a screenshot to your clipboard, auto-resize it if it exceeds the Google Docs copy-paste limit (25,000,000 pixels). You may still experience issues pasting very large images into other applications, for example Google Docs sometimes truncates the image unless you resize it much smaller.",
+      "message": "Lors de la copie d’une capture d’écran dans le presse-papiers, elle est redimensionnée automatiquement si elle dépasse la limite de copier-coller de Google Docs (25 000 000 pixels). Vous pouvez encore rencontrer des problèmes en collant de très grandes images dans d’autres applications ; par exemple, Google Docs tronque parfois l’image à moins de la réduire beaucoup plus."
+   },
+   "_Width": {
+      "description": "[aws:2019-09-23 19:33:00] Width",
+      "message": "Largeur"
+   },
+   "_Wouldyouliketoreportanyissuesyoureexperiencingsowecanimprovethisextensiontogether": {
+      "description": "[aws:2019-09-23 19:33:01] Would you like to report any issues you’re experiencing, so we can improve this extension together?",
+      "message": "Souhaitez-vous signaler tout problème que vous rencontrez, afin que nous puissions améliorer cette extension ensemble ?"
+   },
+   "_Yes": {
+      "description": "[aws:2019-09-23 19:33:01] Yes!",
+      "message": "- Oui !"
+   },
+   "_YoucanpintheextensionbyclickingthepuzzleiconinthetoprightofyourbrowserandselectingPintoToolbar": {
+      "description": "[claude:2026-10-22] You can pin the extension by clicking the puzzle icon in the top right of your browser and selecting \"Pin to Toolbar\":",
+      "message": "Vous pouvez épingler l’extension en cliquant sur l’icône en forme de pièce de puzzle en haut à droite de votre navigateur et en sélectionnant « Épingler à la barre d’outils » :"
+   },
+   "_Youcanstillcapturejustthevisiblecontentonthepage": {
+      "description": "[claude:2026-10-22] You can still capture just the visible content on the page.",
+      "message": "Vous pouvez toujours capturer uniquement le contenu visible de la page."
+   },
+   "_Youneedtograntthedownloadprivilegeinordertodownloadfiles": {
+      "description": "[aws:2019-09-23 19:33:04] You need to grant the download privilege in order to download files",
+      "message": "Vous devez accorder le privilège de téléchargement pour télécharger des fichiers"
+   },
+   "_Youneedtosignupinordertoexportyoureditedimage": {
+      "description": "[claude:2026-10-22] You need to sign up in order to export your edited image.",
+      "message": "Vous devez vous inscrire pour exporter votre image modifiée."
+   },
+   "_YourbrowserdoesnotsupporttheclipboardAPIpleaseupdatetothemostrecentversion": {
+      "description": "[claude:2026-10-22] Your browser does not support the clipboard API, please update to the most recent version.",
+      "message": "Votre navigateur ne prend pas en charge l’API du presse-papiers ; veuillez le mettre à jour vers la version la plus récente."
+   },
+   "_YourscreenshotslivehereinGoFullPageandstayprivateonthiscomputer": {
+      "description": "[claude:2026-10-22] Your screenshots live here in GoFullPage and stay private on this computer.",
+      "message": "Vos captures d’écran sont conservées ici dans GoFullPage et restent privées sur cet ordinateur."
+   },
+   "_Zoom": {
+      "description": "[aws:2019-09-23 19:33:04] Zoom",
+      "message": "Zoom"
+   },
+   "_Zoomin": {
+      "description": "[aws:2019-09-23 19:33:05] Zoom in",
+      "message": "Zoom avant"
+   },
+   "_Zoomout": {
+      "description": "[aws:2019-09-23 19:33:06] Zoom out",
+      "message": "Zoom arrière"
+   },
+   "_billedannually": {
+      "description": "[aws:2019-09-23 19:30:34] billed annually",
+      "message": "facturé annuellement"
+   },
+   "_cancelanytime": {
+      "description": "[aws:2019-09-23 19:30:36] cancel anytime",
+      "message": "annuler à tout moment"
+   },
+   "_fullimage": {
+      "description": "[aws:2019-09-23 19:31:16] full image",
+      "message": "image complète"
+   },
+   "_iFramepermission": {
+      "description": "[aws:2019-09-23 19:31:23] iFrame permission",
+      "message": "Autorisation iFrame"
+   },
+   "_numfilescouldnotberemoved": {
+      "description": "[aws:2019-09-23 19:31:46] $num$ files could not be removed.",
+      "message": "Les fichiers $num$ n'ont pas pu être supprimés.",
+      "placeholders": {
+         "num": {
+            "content": "$1",
+            "example": "2"
+         }
+      }
+   },
+   "_numfilesweresuccessfullyremoved": {
+      "description": "[aws:2019-09-23 19:31:47] $num$ files were successfully removed.",
+      "message": "Les fichiers $num$ ont été supprimés avec succès.",
+      "placeholders": {
+         "num": {
+            "content": "$1",
+            "example": "2"
+         }
+      }
+   },
+   "_or": {
+      "description": "[aws:2019-09-23 19:31:50] or",
+      "message": "ou"
+   },
+   "_restorefactorydefaults": {
+      "description": "[aws:2019-09-23 19:32:05] restore factory defaults",
+      "message": "restaurer les paramètres d'usine par défaut"
+   },
+   "_search": {
+      "description": "[aws:2019-09-23 19:32:11] search…",
+      "message": "recherche..."
+   },
+   "_upontrialcompletion": {
+      "description": "[aws:2019-09-23 19:32:52] upon trial completion",
+      "message": "à la fin de l'essai"
+   },
+   "_watchademovideo": {
+      "description": "[aws:2019-09-23 19:32:56] watch a demo video",
+      "message": "regarder une vidéo de démonstration"
+   },
+   "actionClose": {
+      "description": "[aws:2019-09-23 19:33:06] Close",
+      "message": "Fermer"
+   },
+   "actionDeleteImage": {
+      "description": "[aws:2019-09-23 19:33:07] Delete image",
+      "message": "Supprimer l'image"
+   },
+   "actionDownloadImage": {
+      "description": "[aws:2019-09-23 19:33:08] Download image",
+      "message": "Télécharger l'image"
+   },
+   "actionDownloadPDF": {
+      "description": "[aws:2019-09-23 19:33:08] Download PDF",
+      "message": "Télécharger PDF"
+   },
+   "actionEdit": {
+      "description": "[aws:2019-09-23 19:33:09] Edit",
+      "message": "Éditer"
+   },
+   "actionOK": {
+      "description": "[aws:2019-09-23 19:33:09] OK",
+      "message": "D'ACCORD"
+   },
+   "actionReport": {
+      "description": "[aws:2019-09-23 19:33:10] Report issue",
+      "message": "Signaler un problème"
+   },
+   "appDesc": {
+      "description": "[aws:2019-09-23 19:30:17] Capture a screenshot of your current page in entirety and reliably—without requesting any extra permissions!",
+      "message": "Capturez une capture d'écran de votre page actuelle en entier et de manière fiable, sans demander d'autorisation supplémentaire !"
+   },
+   "goPremiumHeader": {
+      "description": "[aws:2019-09-23 19:33:11] Take your screenshots to the next level with Full Page Premium",
+      "message": "Faites passer vos captures d'écran à un niveau supérieur avec Full Page Premium"
+   },
+   "goPremiumLink": {
+      "description": "[aws:2019-09-23 19:33:11] Learn more",
+      "message": "En savoir plus"
+   },
+   "goPremiumSignInLink": {
+      "description": "[aws:2019-09-23 19:33:12] Sign in",
+      "message": "Se connecter"
+   },
+   "goPremiumSignInMessage": {
+      "description": "[aws:2019-09-23 19:33:13] Already have an account?",
+      "message": "Vous avez déjà un compte ?"
+   },
+   "goPremiumSubHeader": {
+      "description": "[aws:2019-09-23 19:33:13] Speed up your workflow with advanced editing and annotation features directly in the extension!",
+      "message": "Accélérez votre flux de travail avec des fonctionnalités avancées d'édition et d'annotation directement dans l'extension !"
+   },
+   "hostPermissionGrant": {
+      "description": "[claude:2026-10-22] Grant access",
+      "message": "Autoriser l’accès"
+   },
+   "hostPermissionHeader": {
+      "description": "[claude:2026-10-22] Stay signed in to GoFullPage",
+      "message": "Restez connecté à GoFullPage"
+   },
+   "hostPermissionMessage": {
+      "description": "[claude:2026-10-22] The extension needs access to the GoFullPage website in order to check your account. This will trigger a dialog.",
+      "message": "L’extension a besoin d’accéder au site web de GoFullPage pour vérifier votre compte. Une boîte de dialogue s’affichera."
+   },
+   "hostPermissionSignInLink": {
+      "description": "[claude:2026-10-22] Sign in on the website",
+      "message": "Connectez-vous sur le site web"
+   },
+   "hostPermissionSkipLink": {
+      "description": "[claude:2026-10-22] continue signed out",
+      "message": "continuer sans être connecté"
+   },
+   "hostPermissionSkipMessage": {
+      "description": "[claude:2026-10-22] Rather not?",
+      "message": "Vous préférez ne pas le faire ?"
+   },
+   "hostPermissionSkipOr": {
+      "description": "[claude:2026-10-22] or",
+      "message": "ou"
+   },
+   "navFiles": {
+      "description": "[claude:2026-10-22] Files",
+      "message": "Fichiers"
+   },
+   "navOptions": {
+      "description": "[aws:2019-09-23 19:33:16] Options",
+      "message": "Options"
+   },
+   "tryEditingNo": {
+      "description": "[aws:2019-09-23 19:33:16] No thanks",
+      "message": "Non merci."
+   },
+   "tryEditingRequest": {
+      "description": "[aws:2019-09-23 19:33:17] Try editing and annotating your screenshot",
+      "message": "Essayez d'éditer et d'annoter votre capture d'écran"
+   },
+   "tryEditingYes": {
+      "description": "[aws:2019-09-23 19:33:18] Ok!",
+      "message": "D'accord !"
+   }
+}

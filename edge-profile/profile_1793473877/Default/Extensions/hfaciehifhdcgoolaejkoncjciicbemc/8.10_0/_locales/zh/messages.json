@@ -1,0 +1,1124 @@
+{
+   "_1filecouldnotberemoved": {
+      "description": "[aws:2019-09-23 03:01:00] 1 file could not be removed.",
+      "message": "1 个文件无法删除。"
+   },
+   "_1filewassuccessfullyremoved": {
+      "description": "[aws:2019-09-23 03:01:01] 1 file was successfully removed.",
+      "message": "1 个文件已成功删除。"
+   },
+   "_ActivateallthelinksonthepagewhendownloadingasaPDFClickingonthelinkinthePDFwillopenapageinyourbrowser": {
+      "description": "[claude:2026-10-22] Activate all the links on the page when downloading as a PDF. Clicking on the link in the PDF will open a page in your browser.",
+      "message": "以 PDF 格式下载时激活页面上的所有链接。点击 PDF 中的链接将在浏览器中打开页面。"
+   },
+   "_ActiveLinks": {
+      "description": "[claude:2026-10-22] Active Links",
+      "message": "可点击链接"
+   },
+   "_AddURLanddatetime": {
+      "description": "[claude:2026-10-22] Add URL and date/time",
+      "message": "添加网址和日期/时间"
+   },
+   "_AddyourscreenshotsURLandcapturedatetimewhenexportingtoPDFfromthemainviewscreenshotpageYoucanaddURLandcapturedateintheEditorfromtheMoremenu": {
+      "description": "[claude:2026-10-22] Add your screenshot’s URL and capture date/time when exporting to PDF from the main view screenshot page. You can add URL and capture date in the Editor from the “More” menu.",
+      "message": "从截图主视图页面导出为 PDF 时，添加截图的网址和截取日期/时间。在编辑器中，可以从“更多”菜单添加网址和截取日期。"
+   },
+   "_Adjustrepeatingelements": {
+      "description": "[aws:2019-09-23 03:01:01] Adjust repeating elements",
+      "message": "调整重复元素"
+   },
+   "_Advancedscrolling": {
+      "description": "[aws:2019-09-23 03:01:02] Advanced scrolling",
+      "message": "高级滚动"
+   },
+   "_Align": {
+      "description": "[aws:2019-09-23 03:01:03] Align",
+      "message": "对齐"
+   },
+   "_Alleditsareautosaved": {
+      "description": "[claude:2026-10-22] All edits are auto-saved",
+      "message": "所有编辑均会自动保存"
+   },
+   "_AllowsGoFullPagetocollectbasictechnicalandinteractiondataegbrowsertypefeatureusagetohelpimprovetheextensionNodataiscollecteduntilthisisgranted": {
+      "description": "[claude:2026-10-22] Allows GoFullPage to collect basic technical and interaction data (e.g. browser type, feature usage) to help improve the extension. No data is collected until this is granted.",
+      "message": "允许 GoFullPage 收集基本的技术和交互数据（例如浏览器类型、功能使用情况），以帮助改进扩展程序。在授予此权限之前，不会收集任何数据。"
+   },
+   "_Analyticspermission": {
+      "description": "[claude:2026-10-22] Analytics permission",
+      "message": "分析权限"
+   },
+   "_AndclickthepinnexttoGoFullPagesoitturnsblue": {
+      "description": "[claude:2026-10-22] And click the pin next to “GoFullPage” so it turns blue:",
+      "message": "然后点击“GoFullPage”旁边的图钉，使其变为蓝色："
+   },
+   "_Anyissues": {
+      "description": "[aws:2019-09-23 03:01:03] Any issues?",
+      "message": "有什么问题吗？"
+   },
+   "_Areyouenjoyingthisextension": {
+      "description": "[aws:2019-09-23 03:01:05] Are you enjoying this extension?",
+      "message": "你喜欢这个扩展吗？"
+   },
+   "_Areyousureyouwanttodelete1screencaptureThisactioncannotbeundone": {
+      "description": "[aws:2019-09-23 03:01:05] Are you sure you want to delete 1 screencapture?\n (This action cannot be undone.)",
+      "message": "您确定要删除 1 个屏幕截图吗？\n （此操作无法撤消。）"
+   },
+   "_AreyousureyouwanttodeletecountscreencapturesThisactioncannotbeundone": {
+      "description": "[aws:2019-09-23 03:01:06] Are you sure you want to delete $count$ screen captures?\n (This action cannot be undone.)",
+      "message": "您确定要删除 $count$ 屏幕截图吗？\n （此操作无法撤消。）",
+      "placeholders": {
+         "count": {
+            "content": "$1",
+            "example": "2"
+         }
+      }
+   },
+   "_AreyousureyouwanttodeletethisscreenshotThisactioncannotbeundone": {
+      "description": "[aws:2019-09-23 03:01:07] Are you sure you want to delete this screenshot?\n(This action cannot be undone.)",
+      "message": "您确定要删除此屏幕截图吗？\n（此操作无法撤消。）"
+   },
+   "_Areyousureyouwanttoresettotheextensionsoriginalthemedefaults": {
+      "description": "[aws:2019-09-23 03:01:08] Are you sure you want to reset to the extension’s original theme defaults?",
+      "message": "您确定要重置为扩展的原始主题默认值吗？"
+   },
+   "_Arrow": {
+      "description": "[aws:2019-09-23 03:01:08] Arrow",
+      "message": "箭头"
+   },
+   "_Autodownloadfiles": {
+      "description": "[aws:2019-09-23 03:01:09] Auto-download files",
+      "message": "自动下载文件"
+   },
+   "_AutomaticallydownloadyourscreenshotasanimageinsteadofopeningitinanewwindowThismeanstheextensioncapturetabwillnotopenYoucanreturnbackherebyrightclickingontheextensionandselectingOptions": {
+      "description": "[claude:2026-10-22] Automatically download your screenshot as an image instead of opening it in a new window.This means the extension capture tab will not open. You can return back here by right-clicking on the extension and selecting \"Options\".",
+      "message": "自动将截图作为图片下载，而不是在新窗口中打开。这意味着扩展程序的截图标签页不会打开。你可以右键点击扩展程序并选择“选项”返回此处。"
+   },
+   "_AutomaticallyshowasaveasdialogwhendownloadingyourscreenshotsIftheAskwheretosaveeachfilebeforedownloadingoptionisenabledinyourbrowserssettingsthenthattakespriority": {
+      "description": "[claude:2026-10-22] Automatically show a \"save as\" dialog when downloading your screenshots. If the “Ask where to save each file before downloading” option is enabled in your browser’s settings, then that takes priority.",
+      "message": "下载截图时自动显示“另存为”对话框。如果浏览器设置中启用了“下载前询问每个文件的保存位置”选项，则以该选项为准。"
+   },
+   "_Backtocapturechangesareautosavedintheeditor": {
+      "description": "[claude:2026-10-22] Back to capture (changes are auto-saved in the editor)",
+      "message": "返回截图（更改会在编辑器中自动保存）"
+   },
+   "_Betafeatures": {
+      "description": "[claude:2026-10-22] Beta features",
+      "message": "测试版功能"
+   },
+   "_Blur": {
+      "description": "[aws:2019-09-23 03:01:13] Blur",
+      "message": "模糊"
+   },
+   "_Bold": {
+      "description": "[aws:2019-09-23 03:01:14] Bold",
+      "message": "大胆"
+   },
+   "_Bonuswehaveaddednewtimestampformatstoo": {
+      "description": "[claude:2026-10-22] Bonus: we have added new timestamp formats too!",
+      "message": "额外福利：我们还新增了时间戳格式！"
+   },
+   "_Cannotdownloadfiles": {
+      "description": "[aws:2019-09-23 03:01:15] Cannot download files",
+      "message": "无法下载文件"
+   },
+   "_Capture": {
+      "description": "[aws:2019-09-23 03:01:16] Capture",
+      "message": "捕捉"
+   },
+   "_Clickdraginlayerspane": {
+      "description": "[aws:2019-09-23 03:01:21] Click + drag in layers pane",
+      "message": "在图层窗格中单击 + 拖动"
+   },
+   "_Color": {
+      "description": "[aws:2019-09-23 03:01:21] Color",
+      "message": "颜色"
+   },
+   "_Continueediting": {
+      "description": "[aws:2019-09-23 03:01:23] Continue editing",
+      "message": "继续编辑"
+   },
+   "_CopyImage": {
+      "description": "[claude:2026-10-22] Copy Image",
+      "message": "复制图片"
+   },
+   "_Copyingimagepleasewait": {
+      "description": "[claude:2026-10-22] Copying image, please wait…",
+      "message": "正在复制图片，请稍候…"
+   },
+   "_CopyoriginalURL": {
+      "description": "[claude:2026-10-22] Copy original URL",
+      "message": "复制原始网址"
+   },
+   "_Copytoclipboard": {
+      "description": "[claude:2026-10-22] Copy to clipboard",
+      "message": "复制到剪贴板"
+   },
+   "_CreatedPDF": {
+      "description": "[claude:2026-10-22] Created PDF!",
+      "message": "PDF 已创建！"
+   },
+   "_CreatingPDF": {
+      "description": "[claude:2026-10-22] Creating PDF:",
+      "message": "正在创建 PDF："
+   },
+   "_CropImage": {
+      "description": "[aws:2019-09-23 03:01:24] Crop Image",
+      "message": "裁剪图像"
+   },
+   "_Cropeditannotateandexportpremium": {
+      "description": "[claude:2026-10-22] Crop, edit, annotate, and export (premium)",
+      "message": "裁剪、编辑、标注和导出（高级版）"
+   },
+   "_Customfilename": {
+      "description": "[claude:2026-10-22] Custom filename",
+      "message": "自定义文件名"
+   },
+   "_DateTimeofCapture": {
+      "description": "[claude:2026-10-22] Date & Time of Capture",
+      "message": "截取日期和时间"
+   },
+   "_Dateformat": {
+      "description": "[claude:2026-10-22] Date format",
+      "message": "日期格式"
+   },
+   "_Delete": {
+      "description": "[aws:2019-09-23 03:01:25] Delete",
+      "message": "删除"
+   },
+   "_Deletecurrentselection": {
+      "description": "[aws:2019-09-23 03:01:26] Delete current selection",
+      "message": "删除当前选择"
+   },
+   "_Demovideos": {
+      "description": "[claude:2026-10-22] Demo videos",
+      "message": "演示视频"
+   },
+   "_Directory": {
+      "description": "[aws:2019-09-23 03:01:26] Directory",
+      "message": "目录"
+   },
+   "_Displaythecapturedateinthisformatorhideitentirely": {
+      "description": "[claude:2026-10-22] Display the capture date in this format or hide it entirely.",
+      "message": "以此格式显示截取日期，或将其完全隐藏。"
+   },
+   "_Document": {
+      "description": "[aws:2019-09-23 03:01:27] Document",
+      "message": "文件"
+   },
+   "_Documentedits": {
+      "description": "[aws:2019-09-23 03:01:28] Document edits",
+      "message": "文档编辑"
+   },
+   "_DoneCropping": {
+      "description": "[aws:2019-09-23 03:01:29] Done Cropping",
+      "message": "完成裁剪"
+   },
+   "_DontworryyourfavoritefeaturesarestillhereCropURLdatestampandpaddingarenowinthenewFormattingmenuWatchahrefhttpsgofullpagecomdemoseditortargetblankandrelnoopenernoreferrerthedemoatoseemore": {
+      "description": "[claude:2026-10-22] Don’t worry, your favorite features are still here! Crop, URL, datestamp, and padding are now in the new “Formatting” menu. Watch \u003Ca href=\"https://gofullpage.com/demos#editor\" target=\"_blank\" and rel=\"noopener noreferrer\">the demo\u003C/a> to see more.",
+      "message": "别担心，你喜爱的功能都还在！裁剪、网址、日期戳和边距现在位于新的“格式”菜单中。观看\u003Ca href=\"https://gofullpage.com/demos#editor\" target=\"_blank\" and rel=\"noopener noreferrer\">演示\u003C/a>了解更多。"
+   },
+   "_Download": {
+      "description": "[aws:2019-09-23 03:01:29] Download",
+      "message": "下载"
+   },
+   "_DownloadExport": {
+      "description": "[aws:2019-09-23 03:01:30] Download & Export",
+      "message": "下载和导出"
+   },
+   "_Downloadpermissionisrequired": {
+      "description": "[aws:2019-09-23 03:01:31] Download permission is required",
+      "message": "需要下载权限"
+   },
+   "_Downloadpermissionnotgranted": {
+      "description": "[aws:2019-09-23 03:01:31] Download permission not granted",
+      "message": "未授予下载权限"
+   },
+   "_Downloads": {
+      "description": "[claude:2026-10-22] Downloads",
+      "message": "下载"
+   },
+   "_Downloadspermission": {
+      "description": "[aws:2019-09-23 03:01:32] Downloads permission",
+      "message": "下载权限"
+   },
+   "_Draglayercontrolpoints": {
+      "description": "[aws:2019-09-23 03:01:33] Drag layer control points",
+      "message": "拖动图层控制点"
+   },
+   "_Duplicateselection": {
+      "description": "[aws:2019-09-23 03:01:33] Duplicate selection",
+      "message": "重复选择"
+   },
+   "_EditImage": {
+      "description": "[claude:2026-10-22] Edit Image",
+      "message": "编辑图片"
+   },
+   "_Edited": {
+      "description": "[aws:2019-09-23 03:01:34] Edited",
+      "message": "编辑"
+   },
+   "_Elements": {
+      "description": "[aws:2019-09-23 03:01:35] Elements",
+      "message": "元素"
+   },
+   "_Emoji": {
+      "description": "[aws:2019-09-23 03:01:35] Emoji",
+      "message": "表情符號"
+   },
+   "_Enabled": {
+      "description": "[aws:2019-09-23 03:01:36] Enabled",
+      "message": "已启用"
+   },
+   "_Entertexthere": {
+      "description": "[aws:2019-09-23 03:01:37] Enter text here",
+      "message": "在此输入文本"
+   },
+   "_ErrorcopyingURL": {
+      "description": "[claude:2026-10-22] Error copying URL",
+      "message": "复制网址时出错"
+   },
+   "_Errordownloadingfile": {
+      "description": "[aws:2019-09-23 03:01:38] Error downloading file",
+      "message": "下载文件时出错"
+   },
+   "_Errordownloadingfiles": {
+      "description": "[aws:2019-09-23 03:01:40] Error downloading files",
+      "message": "下载文件时出错"
+   },
+   "_ErrorhandlingfilesPleasereportthisviatheflagreportingbuttonabove": {
+      "description": "[aws:2019-09-23 03:01:42] Error handling files. Please report this via the flag reporting button above.",
+      "message": "处理文件时出错。 请通过上面的标志报告按钮进行报告。"
+   },
+   "_Errorloadinghistory": {
+      "description": "[aws:2019-09-23 03:01:43] Error loading history",
+      "message": "加载历史记录时出错"
+   },
+   "_Errorloadingimage": {
+      "description": "[aws:2019-09-23 03:01:43] Error loading image",
+      "message": "加载图像时出错"
+   },
+   "_Erroropeningscreenshot": {
+      "description": "[aws:2019-09-23 03:01:44] Error opening screenshot",
+      "message": "打开屏幕截图时出错"
+   },
+   "_Errorremovingscreenshot": {
+      "description": "[aws:2019-09-23 03:01:45] Error removing screenshot",
+      "message": "删除屏幕截图时出错"
+   },
+   "_Example": {
+      "description": "[claude:2026-10-22] Example:",
+      "message": "示例："
+   },
+   "_Exitzoom": {
+      "description": "[aws:2019-09-23 03:01:45] Exit zoom",
+      "message": "退出缩放"
+   },
+   "_Export": {
+      "description": "[aws:2019-09-23 03:01:46] Export",
+      "message": "出口"
+   },
+   "_ExportImageAs": {
+      "description": "[claude:2026-10-22] Export Image As…",
+      "message": "导出图片为…"
+   },
+   "_ExportPDFAs": {
+      "description": "[claude:2026-10-22] Export PDF As…",
+      "message": "导出 PDF 为…"
+   },
+   "_Exportsaveas": {
+      "description": "[claude:2026-10-22] Export save as",
+      "message": "导出/另存为"
+   },
+   "_Filenolongerexistsperhapsithasbeenclearedfromyourbrowser": {
+      "description": "[aws:2019-09-23 03:01:47] File no longer exists—perhaps it has been cleared from your browser",
+      "message": "文件不再存在-可能已从浏览器中清除"
+   },
+   "_Files": {
+      "description": "[claude:2026-10-22] Files",
+      "message": "文件"
+   },
+   "_Fill": {
+      "description": "[aws:2019-09-23 03:01:48] Fill",
+      "message": "填充"
+   },
+   "_FitcopiestoGoogleDocslimits": {
+      "description": "[claude:2026-10-22] Fit copies to Google Docs limits",
+      "message": "使复制内容符合 Google 文档的限制"
+   },
+   "_Font": {
+      "description": "[aws:2019-09-23 03:01:48] Font",
+      "message": "字体"
+   },
+   "_Foradditionalinformationyoucancheckout": {
+      "description": "[claude:2026-10-22] For additional information, you can check out:",
+      "message": "如需更多信息，可以查看："
+   },
+   "_Format": {
+      "description": "[claude:2026-10-22] Format",
+      "message": "格式"
+   },
+   "_Formatting": {
+      "description": "[claude:2026-10-22] Formatting",
+      "message": "格式"
+   },
+   "_Frequentlyaskedquestions": {
+      "description": "[claude:2026-10-22] Frequently asked questions",
+      "message": "常见问题"
+   },
+   "_Getstarted": {
+      "description": "[aws:2019-09-23 03:01:49] Get started",
+      "message": "开始使用"
+   },
+   "_Goback": {
+      "description": "[claude:2026-10-22] Go back",
+      "message": "返回"
+   },
+   "_Gotit": {
+      "description": "[aws:2019-09-23 03:01:50] Got it!",
+      "message": "明白了！"
+   },
+   "_GotoAccount": {
+      "description": "[claude:2026-10-22] Go to Account",
+      "message": "前往账户"
+   },
+   "_GotoFiles": {
+      "description": "[claude:2026-10-22] Go to Files",
+      "message": "前往文件"
+   },
+   "_GotoOptions": {
+      "description": "[claude:2026-10-22] Go to Options",
+      "message": "前往选项"
+   },
+   "_Help": {
+      "description": "[aws:2019-09-23 03:01:51] Help",
+      "message": "救命啊"
+   },
+   "_HelpShortcuts": {
+      "description": "[aws:2019-09-23 03:01:52] Help / Shortcuts",
+      "message": "帮助/快捷方式"
+   },
+   "_Hooray": {
+      "description": "[aws:2019-09-23 03:01:53] Hooray",
+      "message": "胡丽"
+   },
+   "_Icon": {
+      "description": "[aws:2019-09-23 03:01:54] Icon",
+      "message": "图标"
+   },
+   "_Ifthispersistspleasereportitviatheflagreportingbuttonabove": {
+      "description": "[aws:2019-09-23 03:01:55] If this persists, please report it via the flag reporting button above.",
+      "message": "如果这种情况仍然存在，请通过上面的标志报告按钮进行报告。"
+   },
+   "_IfyoudliketotrythisfeatureinthefutureclickontheEditbuttonuptop": {
+      "description": "[aws:2019-09-23 03:01:56] If you’d like to try this feature in the future, click on the “Edit” button up top.",
+      "message": "如果您将来想尝试此功能，请点击顶部的 “编辑” 按钮。"
+   },
+   "_IfyoudontseethecameraiconthenclicktheExtensionspuzzleiconinthetoprightofyourbrowser": {
+      "description": "[claude:2026-10-22] If you don’t see the camera icon, then click the “Extensions” puzzle icon in the top right of your browser:",
+      "message": "如果看不到相机图标，请点击浏览器右上角的拼图形“扩展程序”图标："
+   },
+   "_Imagecopiedtoclipboard": {
+      "description": "[claude:2026-10-22] Image copied to clipboard",
+      "message": "图片已复制到剪贴板"
+   },
+   "_Imagedeleted": {
+      "description": "[aws:2019-09-23 03:01:57] Image deleted",
+      "message": "图像已删除"
+   },
+   "_Imageformat": {
+      "description": "[claude:2026-10-22] Image format",
+      "message": "图片格式"
+   },
+   "_Insertshapes": {
+      "description": "[aws:2019-09-23 03:01:58] Insert shapes",
+      "message": "插入形状"
+   },
+   "_Italic": {
+      "description": "[aws:2019-09-23 03:01:59] Italic",
+      "message": "斜体"
+   },
+   "_Layers": {
+      "description": "[aws:2019-09-23 03:02:00] Layers",
+      "message": "层"
+   },
+   "_Learnmore": {
+      "description": "[aws:2019-09-23 03:02:00] Learn more",
+      "message": "了解更多信息"
+   },
+   "_Line": {
+      "description": "[aws:2019-09-23 03:02:01] Line",
+      "message": "线路"
+   },
+   "_LogintoExport": {
+      "description": "[aws:2019-09-23 03:02:02] Login to Export",
+      "message": "登录以导出"
+   },
+   "_Lookforanelementwithinthepagewithitsownscrollbarsandscrollthatitemduringthecapture": {
+      "description": "[aws:2019-09-23 03:02:03] Look for an element within the page with its own scroll bars and scroll that item during the capture.",
+      "message": "在页面中查找具有自己滚动条的元素，并在捕获过程中滚动该项目。"
+   },
+   "_Mightyouconsidertakingaminutetorateitinthewebstore": {
+      "description": "[claude:2026-10-22] Might you consider taking a minute to rate it in the $webstore$?",
+      "message": "能否花一分钟在 $webstore$ 中为它评分？",
+      "placeholders": {
+         "webstore": {
+            "content": "$1",
+            "example": "web store"
+         }
+      }
+   },
+   "_More": {
+      "description": "[aws:2019-09-23 03:02:05] More",
+      "message": "再来一点"
+   },
+   "_Mouseorarrowkeys": {
+      "description": "[aws:2019-09-23 03:02:05] Mouse or arrow keys",
+      "message": "鼠标键或箭头键"
+   },
+   "_Mouseorlayerspane": {
+      "description": "[aws:2019-09-23 03:02:06] Mouse or layers pane",
+      "message": "鼠标或图层窗格"
+   },
+   "_Movelayer": {
+      "description": "[aws:2019-09-23 03:02:07] Move layer",
+      "message": "移动图层"
+   },
+   "_None": {
+      "description": "[aws:2019-09-23 03:02:07] None",
+      "message": "没有"
+   },
+   "_NoscreencapturesfoundGomakesome": {
+      "description": "[aws:2019-09-23 03:02:08] No screen captures found. Go make some!",
+      "message": "未找到屏幕截图。 去做一些！"
+   },
+   "_Nothanks": {
+      "description": "[aws:2019-09-23 03:02:09] No, thanks.",
+      "message": "不，谢谢。"
+   },
+   "_Nothankscontinueediting": {
+      "description": "[aws:2019-09-23 03:02:09] No thanks continue editing",
+      "message": "不，谢谢继续编辑"
+   },
+   "_Notreally": {
+      "description": "[aws:2019-09-23 03:02:10] Not really",
+      "message": "不是真的"
+   },
+   "_On": {
+      "description": "[aws:2019-09-23 03:02:12] On",
+      "message": "上"
+   },
+   "_OpenoriginalURL": {
+      "description": "[claude:2026-10-22] Open original URL",
+      "message": "打开原始网址"
+   },
+   "_Orderlayer": {
+      "description": "[aws:2019-09-23 03:02:15] Order layer",
+      "message": "订单层"
+   },
+   "_Outline": {
+      "description": "[aws:2019-09-23 03:02:16] Outline",
+      "message": "大纲"
+   },
+   "_Oval": {
+      "description": "[aws:2019-09-23 03:02:16] Oval",
+      "message": "椭圆形"
+   },
+   "_PDFexport": {
+      "description": "[claude:2026-10-22] PDF export",
+      "message": "PDF 导出"
+   },
+   "_PNGislosslessandshouldmatchexactlywhatisseenonthescreenbutwillusuallyhavelargerfilesizesthanJPGwhichusescompression": {
+      "description": "[aws:2019-09-23 03:02:22] PNG is lossless and should match exactly what is seen on the screen, but will usually have larger file sizes than JPG, which uses compression.",
+      "message": "PNG 是无损的，应该与屏幕上看到的内容完全匹配，但通常比使用压缩的 JPG 更大的文件大小。"
+   },
+   "_Pad": {
+      "description": "[aws:2019-09-23 03:02:17] Pad",
+      "message": "垫"
+   },
+   "_Padding": {
+      "description": "[aws:2019-09-23 03:02:18] Padding",
+      "message": "填充"
+   },
+   "_PaddingBorder": {
+      "description": "[aws:2019-09-23 03:02:18] Padding / Border",
+      "message": "填充/边框"
+   },
+   "_Papersize": {
+      "description": "[claude:2026-10-22] Paper size",
+      "message": "纸张大小"
+   },
+   "_PerformextracheckswhensplittingaPDFacrossmultiplepagestotrytopreventitfromcuttinglinesoftextinhalfOtherwisethescreenshotissplitatthepapersizeheightregardlessofitscontent": {
+      "description": "[claude:2026-10-22] Perform extra checks when splitting a PDF across multiple pages to try to prevent it from cutting lines of text in half. Otherwise, the screenshot is split at the paper size height regardless of its content.",
+      "message": "将 PDF 拆分为多页时执行额外检查，尽量避免将文本行从中间截断。否则，截图会按纸张高度拆分，而不考虑其内容。"
+   },
+   "_Permissionneededtodownloadfiles": {
+      "description": "[aws:2019-09-23 03:02:20] Permission needed to download files",
+      "message": "下载文件所需的权限"
+   },
+   "_Permissions": {
+      "description": "[aws:2019-09-23 03:02:20] Permissions",
+      "message": "权限"
+   },
+   "_Persistiframepermissions": {
+      "description": "[claude:2026-10-22] Persist iframe permissions",
+      "message": "保留 iframe 权限"
+   },
+   "_PleasetryagainandwaittoseetheImagecopiedtoclipboardmessagebeforeswitchingtoanotherwindow": {
+      "description": "[claude:2026-10-22] Please try again and wait to see the “Image copied to clipboard” message before switching to another window.",
+      "message": "请重试，并在切换到其他窗口之前等待出现“图片已复制到剪贴板”消息。"
+   },
+   "_Position": {
+      "description": "[aws:2019-09-23 03:02:22] Position",
+      "message": "位置"
+   },
+   "_Premiumfeature": {
+      "description": "[claude:2026-10-22] Premium feature",
+      "message": "高级版功能"
+   },
+   "_Radius": {
+      "description": "[aws:2019-09-23 03:02:23] Radius",
+      "message": "半径"
+   },
+   "_Rectangle": {
+      "description": "[aws:2019-09-23 03:02:24] Rectangle",
+      "message": "矩形"
+   },
+   "_Redo": {
+      "description": "[aws:2019-09-23 03:02:25] Redo",
+      "message": "重做"
+   },
+   "_Removefiles": {
+      "description": "[aws:2019-09-23 03:02:25] Remove files",
+      "message": "删除文件"
+   },
+   "_Reportissue": {
+      "description": "[aws:2019-09-23 03:02:26] Report issue.",
+      "message": "报告问题。"
+   },
+   "_Resizelayer": {
+      "description": "[aws:2019-09-23 03:02:27] Resize layer",
+      "message": "调整图层大小"
+   },
+   "_Roundedcorners": {
+      "description": "[aws:2019-09-23 03:02:28] Rounded corners",
+      "message": "圆角"
+   },
+   "_SaveImageAs": {
+      "description": "[claude:2026-10-22] Save Image As…",
+      "message": "图片另存为…"
+   },
+   "_SavePDFAs": {
+      "description": "[claude:2026-10-22] Save PDF As…",
+      "message": "PDF 另存为…"
+   },
+   "_Saveas": {
+      "description": "[aws:2019-09-23 03:02:29] Save as",
+      "message": "另存为"
+   },
+   "_SavethispermissionifacceptedforfuturecapturesItcanstillberevokedlaterfromtheoptionspage": {
+      "description": "[aws:2019-09-23 03:02:31] Save this permission (if accepted) for future captures. It can still be revoked later from the options page.",
+      "message": "保存此权限（如果接受）以供将来捕获。 它仍然可以在稍后从选项页面撤销。"
+   },
+   "_Select1ormorescreenshotstousethisaction": {
+      "description": "[aws:2019-09-23 03:02:34] Select 1 or more screenshots to use this action.",
+      "message": "选择 1 个或多个屏幕截图以使用此操作。"
+   },
+   "_Selected": {
+      "description": "[aws:2019-09-23 03:02:35] Selected",
+      "message": "已选择"
+   },
+   "_Selectlayer": {
+      "description": "[aws:2019-09-23 03:02:35] Select layer",
+      "message": "选择图层"
+   },
+   "_Setthemedefaults": {
+      "description": "[aws:2019-09-23 03:02:36] Set theme defaults",
+      "message": "设置主题默认值"
+   },
+   "_Shapes": {
+      "description": "[aws:2019-09-23 03:02:37] Shapes",
+      "message": "形状"
+   },
+   "_SignIn": {
+      "description": "[claude:2026-10-22] Sign In",
+      "message": "登录"
+   },
+   "_SignUp": {
+      "description": "[claude:2026-10-22] Sign Up",
+      "message": "注册"
+   },
+   "_Signinwithexistingaccount": {
+      "description": "[claude:2026-10-22] Sign in with existing account",
+      "message": "使用现有账户登录"
+   },
+   "_SignupforPremiuminordertoexportyouredits": {
+      "description": "[claude:2026-10-22] Sign up for Premium in order to export your edits.",
+      "message": "注册高级版即可导出你的编辑内容。"
+   },
+   "_Signupforafree7daytrialtounlocktheeditoranddownloadyourmasterpiece": {
+      "description": "[aws:2019-09-23 03:02:38] Sign up for a free 7-day trial to unlock the editor and download your masterpiece.",
+      "message": "注册免费的 7 天试用版，解锁编辑器并下载您的杰作。"
+   },
+   "_SignuptoExport": {
+      "description": "[aws:2019-09-23 03:02:38] Sign up to Export",
+      "message": "注册以导出"
+   },
+   "_Size": {
+      "description": "[aws:2019-09-23 03:02:39] Size",
+      "message": "尺寸"
+   },
+   "_Smartpagesplitting": {
+      "description": "[claude:2026-10-22] Smart page splitting",
+      "message": "智能分页"
+   },
+   "_Somemenuoptionshavemoved": {
+      "description": "[claude:2026-10-22] Some menu options have moved!",
+      "message": "部分菜单选项已移动！"
+   },
+   "_Somethingwentwrongdeletingyourscreenshot": {
+      "description": "[aws:2019-09-23 03:02:40] Something went wrong deleting your screenshot.",
+      "message": "删除您的屏幕截图出错。"
+   },
+   "_Somethingwentwrongopeningthisscreenshotintoanew": {
+      "description": "[aws:2019-09-23 03:02:40] Something went wrong opening this screenshot into a new.",
+      "message": "打开这个屏幕截图成一个新的出现了问题。"
+   },
+   "_SometimeselementslikeabacktotopbuttonorastickyfooterwillrepeatonthepageThistriestopositionthemabsolutelytostopthemfromrepeatinginascreeshot": {
+      "description": "[aws:2019-09-23 03:02:41] Sometimes elements, like a “back to top” button or a sticky footer will repeat on the page. This tries to position them absolutely to stop them from repeating in a screeshot.",
+      "message": "有时，像 “返回到顶部” 按钮或粘页脚等元素会在页面上重复。 这试图绝对定位它们以阻止它们在屏幕热线中重复。"
+   },
+   "_Sorry": {
+      "description": "[aws:2019-09-23 03:02:42] Sorry",
+      "message": "对不起"
+   },
+   "_SpecifyadirectoryunderneathyourdownloadsdirectorytosaveyourscreenshotssuchasscreencapturesDefaultstothedownloadsdirectoryifblankPleaselimitittolettersnumbersdashesunderscoresandslashesinvalidcharacterswillautomaticallyberemoved": {
+      "description": "[aws:2019-09-23 03:02:43] Specify a directory underneath your downloads directory to save your screenshots, such as “screencaptures”. Defaults to the downloads directory if blank. (Please limit it to letters, numbers, dashes, underscores, and slashes—invalid characters will automatically be removed).",
+      "message": "在下载目录下指定一个目录以保存屏幕截图，例如 “屏幕截图”。 如果为空，则默认为下载目录。 （请将其限制为字母、数字、短划线、下划线和斜线-无效字符将被自动删除）。"
+   },
+   "_SpecifytheformatsizeofPDFsforwhenexportingtoPDF": {
+      "description": "[aws:2019-09-23 03:02:44] Specify the format size of PDFs for when exporting to PDF.",
+      "message": "指定导出为 PDF 时的 PDF 格式大小。"
+   },
+   "_Startyourfreetrial": {
+      "description": "[aws:2019-09-23 03:02:45] Start your free trial",
+      "message": "开始免费试用"
+   },
+   "_Stickers": {
+      "description": "[aws:2019-09-23 03:02:45] Stickers",
+      "message": "贴纸"
+   },
+   "_Stillloading": {
+      "description": "[aws:2019-09-23 03:02:46] Still loading",
+      "message": "仍在加载"
+   },
+   "_Tabspermission": {
+      "description": "[claude:2026-10-22] Tabs permission",
+      "message": "标签页权限"
+   },
+   "_Takeascreenshotofanentirewebpageinjustoneclickoftheextensionsiconinthetoprightofbrowser": {
+      "description": "[claude:2026-10-22] Take a screenshot of an entire web page in just one click of the extension’s icon in the top right of $browser$",
+      "message": "只需点击 $browser$ 右上角的扩展程序图标，即可截取整个网页",
+      "placeholders": {
+         "browser": {
+            "content": "$1",
+            "example": "Chrome"
+         }
+      }
+   },
+   "_Takemetothewebstore": {
+      "description": "[claude:2026-10-22] Take me to the $webstore$!",
+      "message": "带我去 $webstore$！",
+      "placeholders": {
+         "webstore": {
+            "content": "$1",
+            "example": "web store"
+         }
+      }
+   },
+   "_Text": {
+      "description": "[aws:2019-09-23 03:02:47] Text",
+      "message": "文本"
+   },
+   "_ThankyouforsupportingGoFullPage": {
+      "description": "[claude:2026-10-22] Thank you for supporting GoFullPage",
+      "message": "感谢你对 GoFullPage 的支持"
+   },
+   "_Thebestandsafestwaytocaptureascreenshotofanentirewebpage": {
+      "description": "[aws:2019-09-23 03:02:49] The best and safest way to capture a screenshot of an entire web page.",
+      "message": "捕获整个网页屏幕截图的最佳和最安全的方式。"
+   },
+   "_ThebrowserpreventsextensionsfromsavingfilesoutsideofthedefaultdownloadsdirectoryThepathyouenteredhasbeenupdatedaccordinglySorry": {
+      "description": "[claude:2026-10-22] The browser prevents extensions from saving files outside of the default downloads directory. The path you entered has been updated accordingly. Sorry!",
+      "message": "浏览器禁止扩展程序将文件保存到默认下载目录之外。你输入的路径已相应更新。抱歉！"
+   },
+   "_ThedownloadpermissionisrequiredtoenablethedownloadasPDFfeature": {
+      "description": "[aws:2019-09-23 03:02:49] The download permission is required to enable the download as PDF feature.",
+      "message": "需要下载权限才能启用 PDF 格式下载功能。"
+   },
+   "_Theextensioncannotscrollthispagebutyoucanstillcapturethevisiblecontent": {
+      "description": "[claude:2026-10-22] The extension cannot scroll this page, but you can still capture the visible content.",
+      "message": "扩展程序无法滚动此页面，但你仍可截取可见内容。"
+   },
+   "_Thefollowingfilescouldnotbedownloaded": {
+      "description": "[aws:2019-09-23 03:02:50] The following files could not be downloaded:",
+      "message": "无法下载以下文件："
+   },
+   "_ThemeDefaults": {
+      "description": "[aws:2019-09-23 03:02:51] Theme Defaults",
+      "message": "主题默认值"
+   },
+   "_Thereareissueswithsaveasforautodownloadandwhendownloadingmultiplefilessoitisdisabledinthosescenarios": {
+      "description": "[claude:2026-10-22] There are issues with \"save as\" for auto-download and when downloading multiple files, so it is disabled in those scenarios.",
+      "message": "“另存为”在自动下载和下载多个文件时存在问题，因此在这些情况下会被停用。"
+   },
+   "_Therewasanerrordownloadingfilespleasereportitviatheflagbuttonabove": {
+      "description": "[aws:2019-09-23 03:02:51] There was an error downloading files, please report it via the flag button above.",
+      "message": "下载文件时出错，请通过上面的标志按钮报告。"
+   },
+   "_ThesesettingswillapplytoallfutureeditsofscreenshotsChangesareautosaved": {
+      "description": "[aws:2019-09-23 03:02:52] These settings will apply to all future edits of screenshots. Changes are autosaved.",
+      "message": "这些设置将应用于所有未来的屏幕截图编辑。 更改将自动保存。"
+   },
+   "_Thespecifiedimagecouldnotbefound": {
+      "description": "[aws:2019-09-23 03:02:53] The specified image could not be found.",
+      "message": "无法找到指定的图像。"
+   },
+   "_ThisallowstheextensiontoreadtheURLwhencapturingarestrictedpagesuchasanewtabbrowsersettingspageorlocalfile": {
+      "description": "[claude:2026-10-22] This allows the extension to read the URL when capturing a restricted page (such as a new tab, $browser$ settings page, or local file).",
+      "message": "允许扩展程序在截取受限页面（例如新标签页、$browser$ 设置页面或本地文件）时读取网址。",
+      "placeholders": {
+         "browser": {
+            "content": "$1",
+            "example": "Chrome"
+         }
+      }
+   },
+   "_ThisextensiontakesalotofworktomaintainItsreallymeaningfultohearthatyoufindituseful": {
+      "description": "[aws:2019-09-23 03:02:54] This extension takes a lot of work to maintain. It’s really meaningful to hear that you find it useful!",
+      "message": "此扩展需要大量的工作来维护。 听到你觉得它有用真的很有意义！"
+   },
+   "_ThisfeatureisincompatiblewiththeAskwheretosaveeachfilebeforedownloadingbrowsersettingandcanresultinerrorswiththesavedialogifthatisenabledtoo": {
+      "description": "[claude:2026-10-22] This feature is incompatible with the “Ask where to save each file before downloading” browser setting and can result in errors with the save dialog if that is enabled too.",
+      "message": "此功能与浏览器的“下载前询问每个文件的保存位置”设置不兼容，如果同时启用该设置，保存对话框可能会出错。"
+   },
+   "_Thisisrequiredforthedownloadbuttonsandtheautodownloadfeature": {
+      "description": "[claude:2026-10-22] This is required for the download buttons and the auto-download feature.",
+      "message": "下载按钮和自动下载功能需要此权限。"
+   },
+   "_Thisisrequiredinordertoscrolltheinnercontentsofiframesorframesets": {
+      "description": "[claude:2026-10-22] This is required in order to scroll the inner contents of $iframes$ or $framesets$.",
+      "message": "滚动 $iframes$ 或 $framesets$ 的内部内容需要此权限。",
+      "placeholders": {
+         "framesets": {
+            "content": "\u003Ca class=\"dim\" target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Element/frameset\">framesets\u003C/a>",
+            "example": "framesets"
+         },
+         "iframes": {
+            "content": "\u003Ca class=\"dim\" target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe\">iframes\u003C/a>",
+            "example": "iframes"
+         }
+      }
+   },
+   "_ThisistakinglongertoloadthanexpectedHangtightIfnothingupdatesafterawhilepleasereportthisviathereportingflagbuttonabove": {
+      "description": "[aws:2019-09-23 03:02:54] This is taking longer to load than expected. Hang tight! If nothing updates after a while, please report this via the reporting flag button above.",
+      "message": "这需要比预期更长的时间来加载。 挂紧！ 如果一段时间后没有任何更新，请通过上面的报告标志按钮报告。"
+   },
+   "_ThislookslikearestrictedpagesuchasanewtaborabrowsersettingspageWeneedtorequestthetabspermissiontoidentifytheURL": {
+      "description": "[claude:2026-10-22] This looks like a restricted page (such as a new tab or a $browser$ settings page). We need to request the “tabs” permission to identify the URL.",
+      "message": "这似乎是一个受限页面（例如新标签页或 $browser$ 设置页面）。我们需要请求“标签页”权限来识别网址。",
+      "placeholders": {
+         "browser": {
+            "content": "$1",
+            "example": "Chrome"
+         }
+      }
+   },
+   "_ThispermissionallowsgreatercontroloverhowdownloadsworkwithintheextensionYourpreferencehasbeensavedandthisdownloadbuttonwillnowfallbacktodefaultbrowseronclickdownloadsHoweveryouwillstillbepromptedforitinordertouseanyoftheadvancedfeaturesontheFilesorEditpagessincetheyneedthispermissionstowork": {
+      "description": "[claude:2026-10-22] This permission allows greater control over how downloads work within the extension. Your preference has been saved, and this download button will now fall back to default browser on-click downloads. However, you will still be prompted for it in order to use any of the advanced features on the Files or Edit pages, since they need this permissions to work.",
+      "message": "此权限可让你更好地控制扩展程序中的下载方式。你的偏好已保存，此下载按钮现在将改用浏览器默认的下载方式。不过，在使用“文件”或“编辑”页面上的高级功能时，仍会提示你授予此权限，因为这些功能需要它才能正常工作。"
+   },
+   "_Thisscreenshotbeensuccessfullyremoved": {
+      "description": "[aws:2019-09-23 03:02:58] This screenshot been successfully removed.",
+      "message": "此屏幕截图已成功删除。"
+   },
+   "_ToggleURLbrowser": {
+      "description": "[aws:2019-09-23 03:03:00] Toggle URL / browser",
+      "message": "切换网址/浏览器"
+   },
+   "_Togglecrop": {
+      "description": "[aws:2019-09-23 03:02:58] Toggle crop",
+      "message": "切换裁剪"
+   },
+   "_Togglepaddingborder": {
+      "description": "[aws:2019-09-23 03:02:59] Toggle padding / border",
+      "message": "切换填充/边框"
+   },
+   "_Type": {
+      "description": "[aws:2019-09-23 03:03:00] Type",
+      "message": "类型"
+   },
+   "_URLBrowser": {
+      "description": "[aws:2019-09-23 03:03:04] URL / Browser",
+      "message": "URL/浏览器"
+   },
+   "_URLDate": {
+      "description": "[claude:2026-10-22] URL / Date",
+      "message": "网址 / 日期"
+   },
+   "_URLcopiedtoclipboard": {
+      "description": "[claude:2026-10-22] URL copied to clipboard",
+      "message": "网址已复制到剪贴板"
+   },
+   "_URLonbottom": {
+      "description": "[aws:2019-09-23 03:03:04] URL on bottom",
+      "message": "底部的网址"
+   },
+   "_URLontop": {
+      "description": "[aws:2019-09-23 03:03:05] URL on top",
+      "message": "顶部的网址"
+   },
+   "_Unabletocopyimage": {
+      "description": "[claude:2026-10-22] Unable to copy image",
+      "message": "无法复制图片"
+   },
+   "_Unabletofindimage": {
+      "description": "[aws:2019-09-23 03:03:01] Unable to find image",
+      "message": "无法找到图片"
+   },
+   "_Unabletoloadimage": {
+      "description": "[aws:2019-09-23 03:03:02] Unable to load image",
+      "message": "无法加载图片"
+   },
+   "_Undo": {
+      "description": "[aws:2019-09-23 03:03:02] Undo",
+      "message": "撤消"
+   },
+   "_WatchDemo": {
+      "description": "[aws:2019-09-23 03:03:08] Watch Demo",
+      "message": "观看演示"
+   },
+   "_WelcometoGoFullPage": {
+      "description": "[claude:2026-10-22] Welcome to GoFullPage",
+      "message": "欢迎使用 GoFullPage"
+   },
+   "_WelcometotheGoFullPageEditor": {
+      "description": "[claude:2026-10-22] Welcome to the GoFullPage Editor!",
+      "message": "欢迎使用 GoFullPage 编辑器！"
+   },
+   "_WelcometotheofficialGoFullPageEditor": {
+      "description": "[claude:2026-10-22] Welcome to the official GoFullPage Editor!",
+      "message": "欢迎使用官方 GoFullPage 编辑器！"
+   },
+   "_Wereexcitedtohaveyouaboard": {
+      "description": "[aws:2019-09-23 03:03:10] We’re excited to have you aboard.",
+      "message": "我们很高兴有你登上。"
+   },
+   "_WhencopyingascreenshottoyourclipboardautoresizeitifitexceedstheGoogleDocscopypastelimit25000000pixelsYoumaystillexperienceissuespastingverylargeimagesintootherapplicationsforexampleGoogleDocssometimestruncatestheimageunlessyouresizeitmuchsmaller": {
+      "description": "[claude:2026-10-22] When copying a screenshot to your clipboard, auto-resize it if it exceeds the Google Docs copy-paste limit (25,000,000 pixels). You may still experience issues pasting very large images into other applications, for example Google Docs sometimes truncates the image unless you resize it much smaller.",
+      "message": "将截图复制到剪贴板时，如果超过 Google 文档的复制粘贴限制（25,000,000 像素），则自动调整大小。将非常大的图片粘贴到其他应用程序时仍可能出现问题，例如 Google 文档有时会截断图片，除非将其缩小很多。"
+   },
+   "_Width": {
+      "description": "[aws:2019-09-23 03:03:11] Width",
+      "message": "宽度"
+   },
+   "_Wouldyouliketoreportanyissuesyoureexperiencingsowecanimprovethisextensiontogether": {
+      "description": "[aws:2019-09-23 03:03:11] Would you like to report any issues you’re experiencing, so we can improve this extension together?",
+      "message": "您是否要报告您遇到的任何问题，以便我们可以一起改进此扩展？"
+   },
+   "_Yes": {
+      "description": "[aws:2019-09-23 03:03:12] Yes!",
+      "message": "是啊！"
+   },
+   "_YoucanpintheextensionbyclickingthepuzzleiconinthetoprightofyourbrowserandselectingPintoToolbar": {
+      "description": "[claude:2026-10-22] You can pin the extension by clicking the puzzle icon in the top right of your browser and selecting \"Pin to Toolbar\":",
+      "message": "点击浏览器右上角的拼图图标，然后选择“固定到工具栏”即可固定扩展程序："
+   },
+   "_Youcanstillcapturejustthevisiblecontentonthepage": {
+      "description": "[claude:2026-10-22] You can still capture just the visible content on the page.",
+      "message": "你仍可只截取页面上的可见内容。"
+   },
+   "_Youneedtograntthedownloadprivilegeinordertodownloadfiles": {
+      "description": "[aws:2019-09-23 03:03:13] You need to grant the download privilege in order to download files",
+      "message": "您需要授予下载权限才能下载文件"
+   },
+   "_Youneedtosignupinordertoexportyoureditedimage": {
+      "description": "[claude:2026-10-22] You need to sign up in order to export your edited image.",
+      "message": "你需要注册才能导出编辑后的图片。"
+   },
+   "_YourbrowserdoesnotsupporttheclipboardAPIpleaseupdatetothemostrecentversion": {
+      "description": "[claude:2026-10-22] Your browser does not support the clipboard API, please update to the most recent version.",
+      "message": "你的浏览器不支持剪贴板 API，请更新到最新版本。"
+   },
+   "_YourscreenshotslivehereinGoFullPageandstayprivateonthiscomputer": {
+      "description": "[claude:2026-10-22] Your screenshots live here in GoFullPage and stay private on this computer.",
+      "message": "你的截图保存在 GoFullPage 中，仅保留在这台电脑上，不会公开。"
+   },
+   "_Zoom": {
+      "description": "[aws:2019-09-23 03:03:13] Zoom",
+      "message": "缩放"
+   },
+   "_Zoomin": {
+      "description": "[aws:2019-09-23 03:03:14] Zoom in",
+      "message": "放大"
+   },
+   "_Zoomout": {
+      "description": "[aws:2019-09-23 03:03:15] Zoom out",
+      "message": "缩小"
+   },
+   "_billedannually": {
+      "description": "[aws:2019-09-23 03:01:13] billed annually",
+      "message": "每年计费"
+   },
+   "_cancelanytime": {
+      "description": "[aws:2019-09-23 03:01:14] cancel anytime",
+      "message": "随时取消"
+   },
+   "_fullimage": {
+      "description": "[aws:2019-09-23 03:01:49] full image",
+      "message": "完整图像"
+   },
+   "_iFramepermission": {
+      "description": "[aws:2019-09-23 03:01:55] iFrame permission",
+      "message": "iFrame 权限"
+   },
+   "_numfilescouldnotberemoved": {
+      "description": "[aws:2019-09-23 03:02:11] $num$ files could not be removed.",
+      "message": "$num$ 文件无法删除。",
+      "placeholders": {
+         "num": {
+            "content": "$1",
+            "example": "2"
+         }
+      }
+   },
+   "_numfilesweresuccessfullyremoved": {
+      "description": "[aws:2019-09-23 03:02:11] $num$ files were successfully removed.",
+      "message": "$num$ 文件已成功删除。",
+      "placeholders": {
+         "num": {
+            "content": "$1",
+            "example": "2"
+         }
+      }
+   },
+   "_or": {
+      "description": "[aws:2019-09-23 03:02:14] or",
+      "message": "或者"
+   },
+   "_restorefactorydefaults": {
+      "description": "[aws:2019-09-23 03:02:27] restore factory defaults",
+      "message": "恢复出厂默认值"
+   },
+   "_search": {
+      "description": "[aws:2019-09-23 03:02:32] search…",
+      "message": "搜索..."
+   },
+   "_upontrialcompletion": {
+      "description": "[aws:2019-09-23 03:03:03] upon trial completion",
+      "message": "审判结束后"
+   },
+   "_watchademovideo": {
+      "description": "[aws:2019-09-23 03:03:07] watch a demo video",
+      "message": "观看演示视频"
+   },
+   "actionClose": {
+      "description": "[aws:2019-09-23 03:03:15] Close",
+      "message": "关"
+   },
+   "actionDeleteImage": {
+      "description": "[aws:2019-09-23 03:03:16] Delete image",
+      "message": "删除图片"
+   },
+   "actionDownloadImage": {
+      "description": "[aws:2019-09-23 03:03:17] Download image",
+      "message": "下载图片"
+   },
+   "actionDownloadPDF": {
+      "description": "[aws:2019-09-23 03:03:17] Download PDF",
+      "message": "下载 PDF 格式"
+   },
+   "actionEdit": {
+      "description": "[aws:2019-09-23 03:03:18] Edit",
+      "message": "编辑"
+   },
+   "actionOK": {
+      "description": "[aws:2019-09-23 03:03:18] OK",
+      "message": "好"
+   },
+   "actionReport": {
+      "description": "[aws:2019-09-23 03:03:19] Report issue",
+      "message": "报告问题"
+   },
+   "appDesc": {
+      "description": "[aws:2019-09-23 03:00:59] Capture a screenshot of your current page in entirety and reliably—without requesting any extra permissions!",
+      "message": "完整可靠地捕获当前页面的屏幕截图-无需请求任何额外的权限！"
+   },
+   "goPremiumHeader": {
+      "description": "Take your screenshots to the next level with Full Page Screen Capture Premium",
+      "message": "享受高级截图体验，选择“全页截图尊享版”"
+   },
+   "goPremiumLink": {
+      "description": "Get started (free 1-week trial)",
+      "message": "开始体验（免费一周体验版）"
+   },
+   "goPremiumSignInLink": {
+      "description": "Sign in",
+      "message": "登录"
+   },
+   "goPremiumSignInMessage": {
+      "description": "Already have an account?",
+      "message": "已有账户？"
+   },
+   "goPremiumSubHeader": {
+      "description": "Including advanced editing and annotation features of screenshots",
+      "message": "包含高阶编辑和标注功能"
+   },
+   "hostPermissionGrant": {
+      "description": "[claude:2026-10-22] Grant access",
+      "message": "授予访问权限"
+   },
+   "hostPermissionHeader": {
+      "description": "[claude:2026-10-22] Stay signed in to GoFullPage",
+      "message": "保持登录 GoFullPage"
+   },
+   "hostPermissionMessage": {
+      "description": "[claude:2026-10-22] The extension needs access to the GoFullPage website in order to check your account. This will trigger a dialog.",
+      "message": "扩展程序需要访问 GoFullPage 网站以检查你的账户。这将弹出一个对话框。"
+   },
+   "hostPermissionSignInLink": {
+      "description": "[claude:2026-10-22] Sign in on the website",
+      "message": "在网站上登录"
+   },
+   "hostPermissionSkipLink": {
+      "description": "[claude:2026-10-22] continue signed out",
+      "message": "以未登录状态继续"
+   },
+   "hostPermissionSkipMessage": {
+      "description": "[claude:2026-10-22] Rather not?",
+      "message": "不想这样做？"
+   },
+   "hostPermissionSkipOr": {
+      "description": "[claude:2026-10-22] or",
+      "message": "或"
+   },
+   "navFiles": {
+      "description": "[claude:2026-10-22] Files",
+      "message": "文件"
+   },
+   "navOptions": {
+      "description": "[aws:2019-09-23 03:03:20] Options",
+      "message": "选项"
+   },
+   "tryEditingNo": {
+      "description": "No thanks",
+      "message": "不了，谢谢"
+   },
+   "tryEditingRequest": {
+      "description": "Try editing and annotating your screenshot",
+      "message": "请尝试编辑和标注您的截图"
+   },
+   "tryEditingYes": {
+      "description": "Ok!",
+      "message": "好的！"
+   }
+}

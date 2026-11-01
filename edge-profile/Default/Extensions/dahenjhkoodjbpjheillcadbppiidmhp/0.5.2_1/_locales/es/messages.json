@@ -1,0 +1,703 @@
+{
+   "1010": {
+      "message": "Crear"
+   },
+   "1109": {
+      "message": "No hay resultados para esta búsqueda."
+   },
+   "111": {
+      "message": "El sistema no puede realizar la operación en estos momentos. Inténtalo de nuevo más tarde."
+   },
+   "1301": {
+      "message": "Ajustes"
+   },
+   "1343": {
+      "message": "Guardado en Mi biblioteca"
+   },
+   "1441": {
+      "message": "Anterior"
+   },
+   "1442": {
+      "message": "Siguiente"
+   },
+   "1462": {
+      "message": "Cerrar"
+   },
+   "1463": {
+      "message": "Enviar"
+   },
+   "1484": {
+      "message": "Página anterior"
+   },
+   "1485": {
+      "message": "Página siguiente"
+   },
+   "1486": {
+      "message": "Reducir"
+   },
+   "1487": {
+      "message": "Aumentar"
+   },
+   "1488": {
+      "message": "Ajustar a la altura"
+   },
+   "1489": {
+      "message": "Ajustar al ancho"
+   },
+   "1490": {
+      "message": "Girar"
+   },
+   "1491": {
+      "message": "Guardar en mi biblioteca"
+   },
+   "1492": {
+      "message": "Descargar"
+   },
+   "1493": {
+      "message": "Imprimir"
+   },
+   "1494": {
+      "message": "Más"
+   },
+   "1513": {
+      "message": "Miniaturas"
+   },
+   "1514": {
+      "message": "Ocultar todo"
+   },
+   "1515": {
+      "message": "Mostrar todo"
+   },
+   "1542": {
+      "message": "Google Académico"
+   },
+   "1617": {
+      "message": "Buscar en Google"
+   },
+   "1618": {
+      "message": "Biblioteca de Google Académico"
+   },
+   "1620": {
+      "message": "No se han podido obtener los resultados. Inténtalo de nuevo más tarde."
+   },
+   "1621": {
+      "message": "Buscando en Académico..."
+   },
+   "1623": {
+      "message": "Guardar en la biblioteca de Académico"
+   },
+   "1626": {
+      "message": "Propiedades del documento"
+   },
+   "1627": {
+      "message": "Abrir en el visor de Chrome"
+   },
+   "1628": {
+      "message": "Mostrar más"
+   },
+   "1629": {
+      "message": "Mostrar menos"
+   },
+   "1630": {
+      "message": "Iniciar sesión"
+   },
+   "1631": {
+      "message": "Guardado en $ANCHOR_BEGIN$Mi biblioteca$ANCHOR_END$",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1632": {
+      "message": "Guardando en Mi biblioteca..."
+   },
+   "1633": {
+      "message": "No se ha encontrado el artículo en Académico."
+   },
+   "1635": {
+      "message": "Nombre"
+   },
+   "1636": {
+      "message": "Tamaño de archivo"
+   },
+   "1637": {
+      "message": "Título"
+   },
+   "1638": {
+      "message": "Autor"
+   },
+   "1639": {
+      "message": "Asunto"
+   },
+   "1640": {
+      "message": "Palabras clave"
+   },
+   "1641": {
+      "message": "Creado"
+   },
+   "1642": {
+      "message": "Modificado"
+   },
+   "1643": {
+      "message": "Aplicación"
+   },
+   "1644": {
+      "message": " Proveedor de PDF"
+   },
+   "1645": {
+      "message": "Versión de PDF"
+   },
+   "1646": {
+      "message": "Número de páginas"
+   },
+   "1647": {
+      "message": "Tamaño de página"
+   },
+   "1648": {
+      "message": "vertical"
+   },
+   "1649": {
+      "message": "horizontal"
+   },
+   "1650": {
+      "message": "cuadrada"
+   },
+   "1651": {
+      "message": "Varía"
+   },
+   "1652": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ pulgadas ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1653": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1654": {
+      "message": "Vista web rápida"
+   },
+   "1655": {
+      "message": "Sí"
+   },
+   "1656": {
+      "message": "No"
+   },
+   "1660": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ pulgadas ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1661": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1662": {
+      "message": "Letter"
+   },
+   "1663": {
+      "message": "Legal"
+   },
+   "1664": {
+      "message": "Tabloide"
+   },
+   "1668": {
+      "message": "No se ha podido cargar el documento PDF."
+   },
+   "1669": {
+      "message": "Volver a cargar"
+   },
+   "1670": {
+      "message": "Error"
+   },
+   "1673": {
+      "message": "Contraseña obligatoria"
+   },
+   "1674": {
+      "message": "Este documento está protegido por contraseña. Introduce una contraseña."
+   },
+   "1675": {
+      "message": "Para imprimir el documento PDF, utiliza el botón Imprimir de la barra de herramientas."
+   },
+   "1676": {
+      "message": "Contraseña incorrecta."
+   },
+   "1677": {
+      "message": "Aún no se puede rellenar formularios en el lector de PDFs de Académico."
+   },
+   "1678": {
+      "message": "Lector de PDFs de Google Académico"
+   },
+   "1698": {
+      "message": "Esquema"
+   },
+   "1702": {
+      "message": "Habilita el lector de Académico"
+   },
+   "1703": {
+      "message": "Para leer PDFs locales con el lector de Google Académico, habilita el acceso a las URLs de los archivos en la configuración y vuelve a cargar el PDF."
+   },
+   "1704": {
+      "message": "Abrir configuración"
+   },
+   "1707": {
+      "message": "Modo de visualización"
+   },
+   "1711": {
+      "message": "Pantalla completa"
+   },
+   "1712": {
+      "message": "Modo Claro"
+   },
+   "1713": {
+      "message": "Modo Oscuro"
+   },
+   "1714": {
+      "message": "Modo Noche"
+   },
+   "1715": {
+      "message": "Ver en Referencias"
+   },
+   "1716": {
+      "message": "Despliega el PDF para que se muestre a pantalla completa si quieres habilitar la opción de guardarlo en la biblioteca de Académico."
+   },
+   "1717": {
+      "message": "Desplegar"
+   },
+   "1718": {
+      "message": "Ahora no"
+   },
+   "1723": {
+      "message": "Para habilitar la impresión, abre el PDF en el visor de Chrome."
+   },
+   "1724": {
+      "message": "Abrir"
+   },
+   "1726": {
+      "message": "Mejora la forma de leer las publicaciones: sigue las referencias, consulta los esquemas, ve a las figuras, cita y guarda."
+   },
+   "1732": {
+      "message": "Modo Dispositivo"
+   },
+   "1734": {
+      "message": "Notificar un problema"
+   },
+   "1741": {
+      "message": "Secciones"
+   },
+   "1742": {
+      "message": "Esquema de IA"
+   },
+   "1744": {
+      "message": "Configuración de Esquema de IA"
+   },
+   "1745": {
+      "message": "Solicita un esquema de IA de Académico:"
+   },
+   "1746": {
+      "message": "Solo al hacer clic en $ICON$",
+      "placeholders": {
+         "ICON": {
+            "content": "$1"
+         }
+      }
+   },
+   "1748": {
+      "message": "Automáticamente al abrir cualquier PDF"
+   },
+   "1749": {
+      "message": "Los esquemas de IA solo están disponibles para artículos seleccionados"
+   },
+   "1750": {
+      "message": "¿Habilitar Esquema de IA para todos los PDFs?"
+   },
+   "1751": {
+      "message": "Para mostrar un esquema, el Lector intentará encontrar el PDF en Académico"
+   },
+   "1752": {
+      "message": "Acerca de Esquema de IA"
+   },
+   "1753": {
+      "message": "Puntos clave de las secciones del artículo"
+   },
+   "1754": {
+      "message": "Los esquemas de IA presentan los puntos clave de las secciones principales del documento."
+   },
+   "1755": {
+      "message": "Echa un vistazo al esquema o consulta los detalles"
+   },
+   "1756": {
+      "message": "Echa un vistazo a los puntos clave para tener una idea general y haz clic en los que te interesen para consultar directamente los detalles."
+   },
+   "1757": {
+      "message": "Los esquemas de IA solo están disponibles para algunos artículos de investigación en Académico. Los genera un programa informático y pueden contener información incompleta o imprecisa."
+   },
+   "1758": {
+      "message": "Nuevo"
+   },
+   "1759": {
+      "message": "Esquema de IA no está disponible para este PDF."
+   },
+   "1760": {
+      "message": "El esquema de IA se ha generado con una versión distinta de este PDF."
+   },
+   "1766": {
+      "message": "Configuración de Chrome"
+   },
+   "1768": {
+      "message": "Automáticamente al abrir un PDF en la mayoría de los sitios académicos"
+   },
+   "1773": {
+      "message": "Pasajes resaltados"
+   },
+   "1775": {
+      "message": "Resaltar"
+   },
+   "1778": {
+      "message": "Comentarios"
+   },
+   "1779": {
+      "message": "Tu resaltado y tus comentarios aparecerán aquí"
+   },
+   "1781": {
+      "message": "Reintentar"
+   },
+   "1783": {
+      "message": "Tu biblioteca de Académico está llena"
+   },
+   "1785": {
+      "message": "Abrir biblioteca"
+   },
+   "1786": {
+      "message": "Descartar"
+   },
+   "1787": {
+      "message": "Tu cuenta de Scholar se ha eliminado"
+   },
+   "1788": {
+      "message": "Recupera tu cuenta para resaltar y comentar un PDF."
+   },
+   "1790": {
+      "message": "Si cierras o vuelves a cargar esta página, se perderán los cambios que no hayas guardado."
+   },
+   "1791": {
+      "message": "Error del servidor"
+   },
+   "1793": {
+      "message": "Ignorar"
+   },
+   "1794": {
+      "message": "Tu navegador no tiene conexión"
+   },
+   "1796": {
+      "message": "Reintentar"
+   },
+   "1797": {
+      "message": "Tu dispositivo está lleno"
+   },
+   "1800": {
+      "message": "Inicia sesión en tu cuenta de Google para guardar el resaltado y los comentarios."
+   },
+   "1801": {
+      "message": "Libera espacio en tu biblioteca de Académico para guardar el resaltado y los comentarios."
+   },
+   "1802": {
+      "message": "Inicia sesión en $EMAIL_ADDRESS$ para guardar el resaltado y los comentarios.",
+      "placeholders": {
+         "EMAIL_ADDRESS": {
+            "content": "$1"
+         }
+      }
+   },
+   "1803": {
+      "message": "No se han podido guardar el resaltado ni los comentarios en tu biblioteca de Académico. Intentaremos guardarlo de nuevo más tarde."
+   },
+   "1804": {
+      "message": "Conéctate a Internet para guardar el resaltado y los comentarios. Intentaremos guardarlo de nuevo más tarde."
+   },
+   "1805": {
+      "message": "Libera espacio en tu dispositivo para guardar el resaltado y los comentarios. De lo contrario, los cambios no se guardarán."
+   },
+   "1806": {
+      "message": "Sincronizando..."
+   },
+   "1807": {
+      "message": "No se han podido sincronizar"
+   },
+   "1808": {
+      "message": "No se han podido sincronizar el resaltado y los comentarios."
+   },
+   "1809": {
+      "message": "Dispositivo sin conexión"
+   },
+   "1810": {
+      "message": "Conéctate a Internet para ver el resaltado y los comentarios."
+   },
+   "1811": {
+      "message": "Inicia sesión para ver el resaltado y los comentarios."
+   },
+   "1812": {
+      "message": "Cambios sin guardar"
+   },
+   "1813": {
+      "message": "Copiar esquema de IA"
+   },
+   "1814": {
+      "message": "Esquema de IA de $BOLD_ANCHOR_BEGIN$Lector de PDFs de Google Académico$BOLD_ANCHOR_END$",
+      "placeholders": {
+         "BOLD_ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "BOLD_ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1815": {
+      "message": "Esquema de IA copiado en el portapapeles"
+   },
+   "1816": {
+      "message": "El resaltado se guardará en tu $ANCHOR_BEGIN$biblioteca de Académico$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1817": {
+      "message": "Los comentarios se guardarán en tu biblioteca de Académico."
+   },
+   "1818": {
+      "message": "Título desconocido"
+   },
+   "1819": {
+      "message": "Buscar en Académico"
+   },
+   "1822": {
+      "message": "Comentario"
+   },
+   "1823": {
+      "message": "Cambiar color"
+   },
+   "1824": {
+      "message": "Guardado en $ANCHOR_BEGIN$tu biblioteca$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1825": {
+      "message": "Selecciona texto para resaltarlo o comentarlo."
+   },
+   "1826": {
+      "message": "Los resaltados se guardan en tu $ANCHOR_BEGIN$biblioteca de Académico$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1827": {
+      "message": "Resalta PDFs"
+   },
+   "1830": {
+      "message": "Los resaltados se guardan online"
+   },
+   "1831": {
+      "message": "Tus resaltados y comentarios se guardan en tu $ANCHOR_BEGIN$biblioteca de Académico$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1832": {
+      "message": "Accede a tus resaltados desde cualquier lugar"
+   },
+   "1833": {
+      "message": "Los resaltados aparecerán en el lector de PDFs siempre que hayas iniciado sesión."
+   },
+   "1834": {
+      "message": "Ir a mi biblioteca"
+   },
+   "1862": {
+      "message": "No se ha podido conectar a la memoria del navegador"
+   },
+   "1863": {
+      "message": "Los pasajes resaltados están inhabilitados en este navegador, pero otras funciones de lectura de PDFs siguen funcionando."
+   },
+   "1864": {
+      "message": "Para usar pasajes resaltados, prueba a reiniciar tu navegador o dispositivo."
+   },
+   "1865": {
+      "message": "No se ha podido conectar a la memoria del navegador. Prueba a reiniciar tu navegador o dispositivo."
+   },
+   "1866": {
+      "message": "No se ha podido sincronizar con la memoria del navegador"
+   },
+   "1867": {
+      "message": "No se han podido sincronizar los pasajes resaltados con la memoria del navegador. Prueba a reiniciar tu navegador o dispositivo."
+   },
+   "1868": {
+      "message": "La memoria del navegador está llena"
+   },
+   "1869": {
+      "message": "Para usar los pasajes resaltados, prueba a liberar espacio en tu dispositivo."
+   },
+   "1870": {
+      "message": "La memoria del navegador está llena. Prueba a liberar espacio en el dispositivo."
+   },
+   "1871": {
+      "message": "Para utilizar los pasajes resaltados, actualiza la caché. Este proceso puede tardar un poco."
+   },
+   "1872": {
+      "message": "Actualizar caché"
+   },
+   "1873": {
+      "message": "No se han podido sincronizar los pasajes resaltados con la memoria del navegador. Prueba a actualizar la caché de pasajes resaltados. Este proceso puede tardar un poco."
+   },
+   "1874": {
+      "message": "Demasiados pasajes resaltados"
+   },
+   "1875": {
+      "message": "No se pueden añadir más pasajes resaltados a tu biblioteca."
+   },
+   "1876": {
+      "message": "Para seguir añadiendo pasajes resaltados, quita algunos."
+   },
+   "1877": {
+      "message": "Descartar cambios"
+   },
+   "1882": {
+      "message": "Pasajes resaltados en demasiadas versiones"
+   },
+   "1883": {
+      "message": "Puedes añadir pasajes resaltados en hasta 3 versiones del mismo artículo."
+   },
+   "1884": {
+      "message": "Para seguir añadiendo pasajes resaltados a esta versión, quítalos de otra versión."
+   },
+   "1885": {
+      "message": "Gestionar pasajes resaltados"
+   },
+   "1888": {
+      "message": " Ver en la biblioteca"
+   },
+   "1918": {
+      "message": "El contenido de esta URL ha cambiado. Tienes pasajes resaltados en una versión anterior."
+   },
+   "535": {
+      "message": "Buscar en Google Académico"
+   },
+   "551": {
+      "message": "Eliminar artículo"
+   },
+   "59": {
+      "message": "Citar"
+   },
+   "625": {
+      "message": "Cargando..."
+   },
+   "626": {
+      "message": "Página $PAGE_NUMBER$",
+      "placeholders": {
+         "PAGE_NUMBER": {
+            "content": "$1"
+         }
+      }
+   },
+   "64": {
+      "message": "Guardar"
+   },
+   "644": {
+      "message": "Hecho"
+   },
+   "649": {
+      "message": "Cerrar"
+   },
+   "732": {
+      "message": "Mi biblioteca"
+   },
+   "907": {
+      "message": "Recuperar cuenta"
+   },
+   "920": {
+      "message": "Buscar"
+   },
+   "924": {
+      "message": "Etiquetar como:"
+   },
+   "96": {
+      "message": "Eliminar"
+   },
+   "965": {
+      "message": "Sí"
+   },
+   "966": {
+      "message": "No, gracias"
+   },
+   "chrome_client_3269861059707096562": {
+      "message": "Permitir acceso a URL de archivo"
+   }
+}

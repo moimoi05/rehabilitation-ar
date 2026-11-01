@@ -1,0 +1,703 @@
+{
+   "1010": {
+      "message": "Crea"
+   },
+   "1109": {
+      "message": "No hi ha cap resultat per a aquesta cerca."
+   },
+   "111": {
+      "message": "En aquests moments el sistema no pot dur a terme l'operació. Torneu-ho a provar més tard."
+   },
+   "1301": {
+      "message": "Configuració"
+   },
+   "1343": {
+      "message": "S'ha desat a La meva biblioteca"
+   },
+   "1441": {
+      "message": "Anterior"
+   },
+   "1442": {
+      "message": "Següent"
+   },
+   "1462": {
+      "message": "Tanca"
+   },
+   "1463": {
+      "message": "Envia"
+   },
+   "1484": {
+      "message": "Pàgina anterior"
+   },
+   "1485": {
+      "message": "Pàgina següent"
+   },
+   "1486": {
+      "message": "Redueix el zoom"
+   },
+   "1487": {
+      "message": "Amplia el zoom"
+   },
+   "1488": {
+      "message": "Ajusta a l'alçada"
+   },
+   "1489": {
+      "message": "Ajusta a l'amplada"
+   },
+   "1490": {
+      "message": "Gira"
+   },
+   "1491": {
+      "message": "Desa a la meva biblioteca"
+   },
+   "1492": {
+      "message": "Baixa"
+   },
+   "1493": {
+      "message": "Imprimeix"
+   },
+   "1494": {
+      "message": "Més"
+   },
+   "1513": {
+      "message": "Miniatures"
+   },
+   "1514": {
+      "message": "Replega-ho tot"
+   },
+   "1515": {
+      "message": "Desplega-ho tot"
+   },
+   "1542": {
+      "message": "Google Acadèmic"
+   },
+   "1617": {
+      "message": "Cerca a Google"
+   },
+   "1618": {
+      "message": "Biblioteca de Google Acadèmic"
+   },
+   "1620": {
+      "message": "Hi ha hagut un error en recuperar els resultats. Torna-ho a provar més tard."
+   },
+   "1621": {
+      "message": "S'està cercant a Google Acadèmic..."
+   },
+   "1623": {
+      "message": "Desa a la biblioteca de Google Acadèmic"
+   },
+   "1626": {
+      "message": "Propietats del document"
+   },
+   "1627": {
+      "message": "Obre al visor de Chrome"
+   },
+   "1628": {
+      "message": "Mostra'n més"
+   },
+   "1629": {
+      "message": "Mostra'n menys"
+   },
+   "1630": {
+      "message": "Inicia la sessió"
+   },
+   "1631": {
+      "message": "S'ha desat a $ANCHOR_BEGIN$La meva biblioteca$ANCHOR_END$",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1632": {
+      "message": "S'està desant a La meva biblioteca..."
+   },
+   "1633": {
+      "message": "No s'ha trobat l'article a Google Acadèmic."
+   },
+   "1635": {
+      "message": "Nom del fitxer"
+   },
+   "1636": {
+      "message": "Mida del fitxer"
+   },
+   "1637": {
+      "message": "Títol"
+   },
+   "1638": {
+      "message": "Autor"
+   },
+   "1639": {
+      "message": "Assumpte"
+   },
+   "1640": {
+      "message": "Paraules clau"
+   },
+   "1641": {
+      "message": "Data de creació"
+   },
+   "1642": {
+      "message": "Data de modificació"
+   },
+   "1643": {
+      "message": "Aplicació"
+   },
+   "1644": {
+      "message": " Creador de PDF"
+   },
+   "1645": {
+      "message": "Versió de PDF"
+   },
+   "1646": {
+      "message": "Nombre de pàgines"
+   },
+   "1647": {
+      "message": "Mida de la pàgina"
+   },
+   "1648": {
+      "message": "vertical"
+   },
+   "1649": {
+      "message": "horitzontal"
+   },
+   "1650": {
+      "message": "quadrat"
+   },
+   "1651": {
+      "message": "Varia"
+   },
+   "1652": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ polzades ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1653": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1654": {
+      "message": "Visualització web ràpida"
+   },
+   "1655": {
+      "message": "Sí"
+   },
+   "1656": {
+      "message": "No"
+   },
+   "1660": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ polzades ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1661": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1662": {
+      "message": "Carta"
+   },
+   "1663": {
+      "message": "Legal"
+   },
+   "1664": {
+      "message": "Tabloide"
+   },
+   "1668": {
+      "message": "No s'ha pogut carregar el document PDF."
+   },
+   "1669": {
+      "message": "Torna a carregar"
+   },
+   "1670": {
+      "message": "Error"
+   },
+   "1673": {
+      "message": "Contrasenya obligatòria"
+   },
+   "1674": {
+      "message": "Aquest document està protegit amb contrasenya. Introdueix una contrasenya."
+   },
+   "1675": {
+      "message": "Per imprimir el document PDF, selecciona el botó Imprimeix a la barra d'eines."
+   },
+   "1676": {
+      "message": "La contrasenya és incorrecta."
+   },
+   "1677": {
+      "message": "L'emplenament de formularis encara no és compatible amb el lector de PDF de Google Acadèmic."
+   },
+   "1678": {
+      "message": "Lector de PDF de Google Acadèmic"
+   },
+   "1698": {
+      "message": "Esquema"
+   },
+   "1702": {
+      "message": "Activa el lector de Google Acadèmic"
+   },
+   "1703": {
+      "message": "Per llegir PDF locals amb el lector de Google Acadèmic, activa l'accés a les adreces URL dels fitxers a la configuració i, a continuació, torna a carregar els PDF."
+   },
+   "1704": {
+      "message": "Obre la configuració"
+   },
+   "1707": {
+      "message": "Mode de visualització"
+   },
+   "1711": {
+      "message": "Pantalla completa"
+   },
+   "1712": {
+      "message": "Mode clar"
+   },
+   "1713": {
+      "message": "Mode fosc"
+   },
+   "1714": {
+      "message": "Mode nocturn"
+   },
+   "1715": {
+      "message": "Mostra a Referències"
+   },
+   "1716": {
+      "message": "Per permetre que es desi a la biblioteca de Google Acadèmic, desplega el PDF a pantalla completa."
+   },
+   "1717": {
+      "message": "Desplega"
+   },
+   "1718": {
+      "message": "Ara no"
+   },
+   "1723": {
+      "message": "Per activar la impressió, obre el PDF al visor de Chrome."
+   },
+   "1724": {
+      "message": "Obre"
+   },
+   "1726": {
+      "message": "Millora la lectura de les publicacions: segueix les referències, dona una ullada als esquemes, passa a les figures, cita i desa."
+   },
+   "1732": {
+      "message": "Mode de dispositiu"
+   },
+   "1734": {
+      "message": "Informa d'un problema"
+   },
+   "1741": {
+      "message": "Seccions"
+   },
+   "1742": {
+      "message": "Esquema d'IA"
+   },
+   "1744": {
+      "message": "Configuració de l'esquema d'IA"
+   },
+   "1745": {
+      "message": "Sol·licita un esquema d'IA de Google Acadèmic:"
+   },
+   "1746": {
+      "message": "Només quan facis clic a $ICON$",
+      "placeholders": {
+         "ICON": {
+            "content": "$1"
+         }
+      }
+   },
+   "1748": {
+      "message": "Automàticament quan obris qualsevol PDF"
+   },
+   "1749": {
+      "message": "Els esquemes d'IA només estan disponibles per a determinats articles"
+   },
+   "1750": {
+      "message": "Vols activar l'esquema d'IA per a tots els PDF?"
+   },
+   "1751": {
+      "message": "Per mostrar un esquema, el lector intentarà trobar el PDF a Google Acadèmic"
+   },
+   "1752": {
+      "message": "Sobre l'esquema d'IA"
+   },
+   "1753": {
+      "message": "Punts clau de les seccions de l'article"
+   },
+   "1754": {
+      "message": "Els esquemes d'IA presenten els punts més importants de les seccions principals del document."
+   },
+   "1755": {
+      "message": "Llegeix per sobre l'esquema o ves directament als detalls"
+   },
+   "1756": {
+      "message": "Dona una ullada als punts clau per fer-te una idea ràpida i fes clic als pics interessants per anar als detalls."
+   },
+   "1757": {
+      "message": "Els esquemes d'IA només estan disponibles per a determinats articles de recerca a Google Acadèmic. Els genera un programa informàtic i és possible que continguin informació incompleta o imprecisa."
+   },
+   "1758": {
+      "message": "Novetat"
+   },
+   "1759": {
+      "message": "L'esquema d'IA no està disponible per a aquest PDF."
+   },
+   "1760": {
+      "message": "L'esquema d'IA s'ha generat amb una altra versió d'aquest PDF."
+   },
+   "1766": {
+      "message": "Configuració de Chrome"
+   },
+   "1768": {
+      "message": "Automàticament quan obris un PDF a la majoria de llocs web acadèmics"
+   },
+   "1773": {
+      "message": "Marques"
+   },
+   "1775": {
+      "message": "Marca"
+   },
+   "1778": {
+      "message": "Comentaris"
+   },
+   "1779": {
+      "message": "Les teves marques i comentaris es mostraran aquí"
+   },
+   "1781": {
+      "message": "Torna-ho a provar"
+   },
+   "1783": {
+      "message": "La teva biblioteca de Google Acadèmic és plena"
+   },
+   "1785": {
+      "message": "Obre la biblioteca"
+   },
+   "1786": {
+      "message": "Descarta"
+   },
+   "1787": {
+      "message": "El teu compte de Google Acadèmic s'ha suprimit"
+   },
+   "1788": {
+      "message": "Recupera el teu compte per fer marques i comentaris en un PDF."
+   },
+   "1790": {
+      "message": "Si tanques o tornes a carregar aquesta pàgina, els canvis no desats es perdran."
+   },
+   "1791": {
+      "message": "Error del servidor"
+   },
+   "1793": {
+      "message": "Ignora"
+   },
+   "1794": {
+      "message": "El navegador no té connexió"
+   },
+   "1796": {
+      "message": "Torna-ho a provar"
+   },
+   "1797": {
+      "message": "El dispositiu és ple"
+   },
+   "1800": {
+      "message": "Inicia la sessió al teu Compte de Google per desar les marques i els comentaris."
+   },
+   "1801": {
+      "message": "Allibera espai a la biblioteca de Google Acadèmic per desar les marques i els comentaris."
+   },
+   "1802": {
+      "message": "Inicia la sessió a $EMAIL_ADDRESS$ per desar les marques i els comentaris.",
+      "placeholders": {
+         "EMAIL_ADDRESS": {
+            "content": "$1"
+         }
+      }
+   },
+   "1803": {
+      "message": "No s'han pogut desar les marques o els comentaris a la teva biblioteca de Google Acadèmic. Provarem de desar-los de nou més tard."
+   },
+   "1804": {
+      "message": "Connecta't a Internet per desar les marques i els comentaris. Provarem de desar-los de nou més tard."
+   },
+   "1805": {
+      "message": "Allibera espai al dispositiu per desar les marques i els comentaris. En cas contrari, els canvis no es desaran."
+   },
+   "1806": {
+      "message": "S'està sincronitzant..."
+   },
+   "1807": {
+      "message": "La sincronització ha fallat"
+   },
+   "1808": {
+      "message": "S'ha produït un error en sincronitzar les marques i els comentaris."
+   },
+   "1809": {
+      "message": "Dispositiu sense connexió"
+   },
+   "1810": {
+      "message": "Connecta't a Internet per desar les marques i els comentaris."
+   },
+   "1811": {
+      "message": "Inicia la sessió per veure les marques i els comentaris."
+   },
+   "1812": {
+      "message": "Hi ha canvis no desats"
+   },
+   "1813": {
+      "message": "Copia l'esquema d'IA"
+   },
+   "1814": {
+      "message": "Esquema d'IA del $BOLD_ANCHOR_BEGIN$Lector de PDF de Google Acadèmic$BOLD_ANCHOR_END$",
+      "placeholders": {
+         "BOLD_ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "BOLD_ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1815": {
+      "message": "L'esquema d'IA s'ha copiat al porta-retalls"
+   },
+   "1816": {
+      "message": "Les marques es desaran a la teva $ANCHOR_BEGIN$biblioteca de Google Acadèmic$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1817": {
+      "message": "Els comentaris es desaran a la teva biblioteca de Google Acadèmic."
+   },
+   "1818": {
+      "message": "Títol desconegut"
+   },
+   "1819": {
+      "message": "Cerca a Google Acadèmic"
+   },
+   "1822": {
+      "message": "Comenta"
+   },
+   "1823": {
+      "message": "Canvia el color"
+   },
+   "1824": {
+      "message": "S'ha desat a la teva $ANCHOR_BEGIN$biblioteca$ANCHOR_END$",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1825": {
+      "message": "Selecciona text per marcar-lo o comentar-lo."
+   },
+   "1826": {
+      "message": "Les marques es desen a la teva $ANCHOR_BEGIN$biblioteca de Google Acadèmic$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1827": {
+      "message": "Marca text als PDF"
+   },
+   "1830": {
+      "message": "Les marques es desen en línia"
+   },
+   "1831": {
+      "message": "Les marques i els comentaris es desen a la teva $ANCHOR_BEGIN$biblioteca de Google Acadèmic$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1832": {
+      "message": "Accedeix a les teves marques des de qualsevol lloc"
+   },
+   "1833": {
+      "message": "Les marques es mostraran al lector de PDF sempre que tinguis la sessió iniciada."
+   },
+   "1834": {
+      "message": "Ves a La meva biblioteca"
+   },
+   "1862": {
+      "message": "No es pot connectar a l'emmagatzematge del navegador"
+   },
+   "1863": {
+      "message": "Les marques estan desactivades en aquest navegador, però altres funcions de lectura de PDF continuen disponibles."
+   },
+   "1864": {
+      "message": "Per utilitzar les marques, prova de reiniciar el navegador o el dispositiu."
+   },
+   "1865": {
+      "message": "No es pot connectar a l'emmagatzematge del navegador. Prova de reiniciar el navegador o el dispositiu."
+   },
+   "1866": {
+      "message": "No es pot sincronitzar amb l'emmagatzematge del navegador"
+   },
+   "1867": {
+      "message": "S'ha produït un error en sincronitzar les marques amb l'emmagatzematge del navegador. Prova de reiniciar el navegador o el dispositiu."
+   },
+   "1868": {
+      "message": "L'emmagatzematge del navegador és ple"
+   },
+   "1869": {
+      "message": "Per utilitzar les marques, prova d'alliberar espai al dispositiu."
+   },
+   "1870": {
+      "message": "L'emmagatzematge del navegador és ple. Prova d'alliberar espai al dispositiu."
+   },
+   "1871": {
+      "message": "Per utilitzar les marques, actualitza la memòria cau de les marques. Aquest procés pot tardar una estona."
+   },
+   "1872": {
+      "message": "Actualitza la memòria cau"
+   },
+   "1873": {
+      "message": "S'ha produït un error en sincronitzar les marques amb l'emmagatzematge del navegador. Prova d'actualitzar la memòria cau de les marques. Aquest procés pot tardar una estona."
+   },
+   "1874": {
+      "message": "Hi ha massa marques"
+   },
+   "1875": {
+      "message": "No es poden afegir més marques a la biblioteca."
+   },
+   "1876": {
+      "message": "Per continuar afegint marques, suprimeix-ne algunes."
+   },
+   "1877": {
+      "message": "Descarta els canvis"
+   },
+   "1882": {
+      "message": "Hi ha marques en massa versions"
+   },
+   "1883": {
+      "message": "Pots afegir marques en fins a 3 versions del mateix article."
+   },
+   "1884": {
+      "message": "Per continuar afegint marques a aquesta versió, suprimeix les marques d'una altra versió."
+   },
+   "1885": {
+      "message": "Gestiona les marques"
+   },
+   "1888": {
+      "message": " Mostra a la biblioteca"
+   },
+   "1918": {
+      "message": "El contingut d'aquest URL ha canviat. Tens marques en una versió anterior."
+   },
+   "535": {
+      "message": "Cerca a Google Acadèmic"
+   },
+   "551": {
+      "message": "Elimina l'article"
+   },
+   "59": {
+      "message": "Cita"
+   },
+   "625": {
+      "message": "S'està carregant..."
+   },
+   "626": {
+      "message": "Pàgina $PAGE_NUMBER$",
+      "placeholders": {
+         "PAGE_NUMBER": {
+            "content": "$1"
+         }
+      }
+   },
+   "64": {
+      "message": "Desa"
+   },
+   "644": {
+      "message": "Fet"
+   },
+   "649": {
+      "message": "Omet"
+   },
+   "732": {
+      "message": "La meva biblioteca"
+   },
+   "907": {
+      "message": "Recupera el compte"
+   },
+   "920": {
+      "message": "Cerca"
+   },
+   "924": {
+      "message": "Etiqueta com a:"
+   },
+   "96": {
+      "message": "Suprimeix"
+   },
+   "965": {
+      "message": "Sí"
+   },
+   "966": {
+      "message": "No, gràcies"
+   },
+   "chrome_client_3269861059707096562": {
+      "message": "Permet l'accés als URL de fitxer"
+   }
+}

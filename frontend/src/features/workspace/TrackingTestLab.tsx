@@ -295,7 +295,7 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
         const controller = new AbortController(); workerAbort.current = controller
         poseThread = new Worker('/tracking-worker.js'); handThread = new Worker('/tracking-worker.js')
         const moduleUrl = new URL('../../../node_modules/@mediapipe/tasks-vision/vision_bundle.mjs', import.meta.url).href
-        const tracker = await createParallelWorkerTracker({ poseWorker: poseThread, handWorker: handThread, moduleUrl, signal: controller.signal, capture: element => createImageBitmap(element),
+        const tracker = await createParallelWorkerTracker({ poseWorker: poseThread, handWorker: handThread, moduleUrl, signal: controller.signal, capture: element => createImageBitmap(element), preferGpu,
           onPose: result => {
             const sample = pendingPose; pendingPose = null
             if (requestId !== generation.current) return
@@ -324,7 +324,10 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
           onPoseError: () => fallback(requestId), onHandError: () => disableHand(),
         })
         if (requestId !== generation.current) { tracker.close(); return }
-        parallelWorker.current = tracker; setEngine('parallel'); setDelegate(useHand ? 'Pose CPU · Hand CPU · Worker riêng' : 'Pose CPU · Worker riêng')
+        parallelWorker.current = tracker; setEngine('parallel');
+        const parallelDelegates = [tracker.delegates.pose ? `Pose ${tracker.delegates.pose}` : 'Pose —', useHand && tracker.delegates.hand ? `Hand ${tracker.delegates.hand}` : 'Hand Tắt', 'Worker riêng'].join(' · ')
+        setDelegate(parallelDelegates)
+        if (tracker.initializationErrors.length) setModelErrors(previous => [...previous, ...tracker.initializationErrors])
         if (budget) {
           adaptiveBudget.current = budget
           let expected = performance.now() + 250
@@ -378,7 +381,7 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
       const thread = new Worker('/tracking-worker.js')
       const moduleUrl = new URL('../../../node_modules/@mediapipe/tasks-vision/vision_bundle.mjs', import.meta.url).href
       let pending: Snapshot | null = null
-      const tracker = await createWorkerTracker({ worker: thread, moduleUrl, handEnabled, signal: controller.signal, capture: element => createImageBitmap(element),
+      const tracker = await createWorkerTracker({ worker: thread, moduleUrl, handEnabled, preferGpu, signal: controller.signal, capture: element => createImageBitmap(element),
         onResult: result => {
           const sample = pending; pending = null
           if (requestId !== generation.current) return
@@ -398,7 +401,10 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
         },
         onError: () => fallback(requestId) })
       if (requestId !== generation.current) { tracker.close(); return }
-      worker.current = tracker; setEngine('worker'); setDelegate(handEnabled ? 'Pose CPU · Hand CPU · Worker' : 'Pose CPU · Worker')
+      worker.current = tracker; setEngine('worker');
+      const workerDelegates = [tracker.delegates.pose ? `Pose ${tracker.delegates.pose}` : 'Pose —', handEnabled && tracker.delegates.hand ? `Hand ${tracker.delegates.hand}` : 'Hand Tắt', 'Worker'].join(' · ')
+      setDelegate(workerDelegates)
+      if (tracker.initializationErrors.length) setModelErrors(previous => [...previous, ...tracker.initializationErrors])
       schedule(requestId, (timestamp, doHand, sample) => { const accepted = tracker.submit(input, timestamp, doHand); if (accepted) pending = sample; return accepted })
     } catch { fallback(requestId) }
   }

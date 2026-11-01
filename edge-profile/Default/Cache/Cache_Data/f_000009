@@ -1,0 +1,482 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/pages/Sessions.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=8d437898"; const Fragment = __vite__cjsImport0_react_jsxDevRuntime["Fragment"]; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = RefreshRuntime.getRefreshReg("D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx");
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import __vite__cjsImport3_react from "/node_modules/.vite/deps/react.js?v=8d437898"; const useState = __vite__cjsImport3_react["useState"];
+import { Link, useSearchParams } from "/node_modules/.vite/deps/react-router-dom.js?v=8d437898";
+import { ArrowRight, Plus } from "/node_modules/.vite/deps/lucide-react.js?v=8d437898";
+import { Button } from "/src/components/ui/button.tsx";
+import { Empty, ErrorState, Loading } from "/src/components/States.tsx";
+import { useData } from "/src/hooks/useData.ts";
+import { api } from "/src/services/api.ts";
+import { sideLabel, typeLabel } from "/src/types/index.ts";
+const load = async () => {
+  const [patients, sessions] = await Promise.all([api.patients(), api.sessions()]);
+  return { patients, sessions };
+};
+export default function Sessions() {
+  _s();
+  const { data, loading, error, reload } = useData(load);
+  const [params] = useSearchParams();
+  const [open, setOpen] = useState(false);
+  const [patientId, setPatientId] = useState(params.get("patient") ?? "");
+  const [side, setSide] = useState("left");
+  const [kind, setKind] = useState("assessment");
+  const [notes, setNotes] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [formError, setFormError] = useState("");
+  async function submit(e) {
+    e.preventDefault();
+    setSaving(true);
+    setFormError("");
+    try {
+      await api.createSession({ patient_id: Number(patientId), affected_side: side, session_type: kind, notes: notes.trim() || null });
+      setOpen(false);
+      setNotes("");
+      await reload();
+    } catch (err) {
+      setFormError(err instanceof Error ? err.message : "Không tạo được phiên");
+    } finally {
+      setSaving(false);
+    }
+  }
+  async function changeStatus(id, status) {
+    try {
+      setFormError("");
+      await api.updateSession(id, { status });
+      await reload();
+    } catch (err) {
+      setFormError(err instanceof Error ? err.message : "Không cập nhật được phiên");
+    }
+  }
+  return /* @__PURE__ */ jsxDEV(Fragment, { children: [
+    /* @__PURE__ */ jsxDEV("div", { className: "page-heading", children: [
+      /* @__PURE__ */ jsxDEV("div", { children: [
+        /* @__PURE__ */ jsxDEV("span", { className: "eyebrow", children: "QUẢN LÝ PHIÊN" }, void 0, false, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+          lineNumber: 33,
+          columnNumber: 47
+        }, this),
+        /* @__PURE__ */ jsxDEV("h1", { children: "Phiên tập & đánh giá" }, void 0, false, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+          lineNumber: 33,
+          columnNumber: 93
+        }, this),
+        /* @__PURE__ */ jsxDEV("p", { children: "Tạo phiên, theo dõi trạng thái và mở không gian camera." }, void 0, false, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+          lineNumber: 33,
+          columnNumber: 122
+        }, this)
+      ] }, void 0, true, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+        lineNumber: 33,
+        columnNumber: 42
+      }, this),
+      /* @__PURE__ */ jsxDEV(Button, { onClick: () => {
+        const patient = data?.patients.find((p) => p.id === Number(patientId));
+        if (patient) setSide(patient.affected_side);
+        setOpen(true);
+        setFormError("");
+      }, children: [
+        /* @__PURE__ */ jsxDEV(Plus, { size: 18 }, void 0, false, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+          lineNumber: 33,
+          columnNumber: 363
+        }, this),
+        " Tạo phiên mới"
+      ] }, void 0, true, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+        lineNumber: 33,
+        columnNumber: 190
+      }, this)
+    ] }, void 0, true, {
+      fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+      lineNumber: 33,
+      columnNumber: 12
+    }, this),
+    formError && !open && /* @__PURE__ */ jsxDEV(ErrorState, { message: formError }, void 0, false, {
+      fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+      lineNumber: 33,
+      columnNumber: 433
+    }, this),
+    /* @__PURE__ */ jsxDEV("section", { className: "panel", children: [
+      /* @__PURE__ */ jsxDEV("div", { className: "panel-heading", children: /* @__PURE__ */ jsxDEV("div", { children: [
+        /* @__PURE__ */ jsxDEV("h2", { children: "Danh sách phiên" }, void 0, false, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+          lineNumber: 33,
+          columnNumber: 531
+        }, this),
+        /* @__PURE__ */ jsxDEV("p", { children: "Các phiên nghiên cứu được lưu trong hệ thống" }, void 0, false, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+          lineNumber: 33,
+          columnNumber: 555
+        }, this)
+      ] }, void 0, true, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+        lineNumber: 33,
+        columnNumber: 526
+      }, this) }, void 0, false, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+        lineNumber: 33,
+        columnNumber: 495
+      }, this),
+      loading ? /* @__PURE__ */ jsxDEV(Loading, {}, void 0, false, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+        lineNumber: 33,
+        columnNumber: 629
+      }, this) : error ? /* @__PURE__ */ jsxDEV(ErrorState, { message: error, retry: () => void reload() }, void 0, false, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+        lineNumber: 33,
+        columnNumber: 651
+      }, this) : !data?.sessions.length ? /* @__PURE__ */ jsxDEV(Empty, { children: "Chưa có phiên nào. Hãy tạo phiên cho bệnh nhân." }, void 0, false, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+        lineNumber: 33,
+        columnNumber: 737
+      }, this) : /* @__PURE__ */ jsxDEV("div", { className: "table-wrap", children: /* @__PURE__ */ jsxDEV("table", { children: [
+        /* @__PURE__ */ jsxDEV("thead", { children: /* @__PURE__ */ jsxDEV("tr", { children: [
+          /* @__PURE__ */ jsxDEV("th", { children: "Phiên / Bệnh nhân" }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+            lineNumber: 33,
+            columnNumber: 848
+          }, this),
+          /* @__PURE__ */ jsxDEV("th", { children: "Loại phiên" }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+            lineNumber: 33,
+            columnNumber: 874
+          }, this),
+          /* @__PURE__ */ jsxDEV("th", { children: "Tay tập" }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+            lineNumber: 33,
+            columnNumber: 893
+          }, this),
+          /* @__PURE__ */ jsxDEV("th", { children: "Trạng thái" }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+            lineNumber: 33,
+            columnNumber: 909
+          }, this),
+          /* @__PURE__ */ jsxDEV("th", { children: "Ngày tạo" }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+            lineNumber: 33,
+            columnNumber: 928
+          }, this),
+          /* @__PURE__ */ jsxDEV("th", {}, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+            lineNumber: 33,
+            columnNumber: 945
+          }, this)
+        ] }, void 0, true, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+          lineNumber: 33,
+          columnNumber: 844
+        }, this) }, void 0, false, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+          lineNumber: 33,
+          columnNumber: 837
+        }, this),
+        /* @__PURE__ */ jsxDEV("tbody", { children: [...data.sessions].sort((a, b) => b.created_at.localeCompare(a.created_at)).map((s) => /* @__PURE__ */ jsxDEV("tr", { children: [
+          /* @__PURE__ */ jsxDEV("td", { children: [
+            /* @__PURE__ */ jsxDEV("strong", { children: [
+              "#",
+              s.id
+            ] }, void 0, true, {
+              fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+              lineNumber: 33,
+              columnNumber: 1078
+            }, this),
+            /* @__PURE__ */ jsxDEV("span", { className: "cell-sub", children: data.patients.find((p) => p.id === s.patient_id)?.research_code ?? `Bệnh nhân #${s.patient_id}` }, void 0, false, {
+              fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+              lineNumber: 33,
+              columnNumber: 1102
+            }, this)
+          ] }, void 0, true, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+            lineNumber: 33,
+            columnNumber: 1074
+          }, this),
+          /* @__PURE__ */ jsxDEV("td", { children: typeLabel[s.session_type] }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+            lineNumber: 33,
+            columnNumber: 1238
+          }, this),
+          /* @__PURE__ */ jsxDEV("td", { children: sideLabel(s.affected_side) }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+            lineNumber: 33,
+            columnNumber: 1274
+          }, this),
+          /* @__PURE__ */ jsxDEV("td", { children: /* @__PURE__ */ jsxDEV("select", { className: "status-select", "aria-label": `Trạng thái phiên ${s.id}`, value: s.status, disabled: s.status === "completed" || s.status === "cancelled", onChange: (e) => void changeStatus(s.id, e.target.value), children: [
+            s.status === "draft" && /* @__PURE__ */ jsxDEV("option", { value: "draft", children: "Nháp" }, void 0, false, {
+              fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+              lineNumber: 33,
+              columnNumber: 1570
+            }, this),
+            (s.status === "draft" || s.status === "in_progress") && /* @__PURE__ */ jsxDEV("option", { value: "in_progress", children: "Đang thực hiện" }, void 0, false, {
+              fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+              lineNumber: 33,
+              columnNumber: 1663
+            }, this),
+            (s.status === "in_progress" || s.status === "completed") && /* @__PURE__ */ jsxDEV("option", { value: "completed", children: "Hoàn thành" }, void 0, false, {
+              fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+              lineNumber: 33,
+              columnNumber: 1776
+            }, this),
+            s.status !== "completed" && /* @__PURE__ */ jsxDEV("option", { value: "cancelled", children: "Đã hủy" }, void 0, false, {
+              fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+              lineNumber: 33,
+              columnNumber: 1851
+            }, this)
+          ] }, void 0, true, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+            lineNumber: 33,
+            columnNumber: 1315
+          }, this) }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+            lineNumber: 33,
+            columnNumber: 1311
+          }, this),
+          /* @__PURE__ */ jsxDEV("td", { children: new Date(s.created_at).toLocaleDateString("vi-VN") }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+            lineNumber: 33,
+            columnNumber: 1907
+          }, this),
+          /* @__PURE__ */ jsxDEV("td", { children: /* @__PURE__ */ jsxDEV(Link, { className: "text-link", to: `/workspace?session=${s.id}`, children: [
+            "Hiệu chuẩn ",
+            /* @__PURE__ */ jsxDEV(ArrowRight, { size: 15 }, void 0, false, {
+              fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+              lineNumber: 33,
+              columnNumber: 2045
+            }, this)
+          ] }, void 0, true, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+            lineNumber: 33,
+            columnNumber: 1972
+          }, this) }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+            lineNumber: 33,
+            columnNumber: 1968
+          }, this)
+        ] }, s.id, true, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+          lineNumber: 33,
+          columnNumber: 1059
+        }, this)) }, void 0, false, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+          lineNumber: 33,
+          columnNumber: 964
+        }, this)
+      ] }, void 0, true, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+        lineNumber: 33,
+        columnNumber: 830
+      }, this) }, void 0, false, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+        lineNumber: 33,
+        columnNumber: 802
+      }, this)
+    ] }, void 0, true, {
+      fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+      lineNumber: 33,
+      columnNumber: 468
+    }, this),
+    open && /* @__PURE__ */ jsxDEV("div", { className: "modal-backdrop", onMouseDown: (e) => {
+      if (e.target === e.currentTarget) setOpen(false);
+    }, children: /* @__PURE__ */ jsxDEV("div", { className: "modal", role: "dialog", "aria-modal": "true", "aria-labelledby": "session-title", children: [
+      /* @__PURE__ */ jsxDEV("div", { className: "panel-heading", children: [
+        /* @__PURE__ */ jsxDEV("div", { children: [
+          /* @__PURE__ */ jsxDEV("span", { className: "eyebrow", children: "PHIÊN MỚI" }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+            lineNumber: 33,
+            columnNumber: 2358
+          }, this),
+          /* @__PURE__ */ jsxDEV("h2", { id: "session-title", children: "Tạo phiên nghiên cứu" }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+            lineNumber: 33,
+            columnNumber: 2400
+          }, this)
+        ] }, void 0, true, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+          lineNumber: 33,
+          columnNumber: 2353
+        }, this),
+        /* @__PURE__ */ jsxDEV("button", { className: "close", onClick: () => setOpen(false), "aria-label": "Đóng", children: "×" }, void 0, false, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+          lineNumber: 33,
+          columnNumber: 2454
+        }, this)
+      ] }, void 0, true, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+        lineNumber: 33,
+        columnNumber: 2322
+      }, this),
+      /* @__PURE__ */ jsxDEV("form", { className: "form", onSubmit: (e) => void submit(e), children: [
+        /* @__PURE__ */ jsxDEV("label", { children: [
+          "Bệnh nhân",
+          /* @__PURE__ */ jsxDEV("select", { required: true, value: patientId, onChange: (e) => {
+            setPatientId(e.target.value);
+            const patient = data?.patients.find((p) => p.id === Number(e.target.value));
+            if (patient) setSide(patient.affected_side);
+          }, children: [
+            /* @__PURE__ */ jsxDEV("option", { value: "", children: "Chọn bệnh nhân" }, void 0, false, {
+              fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+              lineNumber: 33,
+              columnNumber: 2822
+            }, this),
+            data?.patients.map((p) => /* @__PURE__ */ jsxDEV("option", { value: p.id, children: p.research_code }, p.id, false, {
+              fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+              lineNumber: 33,
+              columnNumber: 2889
+            }, this))
+          ] }, void 0, true, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+            lineNumber: 33,
+            columnNumber: 2617
+          }, this)
+        ] }, void 0, true, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+          lineNumber: 33,
+          columnNumber: 2601
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "form-grid", children: [
+          /* @__PURE__ */ jsxDEV("label", { children: [
+            "Loại phiên",
+            /* @__PURE__ */ jsxDEV("select", { value: kind, onChange: (e) => setKind(e.target.value), children: [
+              /* @__PURE__ */ jsxDEV("option", { value: "assessment", children: "Đánh giá" }, void 0, false, {
+                fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+                lineNumber: 33,
+                columnNumber: 3088
+              }, this),
+              /* @__PURE__ */ jsxDEV("option", { value: "training", children: "Luyện tập" }, void 0, false, {
+                fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+                lineNumber: 33,
+                columnNumber: 3132
+              }, this)
+            ] }, void 0, true, {
+              fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+              lineNumber: 33,
+              columnNumber: 3010
+            }, this)
+          ] }, void 0, true, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+            lineNumber: 33,
+            columnNumber: 2993
+          }, this),
+          /* @__PURE__ */ jsxDEV("label", { children: [
+            "Tay cần tập",
+            /* @__PURE__ */ jsxDEV("select", { value: side, onChange: (e) => setSide(e.target.value), children: [
+              /* @__PURE__ */ jsxDEV("option", { value: "left", children: "Trái" }, void 0, false, {
+                fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+                lineNumber: 33,
+                columnNumber: 3281
+              }, this),
+              /* @__PURE__ */ jsxDEV("option", { value: "right", children: "Phải" }, void 0, false, {
+                fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+                lineNumber: 33,
+                columnNumber: 3315
+              }, this)
+            ] }, void 0, true, {
+              fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+              lineNumber: 33,
+              columnNumber: 3210
+            }, this)
+          ] }, void 0, true, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+            lineNumber: 33,
+            columnNumber: 3192
+          }, this)
+        ] }, void 0, true, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+          lineNumber: 33,
+          columnNumber: 2966
+        }, this),
+        /* @__PURE__ */ jsxDEV("label", { children: [
+          "Ghi chú",
+          /* @__PURE__ */ jsxDEV("textarea", { rows: 3, value: notes, onChange: (e) => setNotes(e.target.value) }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+            lineNumber: 33,
+            columnNumber: 3387
+          }, this)
+        ] }, void 0, true, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+          lineNumber: 33,
+          columnNumber: 3373
+        }, this),
+        formError && /* @__PURE__ */ jsxDEV(ErrorState, { message: formError }, void 0, false, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+          lineNumber: 33,
+          columnNumber: 3487
+        }, this),
+        /* @__PURE__ */ jsxDEV("div", { className: "form-actions", children: [
+          /* @__PURE__ */ jsxDEV(Button, { type: "button", variant: "outline", onClick: () => setOpen(false), children: "Hủy" }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+            lineNumber: 33,
+            columnNumber: 3552
+          }, this),
+          /* @__PURE__ */ jsxDEV(Button, { disabled: saving || !data?.patients.length, children: saving ? "Đang tạo…" : "Tạo phiên" }, void 0, false, {
+            fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+            lineNumber: 33,
+            columnNumber: 3635
+          }, this)
+        ] }, void 0, true, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+          lineNumber: 33,
+          columnNumber: 3522
+        }, this),
+        !data?.patients.length && /* @__PURE__ */ jsxDEV("p", { className: "help", children: "Cần thêm bệnh nhân trước khi tạo phiên." }, void 0, false, {
+          fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+          lineNumber: 33,
+          columnNumber: 3765
+        }, this)
+      ] }, void 0, true, {
+        fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+        lineNumber: 33,
+        columnNumber: 2545
+      }, this)
+    ] }, void 0, true, {
+      fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+      lineNumber: 33,
+      columnNumber: 2235
+    }, this) }, void 0, false, {
+      fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+      lineNumber: 33,
+      columnNumber: 2130
+    }, this)
+  ] }, void 0, true, {
+    fileName: "D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx",
+    lineNumber: 33,
+    columnNumber: 10
+  }, this);
+}
+_s(Sessions, "3Es1/yR1L0//ctl6TfbohVm0Fz8=", false, function() {
+  return [useData, useSearchParams];
+});
+_c = Sessions;
+var _c;
+$RefreshReg$(_c, "Sessions");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("D:/rehabilitation/rehabilitation-ar/frontend/src/pages/Sessions.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,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QUFBQTtBQUFBLFNBQW1xSDtBQUMzcUg7QUFBQ3hDLEdBTHVCRCxVQUFRO0FBQUEsVUFDR1QsU0FBOEJQLGVBQWU7QUFBQTtBQUFBLEtBRHhEZ0I7QUFBUSxJQUFBdUQ7QUFBQSxhQUFBQSxJQUFBIiwibmFtZXMiOlsidXNlU3RhdGUiLCJMaW5rIiwidXNlU2VhcmNoUGFyYW1zIiwiQXJyb3dSaWdodCIsIlBsdXMiLCJCdXR0b24iLCJFbXB0eSIsIkVycm9yU3RhdGUiLCJMb2FkaW5nIiwidXNlRGF0YSIsImFwaSIsInNpZGVMYWJlbCIsInR5cGVMYWJlbCIsImxvYWQiLCJwYXRpZW50cyIsInNlc3Npb25zIiwiUHJvbWlzZSIsImFsbCIsIlNlc3Npb25zIiwiX3MiLCJkYXRhIiwibG9hZGluZyIsImVycm9yIiwicmVsb2FkIiwicGFyYW1zIiwib3BlbiIsInNldE9wZW4iLCJwYXRpZW50SWQiLCJzZXRQYXRpZW50SWQiLCJnZXQiLCJzaWRlIiwic2V0U2lkZSIsImtpbmQiLCJzZXRLaW5kIiwibm90ZXMiLCJzZXROb3RlcyIsInNhdmluZyIsInNldFNhdmluZyIsImZvcm1FcnJvciIsInNldEZvcm1FcnJvciIsInN1Ym1pdCIsImUiLCJwcmV2ZW50RGVmYXVsdCIsImNyZWF0ZVNlc3Npb24iLCJwYXRpZW50X2lkIiwiTnVtYmVyIiwiYWZmZWN0ZWRfc2lkZSIsInNlc3Npb25fdHlwZSIsInRyaW0iLCJlcnIiLCJFcnJvciIsIm1lc3NhZ2UiLCJjaGFuZ2VTdGF0dXMiLCJpZCIsInN0YXR1cyIsInVwZGF0ZVNlc3Npb24iLCJwYXRpZW50IiwiZmluZCIsInAiLCJsZW5ndGgiLCJzb3J0IiwiYSIsImIiLCJjcmVhdGVkX2F0IiwibG9jYWxlQ29tcGFyZSIsIm1hcCIsInMiLCJyZXNlYXJjaF9jb2RlIiwidGFyZ2V0IiwidmFsdWUiLCJEYXRlIiwidG9Mb2NhbGVEYXRlU3RyaW5nIiwiY3VycmVudFRhcmdldCIsIl9jIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbIlNlc3Npb25zLnRzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBGb3JtRXZlbnQsIHVzZVN0YXRlIH0gZnJvbSAncmVhY3QnXHJcbmltcG9ydCB7IExpbmssIHVzZVNlYXJjaFBhcmFtcyB9IGZyb20gJ3JlYWN0LXJvdXRlci1kb20nXHJcbmltcG9ydCB7IEFycm93UmlnaHQsIFBsdXMgfSBmcm9tICdsdWNpZGUtcmVhY3QnXHJcbmltcG9ydCB7IEJ1dHRvbiB9IGZyb20gJy4uL2NvbXBvbmVudHMvdWkvYnV0dG9uJ1xyXG5pbXBvcnQgeyBFbXB0eSwgRXJyb3JTdGF0ZSwgTG9hZGluZyB9IGZyb20gJy4uL2NvbXBvbmVudHMvU3RhdGVzJ1xyXG5pbXBvcnQgeyB1c2VEYXRhIH0gZnJvbSAnLi4vaG9va3MvdXNlRGF0YSdcclxuaW1wb3J0IHsgYXBpIH0gZnJvbSAnLi4vc2VydmljZXMvYXBpJ1xyXG5pbXBvcnQgeyBzaWRlTGFiZWwsIHR5cGVMYWJlbCwgdHlwZSBTZXNzaW9uU3RhdHVzLCB0eXBlIFNlc3Npb25UeXBlLCB0eXBlIFNpZGUgfSBmcm9tICcuLi90eXBlcydcclxuY29uc3QgbG9hZCA9IGFzeW5jKCk9Pntjb25zdCBbcGF0aWVudHMsc2Vzc2lvbnNdPWF3YWl0IFByb21pc2UuYWxsKFthcGkucGF0aWVudHMoKSxhcGkuc2Vzc2lvbnMoKV0pO3JldHVybiB7cGF0aWVudHMsc2Vzc2lvbnN9fVxyXG5leHBvcnQgZGVmYXVsdCBmdW5jdGlvbiBTZXNzaW9ucygpIHtcclxuIGNvbnN0IHtkYXRhLGxvYWRpbmcsZXJyb3IscmVsb2FkfT11c2VEYXRhKGxvYWQpOyBjb25zdCBbcGFyYW1zXT11c2VTZWFyY2hQYXJhbXMoKTsgY29uc3QgW29wZW4sc2V0T3Blbl09dXNlU3RhdGUoZmFsc2UpOyBjb25zdCBbcGF0aWVudElkLHNldFBhdGllbnRJZF09dXNlU3RhdGUocGFyYW1zLmdldCgncGF0aWVudCcpID8/ICcnKTsgY29uc3QgW3NpZGUsc2V0U2lkZV09dXNlU3RhdGU8U2lkZT4oJ2xlZnQnKTsgY29uc3QgW2tpbmQsc2V0S2luZF09dXNlU3RhdGU8U2Vzc2lvblR5cGU+KCdhc3Nlc3NtZW50Jyk7IGNvbnN0IFtub3RlcyxzZXROb3Rlc109dXNlU3RhdGUoJycpOyBjb25zdCBbc2F2aW5nLHNldFNhdmluZ109dXNlU3RhdGUoZmFsc2UpOyBjb25zdCBbZm9ybUVycm9yLHNldEZvcm1FcnJvcl09dXNlU3RhdGUoJycpXHJcbiBhc3luYyBmdW5jdGlvbiBzdWJtaXQoZTpGb3JtRXZlbnQpe2UucHJldmVudERlZmF1bHQoKTtzZXRTYXZpbmcodHJ1ZSk7c2V0Rm9ybUVycm9yKCcnKTt0cnl7YXdhaXQgYXBpLmNyZWF0ZVNlc3Npb24oe3BhdGllbnRfaWQ6TnVtYmVyKHBhdGllbnRJZCksYWZmZWN0ZWRfc2lkZTpzaWRlLHNlc3Npb25fdHlwZTpraW5kLG5vdGVzOm5vdGVzLnRyaW0oKSB8fCBudWxsfSk7c2V0T3BlbihmYWxzZSk7c2V0Tm90ZXMoJycpO2F3YWl0IHJlbG9hZCgpfWNhdGNoKGVycil7c2V0Rm9ybUVycm9yKGVyciBpbnN0YW5jZW9mIEVycm9yID8gZXJyLm1lc3NhZ2UgOiAnS2jDtG5nIHThuqFvIMSRxrDhu6NjIHBoacOqbicpfWZpbmFsbHl7c2V0U2F2aW5nKGZhbHNlKX19XHJcbiBhc3luYyBmdW5jdGlvbiBjaGFuZ2VTdGF0dXMoaWQ6bnVtYmVyLHN0YXR1czpTZXNzaW9uU3RhdHVzKXt0cnl7c2V0Rm9ybUVycm9yKCcnKTsgYXdhaXQgYXBpLnVwZGF0ZVNlc3Npb24oaWQse3N0YXR1c30pO2F3YWl0IHJlbG9hZCgpfWNhdGNoKGVycil7c2V0Rm9ybUVycm9yKGVyciBpbnN0YW5jZW9mIEVycm9yID8gZXJyLm1lc3NhZ2UgOiAnS2jDtG5nIGPhuq1wIG5o4bqtdCDEkcaw4bujYyBwaGnDqm4nKX19XHJcbiByZXR1cm4gPD48ZGl2IGNsYXNzTmFtZT1cInBhZ2UtaGVhZGluZ1wiPjxkaXY+PHNwYW4gY2xhc3NOYW1lPVwiZXllYnJvd1wiPlFV4bqiTiBMw50gUEhJw4pOPC9zcGFuPjxoMT5QaGnDqm4gdOG6rXAgJiDEkcOhbmggZ2nDoTwvaDE+PHA+VOG6oW8gcGhpw6puLCB0aGVvIGTDtWkgdHLhuqFuZyB0aMOhaSB2w6AgbeG7nyBraMO0bmcgZ2lhbiBjYW1lcmEuPC9wPjwvZGl2PjxCdXR0b24gb25DbGljaz17KCk9Pntjb25zdCBwYXRpZW50PWRhdGE/LnBhdGllbnRzLmZpbmQocD0+cC5pZD09PU51bWJlcihwYXRpZW50SWQpKTtpZihwYXRpZW50KXNldFNpZGUocGF0aWVudC5hZmZlY3RlZF9zaWRlKTtzZXRPcGVuKHRydWUpO3NldEZvcm1FcnJvcignJyl9fT48UGx1cyBzaXplPXsxOH0vPiBU4bqhbyBwaGnDqm4gbeG7m2k8L0J1dHRvbj48L2Rpdj57Zm9ybUVycm9yICYmICFvcGVuICYmIDxFcnJvclN0YXRlIG1lc3NhZ2U9e2Zvcm1FcnJvcn0vPn08c2VjdGlvbiBjbGFzc05hbWU9XCJwYW5lbFwiPjxkaXYgY2xhc3NOYW1lPVwicGFuZWwtaGVhZGluZ1wiPjxkaXY+PGgyPkRhbmggc8OhY2ggcGhpw6puPC9oMj48cD5Dw6FjIHBoacOqbiBuZ2hpw6puIGPhu6l1IMSRxrDhu6NjIGzGsHUgdHJvbmcgaOG7hyB0aOG7kW5nPC9wPjwvZGl2PjwvZGl2Pntsb2FkaW5nID8gPExvYWRpbmcvPiA6IGVycm9yID8gPEVycm9yU3RhdGUgbWVzc2FnZT17ZXJyb3J9IHJldHJ5PXsoKT0+dm9pZCByZWxvYWQoKX0vPiA6ICFkYXRhPy5zZXNzaW9ucy5sZW5ndGggPyA8RW1wdHk+Q2jGsGEgY8OzIHBoacOqbiBuw6BvLiBIw6N5IHThuqFvIHBoacOqbiBjaG8gYuG7h25oIG5ow6JuLjwvRW1wdHk+IDogPGRpdiBjbGFzc05hbWU9XCJ0YWJsZS13cmFwXCI+PHRhYmxlPjx0aGVhZD48dHI+PHRoPlBoacOqbiAvIELhu4duaCBuaMOibjwvdGg+PHRoPkxv4bqhaSBwaGnDqm48L3RoPjx0aD5UYXkgdOG6rXA8L3RoPjx0aD5UcuG6oW5nIHRow6FpPC90aD48dGg+TmfDoHkgdOG6oW88L3RoPjx0aC8+PC90cj48L3RoZWFkPjx0Ym9keT57Wy4uLmRhdGEuc2Vzc2lvbnNdLnNvcnQoKGEsYik9PmIuY3JlYXRlZF9hdC5sb2NhbGVDb21wYXJlKGEuY3JlYXRlZF9hdCkpLm1hcChzPT48dHIga2V5PXtzLmlkfT48dGQ+PHN0cm9uZz4je3MuaWR9PC9zdHJvbmc+PHNwYW4gY2xhc3NOYW1lPVwiY2VsbC1zdWJcIj57ZGF0YS5wYXRpZW50cy5maW5kKHA9PnAuaWQ9PT1zLnBhdGllbnRfaWQpPy5yZXNlYXJjaF9jb2RlID8/IGBC4buHbmggbmjDom4gIyR7cy5wYXRpZW50X2lkfWB9PC9zcGFuPjwvdGQ+PHRkPnt0eXBlTGFiZWxbcy5zZXNzaW9uX3R5cGVdfTwvdGQ+PHRkPntzaWRlTGFiZWwocy5hZmZlY3RlZF9zaWRlKX08L3RkPjx0ZD48c2VsZWN0IGNsYXNzTmFtZT1cInN0YXR1cy1zZWxlY3RcIiBhcmlhLWxhYmVsPXtgVHLhuqFuZyB0aMOhaSBwaGnDqm4gJHtzLmlkfWB9IHZhbHVlPXtzLnN0YXR1c30gZGlzYWJsZWQ9e3Muc3RhdHVzID09PSAnY29tcGxldGVkJyB8fCBzLnN0YXR1cyA9PT0gJ2NhbmNlbGxlZCd9IG9uQ2hhbmdlPXtlPT52b2lkIGNoYW5nZVN0YXR1cyhzLmlkLGUudGFyZ2V0LnZhbHVlIGFzIFNlc3Npb25TdGF0dXMpfT57cy5zdGF0dXMgPT09ICdkcmFmdCcgJiYgPG9wdGlvbiB2YWx1ZT1cImRyYWZ0XCI+TmjDoXA8L29wdGlvbj59eyhzLnN0YXR1cyA9PT0gJ2RyYWZ0JyB8fCBzLnN0YXR1cyA9PT0gJ2luX3Byb2dyZXNzJykgJiYgPG9wdGlvbiB2YWx1ZT1cImluX3Byb2dyZXNzXCI+xJBhbmcgdGjhu7FjIGhp4buHbjwvb3B0aW9uPn17KHMuc3RhdHVzID09PSAnaW5fcHJvZ3Jlc3MnIHx8IHMuc3RhdHVzID09PSAnY29tcGxldGVkJykgJiYgPG9wdGlvbiB2YWx1ZT1cImNvbXBsZXRlZFwiPkhvw6BuIHRow6BuaDwvb3B0aW9uPn17cy5zdGF0dXMgIT09ICdjb21wbGV0ZWQnICYmIDxvcHRpb24gdmFsdWU9XCJjYW5jZWxsZWRcIj7EkMOjIGjhu6d5PC9vcHRpb24+fTwvc2VsZWN0PjwvdGQ+PHRkPntuZXcgRGF0ZShzLmNyZWF0ZWRfYXQpLnRvTG9jYWxlRGF0ZVN0cmluZygndmktVk4nKX08L3RkPjx0ZD48TGluayBjbGFzc05hbWU9XCJ0ZXh0LWxpbmtcIiB0bz17YC93b3Jrc3BhY2U/c2Vzc2lvbj0ke3MuaWR9YH0+SGnhu4d1IGNodeG6qW4gPEFycm93UmlnaHQgc2l6ZT17MTV9Lz48L0xpbms+PC90ZD48L3RyPil9PC90Ym9keT48L3RhYmxlPjwvZGl2Pn08L3NlY3Rpb24+e29wZW4gJiYgPGRpdiBjbGFzc05hbWU9XCJtb2RhbC1iYWNrZHJvcFwiIG9uTW91c2VEb3duPXtlPT57aWYoZS50YXJnZXQ9PT1lLmN1cnJlbnRUYXJnZXQpc2V0T3BlbihmYWxzZSl9fT48ZGl2IGNsYXNzTmFtZT1cIm1vZGFsXCIgcm9sZT1cImRpYWxvZ1wiIGFyaWEtbW9kYWw9XCJ0cnVlXCIgYXJpYS1sYWJlbGxlZGJ5PVwic2Vzc2lvbi10aXRsZVwiPjxkaXYgY2xhc3NOYW1lPVwicGFuZWwtaGVhZGluZ1wiPjxkaXY+PHNwYW4gY2xhc3NOYW1lPVwiZXllYnJvd1wiPlBIScOKTiBN4buaSTwvc3Bhbj48aDIgaWQ9XCJzZXNzaW9uLXRpdGxlXCI+VOG6oW8gcGhpw6puIG5naGnDqm4gY+G7qXU8L2gyPjwvZGl2PjxidXR0b24gY2xhc3NOYW1lPVwiY2xvc2VcIiBvbkNsaWNrPXsoKT0+c2V0T3BlbihmYWxzZSl9IGFyaWEtbGFiZWw9XCLEkMOzbmdcIj7DlzwvYnV0dG9uPjwvZGl2Pjxmb3JtIGNsYXNzTmFtZT1cImZvcm1cIiBvblN1Ym1pdD17ZT0+dm9pZCBzdWJtaXQoZSl9PjxsYWJlbD5C4buHbmggbmjDom48c2VsZWN0IHJlcXVpcmVkIHZhbHVlPXtwYXRpZW50SWR9IG9uQ2hhbmdlPXtlPT57c2V0UGF0aWVudElkKGUudGFyZ2V0LnZhbHVlKTsgY29uc3QgcGF0aWVudD1kYXRhPy5wYXRpZW50cy5maW5kKHA9PnAuaWQ9PT1OdW1iZXIoZS50YXJnZXQudmFsdWUpKTtpZihwYXRpZW50KXNldFNpZGUocGF0aWVudC5hZmZlY3RlZF9zaWRlKX19PjxvcHRpb24gdmFsdWU9XCJcIj5DaOG7jW4gYuG7h25oIG5ow6JuPC9vcHRpb24+e2RhdGE/LnBhdGllbnRzLm1hcChwPT48b3B0aW9uIGtleT17cC5pZH0gdmFsdWU9e3AuaWR9PntwLnJlc2VhcmNoX2NvZGV9PC9vcHRpb24+KX08L3NlbGVjdD48L2xhYmVsPjxkaXYgY2xhc3NOYW1lPVwiZm9ybS1ncmlkXCI+PGxhYmVsPkxv4bqhaSBwaGnDqm48c2VsZWN0IHZhbHVlPXtraW5kfSBvbkNoYW5nZT17ZT0+c2V0S2luZChlLnRhcmdldC52YWx1ZSBhcyBTZXNzaW9uVHlwZSl9PjxvcHRpb24gdmFsdWU9XCJhc3Nlc3NtZW50XCI+xJDDoW5oIGdpw6E8L29wdGlvbj48b3B0aW9uIHZhbHVlPVwidHJhaW5pbmdcIj5MdXnhu4duIHThuq1wPC9vcHRpb24+PC9zZWxlY3Q+PC9sYWJlbD48bGFiZWw+VGF5IGPhuqduIHThuq1wPHNlbGVjdCB2YWx1ZT17c2lkZX0gb25DaGFuZ2U9e2U9PnNldFNpZGUoZS50YXJnZXQudmFsdWUgYXMgU2lkZSl9PjxvcHRpb24gdmFsdWU9XCJsZWZ0XCI+VHLDoWk8L29wdGlvbj48b3B0aW9uIHZhbHVlPVwicmlnaHRcIj5QaOG6o2k8L29wdGlvbj48L3NlbGVjdD48L2xhYmVsPjwvZGl2PjxsYWJlbD5HaGkgY2jDujx0ZXh0YXJlYSByb3dzPXszfSB2YWx1ZT17bm90ZXN9IG9uQ2hhbmdlPXtlPT5zZXROb3RlcyhlLnRhcmdldC52YWx1ZSl9Lz48L2xhYmVsPntmb3JtRXJyb3IgJiYgPEVycm9yU3RhdGUgbWVzc2FnZT17Zm9ybUVycm9yfS8+fTxkaXYgY2xhc3NOYW1lPVwiZm9ybS1hY3Rpb25zXCI+PEJ1dHRvbiB0eXBlPVwiYnV0dG9uXCIgdmFyaWFudD1cIm91dGxpbmVcIiBvbkNsaWNrPXsoKT0+c2V0T3BlbihmYWxzZSl9Pkjhu6d5PC9CdXR0b24+PEJ1dHRvbiBkaXNhYmxlZD17c2F2aW5nIHx8ICFkYXRhPy5wYXRpZW50cy5sZW5ndGh9PntzYXZpbmc/J8SQYW5nIHThuqFv4oCmJzonVOG6oW8gcGhpw6puJ308L0J1dHRvbj48L2Rpdj57IWRhdGE/LnBhdGllbnRzLmxlbmd0aCAmJiA8cCBjbGFzc05hbWU9XCJoZWxwXCI+Q+G6p24gdGjDqm0gYuG7h25oIG5ow6JuIHRyxrDhu5tjIGtoaSB04bqhbyBwaGnDqm4uPC9wPn08L2Zvcm0+PC9kaXY+PC9kaXY+fTwvPlxyXG59XHJcbiJdLCJmaWxlIjoiRDovcmVoYWJpbGl0YXRpb24vcmVoYWJpbGl0YXRpb24tYXIvZnJvbnRlbmQvc3JjL3BhZ2VzL1Nlc3Npb25zLnRzeCJ9

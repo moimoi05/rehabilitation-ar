@@ -1,0 +1,16 @@
+2026/11/01-02:06:35.868 4aa0 Reusing MANIFEST D:\rehabilitation\rehabilitation-ar\edge-profile\Default\IndexedDB\chrome-extension_pdffkfellgipmhklpdmokmckkkfcopbh_0.indexeddb.leveldb/MANIFEST-000001
+2026/11/01-02:06:35.869 4aa0 Recovering log #20
+2026/11/01-02:06:35.869 4aa0 Reusing old log D:\rehabilitation\rehabilitation-ar\edge-profile\Default\IndexedDB\chrome-extension_pdffkfellgipmhklpdmokmckkkfcopbh_0.indexeddb.leveldb/000020.log 
+2026/11/01-02:06:35.870 4aa0 Delete type=2 #17
+2026/11/01-02:06:35.870 4aa0 Delete type=2 #18
+2026/11/01-02:06:35.878 155c Level-0 table #26: started
+2026/11/01-02:06:35.880 155c Level-0 table #26: 621 bytes OK
+2026/11/01-02:06:35.881 155c Delete type=0 #20
+2026/11/01-02:06:35.882 4aa0 Manual compaction at level-0 from '\x00\x08\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x09\x00\x00\x00' @ 0 : 0; will stop at '\x00\x08\x00\x00\x05' @ 4962 : 1
+2026/11/01-02:06:35.882 4aa0 Compacting 1@0 + 2@1 files
+2026/11/01-02:06:35.897 4aa0 Generated table #27@0: 2296 keys, 2107678 bytes
+2026/11/01-02:06:35.900 4aa0 Generated table #28@0: 234 keys, 368883 bytes
+2026/11/01-02:06:35.900 4aa0 Compacted 1@0 + 2@1 files => 2476561 bytes
+2026/11/01-02:06:35.900 4aa0 compacted to: files[ 0 2 1 0 0 0 0 ]
+2026/11/01-02:06:35.901 4aa0 Delete type=2 #26
+2026/11/01-02:06:35.901 4aa0 Manual compaction at level-0 from '\x00\x08\x00\x00\x05' @ 4962 : 1 .. '\x00\x09\x00\x00\x00' @ 0 : 0; will stop at (end)

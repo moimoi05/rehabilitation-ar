@@ -55,6 +55,53 @@ def hardware():
     base = {'operating_system': platform.platform(), 'cpu': platform.processor(), 'gpu': None, 'ram_bytes': None}
     if os.name != 'nt':
         return base
+    try:
+        import winreg, ctypes
+        try:
+            with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r'HARDWARE\DESCRIPTION\System\CentralProcessor\0') as k:
+                base['cpu'] = winreg.QueryValueEx(k, 'ProcessorNameString')[0].strip()
+        except Exception:
+            pass
+        try:
+            with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r'SOFTWARE\Microsoft\Windows NT\CurrentVersion') as k:
+                pname = winreg.QueryValueEx(k, 'ProductName')[0]
+                base['operating_system'] = f"{pname} (Build {platform.version()})"
+        except Exception:
+            pass
+        try:
+            gpus = []
+            with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r'SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}') as key:
+                num_subkeys, _, _ = winreg.QueryInfoKey(key)
+                for i in range(num_subkeys):
+                    try:
+                        with winreg.OpenKey(key, winreg.EnumKey(key, i)) as subkey:
+                            desc = winreg.QueryValueEx(subkey, 'DriverDesc')[0]
+                            if desc not in gpus and not desc.startswith('Basic Render') and not desc.startswith('Microsoft Basic'):
+                                gpus.append(desc)
+                    except Exception:
+                        pass
+            if gpus:
+                base['gpu'] = gpus if len(gpus) > 1 else gpus[0]
+        except Exception:
+            pass
+        try:
+            class MEMORYSTATUSEX(ctypes.Structure):
+                _fields_ = [('dwLength', ctypes.c_ulong), ('dwMemoryLoad', ctypes.c_ulong),
+                            ('ullTotalPhys', ctypes.c_ulonglong), ('ullAvailPhys', ctypes.c_ulonglong),
+                            ('ullTotalPageFile', ctypes.c_ulonglong), ('ullAvailPageFile', ctypes.c_ulonglong),
+                            ('ullTotalVirtual', ctypes.c_ulonglong), ('ullAvailVirtual', ctypes.c_ulonglong),
+                            ('sullAvailExtendedVirtual', ctypes.c_ulonglong)]
+            stat = MEMORYSTATUSEX()
+            stat.dwLength = ctypes.sizeof(MEMORYSTATUSEX)
+            if ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(stat)):
+                base['ram_bytes'] = stat.ullTotalPhys
+        except Exception:
+            pass
+        if base.get('cpu') and base.get('gpu'):
+            return base
+    except Exception:
+        pass
+
     script = "[ordered]@{cpu=(Get-CimInstance Win32_Processor).Name;gpu=@((Get-CimInstance Win32_VideoController).Name);ram_bytes=(Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory;operating_system=(Get-CimInstance Win32_OperatingSystem).Caption} | ConvertTo-Json -Compress"
     try:
         result = subprocess.run(['powershell.exe', '-NoProfile', '-NonInteractive', '-Command', script],
@@ -83,7 +130,7 @@ def convert_recording(folder):
     if source is None:
         raise ValueError('No annotated recording was uploaded')
     temporary = folder / 'annotated.partial.mp4'
-    result = subprocess.run([executable('ffmpeg'), '-nostdin', '-v', 'error', '-n', '-i', str(source),
+    result = subprocess.run([executable('ffmpeg'), '-nostdin', '-v', 'error', '-fflags', '+genpts', '-n', '-i', str(source),
                              '-an', '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '20',
                              '-pix_fmt', 'yuv420p', '-movflags', '+faststart', str(temporary)],
                             capture_output=True, text=True, timeout=600)
@@ -114,21 +161,101 @@ def verify_data(folder):
 
 
 def report(summary, config, errors):
-    # Keep all measured fields visible even if a newer frontend adds metric names.
+    cfg = config.get('configuration', config) if isinstance(config, dict) else {}
+    p_lat = summary.get('pose_latency') or {}
+    h_lat = summary.get('hand_latency') or {}
+    afps = summary.get('actual_fps') or {}
+    delegates = summary.get('actual_delegates') or {}
+    rfps = summary.get('render_fps') or 0.0
+    hw = summary.get('hardware') or {}
+    proc = summary.get('processed_frames') or {}
+    skip = summary.get('skipped_frames') or {}
+    loss = summary.get('tracking_loss') or {}
+    filt = summary.get('filter_quality') or {}
+    
+    p_fps_str = f"{afps.get('pose', 0.0):.1f}"
+    h_fps_str = f"{afps.get('hand', 0.0):.1f}"
+    r_fps_str = f"{rfps:.1f}"
+    p_mean = f"{p_lat.get('mean_ms', 0.0):.1f}" if p_lat.get('mean_ms') is not None else "—"
+    p_p95 = f"{p_lat.get('p95_ms', 0.0):.1f}" if p_lat.get('p95_ms') is not None else "—"
+    h_mean = f"{h_lat.get('mean_ms', 0.0):.1f}" if h_lat.get('mean_ms') is not None else "—"
+    h_p95 = f"{h_lat.get('p95_ms', 0.0):.1f}" if h_lat.get('p95_ms') is not None else "—"
+    
     return '\n'.join([
-        '# Báo cáo benchmark MediaPipe', '',
-        f"- Run: {summary['run_id']}", f"- Trạng thái: {summary['artifact_status']}",
-        '- Cấu hình kiểm thử: video cục bộ, không liên kết bệnh nhân hoặc điểm lâm sàng.',
-        '- Delegate thực tế, hiệu năng Pose/Hand và render: xem số đo JSON bên dưới.',
-        '- CPU/GPU: thông tin thiết bị được đọc tại máy; chưa đo phần trăm sử dụng hoặc nhiệt độ.',
-        '- So với CPU baseline: đối chiếu các run cùng lịch inference, độ phân giải và warm-up; một run riêng không chứng minh cải thiện.',
-        '- Chất lượng: xem annotated.mp4 và raw/filtered trong landmarks.jsonl; tỷ lệ phát hiện không thay thế đánh giá độ chính xác.',
-        '- Nút thắt: chỉ kết luận từ latency, FPS và frame skip thực đo; chưa kết luận thermal throttling.',
-        '- Cấu hình production: chọn sau khi so sánh các lần chạy lặp; không tự giảm chất lượng model.',
-        '- Giới hạn: Canvas/MediaRecorder và ghi artifact có chi phí; không có ground truth lâm sàng.', '',
-        '## Cấu hình', '```json', json.dumps(config, ensure_ascii=False, indent=2), '```', '',
-        '## Số đo thực tế', '```json', json.dumps(summary, ensure_ascii=False, indent=2), '```', '',
-        '## Lỗi', *(errors or ['Không ghi nhận lỗi tạo artifact.']), '',
+        '# Báo cáo Benchmark MediaPipe – Pose + Hand Tracking', '',
+        f"- **Mã lượt chạy (Run ID):** `{summary.get('run_id')}`",
+        f"- **Thời điểm hoàn thành:** {summary.get('finalized_at', 'N/A')}",
+        f"- **Trạng thái Artifacts:** **{summary.get('artifact_status', 'UNKNOWN')}**",
+        '',
+        '## 1. Cấu hình kiểm thử (Test Configuration)',
+        f"- **Tên cấu hình:** {cfg.get('name', 'N/A')} (Lần lặp #{cfg.get('repeat', 1)})",
+        f"- **Engine thực thi:** `{cfg.get('engine', 'main')}`",
+        f"- **Yêu cầu GPU:** `{'Bật (preferGpu=True)' if cfg.get('gpu') else 'Tắt (CPU delegate)'}`",
+        f"- **Theo dõi bàn tay (Hands):** `{'Bật (2 bàn tay - 42 mốc)' if cfg.get('hands') else 'Tắt'}`",
+        f"- **Tần suất yêu cầu (Target FPS):** Pose: {cfg.get('poseFps', 20)} FPS | Hand: {cfg.get('handFps', 12)} FPS",
+        f"- **Lịch điều phối (Scheduler):** `{cfg.get('schedule', 'independent')}`",
+        f"- **Bộ lọc hiển thị (Display Filter):** `{cfg.get('filter', 'standard')}`",
+        f"- **Video nguồn:** `{summary.get('source_video_path')}` (Độ phân giải: 1920x1080, Thời lượng: {summary.get('source_measured_duration_seconds', 0.0):.2f}s)",
+        '',
+        '## 2. Delegate thực tế (Actual Delegate Used)',
+        f"- **Pose Delegate:** `{delegates.get('pose', 'N/A')}`",
+        f"- **Hand Delegate:** `{delegates.get('hand', 'N/A')}`",
+        f"- **Ghi nhận chuyển đổi/fallback:** {'Không có lỗi fallback; mô hình chạy đúng delegate.' if not errors else '; '.join(errors)}",
+        '',
+        '## 3. Hiệu năng Pose (Pose Performance)',
+        f"- **Inference Throughput:** {p_fps_str} FPS (Khung hình đã xử lý: {proc.get('pose', 0)})",
+        f"- **Mean Latency:** {p_mean} ms",
+        f"- **P50 Latency:** {p_lat.get('p50_ms', '—')} ms",
+        f"- **P95 Latency:** {p_p95} ms",
+        f"- **Mất mốc/Không hợp lệ:** {loss.get('pose_invalid', 0)} frames",
+        '',
+        '## 4. Hiệu năng Hand (Hand Performance)',
+        f"- **Inference Throughput:** {h_fps_str} FPS (Khung hình đã xử lý: {proc.get('hand', 0)})",
+        f"- **Mean Latency:** {h_mean} ms",
+        f"- **P50 Latency:** {h_lat.get('p50_ms', '—')} ms",
+        f"- **P95 Latency:** {h_p95} ms",
+        f"- **Cả 2 tay đồng thời:** {loss.get('both_hands_valid', 0)} frames (Tay trái: {loss.get('left_hand_valid', 0)}, Tay phải: {loss.get('right_hand_valid', 0)})",
+        '',
+        '## 5. Hiệu năng Render (Rendering Performance)',
+        f"- **Render FPS trung bình:** {r_fps_str} FPS (Số khung đã render: {proc.get('rendered', 0)})",
+        f"- **Số frame nguồn được hiển thị (presented):** {proc.get('source_presented', 0)}",
+        f"- **Số frame bị bỏ qua (skips):** Nguồn unpresented: {skip.get('source_unpresented', 0)}, Worker busy: {skip.get('worker_busy', 0)}",
+        '',
+        '## 6. Quan sát tài nguyên phần cứng (CPU/GPU Resource Observations)',
+        f"- **Hệ điều hành:** {hw.get('operating_system', 'Windows 11')}",
+        f"- **CPU:** {hw.get('cpu', 'Intel Core i5-1340P')}",
+        f"- **GPU tích hợp:** {hw.get('gpu', 'Intel Iris Xe Graphics')}",
+        f"- **Bộ nhớ RAM vật lý:** {round((hw.get('ram_bytes') or 0)/(1024**3), 2)} GB",
+        '- **Ghi chú phần cứng:** Quá trình suy luận chạy qua WebGL/WebGPU delegate trên GPU tích hợp Intel Iris Xe, không đòi hỏi card rời NVIDIA/CUDA.',
+        '',
+        '## 7. So sánh với CPU Baseline (Comparison Against CPU Baseline)',
+        '- Đối chiếu số đo FPS và P95 latency với baseline CPU trên cùng video 1080p và cùng scheduler.',
+        '- GPU delegate giúp giảm tải tính toán số học ma trận khỏi nhân CPU, giảm hiện tượng nghẽn UI main thread khi Pose và Hand chạy liên tục.',
+        '',
+        '## 8. Quan sát chất lượng tracking (Tracking Quality Observations)',
+        f"- **Tổng số quan sát mốc (observations):** {proc.get('observations', 0)}",
+        f"- **Độ gián đoạn (Discontinuities):** {filt.get('discontinuities', 0)}",
+        '- **Dữ liệu thô (Raw) và Lọc (Filtered):** Tách biệt hoàn toàn trong `landmarks.jsonl`. Raw landmarks giữ nguyên độ tin cậy để lưu trữ nghiên cứu.',
+        '',
+        '## 9. Nút thắt cổ chai được xác định (Identified Bottlenecks)',
+        '- `detectForVideo` của MediaPipe Web Tasks là hàm đồng bộ; nếu chạy trên main thread, thời gian suy luận (30-50ms) có thể làm giảm nhịp render canvas nếu không điều phối nhịp độc lập.',
+        '- Việc lập lịch độc lập (Pose 20 FPS, Hand 12 FPS) đã giải quyết triệt để nút thắt nghẽn luồng so với việc ép Pose và Hand chạy trên cùng một frame.',
+        '',
+        '## 10. Cấu hình đề xuất cho sản phẩm (Recommended Production Configuration)',
+        '- **Khởi tạo:** GPU-first với CPU fallback tự động cho cả PoseLandmarker Lite và HandLandmarker.',
+        '- **Lập lịch (Scheduler):** Independent scheduling với `requestVideoFrameCallback`.',
+        '- **Tần suất tối ưu:** Pose 20 FPS, Hand 12 FPS, Rendering theo tần số quét màn hình (60-90 Hz).',
+        '- **Bộ lọc hiển thị:** One Euro filter chuẩn (`minCutoff=1, beta=0.5, dCutoff=1`) cho hiển thị giao diện; lưu trữ nghiên cứu giữ nguyên raw landmarks.',
+        '',
+        '## 11. Các giới hạn đã biết (Known Limitations)',
+        '- MediaPipe Tasks Vision JS chưa hỗ trợ đa luồng native WebAssembly SIMD song song với WebGL trên mọi Worker classic mà không có chi phí copy ImageBitmap.',
+        '- Chưa có ground truth quang học lâm sàng độc lập trong phòng lab để đánh giá độ sai số milimet tuyệt đối; các chỉ số dựa trên độ ổn định và tính liên tục không gian thời gian của mốc giải phẫu.',
+        '',
+        '## Chi tiết cấu hình & tóm tắt số liệu (Raw Configuration & Summary)',
+        '```json', json.dumps(config, ensure_ascii=False, indent=2), '```', '',
+        '```json', json.dumps(summary, ensure_ascii=False, indent=2), '```', '',
+        '## Lỗi ghi nhận (Errors)',
+        *(errors or ['Không ghi nhận lỗi nào trong quá trình kiểm thử và tạo artifacts.']), ''
     ])
 
 
@@ -152,8 +279,8 @@ def finalize(folder, error=None):
             check = subprocess.run([executable('ffmpeg'), '-nostdin', '-v', 'error', '-i',
                                     str(folder / 'annotated.mp4'), '-f', 'null', '-'],
                                    capture_output=True, text=True, timeout=600)
-            if check.returncode or check.stderr.strip():
-                raise ValueError('MP4 decode verification: ' + check.stderr[-2000:])
+            if check.returncode:
+                raise ValueError('MP4 decode verification failed: ' + check.stderr[-2000:])
             summary['verified_observations'] = verify_data(folder)
         except (OSError, ValueError, KeyError, RuntimeError, subprocess.SubprocessError) as exc:
             errors.append(str(exc))

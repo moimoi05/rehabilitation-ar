@@ -1,0 +1,703 @@
+{
+   "1010": {
+      "message": "Izveidot jaunu"
+   },
+   "1109": {
+      "message": "Šim meklēšanas vaicājumam nav rezultātu."
+   },
+   "111": {
+      "message": "Sistēma šobrīd nevar veikt šo darbību. Vēlāk mēģiniet vēlreiz."
+   },
+   "1301": {
+      "message": "Iestatījumi"
+   },
+   "1343": {
+      "message": "Saglabāts sadaļā Mana bibliotēka"
+   },
+   "1441": {
+      "message": "Iepriekšējais"
+   },
+   "1442": {
+      "message": "Tālāk"
+   },
+   "1462": {
+      "message": "Aizvērt"
+   },
+   "1463": {
+      "message": "Iesniegt"
+   },
+   "1484": {
+      "message": "Iepriekšējā lapa"
+   },
+   "1485": {
+      "message": "Nākamā lapa"
+   },
+   "1486": {
+      "message": "Tālināt"
+   },
+   "1487": {
+      "message": "Tuvināt"
+   },
+   "1488": {
+      "message": "Pielāgot augstumam"
+   },
+   "1489": {
+      "message": "Pielāgot platumam"
+   },
+   "1490": {
+      "message": "Pagriezt"
+   },
+   "1491": {
+      "message": "Saglabāt manā bibliotēkā"
+   },
+   "1492": {
+      "message": "Lejupielādēt"
+   },
+   "1493": {
+      "message": "Drukāt"
+   },
+   "1494": {
+      "message": "Vēl"
+   },
+   "1513": {
+      "message": "Sīktēli"
+   },
+   "1514": {
+      "message": "Sakļaut visu"
+   },
+   "1515": {
+      "message": "Izvērst visu"
+   },
+   "1542": {
+      "message": "Google Scholar"
+   },
+   "1617": {
+      "message": "Meklēt Google tīklā"
+   },
+   "1618": {
+      "message": "Google Scholar bibliotēka"
+   },
+   "1620": {
+      "message": "Izgūstot rezultātus, radās kļūda. Lūdzu, vēlāk mēģiniet vēlreiz."
+   },
+   "1621": {
+      "message": "Notiek meklēšana pakalpojumā Scholar…"
+   },
+   "1623": {
+      "message": "Saglabāt Scholar bibliotēkā"
+   },
+   "1626": {
+      "message": "Dokumenta rekvizīti"
+   },
+   "1627": {
+      "message": "Atvērt Chrome skatītājā"
+   },
+   "1628": {
+      "message": "Rādīt vairāk"
+   },
+   "1629": {
+      "message": "Rādīt mazāk"
+   },
+   "1630": {
+      "message": "Pierakstīties"
+   },
+   "1631": {
+      "message": "Saglabāts sadaļā $ANCHOR_BEGIN$Mana bibliotēka$ANCHOR_END$",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1632": {
+      "message": "Notiek saglabāšana sadaļā “Mana bibliotēka”…"
+   },
+   "1633": {
+      "message": "Raksts netika atrasts pakalpojumā Scholar."
+   },
+   "1635": {
+      "message": "Faila nosaukums"
+   },
+   "1636": {
+      "message": "Faila lielums"
+   },
+   "1637": {
+      "message": "Nosaukums"
+   },
+   "1638": {
+      "message": "Autors"
+   },
+   "1639": {
+      "message": "Temats"
+   },
+   "1640": {
+      "message": "Atslēgvārdi"
+   },
+   "1641": {
+      "message": "Izveidots"
+   },
+   "1642": {
+      "message": "Pārveidots"
+   },
+   "1643": {
+      "message": "Lietojumprogramma"
+   },
+   "1644": {
+      "message": " PDF izveides rīks:"
+   },
+   "1645": {
+      "message": "PDF versija"
+   },
+   "1646": {
+      "message": "Lappušu skaits"
+   },
+   "1647": {
+      "message": "Lapas lielums"
+   },
+   "1648": {
+      "message": "portrets"
+   },
+   "1649": {
+      "message": "ainava"
+   },
+   "1650": {
+      "message": "kvadrāts"
+   },
+   "1651": {
+      "message": "Atšķiras"
+   },
+   "1652": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ collas ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1653": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1654": {
+      "message": "Ātrais tīmekļa skats"
+   },
+   "1655": {
+      "message": "Jā"
+   },
+   "1656": {
+      "message": "Nē"
+   },
+   "1660": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ collas ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1661": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1662": {
+      "message": "Letter"
+   },
+   "1663": {
+      "message": "Legal"
+   },
+   "1664": {
+      "message": "Neliela formāta laikraksts"
+   },
+   "1668": {
+      "message": "Neizdevās ielādēt PDF dokumentu."
+   },
+   "1669": {
+      "message": "Atkārtoti ielādēt"
+   },
+   "1670": {
+      "message": "Kļūda"
+   },
+   "1673": {
+      "message": "Nepieciešama parole"
+   },
+   "1674": {
+      "message": "Šis dokuments ir aizsargāts ar paroli. Lūdzu, ievadiet paroli."
+   },
+   "1675": {
+      "message": "Lai drukātu PDF dokumentu, lūdzu, izmantojiet rīkjoslas pogu Drukāt."
+   },
+   "1676": {
+      "message": "Nepareiza parole."
+   },
+   "1677": {
+      "message": "Veidlapu aizpildīšana vēl netiek atbalstīta Scholar PDF lasītājā."
+   },
+   "1678": {
+      "message": "Google Scholar PDF lasītājs"
+   },
+   "1698": {
+      "message": "Satura rādītājs"
+   },
+   "1702": {
+      "message": "Scholar PDF lasītāja iespējošana"
+   },
+   "1703": {
+      "message": "Lai lasītu PDF failus savā datorā, izmantojot Google Scholar PDF lasītāju, iestatījumos iespējojiet piekļuvi failu vietrāžiem URL un pēc tam atkārtoti ielādējiet attiecīgo PDF failu."
+   },
+   "1704": {
+      "message": "Atvērt iestatījumus"
+   },
+   "1707": {
+      "message": "Attēlojuma režīms"
+   },
+   "1711": {
+      "message": "Pilnekrāna režīms"
+   },
+   "1712": {
+      "message": "Gaišais režīms"
+   },
+   "1713": {
+      "message": "Tumšais režīms"
+   },
+   "1714": {
+      "message": "Nakts režīms"
+   },
+   "1715": {
+      "message": "Skatīt sadaļā “Atsauces”"
+   },
+   "1716": {
+      "message": "Lai iespējotu saglabāšanu savā Scholar bibliotēkā, izvērsiet PDF failu pilnekrāna režīmā."
+   },
+   "1717": {
+      "message": "Izvērst"
+   },
+   "1718": {
+      "message": "Vēlāk"
+   },
+   "1723": {
+      "message": "Lai iespējotu drukāšanu, atveriet PDF failu Chrome skatītājā."
+   },
+   "1724": {
+      "message": "Atvērt"
+   },
+   "1726": {
+      "message": "Uzlabojiet rakstu lasīšanu: sekojiet atsaucēm, pārlūkojiet satura rādītāju, pārejiet uz attēliem, citējiet un saglabājiet saturu."
+   },
+   "1732": {
+      "message": "Ierīces režīms"
+   },
+   "1734": {
+      "message": "Ziņot par problēmu"
+   },
+   "1741": {
+      "message": "Sadaļas"
+   },
+   "1742": {
+      "message": "MI satura rādītājs"
+   },
+   "1744": {
+      "message": "MI satura rādītāja iestatījumi"
+   },
+   "1745": {
+      "message": "MI satura rādītāja pieprasīšana pakalpojumā Scholar"
+   },
+   "1746": {
+      "message": "Tikai tad, kad tiek noklikšķināts uz ikonas $ICON$",
+      "placeholders": {
+         "ICON": {
+            "content": "$1"
+         }
+      }
+   },
+   "1748": {
+      "message": "Automātiski, kad tiek atvērts jebkurš PDF fails"
+   },
+   "1749": {
+      "message": "MI satura rādītāji ir pieejami tikai noteiktiem rakstiem"
+   },
+   "1750": {
+      "message": "Vai iespējot MI satura rādītāju visiem PDF failiem?"
+   },
+   "1751": {
+      "message": "Lai izveidotu satura rādītāju, lasītājs mēģinās atrast PDF failu pakalpojumā Scholar"
+   },
+   "1752": {
+      "message": "Par MI satura rādītāju"
+   },
+   "1753": {
+      "message": "Raksta sadaļu galvenās tēzes"
+   },
+   "1754": {
+      "message": "MI satura rādītājs atspoguļo dokumenta galveno sadaļu būtiskākās tēzes"
+   },
+   "1755": {
+      "message": "Varat pārskatīt satura rādītāju vai pāriet uz detalizētu informāciju"
+   },
+   "1756": {
+      "message": "Varat ātri pārskatīt galvenās tēzes un noklikšķināt uz interesējošajām sadaļām, lai uz tām pārietu un skatītu detalizētu informāciju."
+   },
+   "1757": {
+      "message": "MI satura rādītāji ir pieejami tikai noteiktiem pētnieciskiem rakstiem pakalpojumā Scholar. Rādītājus ģenerē datorprogramma, un tie var ietvert nepilnīgu vai neprecīzu informāciju."
+   },
+   "1758": {
+      "message": "Jaunums"
+   },
+   "1759": {
+      "message": "Šim PDF failam nav pieejams MI satura rādītājs"
+   },
+   "1760": {
+      "message": "MI satura rādītājs tika ģenerēts, izmantojot citu šī PDF faila versiju."
+   },
+   "1766": {
+      "message": "Chrome iestatījumi"
+   },
+   "1768": {
+      "message": "Automātiski, kad PDF fails tiek atvērts lielākajā daļā akadēmisko vietņu"
+   },
+   "1773": {
+      "message": "Izcēlumi"
+   },
+   "1775": {
+      "message": "Izcelt"
+   },
+   "1778": {
+      "message": "Komentāri"
+   },
+   "1779": {
+      "message": "Šeit būs redzami jūsu izcēlumi un komentāri"
+   },
+   "1781": {
+      "message": "Mēģināt vēlreiz"
+   },
+   "1783": {
+      "message": "Jūsu Scholar bibliotēka ir pilna"
+   },
+   "1785": {
+      "message": "Atvērt bibliotēku"
+   },
+   "1786": {
+      "message": "Atmest"
+   },
+   "1787": {
+      "message": "Jūsu Scholar konts ir dzēsts"
+   },
+   "1788": {
+      "message": "Atgūstiet savu kontu, lai atzīmētu un komentētu PDF failu."
+   },
+   "1790": {
+      "message": "Ja aizvērsiet vai atkārtoti ielādēsiet šo lapu, nesaglabātās izmaiņas tiks zaudētas."
+   },
+   "1791": {
+      "message": "Servera kļūda"
+   },
+   "1793": {
+      "message": "Ignorēt"
+   },
+   "1794": {
+      "message": "Jūsu pārlūkprogramma ir bezsaistē"
+   },
+   "1796": {
+      "message": "Mēģināt vēlreiz"
+   },
+   "1797": {
+      "message": "Jūsu ierīce ir pilna"
+   },
+   "1800": {
+      "message": "Pierakstieties savā Google kontā, lai saglabātu izcēlumus un komentārus."
+   },
+   "1801": {
+      "message": "Atbrīvojiet vietu Scholar bibliotēkā, lai saglabātu izcēlumus un komentārus."
+   },
+   "1802": {
+      "message": "Pierakstieties e-pasta adresē $EMAIL_ADDRESS$, lai saglabātu izcēlumus un komentārus.",
+      "placeholders": {
+         "EMAIL_ADDRESS": {
+            "content": "$1"
+         }
+      }
+   },
+   "1803": {
+      "message": "Nevarēja saglabāt izcēlumus vai komentārus jūsu Scholar bibliotēkā. Vēlāk mēģināsim saglabāt vēlreiz."
+   },
+   "1804": {
+      "message": "Izveidojiet savienojumu ar internetu, lai saglabātu izcēlumus un komentārus. Vēlāk mēģināsim saglabāt vēlreiz."
+   },
+   "1805": {
+      "message": "Atbrīvojiet vietu ierīcē, lai saglabātu izcēlumus un komentārus. Pretējā gadījumā izmaiņas netiks saglabātas."
+   },
+   "1806": {
+      "message": "Notiek sinhronizēšana..."
+   },
+   "1807": {
+      "message": "Sinhronizācija neizdevās"
+   },
+   "1808": {
+      "message": "Sinhronizējot svarīgākos datus un komentārus, radās kļūda."
+   },
+   "1809": {
+      "message": "Ierīce ir bezsaistē"
+   },
+   "1810": {
+      "message": "Izveidojiet savienojumu ar internetu, lai skatītu svarīgākos datus un komentārus."
+   },
+   "1811": {
+      "message": "Pierakstieties, lai skatītu svarīgākos datus un komentārus."
+   },
+   "1812": {
+      "message": "Nesaglabātas izmaiņas"
+   },
+   "1813": {
+      "message": "Kopēt MI izklāstu"
+   },
+   "1814": {
+      "message": "MI izklāsts, ko izveidoja $BOLD_ANCHOR_BEGIN$Scholar PDF lasītājs$BOLD_ANCHOR_END$",
+      "placeholders": {
+         "BOLD_ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "BOLD_ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1815": {
+      "message": "MI izklāsts ir kopēts starpliktuvē"
+   },
+   "1816": {
+      "message": "Izcēlumi tiks saglabāti jūsu $ANCHOR_BEGIN$Scholar bibliotēkā$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1817": {
+      "message": "Komentāri tiks saglabāti jūsu Scholar bibliotēkā."
+   },
+   "1818": {
+      "message": "Nezināms nosaukums"
+   },
+   "1819": {
+      "message": "Atrast pakalpojumā Scholar"
+   },
+   "1822": {
+      "message": "Komentēt"
+   },
+   "1823": {
+      "message": "Mainīt krāsu"
+   },
+   "1824": {
+      "message": "Saglabāts $ANCHOR_BEGIN$jūsu bibliotēkā$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1825": {
+      "message": "Atlasiet tekstu, ko izcelt vai komentēt."
+   },
+   "1826": {
+      "message": "Izcēlumi tiek saglabāti jūsu $ANCHOR_BEGIN$Scholar bibliotēkā$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1827": {
+      "message": "Izcelt PDF failus"
+   },
+   "1830": {
+      "message": "Izcēlumi tiek saglabāti tiešsaistē"
+   },
+   "1831": {
+      "message": "Jūsu izcēlumi un komentāri tiek saglabāti jūsu $ANCHOR_BEGIN$Scholar bibliotēkā$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1832": {
+      "message": "Piekļūstiet saviem izcēlumiem jebkurā vietā"
+   },
+   "1833": {
+      "message": "Izcēlumi tiks rādīti PDF lasītājā, kamēr būsiet pieteicies(-kusies)"
+   },
+   "1834": {
+      "message": "Doties uz manu bibliotēku"
+   },
+   "1862": {
+      "message": "Nevar izveidot savienojumu ar pārlūka krātuvi"
+   },
+   "1863": {
+      "message": "Šajā pārlūkā ir atspējota izcelšana, taču citas PDF lasīšanas funkcijas joprojām darbojas."
+   },
+   "1864": {
+      "message": "Lai izmantotu izcelšanu, mēģiniet restartēt pārlūkprogrammu vai ierīci."
+   },
+   "1865": {
+      "message": "Nevar izveidot savienojumu ar pārlūka krātuvi. Mēģiniet restartēt pārlūkprogrammu vai ierīci."
+   },
+   "1866": {
+      "message": "Nevar sinhronizēt ar pārlūka krātuvi"
+   },
+   "1867": {
+      "message": "Sinhronizējot svarīgākos datus ar pārlūkā saglabāto krātuvi, radās kļūda. Mēģiniet restartēt pārlūkprogrammu vai ierīci."
+   },
+   "1868": {
+      "message": "Jūsu pārlūka krātuve ir pilna"
+   },
+   "1869": {
+      "message": "Lai izmantotu izcēlumus, mēģiniet atbrīvot vietu ierīcē."
+   },
+   "1870": {
+      "message": "Jūsu pārlūkprogrammas krātuve ir pilna. Mēģiniet atbrīvot vietu ierīcē."
+   },
+   "1871": {
+      "message": "Lai izmantotu izcēlumus, atsvaidziniet izcēlumu kešatmiņu. Šis process var ilgt kādu brīdi."
+   },
+   "1872": {
+      "message": "Atsvaidzināt kešatmiņu"
+   },
+   "1873": {
+      "message": "Sinhronizējot svarīgākos datus ar pārlūkā saglabāto krātuvi, radās kļūda. Mēģiniet atsvaidzināt izcēlumu kešatmiņu. Šis process var ilgt kādu brīdi."
+   },
+   "1874": {
+      "message": "Pārāk daudz izcēlumu"
+   },
+   "1875": {
+      "message": "Jūsu bibliotēkai nevar pievienot vairāk izcēlumu."
+   },
+   "1876": {
+      "message": "Lai turpinātu izcelšanu, noņemiet dažus izcēlumus."
+   },
+   "1877": {
+      "message": "Atmest izmaiņas"
+   },
+   "1882": {
+      "message": "Izcēlumi ir ieslēgti pārāk daudz versijās"
+   },
+   "1883": {
+      "message": "Varat pievienot izcēlumus ne vairāk kā trim viena raksta versijām."
+   },
+   "1884": {
+      "message": "Lai turpinātu pievienot izcēlumus šai versijai, noņemiet izcēlumus no citas versijas."
+   },
+   "1885": {
+      "message": "Pārvaldīt izcēlumus"
+   },
+   "1888": {
+      "message": " Skatīt bibliotēkā"
+   },
+   "1918": {
+      "message": "Šī URL saturs ir mainīts. Jums ir izcēlumi iepriekšējā versijā."
+   },
+   "535": {
+      "message": "Meklēt pakalpojumā Scholar"
+   },
+   "551": {
+      "message": "Noņemt rakstu"
+   },
+   "59": {
+      "message": "Citēt"
+   },
+   "625": {
+      "message": "Notiek ielāde..."
+   },
+   "626": {
+      "message": "$PAGE_NUMBER$. lpp.",
+      "placeholders": {
+         "PAGE_NUMBER": {
+            "content": "$1"
+         }
+      }
+   },
+   "64": {
+      "message": "Saglabāt"
+   },
+   "644": {
+      "message": "Gatavs"
+   },
+   "649": {
+      "message": "Nerādīt"
+   },
+   "732": {
+      "message": "Mana bibliotēka"
+   },
+   "907": {
+      "message": "Atkopt kontu"
+   },
+   "920": {
+      "message": "Meklēt"
+   },
+   "924": {
+      "message": "Pievienot atzīmi:"
+   },
+   "96": {
+      "message": "Dzēst"
+   },
+   "965": {
+      "message": "Protams"
+   },
+   "966": {
+      "message": "Nē, paldies!"
+   },
+   "chrome_client_3269861059707096562": {
+      "message": "Atļaut piekļuvi faila vietrāžiem URL"
+   }
+}

@@ -1,0 +1,703 @@
+{
+   "1010": {
+      "message": "Vytvoriť nový"
+   },
+   "1109": {
+      "message": "Pre toto vyhľadávanie sa nenašli žiadne výsledky."
+   },
+   "111": {
+      "message": "Systém momentálne nemôže vykonať operáciu. Skúste to neskôr."
+   },
+   "1301": {
+      "message": "Nastavenia"
+   },
+   "1343": {
+      "message": "Uložené do mojej knižnice"
+   },
+   "1441": {
+      "message": "Predchádzajúci"
+   },
+   "1442": {
+      "message": "Ďalej"
+   },
+   "1462": {
+      "message": "Zavrieť"
+   },
+   "1463": {
+      "message": "Odoslať"
+   },
+   "1484": {
+      "message": "Predchádzajúca stránka"
+   },
+   "1485": {
+      "message": "Ďalšia stránka"
+   },
+   "1486": {
+      "message": "Oddialiť"
+   },
+   "1487": {
+      "message": "Priblížiť"
+   },
+   "1488": {
+      "message": "Prispôsobiť výške"
+   },
+   "1489": {
+      "message": "Prispôsobiť šírke"
+   },
+   "1490": {
+      "message": "Otočiť"
+   },
+   "1491": {
+      "message": "Uložiť do mojej knižnice"
+   },
+   "1492": {
+      "message": "Stiahnuť"
+   },
+   "1493": {
+      "message": "Tlačiť"
+   },
+   "1494": {
+      "message": "Ďalšie možnosti"
+   },
+   "1513": {
+      "message": "Miniatúry"
+   },
+   "1514": {
+      "message": "Zbaliť všetko"
+   },
+   "1515": {
+      "message": "Rozbaliť všetko"
+   },
+   "1542": {
+      "message": "Študovňa Google"
+   },
+   "1617": {
+      "message": "Vyhľadať na Googli"
+   },
+   "1618": {
+      "message": "Knižnica Študovne Google"
+   },
+   "1620": {
+      "message": "Pri načítavaní výsledkov sa vyskytla chyba. Skúste to neskôr."
+   },
+   "1621": {
+      "message": "Vyhľadáva sa v Študovni…"
+   },
+   "1623": {
+      "message": "Uložiť do knižnice Študovne"
+   },
+   "1626": {
+      "message": "Vlastnosti dokumentu"
+   },
+   "1627": {
+      "message": "Otvoriť v zobrazovači Chromu"
+   },
+   "1628": {
+      "message": "Zobraziť viac"
+   },
+   "1629": {
+      "message": "Zobraziť menej"
+   },
+   "1630": {
+      "message": "Prihlásiť sa"
+   },
+   "1631": {
+      "message": "Uložené do $ANCHOR_BEGIN$Mojej knižnice$ANCHOR_END$",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1632": {
+      "message": "Ukladá sa do Mojej knižnice…"
+   },
+   "1633": {
+      "message": "Článok nebol v Študovni nájdený."
+   },
+   "1635": {
+      "message": "Názov súboru"
+   },
+   "1636": {
+      "message": "Veľkosť súboru"
+   },
+   "1637": {
+      "message": "Názov"
+   },
+   "1638": {
+      "message": "Autor"
+   },
+   "1639": {
+      "message": "Predmet"
+   },
+   "1640": {
+      "message": "Kľúčové slová"
+   },
+   "1641": {
+      "message": "Vytvorené"
+   },
+   "1642": {
+      "message": "Upravené"
+   },
+   "1643": {
+      "message": "Aplikácia"
+   },
+   "1644": {
+      "message": " Aplikácia, v ktorej bol tento súbor PDF vytvorený"
+   },
+   "1645": {
+      "message": "Verzia PDF"
+   },
+   "1646": {
+      "message": "Počet strán"
+   },
+   "1647": {
+      "message": "Veľkosť strany"
+   },
+   "1648": {
+      "message": "na výšku"
+   },
+   "1649": {
+      "message": "na šírku"
+   },
+   "1650": {
+      "message": "štvorec"
+   },
+   "1651": {
+      "message": "Rôzna"
+   },
+   "1652": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ in ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1653": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1654": {
+      "message": "Rýchle webové zobrazenie"
+   },
+   "1655": {
+      "message": "Áno"
+   },
+   "1656": {
+      "message": "Nie"
+   },
+   "1660": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ in ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1661": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1662": {
+      "message": "List"
+   },
+   "1663": {
+      "message": "Právny dokument"
+   },
+   "1664": {
+      "message": "Tabloid"
+   },
+   "1668": {
+      "message": "Dokument PDF sa nepodarilo načítať."
+   },
+   "1669": {
+      "message": "Znova načítať"
+   },
+   "1670": {
+      "message": "Chyba"
+   },
+   "1673": {
+      "message": "Vyžaduje sa heslo"
+   },
+   "1674": {
+      "message": "Tento dokument je chránený heslom. Zadajte heslo."
+   },
+   "1675": {
+      "message": "Ak chcete dokument PDF vytlačiť, použite tlačidlo Tlačiť na paneli s nástrojmi."
+   },
+   "1676": {
+      "message": "Nesprávne heslo."
+   },
+   "1677": {
+      "message": "V čítačke PDF v Študovni zatiaľ nie je podporované vypĺňanie formulárov."
+   },
+   "1678": {
+      "message": "Čítačka súborov PDF Študovne Google"
+   },
+   "1698": {
+      "message": "Osnova"
+   },
+   "1702": {
+      "message": "Povolenie čítačky Študovne"
+   },
+   "1703": {
+      "message": "Ak chcete čítať miestne súbory PDF pomocou čítačky Študovne Google, povoľte v nastaveniach prístup k webovým adresám súborov a potom súbor PDF načítajte znova."
+   },
+   "1704": {
+      "message": "Otvoriť nastavenia"
+   },
+   "1707": {
+      "message": "Režim zobrazenia"
+   },
+   "1711": {
+      "message": "Celá obrazovka"
+   },
+   "1712": {
+      "message": "Svetlý režim"
+   },
+   "1713": {
+      "message": "Tmavý režim"
+   },
+   "1714": {
+      "message": "Nočný režim"
+   },
+   "1715": {
+      "message": "Zobraziť v materiáloch"
+   },
+   "1716": {
+      "message": "Ak chcete povoliť ukladanie do knižnice Študovne, rozbaľte súbor PDF na celú obrazovku."
+   },
+   "1717": {
+      "message": "Rozbaliť"
+   },
+   "1718": {
+      "message": "Teraz nie"
+   },
+   "1723": {
+      "message": "Ak chcete povoliť tlač, otvorte PDF v zobrazovači Chromu."
+   },
+   "1724": {
+      "message": "Otvoriť"
+   },
+   "1726": {
+      "message": "Zlepšite si čítanie vedeckých článkov: sledujte materiály, rýchlo prehliadajte osnovu, prejdite na štatistiky, citujte a ukladajte."
+   },
+   "1732": {
+      "message": "Režim zariadenia"
+   },
+   "1734": {
+      "message": "Nahlásiť problém"
+   },
+   "1741": {
+      "message": "Sekcie"
+   },
+   "1742": {
+      "message": "Osnova od umelej inteligencie"
+   },
+   "1744": {
+      "message": "Nastavenia osnovy od umelej inteligencie"
+   },
+   "1745": {
+      "message": "Požiadať o osnovu od umelej inteligencie zo Študovne:"
+   },
+   "1746": {
+      "message": "Iba po kliknutí na $ICON$",
+      "placeholders": {
+         "ICON": {
+            "content": "$1"
+         }
+      }
+   },
+   "1748": {
+      "message": "Automaticky pri otvorení ľubovoľného súboru PDF"
+   },
+   "1749": {
+      "message": "Osnovy od umelej inteligencie sú k dispozícii iba pre vybrané články"
+   },
+   "1750": {
+      "message": "Chcete povoliť osnovu od umelej inteligencie pre všetky súbory PDF?"
+   },
+   "1751": {
+      "message": "Ak chcete zobraziť osnovu, čítačka sa pokúsi nájsť príslušný súbor PDF v Študovni"
+   },
+   "1752": {
+      "message": "Osnova od umelej inteligencie"
+   },
+   "1753": {
+      "message": "Hlavné body sekcií článkov"
+   },
+   "1754": {
+      "message": "V osnovách od umelej inteligencie sú hlavné body hlavných sekcií dokumentu."
+   },
+   "1755": {
+      "message": "Prečítajte si osnovu alebo prejdite na podrobnosti"
+   },
+   "1756": {
+      "message": "Prečítajte si hlavné body a získajte rýchly prehľad. Kliknutím na body, ktoré vás zaujímajú, prejdete na podrobnosti."
+   },
+   "1757": {
+      "message": "Osnovy od umelej inteligencie sú k dispozícii iba pre vybrané články venované výskumu v Študovni. Generuje ich počítačový program a môžu obsahovať neúplné alebo nepresné informácie."
+   },
+   "1758": {
+      "message": "Novinka"
+   },
+   "1759": {
+      "message": "Osnova od umelej inteligencie nie je pre tento súbor PDF k dispozícii."
+   },
+   "1760": {
+      "message": "Osnova od umelej inteligencie bola vygenerovaná pomocou inej verzie tohto súboru PDF."
+   },
+   "1766": {
+      "message": "Nastavenia Chromu"
+   },
+   "1768": {
+      "message": "Automaticky pri otvorení súboru PDF na väčšine akademických webov"
+   },
+   "1773": {
+      "message": "Zvýraznenia"
+   },
+   "1775": {
+      "message": "Zvýraznenie"
+   },
+   "1778": {
+      "message": "Komentáre"
+   },
+   "1779": {
+      "message": "Tu sa zobrazia vaše zvýraznenia a komentáre"
+   },
+   "1781": {
+      "message": "Skúsiť znova"
+   },
+   "1783": {
+      "message": "Vaša knižnica Študovne je plná"
+   },
+   "1785": {
+      "message": "Otvoriť knižnicu"
+   },
+   "1786": {
+      "message": "Zahodiť"
+   },
+   "1787": {
+      "message": "Váš účet Študovne bol odstránený"
+   },
+   "1788": {
+      "message": "Ak chcete zvýrazňovať a komentovať súbory PDF, obnovte svoj účet."
+   },
+   "1790": {
+      "message": "Ak túto stránku zavriete alebo znova načítate, prídete o neuložené zmeny."
+   },
+   "1791": {
+      "message": "Chyba servera"
+   },
+   "1793": {
+      "message": "Ignorovať"
+   },
+   "1794": {
+      "message": "Váš prehliadač je offline"
+   },
+   "1796": {
+      "message": "Skúsiť znova"
+   },
+   "1797": {
+      "message": "Vaše zariadenie je plné"
+   },
+   "1800": {
+      "message": "Ak chcete ukladať zvýraznenia a komentáre, prihláste sa do svojho účtu Google."
+   },
+   "1801": {
+      "message": "Ak chcete ukladať zvýraznenia a komentáre, uvoľnite priestor v knižnici Študovne."
+   },
+   "1802": {
+      "message": "Ak chcete ukladať zvýraznenia a komentáre, prihláste sa do účtu $EMAIL_ADDRESS$.",
+      "placeholders": {
+         "EMAIL_ADDRESS": {
+            "content": "$1"
+         }
+      }
+   },
+   "1803": {
+      "message": "Zvýraznenia alebo komentáre sa nepodarilo uložiť do vašej knižnice Študovne. Skúsime to znova neskôr."
+   },
+   "1804": {
+      "message": "Ak chcete ukladať zvýraznenia a komentáre, pripojte sa k internetu. Skúsime to znova neskôr."
+   },
+   "1805": {
+      "message": "Ak chcete ukladať zvýraznenia a komentáre, uvoľnite v zariadení priestor. Inak sa zmeny neuložia."
+   },
+   "1806": {
+      "message": "Synchronizuje sa…"
+   },
+   "1807": {
+      "message": "Synchronizácia sa nepodarila"
+   },
+   "1808": {
+      "message": "Pri synchronizácii zvýraznení a komentárov sa vyskytla chyba."
+   },
+   "1809": {
+      "message": "Zariadenie je offline"
+   },
+   "1810": {
+      "message": "Ak si chcete zobraziť zvýraznenia a komentáre, pripojte sa k internetu."
+   },
+   "1811": {
+      "message": "Ak si chcete zobraziť zvýraznenia a komentáre, prihláste sa."
+   },
+   "1812": {
+      "message": "Neuložené zmeny"
+   },
+   "1813": {
+      "message": "Skopírovať osnovu od umelej inteligencie"
+   },
+   "1814": {
+      "message": "Osnovu od umelej inteligencie poskytuje $BOLD_ANCHOR_BEGIN$čítačka súborov PDF Študovne$BOLD_ANCHOR_END$",
+      "placeholders": {
+         "BOLD_ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "BOLD_ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1815": {
+      "message": "Osnova od umelej inteligencie bola skopírovaná do schránky"
+   },
+   "1816": {
+      "message": "Zvýraznenia sa uložia do vašej $ANCHOR_BEGIN$knižnice Študovne$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1817": {
+      "message": "Komentáre sa uložia do vašej knižnice Študovne."
+   },
+   "1818": {
+      "message": "Neznámy názov"
+   },
+   "1819": {
+      "message": "Nájsť v Študovni"
+   },
+   "1822": {
+      "message": "Komentovať"
+   },
+   "1823": {
+      "message": "Zmeniť farbu"
+   },
+   "1824": {
+      "message": "Uložené do $ANCHOR_BEGIN$vašej knižnice$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1825": {
+      "message": "Vyberte text, ktorý chcete zvýrazniť alebo komentovať."
+   },
+   "1826": {
+      "message": "Zvýraznenia sa ukladajú do vašej $ANCHOR_BEGIN$knižnice Študovne$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1827": {
+      "message": "Zvýrazňujte v súboroch PDF"
+   },
+   "1830": {
+      "message": "Zvýraznenia sa ukladajú na internete"
+   },
+   "1831": {
+      "message": "Zvýraznenia a komentáre sa ukladajú do vašej $ANCHOR_BEGIN$knižnice Študovne$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1832": {
+      "message": "Získavajte prístup k zvýrazneniam kdekoľvek"
+   },
+   "1833": {
+      "message": "Zvýraznenia sa budú zobrazovať v čítačke súborov PDF, pokiaľ budete mať prihlásený účet."
+   },
+   "1834": {
+      "message": "Prejsť do sekcie Moja knižnica"
+   },
+   "1862": {
+      "message": "K úložisku prehliadača sa nedá pripojiť"
+   },
+   "1863": {
+      "message": "Zvýraznenia sú v tomto prehliadači vypnuté, ale ostatné funkcie čítania súborov PDF stále fungujú."
+   },
+   "1864": {
+      "message": "Ak chcete používať zvýraznenia, skúste reštartovať prehliadač alebo zariadenie."
+   },
+   "1865": {
+      "message": "K úložisku prehliadača sa nedá pripojiť. Skúste reštartovať prehliadač alebo zariadenie."
+   },
+   "1866": {
+      "message": "Nepodarilo sa synchronizovať s úložiskom prehliadača"
+   },
+   "1867": {
+      "message": "Pri synchronizácii zvýraznení s úložiskom prehliadača sa vyskytla chyba. Skúste reštartovať prehliadač alebo zariadenie."
+   },
+   "1868": {
+      "message": "Úložisko prehliadača je plné"
+   },
+   "1869": {
+      "message": "Ak chcete používať zvýraznenia, skúste uvoľniť priestor v zariadení."
+   },
+   "1870": {
+      "message": "Úložisko prehliadača je plné. Skúste uvoľniť priestor v zariadení."
+   },
+   "1871": {
+      "message": "Ak chcete používať zvýraznenia, obnovte ich vyrovnávaciu pamäť. Môže to chvíľu trvať."
+   },
+   "1872": {
+      "message": "Obnoviť vyrovnávaciu pamäť"
+   },
+   "1873": {
+      "message": "Pri synchronizácii zvýraznení s úložiskom prehliadača sa vyskytla chyba. Skúste obnoviť vyrovnávaciu pamäť zvýraznení. Môže to chvíľu trvať."
+   },
+   "1874": {
+      "message": "Príliš veľa zvýraznení"
+   },
+   "1875": {
+      "message": "Do vašej knižnice sa nedajú pridať ďalšie zvýraznenia."
+   },
+   "1876": {
+      "message": "Ak chcete pokračovať v pridávaní zvýraznení, niektoré odstráňte."
+   },
+   "1877": {
+      "message": "Zahodiť zmeny"
+   },
+   "1882": {
+      "message": "Zvýraznenia sú v príliš mnohých verziách"
+   },
+   "1883": {
+      "message": "Zvýraznenia môžete pridať maximálne do troch verzií rovnakého článku."
+   },
+   "1884": {
+      "message": "Ak chcete pokračovať v pridávaní zvýraznení do tejto verzie, odstráňte ich z druhej verzie."
+   },
+   "1885": {
+      "message": "Spravovať zvýraznenia"
+   },
+   "1888": {
+      "message": " Zobraziť v knižnici"
+   },
+   "1918": {
+      "message": "Obsah tejto webovej adresy sa zmenil. Máte zvýraznenia v predchádzajúcej verzii."
+   },
+   "535": {
+      "message": "Hľadať v službe Študovňa"
+   },
+   "551": {
+      "message": "Odstrániť článok"
+   },
+   "59": {
+      "message": "Citovať"
+   },
+   "625": {
+      "message": "Prebieha načítavanie..."
+   },
+   "626": {
+      "message": "Strana $PAGE_NUMBER$",
+      "placeholders": {
+         "PAGE_NUMBER": {
+            "content": "$1"
+         }
+      }
+   },
+   "64": {
+      "message": "Uložiť"
+   },
+   "644": {
+      "message": "Hotovo"
+   },
+   "649": {
+      "message": "Ignorovať"
+   },
+   "732": {
+      "message": "Moja knižnica"
+   },
+   "907": {
+      "message": "Obnoviť účet"
+   },
+   "920": {
+      "message": "Vyhľadať"
+   },
+   "924": {
+      "message": "Označiť ako:"
+   },
+   "96": {
+      "message": "Odstrániť"
+   },
+   "965": {
+      "message": "Áno"
+   },
+   "966": {
+      "message": "Nie, ďakujem"
+   },
+   "chrome_client_3269861059707096562": {
+      "message": "Povoliť prístup k odkazom na miestne súbory"
+   }
+}

@@ -1,0 +1,703 @@
+{
+   "1010": {
+      "message": "Creați una nouă"
+   },
+   "1109": {
+      "message": "Nu există rezultate pentru această căutare."
+   },
+   "111": {
+      "message": "Sistemul nu poate realiza operația în acest moment. Încercați din nou mai târziu."
+   },
+   "1301": {
+      "message": "Setări"
+   },
+   "1343": {
+      "message": "Salvat în Bibliotecă"
+   },
+   "1441": {
+      "message": "Înapoi"
+   },
+   "1442": {
+      "message": "Înainte"
+   },
+   "1462": {
+      "message": "Închideți"
+   },
+   "1463": {
+      "message": "Trimiteți"
+   },
+   "1484": {
+      "message": "Pagina anterioară"
+   },
+   "1485": {
+      "message": "Pagina următoare"
+   },
+   "1486": {
+      "message": "Micșorați"
+   },
+   "1487": {
+      "message": "Măriți"
+   },
+   "1488": {
+      "message": "Ajustați după înălțime"
+   },
+   "1489": {
+      "message": "Ajustați după lățime"
+   },
+   "1490": {
+      "message": "Rotiți"
+   },
+   "1491": {
+      "message": "Salvează în biblioteca mea"
+   },
+   "1492": {
+      "message": "Descărcați"
+   },
+   "1493": {
+      "message": "Printați"
+   },
+   "1494": {
+      "message": "Mai multe"
+   },
+   "1513": {
+      "message": "Miniaturi"
+   },
+   "1514": {
+      "message": "Restrângeți toate"
+   },
+   "1515": {
+      "message": "Extindeți toate"
+   },
+   "1542": {
+      "message": "Google Academic"
+   },
+   "1617": {
+      "message": "Căutați pe Google"
+   },
+   "1618": {
+      "message": "Biblioteca Google Academic"
+   },
+   "1620": {
+      "message": "A apărut o eroare la preluarea rezultatelor. Încercați din nou mai târziu."
+   },
+   "1621": {
+      "message": "Se caută în Google Academic…"
+   },
+   "1623": {
+      "message": "Salvați în Biblioteca Google Academic"
+   },
+   "1626": {
+      "message": "Proprietățile documentului"
+   },
+   "1627": {
+      "message": "Deschideți în vizualizatorul Chrome"
+   },
+   "1628": {
+      "message": "Afișați mai mult"
+   },
+   "1629": {
+      "message": "Afișați mai puțin"
+   },
+   "1630": {
+      "message": "Conectați-vă"
+   },
+   "1631": {
+      "message": "S-a salvat în $ANCHOR_BEGIN$Bibliotecă$ANCHOR_END$",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1632": {
+      "message": "Se salvează în Bibliotecă…"
+   },
+   "1633": {
+      "message": "Articolul nu a fost găsit în Google Academic."
+   },
+   "1635": {
+      "message": "Numele fișierului"
+   },
+   "1636": {
+      "message": "Dimensiunea fișierului"
+   },
+   "1637": {
+      "message": "Titlu"
+   },
+   "1638": {
+      "message": "Autor"
+   },
+   "1639": {
+      "message": "Subiect"
+   },
+   "1640": {
+      "message": "Cuvinte cheie"
+   },
+   "1641": {
+      "message": "Creat"
+   },
+   "1642": {
+      "message": "Modificat"
+   },
+   "1643": {
+      "message": "Aplicație"
+   },
+   "1644": {
+      "message": " PDF Producer"
+   },
+   "1645": {
+      "message": "Versiune PDF"
+   },
+   "1646": {
+      "message": "Număr de pagini"
+   },
+   "1647": {
+      "message": "Dimensiunea paginii"
+   },
+   "1648": {
+      "message": "portret"
+   },
+   "1649": {
+      "message": "peisaj"
+   },
+   "1650": {
+      "message": "pătrată"
+   },
+   "1651": {
+      "message": "Variază"
+   },
+   "1652": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ in ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1653": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1654": {
+      "message": "Vizualizare pe web rapidă"
+   },
+   "1655": {
+      "message": "Da"
+   },
+   "1656": {
+      "message": "Nu"
+   },
+   "1660": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ in ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1661": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1662": {
+      "message": "Letter"
+   },
+   "1663": {
+      "message": "Legal"
+   },
+   "1664": {
+      "message": "Tabloid"
+   },
+   "1668": {
+      "message": "Nu s-a încărcat documentul PDF."
+   },
+   "1669": {
+      "message": "Reîncarcă"
+   },
+   "1670": {
+      "message": "Eroare"
+   },
+   "1673": {
+      "message": "Trebuie să introduci o parolă"
+   },
+   "1674": {
+      "message": "Acest document este protejat cu parolă. Introdu o parolă."
+   },
+   "1675": {
+      "message": "Pentru a printa documentul PDF, folosește butonul Printează din bara de instrumente."
+   },
+   "1676": {
+      "message": "Parolă incorectă."
+   },
+   "1677": {
+      "message": "Completarea formularelor nu este încă acceptată în Cititorul PDF Academic."
+   },
+   "1678": {
+      "message": "Cititor PDF Google Academic"
+   },
+   "1698": {
+      "message": "Cuprins"
+   },
+   "1702": {
+      "message": "Activează Scholar Reader"
+   },
+   "1703": {
+      "message": "Pentru a citi fișiere PDF locale cu Google Academic Reader, activează accesul la adresele URL ale fișierelor din setări, apoi reîncarcă fișierul PDF."
+   },
+   "1704": {
+      "message": "Deschide setările"
+   },
+   "1707": {
+      "message": "Mod de afișare"
+   },
+   "1711": {
+      "message": "Ecran complet"
+   },
+   "1712": {
+      "message": "Modul Luminos"
+   },
+   "1713": {
+      "message": "Modul întunecat"
+   },
+   "1714": {
+      "message": "Modul noapte"
+   },
+   "1715": {
+      "message": "Vezi în Referințe"
+   },
+   "1716": {
+      "message": "Pentru a activa salvarea în biblioteca Academic, extinde fișierul PDF pe ecran complet."
+   },
+   "1717": {
+      "message": "Extinde"
+   },
+   "1718": {
+      "message": "Nu acum"
+   },
+   "1723": {
+      "message": "Pentru a activa printarea, deschide fișierul PDF în vizualizatorul Chrome."
+   },
+   "1724": {
+      "message": "Deschide"
+   },
+   "1726": {
+      "message": "Optimizează citirea articolelor: urmărește referințele, răsfoiește schița, treci la cifre, citează și salvează."
+   },
+   "1732": {
+      "message": "Modul dispozitivului"
+   },
+   "1734": {
+      "message": "Raportează o problemă"
+   },
+   "1741": {
+      "message": "Secțiuni"
+   },
+   "1742": {
+      "message": "Structura AI"
+   },
+   "1744": {
+      "message": "Setări pentru Structura AI"
+   },
+   "1745": {
+      "message": "Solicită o structură AI de la Academic:"
+   },
+   "1746": {
+      "message": "Numai când dai clic pe $ICON$",
+      "placeholders": {
+         "ICON": {
+            "content": "$1"
+         }
+      }
+   },
+   "1748": {
+      "message": "Automat când deschizi orice fișier PDF"
+   },
+   "1749": {
+      "message": "Structurile AI sunt disponibile numai pentru articolele selectate"
+   },
+   "1750": {
+      "message": "Activezi Structura AI pentru toate fișierele PDF?"
+   },
+   "1751": {
+      "message": "Pentru a afișa o structură, Cititorul va încerca să găsească fișierul PDF în Academic"
+   },
+   "1752": {
+      "message": "Despre Structura AI"
+   },
+   "1753": {
+      "message": "Puncte cheie pentru secțiunile articolului"
+   },
+   "1754": {
+      "message": "Structurile AI prezintă ideile principale ale secțiunilor importante din document."
+   },
+   "1755": {
+      "message": "Aruncă o privire peste structură sau treci la detalii"
+   },
+   "1756": {
+      "message": "Aruncă o privire peste punctele cheie pentru a-ți face rapid o idee generală și dă clic pe subiectele care te interesează pentru a trece la detalii."
+   },
+   "1757": {
+      "message": "Structurile AI sunt disponibile numai pentru anumite lucrări de cercetare din Academic. Sunt generate de un program informatic și pot conține informații incorecte sau incomplete."
+   },
+   "1758": {
+      "message": "Nou"
+   },
+   "1759": {
+      "message": "Structura AI nu este disponibilă pentru acest fișier PDF."
+   },
+   "1760": {
+      "message": "Structura AI a fost generată pornind de la o altă versiune a acestui fișier PDF."
+   },
+   "1766": {
+      "message": "Setări Chrome"
+   },
+   "1768": {
+      "message": "Automat când deschideți un fișier PDF pe majoritatea site-urilor academice"
+   },
+   "1773": {
+      "message": "Evidențieri"
+   },
+   "1775": {
+      "message": "Evidențiere"
+   },
+   "1778": {
+      "message": "Comentarii"
+   },
+   "1779": {
+      "message": "Evidențierile și comentariile vor apărea aici"
+   },
+   "1781": {
+      "message": "Încearcă din nou"
+   },
+   "1783": {
+      "message": "Biblioteca Academic este plină"
+   },
+   "1785": {
+      "message": "Deschide biblioteca"
+   },
+   "1786": {
+      "message": "Renunță"
+   },
+   "1787": {
+      "message": "Contul Academic a fost șters"
+   },
+   "1788": {
+      "message": "Recuperează-ți contul pentru a evidenția și a comenta pe un fișier PDF."
+   },
+   "1790": {
+      "message": "Dacă închizi sau reîncarci această pagină, modificările nesalvate se vor pierde."
+   },
+   "1791": {
+      "message": "Eroare de server"
+   },
+   "1793": {
+      "message": "Ignoră"
+   },
+   "1794": {
+      "message": "Browserul este offline"
+   },
+   "1796": {
+      "message": "Încearcă din nou"
+   },
+   "1797": {
+      "message": "Dispozitivul este plin"
+   },
+   "1800": {
+      "message": "Conectați-vă la Contul Google pentru a salva evidențierile și comentariile."
+   },
+   "1801": {
+      "message": "Eliberați spațiu în biblioteca Academic pentru a salva evidențieri și comentarii."
+   },
+   "1802": {
+      "message": "Conectați-vă la $EMAIL_ADDRESS$ pentru a salva evidențierile și comentariile.",
+      "placeholders": {
+         "EMAIL_ADDRESS": {
+            "content": "$1"
+         }
+      }
+   },
+   "1803": {
+      "message": "Evidențierile sau comentariile nu au putut fi salvate în biblioteca Academic. Vom încerca să le salvăm din nou mai târziu."
+   },
+   "1804": {
+      "message": "Conectați-vă la internet pentru a salva evidențierile și comentariile. Vom încerca să le salvăm din nou mai târziu."
+   },
+   "1805": {
+      "message": "Eliberați spațiu pe dispozitiv pentru a salva evidențieri și comentarii. În caz contrar, modificările nu vor fi salvate."
+   },
+   "1806": {
+      "message": "Se sincronizează…"
+   },
+   "1807": {
+      "message": "Sincronizarea nu a reușit"
+   },
+   "1808": {
+      "message": "A apărut o eroare la sincronizarea evidențierilor și a comentariilor."
+   },
+   "1809": {
+      "message": "Dispozitivul este offline"
+   },
+   "1810": {
+      "message": "Conectați-vă la internet pentru a vedea evidențierile și comentariile."
+   },
+   "1811": {
+      "message": "Conectați-vă pentru a vedea evidențierile și comentariile."
+   },
+   "1812": {
+      "message": "Modificările nu au fost salvate"
+   },
+   "1813": {
+      "message": "Copiați cuprinsul generat de AI"
+   },
+   "1814": {
+      "message": "Cuprins generat de AI de $BOLD_ANCHOR_BEGIN$Cititorul PDF Academic$BOLD_ANCHOR_END$",
+      "placeholders": {
+         "BOLD_ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "BOLD_ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1815": {
+      "message": "Cuprinsul generat de AI a fost copiat în clipboard"
+   },
+   "1816": {
+      "message": "Evidențierile vor fi salvate în $ANCHOR_BEGIN$biblioteca Academic$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1817": {
+      "message": "Comentariile vor fi salvate în biblioteca Academic."
+   },
+   "1818": {
+      "message": "Titlu necunoscut"
+   },
+   "1819": {
+      "message": "Găsește în Academic"
+   },
+   "1822": {
+      "message": "Adăugați un comentariu"
+   },
+   "1823": {
+      "message": "Schimbați culoarea"
+   },
+   "1824": {
+      "message": "Salvate în $ANCHOR_BEGIN$biblioteca dvs$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1825": {
+      "message": "Selectați textul pentru a-l evidenția sau a adăuga un comentariu."
+   },
+   "1826": {
+      "message": "Evidențierile sunt salvate în $ANCHOR_BEGIN$biblioteca Academic$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1827": {
+      "message": "Evidențiați text în fișiere PDF"
+   },
+   "1830": {
+      "message": "Evidențierile sunt salvate online"
+   },
+   "1831": {
+      "message": "Evidențierile și comentariile dvs. sunt salvate în $ANCHOR_BEGIN$biblioteca Academic$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1832": {
+      "message": "Accesați evidențierile oriunde"
+   },
+   "1833": {
+      "message": "Evidențierile vor apărea în Cititorul PDF cât timp v-ați conectat la cont."
+   },
+   "1834": {
+      "message": "Accesați Biblioteca mea"
+   },
+   "1862": {
+      "message": "Nu se poate conecta la spațiul de stocare al browserului"
+   },
+   "1863": {
+      "message": "Evidențierile sunt dezactivate în acest browser, dar alte funcții de citire a fișierelor PDF funcționează în continuare."
+   },
+   "1864": {
+      "message": "Pentru a folosi evidențierile, încercați să reporniți browserul sau dispozitivul."
+   },
+   "1865": {
+      "message": "Nu se poate conecta la spațiul de stocare al browserului. Încercați să reporniți browserul sau dispozitivul."
+   },
+   "1866": {
+      "message": "Nu se poate sincroniza cu spațiul de stocare al browserului"
+   },
+   "1867": {
+      "message": "A apărut o eroare la sincronizarea evidențierilor cu spațiul de stocare din browser. Încercați să reporniți browserul sau dispozitivul."
+   },
+   "1868": {
+      "message": "Spațiul de stocare al browserului este plin"
+   },
+   "1869": {
+      "message": "Pentru a folosi evidențierile, eliberați spațiu pe dispozitiv."
+   },
+   "1870": {
+      "message": "Spațiul de stocare al browserului este plin. Eliberați spațiu pe dispozitiv."
+   },
+   "1871": {
+      "message": "Pentru a folosi evidențierile, actualizați memoria cache a acestora. Poate dura un timp."
+   },
+   "1872": {
+      "message": "Actualizați memoria cache"
+   },
+   "1873": {
+      "message": "A apărut o eroare la sincronizarea evidențierilor cu spațiul de stocare din browser. Încercați să actualizați memoria cache a evidențierilor. Poate dura un timp."
+   },
+   "1874": {
+      "message": "Prea multe evidențieri"
+   },
+   "1875": {
+      "message": "Nu mai puteți adăuga nicio evidențiere în bibliotecă."
+   },
+   "1876": {
+      "message": "Pentru a continua să adăugați evidențieri, eliminați câteva."
+   },
+   "1877": {
+      "message": "Renunțați la modificări"
+   },
+   "1882": {
+      "message": "Există evidențieri în prea multe versiuni"
+   },
+   "1883": {
+      "message": "Puteți adăuga evidențieri în maximum trei versiuni ale aceluiași articol."
+   },
+   "1884": {
+      "message": "Pentru a continua să adăugați evidențieri în această versiune, eliminați-le pe cele din altă versiune."
+   },
+   "1885": {
+      "message": "Gestionați evidențierile"
+   },
+   "1888": {
+      "message": " Afișați în bibliotecă"
+   },
+   "1918": {
+      "message": "Conținutul acestei adrese URL s-a modificat. Aveți evidențieri într-o versiune anterioară."
+   },
+   "535": {
+      "message": "Căutați în Google Academic"
+   },
+   "551": {
+      "message": "Eliminați articolul"
+   },
+   "59": {
+      "message": "Citați"
+   },
+   "625": {
+      "message": "Încărcare..."
+   },
+   "626": {
+      "message": "Pagina $PAGE_NUMBER$",
+      "placeholders": {
+         "PAGE_NUMBER": {
+            "content": "$1"
+         }
+      }
+   },
+   "64": {
+      "message": "Salvați"
+   },
+   "644": {
+      "message": "Terminat"
+   },
+   "649": {
+      "message": "Închideți"
+   },
+   "732": {
+      "message": "Biblioteca mea"
+   },
+   "907": {
+      "message": "Recuperați contul"
+   },
+   "920": {
+      "message": "Căutați"
+   },
+   "924": {
+      "message": "Etichetați ca:"
+   },
+   "96": {
+      "message": "Ștergeți"
+   },
+   "965": {
+      "message": "Sigur"
+   },
+   "966": {
+      "message": "Nu, mulțumesc"
+   },
+   "chrome_client_3269861059707096562": {
+      "message": "Permite accesul la adresele URL de fișiere"
+   }
+}

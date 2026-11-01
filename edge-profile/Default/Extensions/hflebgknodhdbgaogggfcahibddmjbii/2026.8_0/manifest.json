@@ -1,0 +1,67 @@
+{
+   "action": {
+      "default_icon": {
+         "19": "images/oahelper_black_19.png",
+         "38": "images/oahelper_black_38.png"
+      },
+      "default_popup": "html/popup.html"
+   },
+   "background": {
+      "matches": [ "*://*/*" ],
+      "service_worker": "service-worker.js"
+   },
+   "content_scripts": [ {
+      "css": [ "css/content.css" ],
+      "js": [ "js/oahelperSafeDom.js", "js/content.js" ],
+      "matches": [ "*://*/*", "http://*/*", "https://*/*" ]
+   } ],
+   "content_security_policy": {
+      "extension_pages": "script-src 'self'; object-src 'self'; img-src 'self' data:"
+   },
+   "default_locale": "en",
+   "description": "Helps you find Open Access copies of paywalled scientific articles, by utilizing Unpaywall and other services",
+   "host_permissions": [ "*://*/*" ],
+   "icons": {
+      "128": "images/icon-128.png",
+      "256": "images/icon-256.png",
+      "48": "images/icon-48.png",
+      "512": "images/icon-512.png",
+      "64": "images/icon-64.png",
+      "96": "images/icon-96.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmgs2WnJNv+n9AwhgvhzLIoTL2w437fegHCe10fXyYKJgOGtUZEEblIh/MPKqKdOQoV31qO7YXXMaisMCOGxQCdv+94WIytrGlISEohVdIPVjRhG3XMOguWg6uzmbtG/qZHH9CufuCt/ey1X53nshZMM4kiEEjo+KM+0dUgoVyE+I2y5ZsXyGs/M/egIPAueartpK6SU/gfPe5btdBGhTG1npR5Vm6jz+6JFQxOqBNH2ZiCbV9Eg8/tLvZhL1NtDgjJdFDoWXx2l1+70UjpNV5kWRnaUshMsV6VBBMNTPQoaP+iTNdabTV6HoRMnyd4Bh6IEYjSwzVkytJ0n3x98INQIDAQAB",
+   "manifest_version": 3,
+   "name": "Open Access Helper Web",
+   "options_ui": {
+      "open_in_tab": true,
+      "page": "html/options.html"
+   },
+   "permissions": [ "tabs", "storage", "contextMenus", "scripting" ],
+   "storage": {
+      "managed_schema": "schema.json"
+   },
+   "update_url": "https://edge.microsoft.com/extensionwebstorebase/v1/crx",
+   "version": "2026.8",
+   "web_accessible_resources": [ {
+      "matches": [ "*://*/*" ],
+      "resources": [ "css/*.css" ]
+   }, {
+      "matches": [ "*://*/*" ],
+      "resources": [ "js/*.js" ]
+   }, {
+      "matches": [ "*://*/*" ],
+      "resources": [ "html/*.html" ]
+   }, {
+      "matches": [ "*://*/*" ],
+      "resources": [ "images/*.png" ]
+   }, {
+      "matches": [ "*://*/*" ],
+      "resources": [ "images/*.gif" ]
+   }, {
+      "matches": [ "*://*/*" ],
+      "resources": [ "images/*.jpg" ]
+   }, {
+      "matches": [ "*://*/*" ],
+      "resources": [ "images/*.svg" ]
+   } ]
+}

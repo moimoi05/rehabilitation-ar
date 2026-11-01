@@ -1,0 +1,62 @@
+{
+   "action": {
+      "default_icon": {
+         "128": "icon128.png",
+         "16": "icon16.png",
+         "48": "icon48.png"
+      }
+   },
+   "author": {
+      "email": "scholar-chrome-extensions@google.com"
+   },
+   "background": {
+      "service_worker": "background-compiled.js",
+      "type": "module"
+   },
+   "content_scripts": [ {
+      "all_frames": true,
+      "js": [ "contentscript-compiled.js" ],
+      "matches": [ "\u003Call_urls>" ],
+      "run_at": "document_start"
+   }, {
+      "js": [ "authuserscript-compiled.js" ],
+      "matches": [ "*://scholar.google.com/*" ]
+   }, {
+      "all_frames": true,
+      "js": [ "printscript-compiled.js" ],
+      "match_origin_as_fallback": true,
+      "matches": [ "\u003Call_urls>" ]
+   }, {
+      "all_frames": true,
+      "css": [ "disable_promo.css" ],
+      "include_globs": [ "*/scholar_gsb_promo*" ],
+      "matches": [ "*://scholar.google.com/*" ]
+   } ],
+   "content_security_policy": {
+      "extension_pages": "child-src 'self'; script-src 'self'; object-src 'self'; worker-src 'self'; frame-src 'self'",
+      "sandbox": "sandbox allow-downloads allow-scripts; script-src 'self' blob:; frame-src 'self'"
+   },
+   "default_locale": "en",
+   "description": "__MSG_1726__",
+   "host_permissions": [ "\u003Call_urls>" ],
+   "icons": {
+      "128": "icon128.png",
+      "16": "icon16.png",
+      "48": "icon48.png"
+   },
+   "incognito": "split",
+   "key": "MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA1NVdCCvsgrC2yKQ6/Tvv5tElmwui/835OhA/Fal+NNMKhXzbL/iarVDX8dY2CKtVoFgAS2AuHO7YYGPaLBugrNEZEH2nVtYJXgSJa3ke/VR3BE9tfnW9PigDyEBsu/Z1rJ6mZMt4a/JtZP+WGyRjDjWJmmc2X8ZxMrK8uqdC6lsxLXHvzlsCh7FkcCzaLTQQgFapYiEc2YsnBTp2GMtzRS528M0jDk25SAXbexsJcNCrA7aDVcw8lEJWlMtNJAxLWNX10EE5/6isAA4sjKXvoVT3WKZNJbFyujjEOuGdxyh9/2YXgdpVh3zT9/g/k6MxYriTdpzksW7bd79kY+etCKvE3bcCRavzrNwGU79u5GmPlwz+J1J91zdPH5U2CTAFcnGCAcdF+HhxXQPxlqdonHmCmKBy9giLAarBcdCPP0AtC0h3FZhcSQbgMxzzUbRKPXBfKDKSSp2H87vrrJPsMQZFb8Sexwp/Lam2VhuOCCMXupsOpXb+3hf71i9HRMAHA/3Vfb5XOwFldpjWsohl4o/hBPNEm5VZCbdd/wNI7PRnJwPqHTUYCDfa3sGfAtsEoDcK6QcUessOfBMNK52vb8DAsFeTsr5+W6uANVHiOzmg/uoSg2tu1iwk7VJvQCxf85FI5ynK/ri14QFQvv5BYQSXATBcIvY41sHCH8zQa2ECAwEAAQ==",
+   "manifest_version": 3,
+   "minimum_chrome_version": "110.0",
+   "name": "__MSG_1678__",
+   "permissions": [ "webNavigation", "webRequest", "declarativeNetRequest", "scripting", "storage", "offscreen", "clipboardWrite" ],
+   "sandbox": {
+      "pages": [ "pdf_loader_iframe.html" ]
+   },
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "0.5.2",
+   "web_accessible_resources": [ {
+      "matches": [ "\u003Call_urls>" ],
+      "resources": [ "reader.html", "pdf_loader_iframe.html" ]
+   } ]
+}

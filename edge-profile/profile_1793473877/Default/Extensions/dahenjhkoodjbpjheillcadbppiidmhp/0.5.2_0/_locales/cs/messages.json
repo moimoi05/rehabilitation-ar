@@ -1,0 +1,703 @@
+{
+   "1010": {
+      "message": "Vytvořit nový"
+   },
+   "1109": {
+      "message": "Nebyly nalezeny žádné výsledky."
+   },
+   "111": {
+      "message": "Systém momentálně nemůže danou operaci provést. Zkuste to znovu později."
+   },
+   "1301": {
+      "message": "Nastavení"
+   },
+   "1343": {
+      "message": "Uloženo do Mojí knihovny"
+   },
+   "1441": {
+      "message": "Předchozí"
+   },
+   "1442": {
+      "message": "Další"
+   },
+   "1462": {
+      "message": "Zavřít"
+   },
+   "1463": {
+      "message": "Odeslat"
+   },
+   "1484": {
+      "message": "Předchozí stránka"
+   },
+   "1485": {
+      "message": "Další stránka"
+   },
+   "1486": {
+      "message": "Oddálit"
+   },
+   "1487": {
+      "message": "Přiblížit"
+   },
+   "1488": {
+      "message": "Přizpůsobit výšce"
+   },
+   "1489": {
+      "message": "Přizpůsobit šířce"
+   },
+   "1490": {
+      "message": "Otočit"
+   },
+   "1491": {
+      "message": "Uložit do mojí knihovny"
+   },
+   "1492": {
+      "message": "Stáhnout"
+   },
+   "1493": {
+      "message": "Vytisknout"
+   },
+   "1494": {
+      "message": "Další"
+   },
+   "1513": {
+      "message": "Miniatury"
+   },
+   "1514": {
+      "message": "Sbalit vše"
+   },
+   "1515": {
+      "message": "Rozbalit vše"
+   },
+   "1542": {
+      "message": "Google Scholar"
+   },
+   "1617": {
+      "message": "Vyhledávat na Googlu"
+   },
+   "1618": {
+      "message": "Knihovna ve službě Google Scholar"
+   },
+   "1620": {
+      "message": "Při načítání výsledků došlo k chybě. Zkuste to znovu později."
+   },
+   "1621": {
+      "message": "Vyhledávání ve službě Scholar…"
+   },
+   "1623": {
+      "message": "Uložit do knihovny Scholar"
+   },
+   "1626": {
+      "message": "Vlastnosti dokumentu"
+   },
+   "1627": {
+      "message": "Otevřít v prohlížeči Chrome"
+   },
+   "1628": {
+      "message": "Zobrazit více"
+   },
+   "1629": {
+      "message": "Zobrazit méně"
+   },
+   "1630": {
+      "message": "Přihlásit se"
+   },
+   "1631": {
+      "message": "Uloženo do $ANCHOR_BEGIN$Mojí knihovny$ANCHOR_END$",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1632": {
+      "message": "Ukládání do Mojí knihovny…"
+   },
+   "1633": {
+      "message": "Článek nebyl ve službě Scholar nalezen."
+   },
+   "1635": {
+      "message": "Název souboru"
+   },
+   "1636": {
+      "message": "Velikost souboru"
+   },
+   "1637": {
+      "message": "Název"
+   },
+   "1638": {
+      "message": "Autor"
+   },
+   "1639": {
+      "message": "Subjekt"
+   },
+   "1640": {
+      "message": "Klíčová slova"
+   },
+   "1641": {
+      "message": "Vytvořeno"
+   },
+   "1642": {
+      "message": "Změněno"
+   },
+   "1643": {
+      "message": "Přihláška"
+   },
+   "1644": {
+      "message": " Původ souboru PDF"
+   },
+   "1645": {
+      "message": "Verze PDF"
+   },
+   "1646": {
+      "message": "Počet stránek"
+   },
+   "1647": {
+      "message": "Velikost stránky"
+   },
+   "1648": {
+      "message": "na výšku"
+   },
+   "1649": {
+      "message": "na šířku"
+   },
+   "1650": {
+      "message": "čtverec"
+   },
+   "1651": {
+      "message": "Různé"
+   },
+   "1652": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ palců ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1653": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1654": {
+      "message": "Rychlé zobrazení na webu"
+   },
+   "1655": {
+      "message": "Ano"
+   },
+   "1656": {
+      "message": "Ne"
+   },
+   "1660": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ palců ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1661": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1662": {
+      "message": "Dopis"
+   },
+   "1663": {
+      "message": "Právo"
+   },
+   "1664": {
+      "message": "Tabloid"
+   },
+   "1668": {
+      "message": "Načtení dokumentu PDF se nezdařilo."
+   },
+   "1669": {
+      "message": "Znovu načíst"
+   },
+   "1670": {
+      "message": "Chyba"
+   },
+   "1673": {
+      "message": "Je vyžadováno heslo"
+   },
+   "1674": {
+      "message": "Tento dokument je chráněn heslem. Zadejte heslo."
+   },
+   "1675": {
+      "message": "K tisku dokumentu PDF použijte tlačítko Tisk na liště."
+   },
+   "1676": {
+      "message": "Nesprávné heslo."
+   },
+   "1677": {
+      "message": "Ve čtečce PDF služby Scholar zatím není podporováno vyplňování formulářů."
+   },
+   "1678": {
+      "message": "Čtečka PDF Google Scholar"
+   },
+   "1698": {
+      "message": "Obsah"
+   },
+   "1702": {
+      "message": "Aktivování čtečky Scholar"
+   },
+   "1703": {
+      "message": "Pokud chcete číst místní PDF pomocí čtečky Google Scholar, v nastavení povolte přístup k adresám URL souborů a pak soubor PDF načtěte znovu."
+   },
+   "1704": {
+      "message": "Otevřít nastavení"
+   },
+   "1707": {
+      "message": "Režim zobrazení"
+   },
+   "1711": {
+      "message": "Režim celé obrazovky"
+   },
+   "1712": {
+      "message": "Světlý režim"
+   },
+   "1713": {
+      "message": "Tmavý režim"
+   },
+   "1714": {
+      "message": "Noční režim"
+   },
+   "1715": {
+      "message": "Zobrazit v referencích"
+   },
+   "1716": {
+      "message": "Pokud chcete povolit uložení do knihovny Scholar, rozbalte PDF na celou obrazovku."
+   },
+   "1717": {
+      "message": "Rozbalit"
+   },
+   "1718": {
+      "message": "Teď ne"
+   },
+   "1723": {
+      "message": "Pokud chcete aktivovat tisk, otevřete soubor PDF v prohlížeči Chrome."
+   },
+   "1724": {
+      "message": "Otevřít"
+   },
+   "1726": {
+      "message": "Vylepšete možnosti čtení článků: sledujte reference, listujte obsahem, přecházejte přímo na obrázky, citujte a ukládejte."
+   },
+   "1732": {
+      "message": "Režim zařízení"
+   },
+   "1734": {
+      "message": "Nahlásit problém"
+   },
+   "1741": {
+      "message": "Sekce"
+   },
+   "1742": {
+      "message": "Osnova od AI"
+   },
+   "1744": {
+      "message": "Nastavení osnovy od AI"
+   },
+   "1745": {
+      "message": "Požádat službu Scholar o osnovu od AI:"
+   },
+   "1746": {
+      "message": "Jen při kliknutí na $ICON$",
+      "placeholders": {
+         "ICON": {
+            "content": "$1"
+         }
+      }
+   },
+   "1748": {
+      "message": "Automaticky při otevření jakéhokoli souboru PDF"
+   },
+   "1749": {
+      "message": "Osnovy od AI jsou dostupné pouze u vybraných článků"
+   },
+   "1750": {
+      "message": "Povolit osnovy od AI pro všechny soubory PDF?"
+   },
+   "1751": {
+      "message": "Za účelem zobrazení osnovy se čtečka pokusí najít soubor PDF ve službě Scholar"
+   },
+   "1752": {
+      "message": "O osnově od AI"
+   },
+   "1753": {
+      "message": "Klíčové body ze sekcí článků"
+   },
+   "1754": {
+      "message": "Osnovy od AI představují nejdůležitější body hlavních částí dokumentu."
+   },
+   "1755": {
+      "message": "Rychle prohlédněte osnovu nebo přejděte na podrobnosti"
+   },
+   "1756": {
+      "message": "Projděte klíčové body, abyste si rychle udělali přehled, a kliknutím na zajímavé odrážky přejděte na podrobnosti."
+   },
+   "1757": {
+      "message": "Osnovy od AI jsou ve službě Scholar k dispozici pouze u vybraných výzkumných článků. Generuje je počítačový program a mohou obsahovat neúplné nebo nepřesné informace."
+   },
+   "1758": {
+      "message": "Nové"
+   },
+   "1759": {
+      "message": "Pro tento soubor PDF není osnova od AI k dispozici."
+   },
+   "1760": {
+      "message": "Osnova od AI byla vygenerována k jiné verzi tohoto souboru PDF."
+   },
+   "1766": {
+      "message": "Nastavení Chromu"
+   },
+   "1768": {
+      "message": "Automaticky při otevření souboru PDF na většině akademických webů"
+   },
+   "1773": {
+      "message": "Zvýraznění"
+   },
+   "1775": {
+      "message": "Zvýraznění"
+   },
+   "1778": {
+      "message": "Komentáře"
+   },
+   "1779": {
+      "message": "Tady se zobrazí vaše zvýraznění a komentáře"
+   },
+   "1781": {
+      "message": "Zkusit znovu"
+   },
+   "1783": {
+      "message": "Vaše knihovna Scholar je plná"
+   },
+   "1785": {
+      "message": "Otevřít knihovnu"
+   },
+   "1786": {
+      "message": "Zahodit"
+   },
+   "1787": {
+      "message": "Váš účet Scholar byl smazán"
+   },
+   "1788": {
+      "message": "Obnovte svůj účet, aby bylo možné v souboru PDF zvýrazňovat a komentovat."
+   },
+   "1790": {
+      "message": "Pokud tuhle stránku zavřete nebo načtete znovu, neuložené změny budou ztraceny."
+   },
+   "1791": {
+      "message": "Chyba serveru"
+   },
+   "1793": {
+      "message": "Ignorovat"
+   },
+   "1794": {
+      "message": "Váš prohlížeč je offline"
+   },
+   "1796": {
+      "message": "Zkusit znovu"
+   },
+   "1797": {
+      "message": "Vaše zařízení je plné"
+   },
+   "1800": {
+      "message": "Přihlaste se k účtu Google, aby bylo možné ukládat zvýraznění a komentáře."
+   },
+   "1801": {
+      "message": "Uvolněte místo v knihovně Scholar, aby bylo možné ukládat zvýraznění a komentáře."
+   },
+   "1802": {
+      "message": "Přihlaste se k účtu $EMAIL_ADDRESS$, aby bylo možné ukládat zvýraznění a komentáře.",
+      "placeholders": {
+         "EMAIL_ADDRESS": {
+            "content": "$1"
+         }
+      }
+   },
+   "1803": {
+      "message": "Zvýraznění nebo komentáře se do knihovny Scholar nepodařilo uložit. Uložení zkusíme zopakovat později."
+   },
+   "1804": {
+      "message": "Připojte se k internetu, aby bylo možné ukládat zvýraznění a komentáře. Uložení zkusíme zopakovat později."
+   },
+   "1805": {
+      "message": "Uvolněte místo v zařízení, aby bylo možné ukládat zvýraznění a komentáře. Jinak se změny neuloží."
+   },
+   "1806": {
+      "message": "Synchronizace…"
+   },
+   "1807": {
+      "message": "Synchronizace se nezdařila"
+   },
+   "1808": {
+      "message": "Při synchronizaci zvýraznění a komentářů došlo k chybě."
+   },
+   "1809": {
+      "message": "Zařízení je offline"
+   },
+   "1810": {
+      "message": "Připojte se k internetu, aby bylo možné zobrazit zvýraznění a komentáře."
+   },
+   "1811": {
+      "message": "Přihlaste se , aby bylo možné zobrazit zvýraznění a komentáře."
+   },
+   "1812": {
+      "message": "Neuložené změny"
+   },
+   "1813": {
+      "message": "Kopírovat osnovu od AI"
+   },
+   "1814": {
+      "message": "Osnovu od AI poskytuje $BOLD_ANCHOR_BEGIN$čtečka PDF Scholar$BOLD_ANCHOR_END$",
+      "placeholders": {
+         "BOLD_ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "BOLD_ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1815": {
+      "message": "Osnova od AI byla zkopírována do schránky"
+   },
+   "1816": {
+      "message": "Zvýraznění se uloží do $ANCHOR_BEGIN$knihovny Scholar$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1817": {
+      "message": "Komentáře se uloží do knihovny Scholar."
+   },
+   "1818": {
+      "message": "Neznámý název"
+   },
+   "1819": {
+      "message": "Vyhledat ve službě Scholar"
+   },
+   "1822": {
+      "message": "Přidat komentář"
+   },
+   "1823": {
+      "message": "Změnit barvu"
+   },
+   "1824": {
+      "message": "Uloženo do $ANCHOR_BEGIN$knihovny$ANCHOR_END$",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1825": {
+      "message": "Vyberte text, který chcete zvýraznit nebo okomentovat."
+   },
+   "1826": {
+      "message": "Zvýraznění se ukládají do vaší $ANCHOR_BEGIN$knihovny Scholar$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1827": {
+      "message": "Zvýrazňujte v souborech PDF"
+   },
+   "1830": {
+      "message": "Zvýraznění se ukládají online"
+   },
+   "1831": {
+      "message": "Zvýraznění a komentáře se ukládají do $ANCHOR_BEGIN$knihovny Scholar$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1832": {
+      "message": "Zvýraznění budete mít k dispozici kdekoli"
+   },
+   "1833": {
+      "message": "Zvýraznění se vám v PDF Readeru zobrazí všude, kde budete přihlášeni."
+   },
+   "1834": {
+      "message": "Přejít do Mé knihovny"
+   },
+   "1862": {
+      "message": "K úložišti prohlížeče se nelze připojit"
+   },
+   "1863": {
+      "message": "V tomto prohlížeči jsou zvýraznění vypnutá, ale ostatní funkce čtení PDF fungují dál."
+   },
+   "1864": {
+      "message": "Pokud chcete použít zvýraznění, zkuste restartovat prohlížeč nebo zařízení."
+   },
+   "1865": {
+      "message": "K úložišti prohlížeče se nelze připojit. Zkuste restartovat prohlížeč nebo zařízení."
+   },
+   "1866": {
+      "message": "Nelze synchronizovat s úložištěm prohlížeče"
+   },
+   "1867": {
+      "message": "Při synchronizaci zvýraznění do úložiště prohlížeče došlo k chybě. Zkuste restartovat prohlížeč nebo zařízení."
+   },
+   "1868": {
+      "message": "Úložiště vašeho prohlížeče je plné"
+   },
+   "1869": {
+      "message": "Pokud chcete používat zvýraznění, zkuste v zařízení uvolnit místo."
+   },
+   "1870": {
+      "message": "Úložiště vašeho prohlížeče je plné. Zkuste v zařízení uvolnit místo."
+   },
+   "1871": {
+      "message": "Pokud chcete použít zvýraznění, obnovte příslušnou mezipaměť. Může to chvíli trvat."
+   },
+   "1872": {
+      "message": "Obnovit mezipaměť"
+   },
+   "1873": {
+      "message": "Při synchronizaci zvýraznění do úložiště prohlížeče došlo k chybě. Zkuste obnovit mezipaměť zvýraznění. Může to chvíli trvat."
+   },
+   "1874": {
+      "message": "Příliš mnoho zvýraznění"
+   },
+   "1875": {
+      "message": "Do knihovny nelze přidat další zvýraznění."
+   },
+   "1876": {
+      "message": "Pokud chcete v přidávání zvýraznění pokračovat, některé odstraňte."
+   },
+   "1877": {
+      "message": "Zrušit změny"
+   },
+   "1882": {
+      "message": "Příliš mnoho verzí se zvýrazněním"
+   },
+   "1883": {
+      "message": "Můžete přidat zvýraznění až do tří verzí stejného článku."
+   },
+   "1884": {
+      "message": "Pokud chcete k této verzi přidat další zvýraznění, odstraňte zvýraznění z jiné verze."
+   },
+   "1885": {
+      "message": "Spravovat zvýraznění"
+   },
+   "1888": {
+      "message": " Zobrazit v knihovně"
+   },
+   "1918": {
+      "message": "Obsah této adresy URL se změnil. V předchozí verzi máte zvýraznění."
+   },
+   "535": {
+      "message": "Hledat ve službě Scholar"
+   },
+   "551": {
+      "message": "Odebrat článek"
+   },
+   "59": {
+      "message": "Citovat"
+   },
+   "625": {
+      "message": "Načítání..."
+   },
+   "626": {
+      "message": "Stránka $PAGE_NUMBER$",
+      "placeholders": {
+         "PAGE_NUMBER": {
+            "content": "$1"
+         }
+      }
+   },
+   "64": {
+      "message": "Uložit"
+   },
+   "644": {
+      "message": "Dokončit"
+   },
+   "649": {
+      "message": "Zavřít"
+   },
+   "732": {
+      "message": "Moje knihovna"
+   },
+   "907": {
+      "message": "Obnovit účet"
+   },
+   "920": {
+      "message": "Hledat"
+   },
+   "924": {
+      "message": "Označit jako:"
+   },
+   "96": {
+      "message": "Smazat"
+   },
+   "965": {
+      "message": "Ano"
+   },
+   "966": {
+      "message": "Ne, děkuji"
+   },
+   "chrome_client_3269861059707096562": {
+      "message": "Umožnit přístup k adresám URL souborů"
+   }
+}

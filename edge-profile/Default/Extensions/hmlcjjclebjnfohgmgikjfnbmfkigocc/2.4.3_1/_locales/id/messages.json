@@ -1,0 +1,756 @@
+{
+   "about": {
+      "message": "Tentang"
+   },
+   "actions": {
+      "message": "Tindakan"
+   },
+   "add": {
+      "message": "Add"
+   },
+   "ai_overlay_close": {
+      "message": "Tutup"
+   },
+   "ai_overlay_copied": {
+      "message": "Tersalin"
+   },
+   "ai_overlay_copy": {
+      "message": "Salin"
+   },
+   "ai_overlay_error_generic": {
+      "message": "Terjadi kesalahan."
+   },
+   "ai_overlay_error_unavailable": {
+      "message": "AI di perangkat tidak tersedia di perangkat ini."
+   },
+   "ai_overlay_same_language": {
+      "message": "Bahasa yang sama terdeteksi."
+   },
+   "ai_overlay_summarizing": {
+      "message": "Meringkas…"
+   },
+   "ai_overlay_toggle_theme": {
+      "message": "Ganti tema"
+   },
+   "ai_overlay_translating": {
+      "message": "Menerjemahkan…"
+   },
+   "all_extensions": {
+      "message": "Semua ekstensi ($ENABLED$/$TOTAL$)",
+      "placeholders": {
+         "enabled": {
+            "content": "$1"
+         },
+         "total": {
+            "content": "$2"
+         }
+      }
+   },
+   "anti_clickjacking": {
+      "message": "Anti-Clickjacking"
+   },
+   "anti_clickjacking_desc": {
+      "message": "Peringatkan saat iframe membajak klik"
+   },
+   "app_description": {
+      "message": "J2TEAM Security membantu melindungi dari serangan phishing."
+   },
+   "app_name": {
+      "message": "J2TEAM Security"
+   },
+   "are_you_sure": {
+      "message": "Apakah Anda yakin?"
+   },
+   "auto_activate_on_domains": {
+      "message": "Auto-activate on domains"
+   },
+   "back_to_top": {
+      "message": "Kembali ke Atas"
+   },
+   "backup": {
+      "message": "Cadangan"
+   },
+   "backup_description": {
+      "message": "Klik tombol di bawah untuk mengunduh daftar semua ekstensi yang terinstal sebagai file teks."
+   },
+   "backup_file_header": {
+      "message": "Daftar ekstensi Anda, dicadangkan oleh J2TEAM Security:"
+   },
+   "block_facebook_pixel": {
+      "message": "Blokir Facebook Pixel"
+   },
+   "block_facebook_pixel_desc": {
+      "message": "Blokir piksel pelacak Facebook"
+   },
+   "block_list": {
+      "message": "Daftar blokir"
+   },
+   "block_page_heading": {
+      "message": "Situs ini berisi program berbahaya"
+   },
+   "block_page_p1": {
+      "message": "Penyerang pada"
+   },
+   "block_page_p2": {
+      "message": "halaman yang baru saja Anda klik"
+   },
+   "block_page_p3": {
+      "message": "mungkin mencoba menipu Anda agar menginstal program yang merugikan pengalaman browsing Anda (misalnya, dengan mengubah halaman beranda atau menampilkan iklan tambahan di situs yang Anda kunjungi)."
+   },
+   "block_page_p4": {
+      "message": "Karena Anda menggunakan"
+   },
+   "block_page_p5": {
+      "message": ", situs ini telah diblokir untuk menjaga keamanan Anda!"
+   },
+   "block_page_title": {
+      "message": "Kesalahan keamanan"
+   },
+   "block_seen_chat": {
+      "message": "Blokir fitur \"dilihat\" pada obrolan"
+   },
+   "block_seen_in_chat": {
+      "message": "Blokir Dilihat di Chat"
+   },
+   "block_seen_in_chat_desc": {
+      "message": "Mematikan tanda dibaca di Messenger. Anda juga tidak akan melihat kapan orang lain membaca pesan Anda"
+   },
+   "block_seen_in_story": {
+      "message": "Blokir Dilihat di Story"
+   },
+   "block_seen_in_story_desc": {
+      "message": "Sembunyikan Dilihat di Story Instagram"
+   },
+   "block_seen_in_story_facebook": {
+      "message": "Blokir Dilihat di Story"
+   },
+   "block_seen_in_story_facebook_desc": {
+      "message": "Sembunyikan Dilihat di Story Facebook"
+   },
+   "block_seen_in_zalo": {
+      "message": "Block Seen in Zalo"
+   },
+   "block_seen_in_zalo_desc": {
+      "message": "Hide your read status on Zalo Web"
+   },
+   "block_seen_story_facebook": {
+      "message": "Blokir fitur \"dilihat\" pada cerita Facebook"
+   },
+   "block_seen_story_instagram": {
+      "message": "Blokir fitur \"dilihat\" pada cerita Instagram"
+   },
+   "block_suggested_posts": {
+      "message": "Blokir postingan yang disarankan"
+   },
+   "block_suggested_posts_desc": {
+      "message": "Sembunyikan postingan \"Disarankan untuk Anda\" di News Feed Facebook"
+   },
+   "block_typing_chat": {
+      "message": "Blokir indikator ketikan pada obrolan"
+   },
+   "block_typing_comment": {
+      "message": "Blokir indikator ketikan pada komentar"
+   },
+   "block_typing_in_chat": {
+      "message": "Blokir Mengetik di Chat"
+   },
+   "block_typing_in_chat_desc": {
+      "message": "Sembunyikan indikator mengetik di chat"
+   },
+   "block_typing_in_zalo": {
+      "message": "Block Typing in Zalo"
+   },
+   "block_typing_in_zalo_desc": {
+      "message": "Hide your typing indicator on Zalo Web"
+   },
+   "blocked_url": {
+      "message": "URL diblokir: "
+   },
+   "buy_me_a_coffee": {
+      "message": "Traktir saya kopi"
+   },
+   "cancel": {
+      "message": "Batal"
+   },
+   "changelog": {
+      "message": "Catatan Perubahan"
+   },
+   "clear": {
+      "message": "Hapus"
+   },
+   "click_to_rate": {
+      "message": "(klik bintang untuk memberi rating)"
+   },
+   "context_menu_ai_summarize": {
+      "message": "Ringkas pilihan"
+   },
+   "context_menu_ai_translate": {
+      "message": "Terjemahkan pilihan"
+   },
+   "context_menu_block_domain": {
+      "message": "Blokir/Buka blokir domain ini"
+   },
+   "context_menu_change_hotkey": {
+      "message": "Ubah hotkey"
+   },
+   "context_menu_change_language": {
+      "message": "Ubah bahasa"
+   },
+   "context_menu_changelog": {
+      "message": "Lihat perubahan"
+   },
+   "context_menu_donate": {
+      "message": "Donasi"
+   },
+   "context_menu_faq": {
+      "message": "Pertanyaan yang Sering Diajukan"
+   },
+   "context_menu_help": {
+      "message": "Bantuan"
+   },
+   "context_menu_rate_me": {
+      "message": "Beri peringkat J2TEAM Security di Chrome Store"
+   },
+   "context_menu_report_abuse": {
+      "message": "Laporkan penyalahgunaan..."
+   },
+   "context_menu_report_badware": {
+      "message": "Program berbahaya"
+   },
+   "context_menu_report_phishing": {
+      "message": "Phishing"
+   },
+   "context_menu_report_suggest": {
+      "message": "Laporkan atau sarankan"
+   },
+   "context_menu_report_webspam": {
+      "message": "Spam web"
+   },
+   "context_menu_save_image_as": {
+      "message": "Simpan gambar sebagai…"
+   },
+   "context_menu_view_facebook_shares": {
+      "message": "Lihat siapa yang membagikan postingan ini"
+   },
+   "create": {
+      "message": "Buat"
+   },
+   "create_new_profile": {
+      "message": "Buat profil baru"
+   },
+   "custom_block_list": {
+      "message": "Daftar blokir kustom"
+   },
+   "custom_block_list_legend": {
+      "message": "akan memblokir semua situs web dalam daftar ini"
+   },
+   "dark_theme_editor": {
+      "message": "Editor Tema Gelap"
+   },
+   "delete": {
+      "message": "Hapus"
+   },
+   "document": {
+      "message": "Dokumen"
+   },
+   "domain_input_placeholder": {
+      "message": "e.g. github.com"
+   },
+   "domain_profile_active": {
+      "message": "Active"
+   },
+   "domain_profile_active_banner": {
+      "message": "Domain profile active for $DOMAIN$",
+      "placeholders": {
+         "domain": {
+            "content": "$1"
+         }
+      }
+   },
+   "domain_profile_auto_managed": {
+      "message": "This profile is auto-managed by domain rules"
+   },
+   "download_extension_list": {
+      "message": "Unduh Daftar Ekstensi"
+   },
+   "enable_extension_manager": {
+      "message": "Aktifkan Manajer Ekstensi"
+   },
+   "enable_right_click": {
+      "message": "Aktifkan kembali klik kanan, pemilihan teks, salin, dan pintasan keyboard di halaman yang memblokirnya"
+   },
+   "enable_right_click_exclusions_help": {
+      "message": "One domain per line. The unlock will not run on these sites. Major services are excluded by default: big tech, AI assistants, social networks, video platforms, and document/design tools."
+   },
+   "enable_right_click_exclusions_label": {
+      "message": "Excluded sites"
+   },
+   "enable_right_click_label": {
+      "message": "Buka Kunci Klik Kanan & Salin"
+   },
+   "error": {
+      "message": "Kesalahan"
+   },
+   "extension_manager": {
+      "message": "Manajer Ekstensi"
+   },
+   "extension_manager_desc": {
+      "message": "Aktifkan panel Manajer Ekstensi"
+   },
+   "extra_features": {
+      "message": "Fitur tambahan"
+   },
+   "facebook": {
+      "message": "Facebook"
+   },
+   "facebook_colon": {
+      "message": "Facebook:"
+   },
+   "facebook_kount": {
+      "message": "Facebook Kount"
+   },
+   "facebook_messenger_history": {
+      "message": "Riwayat Facebook Messenger"
+   },
+   "facebook_security_tester": {
+      "message": "Penguji keamanan Facebook"
+   },
+   "facebook_time_counter": {
+      "message": "Tampilkan penghitung penggunaan Facebook"
+   },
+   "feature_request": {
+      "message": "Permintaan Fitur"
+   },
+   "follow_me": {
+      "message": "Ikuti saya"
+   },
+   "footer_text": {
+      "message": "J2TEAM ©$YEAR$ - Dikembangkan oleh $AUTHOR$ - Versi $VERSION$",
+      "placeholders": {
+         "author": {
+            "content": "$2"
+         },
+         "version": {
+            "content": "$3"
+         },
+         "year": {
+            "content": "$1"
+         }
+      }
+   },
+   "free_tools": {
+      "message": "Alat Gratis"
+   },
+   "global_privacy_control": {
+      "message": "Kirim header Global Privacy Control (Sec-GPC) dan Do Not Track (DNT) pada setiap permintaan"
+   },
+   "global_privacy_control_label": {
+      "message": "Global Privacy Control"
+   },
+   "help": {
+      "message": "Bantuan"
+   },
+   "homepage": {
+      "message": "Beranda"
+   },
+   "include_subdomains": {
+      "message": "Include subdomains"
+   },
+   "instagram": {
+      "message": "Instagram"
+   },
+   "instagram_colon": {
+      "message": "Instagram:"
+   },
+   "install_type": {
+      "message": "Jenis instalasi: $TYPE$",
+      "placeholders": {
+         "type": {
+            "content": "$1"
+         }
+      }
+   },
+   "join_us": {
+      "message": "Gabung dengan Kami"
+   },
+   "json_prettifier": {
+      "message": "Format respons JSON dengan penyorotan sintaks"
+   },
+   "json_prettifier_label": {
+      "message": "Penformat JSON"
+   },
+   "keyboard_shortcuts": {
+      "message": "Pintasan Keyboard"
+   },
+   "languages": {
+      "message": "Bahasa"
+   },
+   "load": {
+      "message": "Muat"
+   },
+   "load_from_url": {
+      "message": "Muat dari URL"
+   },
+   "message": {
+      "message": "Pesan"
+   },
+   "more": {
+      "message": "lainnya"
+   },
+   "name": {
+      "message": "Nama"
+   },
+   "new_profile": {
+      "message": "Profil baru"
+   },
+   "no": {
+      "message": "Tidak"
+   },
+   "notif_block_domain_added": {
+      "message": "Domain ditambahkan ke daftar blokir"
+   },
+   "notif_block_domain_removed": {
+      "message": "Domain dihapus dari daftar blokir"
+   },
+   "notif_save_image_as_failed": {
+      "message": "Gagal menyimpan gambar"
+   },
+   "notif_view_facebook_shares_failed": {
+      "message": "Tidak dapat mengekstrak ID postingan dari URL ini."
+   },
+   "notification_upgrade_button": {
+      "message": "Lihat fitur baru"
+   },
+   "notification_upgrade_message": {
+      "message": "Fitur dalam versi Premium: Unduh Video/Reel, Interaksi Teratas, Cadangan Daftar Teman, dll."
+   },
+   "notification_upgrade_title": {
+      "message": "J2TEAM Security: Apakah Anda ingin menggunakan lebih banyak fitur?"
+   },
+   "open_side_panel": {
+      "message": "Buka Panel Samping"
+   },
+   "options": {
+      "message": "Opsi"
+   },
+   "options_saved": {
+      "message": "Pengaturan disimpan!"
+   },
+   "others": {
+      "message": "Lainnya"
+   },
+   "others_colon": {
+      "message": "Lainnya:"
+   },
+   "perm_activeTab": {
+      "message": "Access current tab"
+   },
+   "perm_alarms": {
+      "message": "Schedule tasks"
+   },
+   "perm_bookmarks": {
+      "message": "Read and modify bookmarks"
+   },
+   "perm_browsingData": {
+      "message": "Delete browsing data"
+   },
+   "perm_clipboardRead": {
+      "message": "Read clipboard content"
+   },
+   "perm_clipboardWrite": {
+      "message": "Write to clipboard"
+   },
+   "perm_contentSettings": {
+      "message": "Change content settings"
+   },
+   "perm_contextMenus": {
+      "message": "Add right-click menu items"
+   },
+   "perm_cookies": {
+      "message": "Read and modify cookies"
+   },
+   "perm_debugger": {
+      "message": "Access browser debugger"
+   },
+   "perm_declarativeNetRequest": {
+      "message": "Block or modify network requests"
+   },
+   "perm_declarativeNetRequestFeedback": {
+      "message": "View blocked network requests"
+   },
+   "perm_declarativeNetRequestWithHostAccess": {
+      "message": "Block or modify network requests on specific sites"
+   },
+   "perm_desktopCapture": {
+      "message": "Capture screen content"
+   },
+   "perm_downloads": {
+      "message": "Manage downloads"
+   },
+   "perm_favicon": {
+      "message": "Access website icons"
+   },
+   "perm_fontSettings": {
+      "message": "Change font settings"
+   },
+   "perm_geolocation": {
+      "message": "Access your location"
+   },
+   "perm_history": {
+      "message": "Read browsing history"
+   },
+   "perm_identity": {
+      "message": "Sign in with your account"
+   },
+   "perm_idle": {
+      "message": "Detect when you're idle"
+   },
+   "perm_management": {
+      "message": "Manage other extensions"
+   },
+   "perm_nativeMessaging": {
+      "message": "Communicate with other programs"
+   },
+   "perm_notifications": {
+      "message": "Show notifications"
+   },
+   "perm_offscreen": {
+      "message": "Create offscreen documents"
+   },
+   "perm_pageCapture": {
+      "message": "Capture page content"
+   },
+   "perm_power": {
+      "message": "Prevent device from sleeping"
+   },
+   "perm_privacy": {
+      "message": "Change privacy settings"
+   },
+   "perm_proxy": {
+      "message": "Manage proxy settings"
+   },
+   "perm_runtime": {
+      "message": "Extension messaging"
+   },
+   "perm_scripting": {
+      "message": "Run scripts on pages"
+   },
+   "perm_search": {
+      "message": "Search with default engine"
+   },
+   "perm_sidePanel": {
+      "message": "Open side panel"
+   },
+   "perm_storage": {
+      "message": "Store extension data"
+   },
+   "perm_tabGroups": {
+      "message": "Organize tab groups"
+   },
+   "perm_tabs": {
+      "message": "Access browser tabs"
+   },
+   "perm_theme": {
+      "message": "Change browser theme"
+   },
+   "perm_topSites": {
+      "message": "Access most visited sites"
+   },
+   "perm_tts": {
+      "message": "Read text aloud"
+   },
+   "perm_unlimitedStorage": {
+      "message": "Use unlimited storage"
+   },
+   "perm_webNavigation": {
+      "message": "Track page navigation"
+   },
+   "perm_webRequest": {
+      "message": "Intercept network requests"
+   },
+   "perm_webRequestBlocking": {
+      "message": "Block network requests"
+   },
+   "permissions": {
+      "message": "Izin"
+   },
+   "pick_color_copied": {
+      "message": "Copied to clipboard"
+   },
+   "pick_color_failed": {
+      "message": "Unable to open color picker on this page."
+   },
+   "pick_color_menu": {
+      "message": "Pick Color (Eyedropper)"
+   },
+   "pick_color_title": {
+      "message": "J2TEAM Color Picker"
+   },
+   "pick_color_unsupported": {
+      "message": "EyeDropper API is not supported in this browser."
+   },
+   "pin_to_top": {
+      "message": "Sematkan ke Atas"
+   },
+   "pinned_extensions_tooltip": {
+      "message": "Ekstensi yang disematkan tidak akan dinonaktifkan oleh tombol ini"
+   },
+   "pinned_to_top": {
+      "message": "Disematkan ke Atas"
+   },
+   "premium_dashboard": {
+      "message": "Dasbor Premium"
+   },
+   "premium_tools": {
+      "message": "Alat Premium"
+   },
+   "prevent_facebook_feed_reload": {
+      "message": "Cegah News Feed dimuat ulang otomatis"
+   },
+   "prevent_facebook_feed_reload_desc": {
+      "message": "Mencegah Facebook memuat ulang News Feed saat kamu kembali ke tab ini"
+   },
+   "privacy": {
+      "message": "Privasi Facebook"
+   },
+   "profile_name": {
+      "message": "Nama profil"
+   },
+   "profile_name_required": {
+      "message": "Silakan masukkan nama profil!"
+   },
+   "profiles": {
+      "message": "Profil"
+   },
+   "profiles_description": {
+      "message": "Profil memungkinkan Anda mengelompokkan ekstensi"
+   },
+   "rating_message": {
+      "message": "Jika Anda menyukai ekstensi ini, silakan beri rating 5 bintang:"
+   },
+   "real_time_protection": {
+      "message": "Perlindungan Real-Time"
+   },
+   "real_time_protection_desc": {
+      "message": "Memindai halaman dengan daftar antiphishing"
+   },
+   "realtime": {
+      "message": "Proteksi real-time"
+   },
+   "remove_tracking_params": {
+      "message": "Hapus parameter pelacakan dari URL (fbclid, UTM, gclid, dll.)"
+   },
+   "remove_tracking_params_label": {
+      "message": "Hapus parameter pelacakan"
+   },
+   "reviews": {
+      "message": "Ulasan"
+   },
+   "save": {
+      "message": "Simpan"
+   },
+   "save_options": {
+      "message": "Simpan Pengaturan"
+   },
+   "search_extension": {
+      "message": "Cari ekstensi..."
+   },
+   "security": {
+      "message": "Keamanan"
+   },
+   "security_colon": {
+      "message": "Keamanan:"
+   },
+   "select_extension_required": {
+      "message": "Silakan pilih setidaknya satu ekstensi!"
+   },
+   "select_extensions": {
+      "message": "Pilih ekstensi"
+   },
+   "settings": {
+      "message": "Pengaturan"
+   },
+   "shortcut_ai_summarize_description": {
+      "message": "Ringkas teks yang dipilih dengan AI"
+   },
+   "shortcut_ai_translate_description": {
+      "message": "Terjemahkan teks yang dipilih dengan AI"
+   },
+   "shortcut_pick_color_description": {
+      "message": "Pilih warna dari halaman (Pipet warna)"
+   },
+   "show_time_counter": {
+      "message": "Tampilkan Penghitung Waktu"
+   },
+   "show_time_counter_desc": {
+      "message": "Tampilkan waktu yang dihabiskan di Facebook"
+   },
+   "show_update_notification": {
+      "message": "Tampilkan pemberitahuan pembaruan"
+   },
+   "show_update_notification_label": {
+      "message": "Notifikasi pembaruan"
+   },
+   "status": {
+      "message": "Status"
+   },
+   "stop_facebook_timeline": {
+      "message": "Hentikan Timeline Facebook (Feed Berita)"
+   },
+   "telegram_channel": {
+      "message": "Kanal Telegram"
+   },
+   "toggle_all_extensions": {
+      "message": "Aktifkan/nonaktifkan semua ekstensi"
+   },
+   "toggle_block_seen_chat": {
+      "message": "Alihkan fitur \"dilihat\""
+   },
+   "toggle_block_typing_chat": {
+      "message": "Alihkan indikator ketikan"
+   },
+   "tools": {
+      "message": "Alat"
+   },
+   "type": {
+      "message": "Jenis"
+   },
+   "uninstall": {
+      "message": "Hapus instalasi"
+   },
+   "unpin": {
+      "message": "Lepas pin"
+   },
+   "update": {
+      "message": "Perbarui"
+   },
+   "update_message": {
+      "message": "{appName} baru saja diperbarui ke versi {appVersion}. Klik di sini untuk melihat perubahan pada rilis ini!"
+   },
+   "update_profile": {
+      "message": "Perbarui profil: $NAME$",
+      "placeholders": {
+         "name": {
+            "content": "$1"
+         }
+      }
+   },
+   "upgrade_to_premium": {
+      "message": "Upgrade ke Premium"
+   },
+   "user_info": {
+      "message": "Informasi Pengguna"
+   },
+   "view": {
+      "message": "Lihat"
+   },
+   "website": {
+      "message": "Situs web"
+   },
+   "yes": {
+      "message": "Ya"
+   },
+   "zalo": {
+      "message": "Zalo"
+   }
+}

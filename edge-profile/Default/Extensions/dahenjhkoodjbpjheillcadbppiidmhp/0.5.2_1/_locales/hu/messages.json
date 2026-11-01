@@ -1,0 +1,703 @@
+{
+   "1010": {
+      "message": "Új létrehozása"
+   },
+   "1109": {
+      "message": "Ez a keresés nem eredményezett találatot."
+   },
+   "111": {
+      "message": "A rendszer jelenleg nem tudja elvégezni a műveletet. Próbálkozzon újra később."
+   },
+   "1301": {
+      "message": "Beállítások"
+   },
+   "1343": {
+      "message": "Mentve a Saját könyvtárba"
+   },
+   "1441": {
+      "message": "Előző"
+   },
+   "1442": {
+      "message": "Következő"
+   },
+   "1462": {
+      "message": "Bezárás"
+   },
+   "1463": {
+      "message": "Küldés"
+   },
+   "1484": {
+      "message": "Előző oldal"
+   },
+   "1485": {
+      "message": "Következő oldal"
+   },
+   "1486": {
+      "message": "Kicsinyítés"
+   },
+   "1487": {
+      "message": "Nagyítás"
+   },
+   "1488": {
+      "message": "Igazítás a magassághoz"
+   },
+   "1489": {
+      "message": "Igazítás a szélességhez"
+   },
+   "1490": {
+      "message": "Elforgatás"
+   },
+   "1491": {
+      "message": "Mentés a saját könyvtárba"
+   },
+   "1492": {
+      "message": "Letöltés"
+   },
+   "1493": {
+      "message": "Nyomtatás"
+   },
+   "1494": {
+      "message": "Továbbiak"
+   },
+   "1513": {
+      "message": "Indexképek"
+   },
+   "1514": {
+      "message": "Az összes összecsukása"
+   },
+   "1515": {
+      "message": "Az összes kibontása"
+   },
+   "1542": {
+      "message": "Google Tudós"
+   },
+   "1617": {
+      "message": "Keresés a Google-on"
+   },
+   "1618": {
+      "message": "Google Tudós-könyvtár"
+   },
+   "1620": {
+      "message": "Hiba történt a találatok lekérésekor. Próbálja újra később."
+   },
+   "1621": {
+      "message": "Keresés a Google Tudóson…"
+   },
+   "1623": {
+      "message": "Mentés Google Tudós-könyvtárba"
+   },
+   "1626": {
+      "message": "Dokumentum tulajdonságai"
+   },
+   "1627": {
+      "message": "Megnyitás a Chrome megtekintőjében"
+   },
+   "1628": {
+      "message": "Több megjelenítése"
+   },
+   "1629": {
+      "message": "Kevesebb megjelenítése"
+   },
+   "1630": {
+      "message": "Bejelentkezés"
+   },
+   "1631": {
+      "message": "Mentve a $ANCHOR_BEGIN$Saját könyvtárba$ANCHOR_END$",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1632": {
+      "message": "Mentés a Saját könyvtárba…"
+   },
+   "1633": {
+      "message": "A cikk nem található a Tudósban."
+   },
+   "1635": {
+      "message": "Fájlnév"
+   },
+   "1636": {
+      "message": "Fájlméret"
+   },
+   "1637": {
+      "message": "Cím"
+   },
+   "1638": {
+      "message": "Szerző"
+   },
+   "1639": {
+      "message": "Tárgy"
+   },
+   "1640": {
+      "message": "Kulcsszavak"
+   },
+   "1641": {
+      "message": "Létrehozva"
+   },
+   "1642": {
+      "message": "Módosítva"
+   },
+   "1643": {
+      "message": "Alkalmazás"
+   },
+   "1644": {
+      "message": " PDF-konvertáló"
+   },
+   "1645": {
+      "message": "PDF-verzió"
+   },
+   "1646": {
+      "message": "Oldalak száma"
+   },
+   "1647": {
+      "message": "Oldalméret"
+   },
+   "1648": {
+      "message": "álló"
+   },
+   "1649": {
+      "message": "fekvő"
+   },
+   "1650": {
+      "message": "négyzet"
+   },
+   "1651": {
+      "message": "Változó"
+   },
+   "1652": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ hüvelyk ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1653": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1654": {
+      "message": "Gyors webnézet"
+   },
+   "1655": {
+      "message": "Igen"
+   },
+   "1656": {
+      "message": "Nem"
+   },
+   "1660": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ hüvelyk ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1661": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1662": {
+      "message": "Letter"
+   },
+   "1663": {
+      "message": "Legal"
+   },
+   "1664": {
+      "message": "Tabloid"
+   },
+   "1668": {
+      "message": "A PDF-dokumentum betöltése sikertelen volt."
+   },
+   "1669": {
+      "message": "Újratöltés"
+   },
+   "1670": {
+      "message": "Hiba"
+   },
+   "1673": {
+      "message": "Jelszó megadása kötelező"
+   },
+   "1674": {
+      "message": "Ez a dokumentum jelszóval védett. Kérjük, adja meg a jelszót."
+   },
+   "1675": {
+      "message": "A PDF-dokumentum kinyomtatásához használja az eszköztár Nyomtatás gombját."
+   },
+   "1676": {
+      "message": "Helytelen jelszó."
+   },
+   "1677": {
+      "message": "Az űrlapok kitöltése még nem támogatott a Google Tudós PDF-olvasóban."
+   },
+   "1678": {
+      "message": "Google Tudós PDF-olvasó"
+   },
+   "1698": {
+      "message": "Áttekintés"
+   },
+   "1702": {
+      "message": "Tudós PDF-olvasó engedélyezése"
+   },
+   "1703": {
+      "message": "Ha a Google Tudós PDF-olvasóval szeretne helyi PDF-fájlokat olvasni, engedélyezze a fájlok URL-jeihez való hozzáférést a beállításokban, majd töltse be újra a PDF-et."
+   },
+   "1704": {
+      "message": "Beállítások megnyitása"
+   },
+   "1707": {
+      "message": "Megjelenítési mód"
+   },
+   "1711": {
+      "message": "Teljes képernyő"
+   },
+   "1712": {
+      "message": "Világos mód"
+   },
+   "1713": {
+      "message": "Sötét mód"
+   },
+   "1714": {
+      "message": "Éjszakai mód"
+   },
+   "1715": {
+      "message": "Megtekintés a hivatkozások között"
+   },
+   "1716": {
+      "message": "Ha engedélyezni szeretné a Google Tudós-könyvtárba való mentést, bontsa ki a PDF-et teljes képernyőre."
+   },
+   "1717": {
+      "message": "Kibontás"
+   },
+   "1718": {
+      "message": "Most nem"
+   },
+   "1723": {
+      "message": "A nyomtatás engedélyezéséhez nyissa meg a PDF-et a Chrome megtekintőjében."
+   },
+   "1724": {
+      "message": "Megnyitás"
+   },
+   "1726": {
+      "message": "Jobban haladhat a cikkek olvasásával: követheti a referenciákat, megtekintheti a főbb pontokat, a kívánt ábrákhoz ugorhat, idézhet és menthet."
+   },
+   "1732": {
+      "message": "Eszköz mód"
+   },
+   "1734": {
+      "message": "Hibabejelentés"
+   },
+   "1741": {
+      "message": "Szakaszok"
+   },
+   "1742": {
+      "message": "AI-áttekintés"
+   },
+   "1744": {
+      "message": "AI-áttekintés beállításai"
+   },
+   "1745": {
+      "message": "AI-áttekintés kérése a Google Tudós szolgáltatástól:"
+   },
+   "1746": {
+      "message": "Csak akkor, ha rákattint a(z) $ICON$ ikonra",
+      "placeholders": {
+         "ICON": {
+            "content": "$1"
+         }
+      }
+   },
+   "1748": {
+      "message": "Automatikusan, amikor bármilyen PDF-et megnyit"
+   },
+   "1749": {
+      "message": "Az AI-áttekintések csak a kiválasztott cikkeknél állnak rendelkezésre"
+   },
+   "1750": {
+      "message": "Engedélyezi az AI-áttekintést az összes PDF-fájlnál?"
+   },
+   "1751": {
+      "message": "Az áttekintés megjelenítéséhez az olvasó megpróbálja megtalálni a PDF-et a Google Tudósban"
+   },
+   "1752": {
+      "message": "Az AI-áttekintés"
+   },
+   "1753": {
+      "message": "A cikkszakaszok legfontosabb pontjai"
+   },
+   "1754": {
+      "message": "Az AI-áttekintések a dokumentum fő szakaszainak főbb pontjait mutatják be."
+   },
+   "1755": {
+      "message": "Átfuthatja az áttekintést, vagy a részletekhez ugorhat"
+   },
+   "1756": {
+      "message": "A gyors áttekintés érdekében átfuthatja a legfontosabb pontokat, és az érdekesebb pontokra kattintva a részletekhez ugorhat."
+   },
+   "1757": {
+      "message": "Az AI-áttekintések csak bizonyos kutatási cikkek esetében állnak rendelkezésre a Google Tudós szolgáltatásban. Ezeket számítógépes program generálja, és hiányos vagy pontatlan információkat tartalmazhatnak."
+   },
+   "1758": {
+      "message": "Új"
+   },
+   "1759": {
+      "message": "Az AI-áttekintés nem áll rendelkezésre ennél a PDF-nél."
+   },
+   "1760": {
+      "message": "Az AI-áttekintés a PDF-fájl egy másik verziójával lett létrehozva."
+   },
+   "1766": {
+      "message": "Chrome-beállítások"
+   },
+   "1768": {
+      "message": "Automatikusan, amikor PDF-fájlt nyit meg a legtöbb tudományos webhelyen"
+   },
+   "1773": {
+      "message": "Kiemelések"
+   },
+   "1775": {
+      "message": "Kiemelés"
+   },
+   "1778": {
+      "message": "Megjegyzések"
+   },
+   "1779": {
+      "message": "Itt jelennek majd meg a kiemelései és a megjegyzései"
+   },
+   "1781": {
+      "message": "Újra"
+   },
+   "1783": {
+      "message": "A Google Tudós-könyvtára megtelt"
+   },
+   "1785": {
+      "message": "Könyvtár megnyitása"
+   },
+   "1786": {
+      "message": "Elvetés"
+   },
+   "1787": {
+      "message": "Törölve lett a Google Tudós-fiókja"
+   },
+   "1788": {
+      "message": "Állítsa helyre a fiókját, hogy használhassa a kiemelés és a megjegyzés funkciót a PDF-fájloknál."
+   },
+   "1790": {
+      "message": "Ha bezárja vagy újratölti ezt az oldalt, a nem mentett módosítások elvesznek."
+   },
+   "1791": {
+      "message": "Szerverhiba"
+   },
+   "1793": {
+      "message": "Mellőzés"
+   },
+   "1794": {
+      "message": "A böngésző offline állapotban van"
+   },
+   "1796": {
+      "message": "Újra"
+   },
+   "1797": {
+      "message": "Az eszköz megtelt"
+   },
+   "1800": {
+      "message": "A kiemelések és megjegyzések mentéséhez jelentkezzen be Google-fiókjába."
+   },
+   "1801": {
+      "message": "Szabadítson fel helyet Google Tudós-könyvtárában, hogy menteni tudja a kiemeléseket és a megjegyzéseket."
+   },
+   "1802": {
+      "message": "Jelentkezzen be a(z) $EMAIL_ADDRESS$ fiókba a kiemelések és a megjegyzések mentéséhez.",
+      "placeholders": {
+         "EMAIL_ADDRESS": {
+            "content": "$1"
+         }
+      }
+   },
+   "1803": {
+      "message": "Nem sikerült menteni a kiemeléseket vagy a megjegyzéseket a Google Tudós-könyvtárába. Később újra megpróbálkozunk a mentéssel."
+   },
+   "1804": {
+      "message": "A kiemelések és a megjegyzések mentéséhez csatlakozzon az internethez. Később újra megpróbálkozunk a mentéssel."
+   },
+   "1805": {
+      "message": "Szabadítson fel tárhelyet az eszközön, hogy menteni tudja a kiemeléseket és a megjegyzéseket. Ellenkező esetben a módosítások nem lesznek mentve."
+   },
+   "1806": {
+      "message": "Szinkronizálás…"
+   },
+   "1807": {
+      "message": "A szinkronizálás nem sikerült"
+   },
+   "1808": {
+      "message": "Hiba történt a kiemelések és a megjegyzések szinkronizálása közben."
+   },
+   "1809": {
+      "message": "Az eszköz offline állapotban van"
+   },
+   "1810": {
+      "message": "A kiemelések és a megjegyzések megtekintéséhez csatlakozzon az internethez."
+   },
+   "1811": {
+      "message": "A kiemelések és a megjegyzések megtekintéséhez jelentkezzen be."
+   },
+   "1812": {
+      "message": "Nem mentett módosítások vannak"
+   },
+   "1813": {
+      "message": "AI-áttekintés másolása"
+   },
+   "1814": {
+      "message": "AI-áttekintés a $BOLD_ANCHOR_BEGIN$Tudós PDF-olvasó$BOLD_ANCHOR_END$ szolgáltatástól",
+      "placeholders": {
+         "BOLD_ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "BOLD_ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1815": {
+      "message": "AI-áttekintés vágólapra másolva"
+   },
+   "1816": {
+      "message": "A kiemeléseket az Ön $ANCHOR_BEGIN$Google Tudós-könyvtárába$ANCHOR_END$ menti a rendszer.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1817": {
+      "message": "A megjegyzéseket az Ön Google Tudós-könyvtárába menti a rendszer."
+   },
+   "1818": {
+      "message": "Ismeretlen cím"
+   },
+   "1819": {
+      "message": "Keresés a Google Tudósban"
+   },
+   "1822": {
+      "message": "Megjegyzés"
+   },
+   "1823": {
+      "message": "Szín módosítása"
+   },
+   "1824": {
+      "message": "Elmentve a $ANCHOR_BEGIN$Saját könyvtárba$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1825": {
+      "message": "Válassza ki a kiemelni vagy megjegyzéssel ellátni kívánt szöveget."
+   },
+   "1826": {
+      "message": "A kiemeléseket a $ANCHOR_BEGIN$Google Tudós-könyvtárba$ANCHOR_END$ menti a rendszer.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1827": {
+      "message": "PDF-ek kiemelése"
+   },
+   "1830": {
+      "message": "A kiemeléseket online menti a rendszer"
+   },
+   "1831": {
+      "message": "A kiemeléseket és a megjegyzéseket a $ANCHOR_BEGIN$Google Tudós-könyvtárba$ANCHOR_END$ menti a rendszer.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1832": {
+      "message": "Bárhonnan hozzáférhet a kiemeléseihez"
+   },
+   "1833": {
+      "message": "A kiemelések mindaddig megjelennek a PDF-olvasóban, amíg be van jelentkezve."
+   },
+   "1834": {
+      "message": "Ugrás a Saját könyvtárba"
+   },
+   "1862": {
+      "message": "Nem lehete csatlakozni a böngésző tárhelyéhez"
+   },
+   "1863": {
+      "message": "A kiemelések le vannak tiltva ebben a böngészőben, de a többi PDF-olvasási funkció továbbra is működik."
+   },
+   "1864": {
+      "message": "A kiemelések használatához indítsa újra a böngészőt vagy az eszközt."
+   },
+   "1865": {
+      "message": "Nem lehet csatlakozni a böngésző tárhelyéhez. Próbálja meg újraindítani a böngészőt vagy az eszközt."
+   },
+   "1866": {
+      "message": "Nem lehet szinkronizálni a böngésző tárhelyével"
+   },
+   "1867": {
+      "message": "Hiba történt a kiemeléseknek a böngésző tárhelyére való szinkronizálása közben. Próbálja meg újraindítani a böngészőt vagy az eszközt."
+   },
+   "1868": {
+      "message": "A böngésző tárhelye megtelt"
+   },
+   "1869": {
+      "message": "A kiemelések használatához szabadítson fel tárhelyet az eszközön."
+   },
+   "1870": {
+      "message": "A böngésző tárhelye megtelt. Szabadítson fel tárhelyet az eszközén."
+   },
+   "1871": {
+      "message": "A kiemelések használatához frissítse a kiemelések gyorsítótárát. Ez eltarthat egy ideig."
+   },
+   "1872": {
+      "message": "Gyorsítótár frissítése"
+   },
+   "1873": {
+      "message": "Hiba történt a kiemeléseknek a böngésző tárhelyére való szinkronizálása közben. Próbálkozzon a kiemelés gyorsítótárának frissítésével. Ez eltarthat egy ideig."
+   },
+   "1874": {
+      "message": "Túl sok kiemelés van"
+   },
+   "1875": {
+      "message": "Nem lehet több kiemelést hozzáadni könyvtárához."
+   },
+   "1876": {
+      "message": "Ha további kiemeléseket szeretne hozzáadni, távolítson el néhányat."
+   },
+   "1877": {
+      "message": "Módosítások elvetése"
+   },
+   "1882": {
+      "message": "Túl sok verzión vannak kiemelések"
+   },
+   "1883": {
+      "message": "Ugyanannak a cikknek legfeljebb három verziójához adhat hozzá kiemeléseket."
+   },
+   "1884": {
+      "message": "Ahhoz, hogy ehhez a verzióhoz hozzáadhasson kiemeléseket, távolítsa el a kiemeléseket egy másik verzióból."
+   },
+   "1885": {
+      "message": "Kiemelések kezelése"
+   },
+   "1888": {
+      "message": " Megtekintés a könyvtárban"
+   },
+   "1918": {
+      "message": "Az URL tartalma megváltozott. Egy korábbi verzión kiemelések vannak."
+   },
+   "535": {
+      "message": "Keresés a Google Tudóson"
+   },
+   "551": {
+      "message": "Cikk eltávolítása"
+   },
+   "59": {
+      "message": "Hivatkozás"
+   },
+   "625": {
+      "message": "Betöltés…"
+   },
+   "626": {
+      "message": "$PAGE_NUMBER$. oldal",
+      "placeholders": {
+         "PAGE_NUMBER": {
+            "content": "$1"
+         }
+      }
+   },
+   "64": {
+      "message": "Mentés"
+   },
+   "644": {
+      "message": "Kész"
+   },
+   "649": {
+      "message": "Bezárás"
+   },
+   "732": {
+      "message": "Saját könyvtár"
+   },
+   "907": {
+      "message": "Fiók visszaállítása"
+   },
+   "920": {
+      "message": "Keresés"
+   },
+   "924": {
+      "message": "Címkézés:"
+   },
+   "96": {
+      "message": "Törlés"
+   },
+   "965": {
+      "message": "Rendben"
+   },
+   "966": {
+      "message": "Köszönöm, nem"
+   },
+   "chrome_client_3269861059707096562": {
+      "message": "Fájl URL-ekhez való hozzáférés engedélyezése"
+   }
+}

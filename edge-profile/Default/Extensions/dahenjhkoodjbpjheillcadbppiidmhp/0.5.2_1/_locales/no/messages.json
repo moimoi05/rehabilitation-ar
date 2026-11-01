@@ -1,0 +1,703 @@
+{
+   "1010": {
+      "message": "Opprett ny"
+   },
+   "1109": {
+      "message": "Ingen resultater ble funnet for dette søket."
+   },
+   "111": {
+      "message": "Systemet kan ikke utføre handlingen. Prøv på nytt senere."
+   },
+   "1301": {
+      "message": "Innstillinger"
+   },
+   "1343": {
+      "message": "Lagret i Mitt bibliotek"
+   },
+   "1441": {
+      "message": "Forrige"
+   },
+   "1442": {
+      "message": "Neste"
+   },
+   "1462": {
+      "message": "Lukk"
+   },
+   "1463": {
+      "message": "Send inn"
+   },
+   "1484": {
+      "message": "Forrige side"
+   },
+   "1485": {
+      "message": "Neste side"
+   },
+   "1486": {
+      "message": "Zoom ut"
+   },
+   "1487": {
+      "message": "Zoom inn"
+   },
+   "1488": {
+      "message": "Tilpass til høyde"
+   },
+   "1489": {
+      "message": "Tilpass til bredde"
+   },
+   "1490": {
+      "message": "Rotér"
+   },
+   "1491": {
+      "message": "Lagre i biblioteket"
+   },
+   "1492": {
+      "message": "Last ned"
+   },
+   "1493": {
+      "message": "Skriv ut"
+   },
+   "1494": {
+      "message": "Mer"
+   },
+   "1513": {
+      "message": "Miniatyrbilder"
+   },
+   "1514": {
+      "message": "Skjul alle"
+   },
+   "1515": {
+      "message": "Vis alle"
+   },
+   "1542": {
+      "message": "Google Scholar"
+   },
+   "1617": {
+      "message": "Søk på Google"
+   },
+   "1618": {
+      "message": "Google Scholar-biblioteket"
+   },
+   "1620": {
+      "message": "Det oppsto en feil under hentingen av resultatene. Prøv igjen senere."
+   },
+   "1621": {
+      "message": "Søker på Scholar …"
+   },
+   "1623": {
+      "message": "Lagre i Scholar-biblioteket"
+   },
+   "1626": {
+      "message": "Dokumentegenskaper"
+   },
+   "1627": {
+      "message": "Åpne i Chrome PDF-visningsprogrammet"
+   },
+   "1628": {
+      "message": "Vis mer"
+   },
+   "1629": {
+      "message": "Vis mindre"
+   },
+   "1630": {
+      "message": "Logg på"
+   },
+   "1631": {
+      "message": "Lagret i $ANCHOR_BEGIN$Mitt bibliotek$ANCHOR_END$",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1632": {
+      "message": "Lagrer i Mitt bibliotek …"
+   },
+   "1633": {
+      "message": "Fant ikke artikkelen i Scholar."
+   },
+   "1635": {
+      "message": "Filnavn"
+   },
+   "1636": {
+      "message": "Filstørrelse"
+   },
+   "1637": {
+      "message": "Tittel"
+   },
+   "1638": {
+      "message": "Forfatter"
+   },
+   "1639": {
+      "message": "Emne"
+   },
+   "1640": {
+      "message": "Søkeord"
+   },
+   "1641": {
+      "message": "Opprettet"
+   },
+   "1642": {
+      "message": "Endret"
+   },
+   "1643": {
+      "message": "Program"
+   },
+   "1644": {
+      "message": " PDF-produsent"
+   },
+   "1645": {
+      "message": "PDF-versjon"
+   },
+   "1646": {
+      "message": "Antall sider"
+   },
+   "1647": {
+      "message": "Sidestørrelse"
+   },
+   "1648": {
+      "message": "stående"
+   },
+   "1649": {
+      "message": "liggende"
+   },
+   "1650": {
+      "message": "kvadratisk"
+   },
+   "1651": {
+      "message": "Varierer"
+   },
+   "1652": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ tommer ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1653": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1654": {
+      "message": "Rask nettvisning"
+   },
+   "1655": {
+      "message": "Ja"
+   },
+   "1656": {
+      "message": "Nei"
+   },
+   "1660": {
+      "message": "$PAGE_WIDTH$ x $PAGE_HEIGHT$ tommer ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1661": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1662": {
+      "message": "Brev"
+   },
+   "1663": {
+      "message": "Juridisk"
+   },
+   "1664": {
+      "message": "Tabloid"
+   },
+   "1668": {
+      "message": "Kunne ikke laste inn PDF-dokumentet."
+   },
+   "1669": {
+      "message": "Last inn på nytt"
+   },
+   "1670": {
+      "message": "Feil"
+   },
+   "1673": {
+      "message": "Passord er obligatorisk"
+   },
+   "1674": {
+      "message": "Dette dokumentet er passordbeskyttet. Skriv inn et passord."
+   },
+   "1675": {
+      "message": "Skriv ut PDF-dokumentet med Skriv ut-knappen på verktøylinjen."
+   },
+   "1676": {
+      "message": "Feil passord."
+   },
+   "1677": {
+      "message": "Skjemautfylling støttes foreløpig ikke i Scholar PDF Reader."
+   },
+   "1678": {
+      "message": "Google Scholar PDF Reader"
+   },
+   "1698": {
+      "message": "Disposisjon"
+   },
+   "1702": {
+      "message": "Aktiver Scholar Reader"
+   },
+   "1703": {
+      "message": "For å lese lokale PDF-filer med Google Scholar Reader må du slå på tilgang til filnettadresser i innstillingene og så laste inn PDF-filen på nytt."
+   },
+   "1704": {
+      "message": "Åpne innstillingene"
+   },
+   "1707": {
+      "message": "Visningsmodus"
+   },
+   "1711": {
+      "message": "Fullskjerm"
+   },
+   "1712": {
+      "message": "Lys modus"
+   },
+   "1713": {
+      "message": "Mørk modus"
+   },
+   "1714": {
+      "message": "Nattmodus"
+   },
+   "1715": {
+      "message": "Se i Referanser"
+   },
+   "1716": {
+      "message": "For å slå på lagring i Scholar-biblioteket ditt, vis PDF-filen i fullskjerm."
+   },
+   "1717": {
+      "message": "Vis"
+   },
+   "1718": {
+      "message": "Ikke nå"
+   },
+   "1723": {
+      "message": "Åpne PDF-filen i Chrome-visningsprogrammet for å få mulighet til å skrive den ut."
+   },
+   "1724": {
+      "message": "Åpne"
+   },
+   "1726": {
+      "message": "Les artikler raskere: følg referanser, skumles utkast, hopp til figurer, siter og lagre."
+   },
+   "1732": {
+      "message": "Enhetsmodus"
+   },
+   "1734": {
+      "message": "Rapporter et problem"
+   },
+   "1741": {
+      "message": "Deler"
+   },
+   "1742": {
+      "message": "AI-oversikt"
+   },
+   "1744": {
+      "message": "Innstillinger for AI-oversikt"
+   },
+   "1745": {
+      "message": "Be Scholar om en AI-oversikt:"
+   },
+   "1746": {
+      "message": "Kun når du klikker på $ICON$",
+      "placeholders": {
+         "ICON": {
+            "content": "$1"
+         }
+      }
+   },
+   "1748": {
+      "message": "Automatisk når du åpner PDF-filer"
+   },
+   "1749": {
+      "message": "AI-oversikter er tilgjengelige kun for utvalgte artikler"
+   },
+   "1750": {
+      "message": "Vil du slå på AI-oversikter for alle PDF-filer?"
+   },
+   "1751": {
+      "message": "Reader prøver å finne PDF-filen i Scholar for å vise en oversikt"
+   },
+   "1752": {
+      "message": "Om AI-oversikter"
+   },
+   "1753": {
+      "message": "Hovedpunkter fra delene i artikkelen"
+   },
+   "1754": {
+      "message": "AI-oversikter viser deg hovedpunktene fra store deler av dokumentet."
+   },
+   "1755": {
+      "message": "Skumles oversikten eller gå rett til detaljene"
+   },
+   "1756": {
+      "message": "Se gjennom hovedpunktene for å få oversikt raskt, og klikk på interessante punkter for å se detaljer."
+   },
+   "1757": {
+      "message": "AI-oversikter er tilgjengelige kun for utvalgte forskningsartikler i Scholar. De genereres av et dataprogram og kan inneholde ufullstendig eller unøyaktig informasjon."
+   },
+   "1758": {
+      "message": "Ny"
+   },
+   "1759": {
+      "message": "AI-oversikt er ikke tilgjengelig for denne PDF-filen."
+   },
+   "1760": {
+      "message": "AI-oversikten ble generert med en annen versjon av denne PDF-filen."
+   },
+   "1766": {
+      "message": "Chrome-innstillinger"
+   },
+   "1768": {
+      "message": "Automatisk når du åpner PDF-filer på de fleste akademiske nettsteder"
+   },
+   "1773": {
+      "message": "Fremhevinger"
+   },
+   "1775": {
+      "message": "Fremhev"
+   },
+   "1778": {
+      "message": "Kommentarer"
+   },
+   "1779": {
+      "message": "Fremhevingene og kommentarene dine vises her"
+   },
+   "1781": {
+      "message": "Prøv på nytt"
+   },
+   "1783": {
+      "message": "Scholar-biblioteket ditt er fullt"
+   },
+   "1785": {
+      "message": "Åpne biblioteket"
+   },
+   "1786": {
+      "message": "Forkast"
+   },
+   "1787": {
+      "message": "Scholar-kontoen din er slettet"
+   },
+   "1788": {
+      "message": "Gjenopprett kontoen din for å fremheve og kommentere i PDF-filer."
+   },
+   "1790": {
+      "message": "Hvis du lukker eller laster inn denne siden på nytt, mister du eventuelle endringer du ikke har lagret."
+   },
+   "1791": {
+      "message": "Tjenerfeil"
+   },
+   "1793": {
+      "message": "Ignorer"
+   },
+   "1794": {
+      "message": "Nettleseren er ikke tilkoblet nettet"
+   },
+   "1796": {
+      "message": "Prøv igjen"
+   },
+   "1797": {
+      "message": "Enheten er full"
+   },
+   "1800": {
+      "message": "Logg på Google-kontoen din for å lagre fremhevinger og kommentarer."
+   },
+   "1801": {
+      "message": "Frigjør plass i Scholar-biblioteket for å lagre fremhevinger og kommentarer."
+   },
+   "1802": {
+      "message": "Logg på $EMAIL_ADDRESS$ for å lagre fremhevinger og kommentarer.",
+      "placeholders": {
+         "EMAIL_ADDRESS": {
+            "content": "$1"
+         }
+      }
+   },
+   "1803": {
+      "message": "Kunne ikke lagre fremhevingene eller kommentarene i Scholar-biblioteket. Vi prøver å lagre dem igjen senere."
+   },
+   "1804": {
+      "message": "Koble til internett for å lagre fremhevinger og kommentarer. Vi prøver å lagre dem igjen senere."
+   },
+   "1805": {
+      "message": "Frigjør plass på enheten for å lagre fremhevinger og kommentarer. Ellers blir ikke endringene lagret."
+   },
+   "1806": {
+      "message": "Synkroniserer …"
+   },
+   "1807": {
+      "message": "Kunne ikke synkronisere"
+   },
+   "1808": {
+      "message": "Det oppsto en feil ved synkroniseringen av fremhevinger og kommentarer."
+   },
+   "1809": {
+      "message": "Enheten er uten nett"
+   },
+   "1810": {
+      "message": "Koble til internett for å se fremhevinger og kommentarer."
+   },
+   "1811": {
+      "message": "Logg på for å se fremhevinger og kommentarer."
+   },
+   "1812": {
+      "message": "Ulagrede endringer"
+   },
+   "1813": {
+      "message": "Kopier AI-oversikten"
+   },
+   "1814": {
+      "message": "AI-oversikt fra $BOLD_ANCHOR_BEGIN$Scholar PDF Reader$BOLD_ANCHOR_END$",
+      "placeholders": {
+         "BOLD_ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "BOLD_ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1815": {
+      "message": "AI-oversikten er kopiert til utklippstavlen"
+   },
+   "1816": {
+      "message": "Fremhevingene blir lagret i $ANCHOR_BEGIN$Scholar-biblioteket$ANCHOR_END$ ditt.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1817": {
+      "message": "Kommentarene blir lagret i Scholar-biblioteket ditt."
+   },
+   "1818": {
+      "message": "Ukjent tittel"
+   },
+   "1819": {
+      "message": "Finn i Scholar"
+   },
+   "1822": {
+      "message": "Kommenter"
+   },
+   "1823": {
+      "message": "Bytt farge"
+   },
+   "1824": {
+      "message": "Lagret i $ANCHOR_BEGIN$biblioteket ditt$ANCHOR_END$",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1825": {
+      "message": "Velg tekst for å fremheve eller kommentere den."
+   },
+   "1826": {
+      "message": "Fremhevinger lagres i $ANCHOR_BEGIN$Scholar-biblioteket$ANCHOR_END$ ditt.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1827": {
+      "message": "Fremhev PDF-filer"
+   },
+   "1830": {
+      "message": "Fremhevinger lagres på nettet"
+   },
+   "1831": {
+      "message": "Fremhevingene og kommentarene dine lagres i $ANCHOR_BEGIN$Scholar-biblioteket$ANCHOR_END$ ditt.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1832": {
+      "message": "Se fremhevingene dine overalt"
+   },
+   "1833": {
+      "message": "Fremhevinger vises i PDF-leseren så lenge du er logget på."
+   },
+   "1834": {
+      "message": "Gå til biblioteket ditt"
+   },
+   "1862": {
+      "message": "Kan ikke koble til nettleserlagringen"
+   },
+   "1863": {
+      "message": "Fremhevinger er slått av i denne nettleseren, men andre funksjoner for lesing av PDF-filer fungerer fortsatt."
+   },
+   "1864": {
+      "message": "For å bruke fremhevinger, prøv å starte nettleseren eller enheten på nytt."
+   },
+   "1865": {
+      "message": "Kan ikke koble til nettleserlagringen. Prøv å starte nettleseren eller enheten på nytt."
+   },
+   "1866": {
+      "message": "Kan ikke synkronisere til nettleserlagringen"
+   },
+   "1867": {
+      "message": "Det oppsto en feil under synkroniseringen av fremhevinger til nettleserlagringen. Prøv å starte nettleseren eller enheten på nytt."
+   },
+   "1868": {
+      "message": "Nettleserlagringen er full"
+   },
+   "1869": {
+      "message": "For å bruke fremhevinger kan du prøve å frigjøre plass på enheten."
+   },
+   "1870": {
+      "message": "Nettleserlagringen er full. Prøv å frigjøre plass på enheten."
+   },
+   "1871": {
+      "message": "For å bruke fremhevinger må du laste inn fremhevingsbufferen på nytt. Dette kan ta en stund."
+   },
+   "1872": {
+      "message": "Last inn bufferen på nytt"
+   },
+   "1873": {
+      "message": "Det oppsto en feil under synkroniseringen av fremhevinger til nettleserlagringen. Prøv å laste inn bufferen for fremhevinger på nytt. Dette kan ta en stund."
+   },
+   "1874": {
+      "message": "For mange fremhevinger"
+   },
+   "1875": {
+      "message": "Du kan ikke legge til flere fremhevinger i biblioteket ditt."
+   },
+   "1876": {
+      "message": "Du må fjerne noen fremhevinger for å fortsette å legge til nye."
+   },
+   "1877": {
+      "message": "Forkast endringene"
+   },
+   "1882": {
+      "message": "Fremhevinger er lagt til i for mange versjoner"
+   },
+   "1883": {
+      "message": "Du kan legge til fremhevinger i opptil tre versjoner av den samme artikkelen."
+   },
+   "1884": {
+      "message": "For å fortsette å legge til fremhevinger i denne versjonen må du fjerne fremhevinger fra en annen versjon."
+   },
+   "1885": {
+      "message": "Administrer fremhevinger"
+   },
+   "1888": {
+      "message": " Se denne i biblioteket"
+   },
+   "1918": {
+      "message": "Innholdet på denne nettadressen er endret. Du har fremhevinger i en tidligere versjon."
+   },
+   "535": {
+      "message": "Søk i Google Scholar"
+   },
+   "551": {
+      "message": "Fjern artikkelen"
+   },
+   "59": {
+      "message": "Referanse"
+   },
+   "625": {
+      "message": "Laster inn ..."
+   },
+   "626": {
+      "message": "Side $PAGE_NUMBER$",
+      "placeholders": {
+         "PAGE_NUMBER": {
+            "content": "$1"
+         }
+      }
+   },
+   "64": {
+      "message": "Lagre"
+   },
+   "644": {
+      "message": "Ferdig"
+   },
+   "649": {
+      "message": "Avvis"
+   },
+   "732": {
+      "message": "Mitt bibliotek"
+   },
+   "907": {
+      "message": "Gjenopprett kontoen"
+   },
+   "920": {
+      "message": "Søk"
+   },
+   "924": {
+      "message": "Merk som:"
+   },
+   "96": {
+      "message": "Slett"
+   },
+   "965": {
+      "message": "Ja, takk"
+   },
+   "966": {
+      "message": "Nei takk"
+   },
+   "chrome_client_3269861059707096562": {
+      "message": "Tillat tilgang til filnettadresser"
+   }
+}

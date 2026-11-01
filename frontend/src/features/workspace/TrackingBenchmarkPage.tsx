@@ -37,7 +37,7 @@ export default function TrackingBenchmarkPage() {
       <button disabled={!running} onClick={() => controller.current?.abort()}>Dừng sau khi lưu dữ liệu</button>
     </div>
     <p role="status" aria-live="polite">{status}</p>
-    <video ref={video} muted playsInline preload="auto" style={{ display: 'none' }} />
+    <video ref={video} muted playsInline preload="auto" style={{ position: 'absolute', top: 0, left: 0, width: 320, height: 180, opacity: 0.001, pointerEvents: 'none', zIndex: -1 }} />
     <canvas ref={canvas} width={1280} height={720} style={{ width: '100%', maxHeight: '65vh', objectFit: 'contain', background: '#0f172a' }} />
     <p>Warm-up: suy luận khung đầu video trong ít nhất 3 giây; sau đó đo toàn bộ video. Mỗi lần lưu MP4 chú thích, JSONL raw/filtered, CSV, summary, báo cáo và manifest. Chỉ backend xác minh đủ artifact mới ghi COMPLETE.</p>
     <p>Cấu hình A giữ lịch gọi cũ (Pose tối đa 24, Hand 12, cùng callback); cấu hình CPU matched và GPU dùng lịch độc lập 20/12 để so sánh. Chỉ số filter là khoảng cách tới raw và chuyển động giữa quan sát, không phải độ chính xác lâm sàng.</p>

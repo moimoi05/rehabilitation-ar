@@ -1,0 +1,703 @@
+{
+   "1010": {
+      "message": "Criar nova"
+   },
+   "1109": {
+      "message": "Não foi encontrado nenhum resultado para esta pesquisa."
+   },
+   "111": {
+      "message": "O sistema não pode efectuar a operação agora. Tente mais tarde."
+   },
+   "1301": {
+      "message": "Definições"
+   },
+   "1343": {
+      "message": "Guardado em A minha biblioteca"
+   },
+   "1441": {
+      "message": "Anterior"
+   },
+   "1442": {
+      "message": "Seguinte"
+   },
+   "1462": {
+      "message": "Fechar"
+   },
+   "1463": {
+      "message": "Enviar"
+   },
+   "1484": {
+      "message": "Página anterior"
+   },
+   "1485": {
+      "message": "Página seguinte"
+   },
+   "1486": {
+      "message": "Diminuir zoom"
+   },
+   "1487": {
+      "message": "Aumentar zoom"
+   },
+   "1488": {
+      "message": "Ajustar à altura"
+   },
+   "1489": {
+      "message": "Ajustar à largura"
+   },
+   "1490": {
+      "message": "Rodar"
+   },
+   "1491": {
+      "message": "Guardar na minha biblioteca"
+   },
+   "1492": {
+      "message": "Transferir"
+   },
+   "1493": {
+      "message": "Imprimir"
+   },
+   "1494": {
+      "message": "Mais"
+   },
+   "1513": {
+      "message": "Miniaturas"
+   },
+   "1514": {
+      "message": "Reduzir todos"
+   },
+   "1515": {
+      "message": "Expandir tudo"
+   },
+   "1542": {
+      "message": "Google Académico"
+   },
+   "1617": {
+      "message": "Pesquise no Google"
+   },
+   "1618": {
+      "message": "Biblioteca do Google Académico"
+   },
+   "1620": {
+      "message": "Ocorreu um erro ao obter os resultados. Tente mais tarde."
+   },
+   "1621": {
+      "message": "A pesquisar no Google Académico…"
+   },
+   "1623": {
+      "message": "Guardar na Biblioteca do Google Académico"
+   },
+   "1626": {
+      "message": "Propriedades do documento"
+   },
+   "1627": {
+      "message": "Abrir no visualizador do Chrome"
+   },
+   "1628": {
+      "message": "Mostrar mais"
+   },
+   "1629": {
+      "message": "Mostrar menos"
+   },
+   "1630": {
+      "message": "Inicie sessão"
+   },
+   "1631": {
+      "message": "Guardado em $ANCHOR_BEGIN$A minha biblioteca$ANCHOR_END$",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1632": {
+      "message": "A guardar em A minha biblioteca…"
+   },
+   "1633": {
+      "message": "Artigo não encontrado no Google Académico."
+   },
+   "1635": {
+      "message": "Nome do ficheiro"
+   },
+   "1636": {
+      "message": "Tamanho do ficheiro"
+   },
+   "1637": {
+      "message": "Título"
+   },
+   "1638": {
+      "message": "Autor"
+   },
+   "1639": {
+      "message": "Assunto"
+   },
+   "1640": {
+      "message": "Palavras-chave"
+   },
+   "1641": {
+      "message": "Criado"
+   },
+   "1642": {
+      "message": "Modificado"
+   },
+   "1643": {
+      "message": "Aplicação"
+   },
+   "1644": {
+      "message": " Criador do PDF"
+   },
+   "1645": {
+      "message": "Versão do PDF"
+   },
+   "1646": {
+      "message": "Total de páginas"
+   },
+   "1647": {
+      "message": "Tamanho da página"
+   },
+   "1648": {
+      "message": "vertical"
+   },
+   "1649": {
+      "message": "horizontal"
+   },
+   "1650": {
+      "message": "quadrada"
+   },
+   "1651": {
+      "message": "Varia"
+   },
+   "1652": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ pol. ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1653": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1654": {
+      "message": "Visualização na Web rápida"
+   },
+   "1655": {
+      "message": "Sim"
+   },
+   "1656": {
+      "message": "Não"
+   },
+   "1660": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ pol. ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1661": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1662": {
+      "message": "Carta"
+   },
+   "1663": {
+      "message": "Legal"
+   },
+   "1664": {
+      "message": "Tabloid"
+   },
+   "1668": {
+      "message": "Falha ao carregar o documento PDF."
+   },
+   "1669": {
+      "message": "Atualizar"
+   },
+   "1670": {
+      "message": "Erro"
+   },
+   "1673": {
+      "message": "Palavra-passe obrigatória"
+   },
+   "1674": {
+      "message": "Este documento está protegido por palavra-passe. Introduza uma palavra-passe."
+   },
+   "1675": {
+      "message": "Para imprimir o documento PDF, use o botão Imprimir na barra de ferramentas."
+   },
+   "1676": {
+      "message": "Palavra-passe incorreta."
+   },
+   "1677": {
+      "message": "O preenchimento de formulários ainda não é suportado no leitor de PDFs do Google Académico."
+   },
+   "1678": {
+      "message": "Leitor de PDFs do Google Académico"
+   },
+   "1698": {
+      "message": "Índice"
+   },
+   "1702": {
+      "message": "Ative o Leitor do Académico"
+   },
+   "1703": {
+      "message": "Para ler PDFs locais com o Leitor do Google Académico, ative o acesso aos URLs de ficheiros nas definições e, em seguida, recarregue o PDF."
+   },
+   "1704": {
+      "message": "Abrir definições"
+   },
+   "1707": {
+      "message": "Modo de apresentação"
+   },
+   "1711": {
+      "message": "Ecrã inteiro"
+   },
+   "1712": {
+      "message": "Modo claro"
+   },
+   "1713": {
+      "message": "Modo escuro"
+   },
+   "1714": {
+      "message": "Modo noturno"
+   },
+   "1715": {
+      "message": "Ver nas Referências"
+   },
+   "1716": {
+      "message": "Para permitir guardar o artigo na sua biblioteca do Google Académico, expanda o PDF para ecrã inteiro."
+   },
+   "1717": {
+      "message": "Expandir"
+   },
+   "1718": {
+      "message": "Agora não"
+   },
+   "1723": {
+      "message": "Para ativar a impressão, abra o PDF no visualizador do Chrome."
+   },
+   "1724": {
+      "message": "Abrir"
+   },
+   "1726": {
+      "message": "Otimize a leitura de ensaios: siga referências, navegue no índice, avance para figuras, cite e guarde."
+   },
+   "1732": {
+      "message": "Modo de dispositivo"
+   },
+   "1734": {
+      "message": "Comunicar um problema"
+   },
+   "1741": {
+      "message": "Secções"
+   },
+   "1742": {
+      "message": "Índice de IA"
+   },
+   "1744": {
+      "message": "Definições do índice de IA"
+   },
+   "1745": {
+      "message": "Pedir um índice de IA ao Google Académico:"
+   },
+   "1746": {
+      "message": "Apenas quando clica em $ICON$",
+      "placeholders": {
+         "ICON": {
+            "content": "$1"
+         }
+      }
+   },
+   "1748": {
+      "message": "Automaticamente quando abre um PDF"
+   },
+   "1749": {
+      "message": "Os índices de IA só estão disponíveis para artigos selecionados"
+   },
+   "1750": {
+      "message": "Ativar o Índice de IA para todos os PDFs?"
+   },
+   "1751": {
+      "message": "Para apresentar um índice, o Leitor vai tentar encontrar o PDF no Google Académico"
+   },
+   "1752": {
+      "message": "Acerca do Índice de IA"
+   },
+   "1753": {
+      "message": "Pontos principais das secções do artigo"
+   },
+   "1754": {
+      "message": "Os índices de IA apresentam os principais pontos das principais secções do documento."
+   },
+   "1755": {
+      "message": "Veja rapidamente o índice ou aceda aos detalhes"
+   },
+   "1756": {
+      "message": "Veja rapidamente os pontos principais para um resumo rápido e clique em marcas de lista interessantes para aceder aos detalhes."
+   },
+   "1757": {
+      "message": "Os índices de IA só estão disponíveis para determinados ensaios de investigação no Google Académico. São gerados por um programa de computador e podem conter informações incompletas ou imprecisas."
+   },
+   "1758": {
+      "message": "Novo"
+   },
+   "1759": {
+      "message": "O Índice de IA não está disponível para este PDF."
+   },
+   "1760": {
+      "message": "O índice de IA foi gerado com uma versão diferente deste PDF."
+   },
+   "1766": {
+      "message": "Definições do Chrome"
+   },
+   "1768": {
+      "message": "Automaticamente quando abre um PDF na maioria dos sites académicos"
+   },
+   "1773": {
+      "message": "Realces"
+   },
+   "1775": {
+      "message": "Realçar"
+   },
+   "1778": {
+      "message": "Comentários"
+   },
+   "1779": {
+      "message": "Os seus realces e comentários aparecem aqui"
+   },
+   "1781": {
+      "message": "Tentar novamente"
+   },
+   "1783": {
+      "message": "A sua biblioteca do Google Académico está cheia"
+   },
+   "1785": {
+      "message": "Abrir biblioteca"
+   },
+   "1786": {
+      "message": "Rejeitar"
+   },
+   "1787": {
+      "message": "A sua conta do Google Académico foi eliminada"
+   },
+   "1788": {
+      "message": "Recupere a sua conta para realçar e comentar um PDF."
+   },
+   "1790": {
+      "message": "Se fechar ou atualizar esta página, as alterações não guardadas serão perdidas."
+   },
+   "1791": {
+      "message": "Erro no servidor"
+   },
+   "1793": {
+      "message": "Ignorar"
+   },
+   "1794": {
+      "message": "O seu navegador está offline"
+   },
+   "1796": {
+      "message": "Tentar novamente"
+   },
+   "1797": {
+      "message": "O seu dispositivo está cheio"
+   },
+   "1800": {
+      "message": "Inicie sessão na sua Conta Google para guardar realces e comentários."
+   },
+   "1801": {
+      "message": "Liberte espaço na sua biblioteca do Google Académico para guardar realces e comentários."
+   },
+   "1802": {
+      "message": "Inicie sessão em $EMAIL_ADDRESS$ para guardar realces e comentários.",
+      "placeholders": {
+         "EMAIL_ADDRESS": {
+            "content": "$1"
+         }
+      }
+   },
+   "1803": {
+      "message": "Não foi possível guardar realces nem comentários na sua biblioteca do Google Académico. Vamos tentar guardar mais tarde."
+   },
+   "1804": {
+      "message": "Ligue-se à Internet para guardar realces e comentários. Vamos tentar guardar mais tarde."
+   },
+   "1805": {
+      "message": "Liberte espaço no dispositivo para guardar realces e comentários. Caso contrário, as alterações não serão guardadas."
+   },
+   "1806": {
+      "message": "A sincronizar…"
+   },
+   "1807": {
+      "message": "A sincronização falhou"
+   },
+   "1808": {
+      "message": "Ocorreu um erro ao sincronizar os realces e os comentários."
+   },
+   "1809": {
+      "message": "Dispositivo offline"
+   },
+   "1810": {
+      "message": "Ligue-se à Internet para ver os realces e os comentários."
+   },
+   "1811": {
+      "message": "Inicie sessão para ver os realces e os comentários."
+   },
+   "1812": {
+      "message": "Alterações não guardadas"
+   },
+   "1813": {
+      "message": "Copiar Outline de IA"
+   },
+   "1814": {
+      "message": "Outline de IA do $BOLD_ANCHOR_BEGIN$Leitor de PDF Académico$BOLD_ANCHOR_END$",
+      "placeholders": {
+         "BOLD_ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "BOLD_ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1815": {
+      "message": "Outline de IA copiado para a área de transferência"
+   },
+   "1816": {
+      "message": "Os realces vão ser guardados na sua $ANCHOR_BEGIN$biblioteca do Google Académico$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1817": {
+      "message": "Os comentários vão ser guardados na sua biblioteca do Google Académico."
+   },
+   "1818": {
+      "message": "Título desconhecido"
+   },
+   "1819": {
+      "message": "Procure no Google Académico"
+   },
+   "1822": {
+      "message": "Comentar"
+   },
+   "1823": {
+      "message": "Alterar cor"
+   },
+   "1824": {
+      "message": "Guardados na $ANCHOR_BEGIN$sua biblioteca$ANCHOR_END$",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1825": {
+      "message": "Selecione o texto a realçar ou comentar."
+   },
+   "1826": {
+      "message": "Os realces são guardados na sua $ANCHOR_BEGIN$biblioteca do Google Académico$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1827": {
+      "message": "Realce PDFs"
+   },
+   "1830": {
+      "message": "Os realces são guardados online"
+   },
+   "1831": {
+      "message": "Os realces e os comentários são guardados na sua $ANCHOR_BEGIN$biblioteca do Google Académico$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1832": {
+      "message": "Aceda aos seus realces em qualquer lugar"
+   },
+   "1833": {
+      "message": "Os realces são apresentados no Leitor de PDF enquanto tiver sessão iniciada."
+   },
+   "1834": {
+      "message": "Visitar A minha biblioteca"
+   },
+   "1862": {
+      "message": "Não é possível ligar ao armazenamento no navegador"
+   },
+   "1863": {
+      "message": "Os destaques estão desativados neste navegador, mas outras funcionalidades de leitura de PDFs continuam a funcionar."
+   },
+   "1864": {
+      "message": "Para usar os destaques, experimente reiniciar o navegador ou o dispositivo."
+   },
+   "1865": {
+      "message": "Não é possível ligar ao armazenamento no navegador. Experimente reiniciar o navegador ou o dispositivo."
+   },
+   "1866": {
+      "message": "Não é possível sincronizar com o armazenamento no navegador"
+   },
+   "1867": {
+      "message": "Ocorreu um erro ao sincronizar os realces com o armazenamento no navegador. Experimente reiniciar o navegador ou o dispositivo."
+   },
+   "1868": {
+      "message": "O armazenamento no navegador está cheio"
+   },
+   "1869": {
+      "message": "Para usar os realces, experimente libertar espaço no seu dispositivo."
+   },
+   "1870": {
+      "message": "O armazenamento no navegador está cheio. Experimente libertar espaço no dispositivo."
+   },
+   "1871": {
+      "message": "Para usar os realces, atualize a cache de realces. Esta ação pode demorar algum tempo."
+   },
+   "1872": {
+      "message": "Atualizar cache"
+   },
+   "1873": {
+      "message": "Ocorreu um erro ao sincronizar os realces com o armazenamento no navegador. Experimente atualizar a cache de realces. Esta ação pode demorar algum tempo."
+   },
+   "1874": {
+      "message": "Demasiados realces"
+   },
+   "1875": {
+      "message": "Não é possível adicionar mais realces à sua biblioteca."
+   },
+   "1876": {
+      "message": "Para continuar a adicionar realces, remova alguns."
+   },
+   "1877": {
+      "message": "Rejeitar alterações"
+   },
+   "1882": {
+      "message": "Realces em demasiadas versões"
+   },
+   "1883": {
+      "message": "Pode adicionar realces em, no máximo, 3 versões do mesmo artigo."
+   },
+   "1884": {
+      "message": "Para continuar a adicionar realces a esta versão, remova realces de outra versão."
+   },
+   "1885": {
+      "message": "Gerir realces"
+   },
+   "1888": {
+      "message": " Ver na biblioteca"
+   },
+   "1918": {
+      "message": "O conteúdo deste URL foi alterado. Tem realces numa versão anterior."
+   },
+   "535": {
+      "message": "Pesquisar no Google Académico"
+   },
+   "551": {
+      "message": "Remover artigo"
+   },
+   "59": {
+      "message": "Citar"
+   },
+   "625": {
+      "message": "A carregar..."
+   },
+   "626": {
+      "message": "Página $PAGE_NUMBER$",
+      "placeholders": {
+         "PAGE_NUMBER": {
+            "content": "$1"
+         }
+      }
+   },
+   "64": {
+      "message": "Guardar"
+   },
+   "644": {
+      "message": "Concluído"
+   },
+   "649": {
+      "message": "Ignorar"
+   },
+   "732": {
+      "message": "A minha biblioteca"
+   },
+   "907": {
+      "message": "Recuperar conta"
+   },
+   "920": {
+      "message": "Pesquisar"
+   },
+   "924": {
+      "message": "Colocar a etiqueta:"
+   },
+   "96": {
+      "message": "Eliminar"
+   },
+   "965": {
+      "message": "Sim"
+   },
+   "966": {
+      "message": "Não, obrigado"
+   },
+   "chrome_client_3269861059707096562": {
+      "message": "Permitir acesso a URLs de ficheiro"
+   }
+}

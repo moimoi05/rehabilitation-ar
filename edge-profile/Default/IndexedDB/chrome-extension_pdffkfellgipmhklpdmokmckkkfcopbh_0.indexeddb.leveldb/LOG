@@ -1,0 +1,16 @@
+2026/11/01-02:07:48.825 f6c Reusing MANIFEST D:\rehabilitation\rehabilitation-ar\edge-profile\Default\IndexedDB\chrome-extension_pdffkfellgipmhklpdmokmckkkfcopbh_0.indexeddb.leveldb/MANIFEST-000001
+2026/11/01-02:07:48.826 f6c Recovering log #25
+2026/11/01-02:07:48.826 f6c Reusing old log D:\rehabilitation\rehabilitation-ar\edge-profile\Default\IndexedDB\chrome-extension_pdffkfellgipmhklpdmokmckkkfcopbh_0.indexeddb.leveldb/000025.log 
+2026/11/01-02:07:48.826 f6c Delete type=2 #22
+2026/11/01-02:07:48.826 f6c Delete type=2 #23
+2026/11/01-02:07:48.835 f6c Level-0 table #31: started
+2026/11/01-02:07:48.837 f6c Level-0 table #31: 622 bytes OK
+2026/11/01-02:07:48.838 f6c Delete type=0 #25
+2026/11/01-02:07:48.839 f6c Manual compaction at level-0 from '\x00\x09\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x0a\x00\x00\x00' @ 0 : 0; will stop at '\x00\x09\x00\x00\x05' @ 4981 : 1
+2026/11/01-02:07:48.839 f6c Compacting 1@0 + 2@1 files
+2026/11/01-02:07:48.854 f6c Generated table #32@0: 2297 keys, 2107734 bytes
+2026/11/01-02:07:48.859 f6c Generated table #33@0: 234 keys, 368883 bytes
+2026/11/01-02:07:48.859 f6c Compacted 1@0 + 2@1 files => 2476617 bytes
+2026/11/01-02:07:48.859 f6c compacted to: files[ 0 2 1 0 0 0 0 ]
+2026/11/01-02:07:48.860 f6c Delete type=2 #31
+2026/11/01-02:07:48.860 f6c Manual compaction at level-0 from '\x00\x09\x00\x00\x05' @ 4981 : 1 .. '\x00\x0a\x00\x00\x00' @ 0 : 0; will stop at (end)

@@ -1,0 +1,6 @@
+2026/11/01-02:06:38.471 484c Reusing MANIFEST D:\rehabilitation\rehabilitation-ar\edge-profile\Default\EdgeCoupons/coupons_data.db/MANIFEST-000001
+2026/11/01-02:06:38.472 484c Recovering log #19
+2026/11/01-02:06:38.473 484c Reusing old log D:\rehabilitation\rehabilitation-ar\edge-profile\Default\EdgeCoupons/coupons_data.db/000019.log 
+2026/11/01-02:06:38.741 e14 Level-0 table #24: started
+2026/11/01-02:06:38.744 e14 Level-0 table #24: 683444 bytes OK
+2026/11/01-02:06:38.745 e14 Delete type=0 #19

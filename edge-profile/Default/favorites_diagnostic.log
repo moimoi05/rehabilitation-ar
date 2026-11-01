@@ -1,0 +1,171 @@
+2026-10-31 18:53:04.229: [INFO] CurrentProfilePath: D:\rehabilitation\rehabilitation-ar\edge-profile\Default
+2026-10-31 18:53:04.229: [INFO] Profiles total count: 1
+2026-10-31 18:53:04.229: [INFO] Profile: name=Profile 1 path=D:\rehabilitation\rehabilitation-ar\edge-profile\Default lastActive=null
+2026-10-31 18:53:04.229: [INFO] LastUsedProfileDir: D:\rehabilitation\rehabilitation-ar\edge-profile\Default
+2026-10-31 18:53:04.229: [INFO] VisibilityChanged: 0
+2026-10-31 18:53:04.262: [INFO] OnDoneLoading sync enabled: 0
+2026-10-31 18:53:04.262: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-10-31 18:53:04.262: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-10-31 18:53:04.262: [INFO] BookmarksSnapshot Startup total=0 bar=0 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-10-31 18:53:04.264: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-10-31 18:53:07.236: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-10-31 18:53:07.239: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-10-31 18:53:07.242: [INFO] Primary account changed.
+2026-10-31 18:53:07.242: [INFO] OnPrimaryAccountChanged PrimaryAccountChangeEvent::Type::kSet
+2026-10-31 18:53:07.255: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-10-31 18:53:25.345: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.347: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.347: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.348: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.348: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.348: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.349: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.349: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.349: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.349: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.349: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.349: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.350: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.350: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.350: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.350: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.350: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.350: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.351: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.351: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.351: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.351: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.351: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.351: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.351: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.351: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.352: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.352: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.352: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.352: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.352: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.352: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.352: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.352: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.352: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.352: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.353: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.353: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.353: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.353: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.354: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.354: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.354: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.355: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.355: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.356: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.356: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.356: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.357: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.357: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.357: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.357: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.357: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.358: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.358: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.358: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.358: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.358: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.358: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.359: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.359: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.359: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.359: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.359: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.359: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.359: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.359: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.360: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.360: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.360: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.360: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.360: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.360: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.360: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.360: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.360: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.360: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.360: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.361: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.361: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.361: [INFO] BookmarkNodeAdded, ABU: 0
+2026-10-31 18:53:25.374: [INFO] BookmarkBarPrefChanged showBar=0 showBarNTP=0
+2026-10-31 18:53:25.453: [INFO] VisibilityChanged: 1
+2026-10-31 18:55:09.781: [INFO] CurrentProfilePath: D:\rehabilitation\rehabilitation-ar\edge-profile\Default
+2026-10-31 18:55:09.781: [INFO] Profiles total count: 1
+2026-10-31 18:55:09.781: [INFO] Profile: name=Personal path=D:\rehabilitation\rehabilitation-ar\edge-profile\Default lastActive=2026-10-31T18:53:07.356Z
+2026-10-31 18:55:09.781: [INFO] LastUsedProfileDir: D:\rehabilitation\rehabilitation-ar\edge-profile\Default
+2026-10-31 18:55:09.781: [INFO] MostRecentlyActiveProfile: name=Personal path=D:\rehabilitation\rehabilitation-ar\edge-profile\Default lastActive=2026-10-31T18:53:07.356Z
+2026-10-31 18:55:09.781: [INFO] VisibilityChanged: 0
+2026-10-31 18:55:09.815: [INFO] OnDoneLoading sync enabled: 1
+2026-10-31 18:55:09.815: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-10-31 18:55:09.815: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-10-31 18:55:09.815: [INFO] BookmarksSnapshot Startup total=67 bar=39 other=2 mobile=0 showBar=0 showBarNTP=1
+2026-10-31 18:55:09.902: [INFO] BookmarkBarPrefChanged showBar=0 showBarNTP=0
+2026-10-31 18:55:09.998: [INFO] VisibilityChanged: 1
+2026-10-31 18:55:28.173: [INFO] Sync initialization duration: 18354ms
+2026-10-31 18:57:22.138: [INFO] CurrentProfilePath: D:\rehabilitation\rehabilitation-ar\edge-profile\Default
+2026-10-31 18:57:22.138: [INFO] Profiles total count: 1
+2026-10-31 18:57:22.138: [INFO] Profile: name=Personal path=D:\rehabilitation\rehabilitation-ar\edge-profile\Default lastActive=2026-10-31T18:57:22.095Z
+2026-10-31 18:57:22.138: [INFO] LastUsedProfileDir: D:\rehabilitation\rehabilitation-ar\edge-profile\Default
+2026-10-31 18:57:22.138: [INFO] MostRecentlyActiveProfile: name=Personal path=D:\rehabilitation\rehabilitation-ar\edge-profile\Default lastActive=2026-10-31T18:57:22.095Z
+2026-10-31 18:57:22.138: [INFO] OnDoneLoading sync enabled: 1
+2026-10-31 18:57:22.138: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-10-31 18:57:22.138: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-10-31 18:57:22.138: [INFO] BookmarksSnapshot Startup total=67 bar=39 other=2 mobile=0 showBar=1 showBarNTP=0
+2026-10-31 18:57:22.544: [INFO] Sync initialization duration: 399ms
+2026-10-31 19:02:38.424: [INFO] CurrentProfilePath: D:\rehabilitation\rehabilitation-ar\edge-profile\Default
+2026-10-31 19:02:38.424: [INFO] Profiles total count: 1
+2026-10-31 19:02:38.424: [INFO] Profile: name=Personal path=D:\rehabilitation\rehabilitation-ar\edge-profile\Default lastActive=2026-10-31T19:02:38.383Z
+2026-10-31 19:02:38.424: [INFO] LastUsedProfileDir: D:\rehabilitation\rehabilitation-ar\edge-profile\Default
+2026-10-31 19:02:38.424: [INFO] MostRecentlyActiveProfile: name=Personal path=D:\rehabilitation\rehabilitation-ar\edge-profile\Default lastActive=2026-10-31T19:02:38.383Z
+2026-10-31 19:02:38.424: [INFO] OnDoneLoading sync enabled: 1
+2026-10-31 19:02:38.424: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-10-31 19:02:38.424: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-10-31 19:02:38.424: [INFO] BookmarksSnapshot Startup total=67 bar=39 other=2 mobile=0 showBar=1 showBarNTP=0
+2026-10-31 19:02:38.787: [INFO] Sync initialization duration: 357ms
+2026-10-31 19:03:49.027: [INFO] CurrentProfilePath: D:\rehabilitation\rehabilitation-ar\edge-profile\Default
+2026-10-31 19:03:49.027: [INFO] Profiles total count: 1
+2026-10-31 19:03:49.027: [INFO] Profile: name=Personal path=D:\rehabilitation\rehabilitation-ar\edge-profile\Default lastActive=2026-10-31T19:03:48.986Z
+2026-10-31 19:03:49.027: [INFO] LastUsedProfileDir: D:\rehabilitation\rehabilitation-ar\edge-profile\Default
+2026-10-31 19:03:49.027: [INFO] MostRecentlyActiveProfile: name=Personal path=D:\rehabilitation\rehabilitation-ar\edge-profile\Default lastActive=2026-10-31T19:03:48.986Z
+2026-10-31 19:03:49.027: [INFO] OnDoneLoading sync enabled: 1
+2026-10-31 19:03:49.027: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-10-31 19:03:49.027: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-10-31 19:03:49.027: [INFO] BookmarksSnapshot Startup total=67 bar=39 other=2 mobile=0 showBar=1 showBarNTP=0
+2026-10-31 19:03:49.395: [INFO] Sync initialization duration: 363ms
+2026-10-31 19:05:23.251: [INFO] CurrentProfilePath: D:\rehabilitation\rehabilitation-ar\edge-profile\Default
+2026-10-31 19:05:23.251: [INFO] Profiles total count: 1
+2026-10-31 19:05:23.251: [INFO] Profile: name=Personal path=D:\rehabilitation\rehabilitation-ar\edge-profile\Default lastActive=2026-10-31T19:05:23.208Z
+2026-10-31 19:05:23.251: [INFO] LastUsedProfileDir: D:\rehabilitation\rehabilitation-ar\edge-profile\Default
+2026-10-31 19:05:23.251: [INFO] MostRecentlyActiveProfile: name=Personal path=D:\rehabilitation\rehabilitation-ar\edge-profile\Default lastActive=2026-10-31T19:05:23.208Z
+2026-10-31 19:05:23.251: [INFO] OnDoneLoading sync enabled: 1
+2026-10-31 19:05:23.251: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-10-31 19:05:23.251: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-10-31 19:05:23.251: [INFO] BookmarksSnapshot Startup total=67 bar=39 other=2 mobile=0 showBar=1 showBarNTP=0
+2026-10-31 19:05:23.609: [INFO] Sync initialization duration: 353ms
+2026-10-31 19:06:35.237: [INFO] CurrentProfilePath: D:\rehabilitation\rehabilitation-ar\edge-profile\Default
+2026-10-31 19:06:35.237: [INFO] Profiles total count: 1
+2026-10-31 19:06:35.237: [INFO] Profile: name=Personal path=D:\rehabilitation\rehabilitation-ar\edge-profile\Default lastActive=2026-10-31T19:06:35.192Z
+2026-10-31 19:06:35.237: [INFO] LastUsedProfileDir: D:\rehabilitation\rehabilitation-ar\edge-profile\Default
+2026-10-31 19:06:35.237: [INFO] MostRecentlyActiveProfile: name=Personal path=D:\rehabilitation\rehabilitation-ar\edge-profile\Default lastActive=2026-10-31T19:06:35.192Z
+2026-10-31 19:06:35.237: [INFO] OnDoneLoading sync enabled: 1
+2026-10-31 19:06:35.237: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-10-31 19:06:35.237: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-10-31 19:06:35.237: [INFO] BookmarksSnapshot Startup total=67 bar=39 other=2 mobile=0 showBar=1 showBarNTP=0
+2026-10-31 19:06:35.635: [INFO] Sync initialization duration: 392ms
+2026-10-31 19:07:48.217: [INFO] CurrentProfilePath: D:\rehabilitation\rehabilitation-ar\edge-profile\Default
+2026-10-31 19:07:48.217: [INFO] Profiles total count: 1
+2026-10-31 19:07:48.217: [INFO] Profile: name=Personal path=D:\rehabilitation\rehabilitation-ar\edge-profile\Default lastActive=2026-10-31T19:07:48.172Z
+2026-10-31 19:07:48.217: [INFO] LastUsedProfileDir: D:\rehabilitation\rehabilitation-ar\edge-profile\Default
+2026-10-31 19:07:48.217: [INFO] MostRecentlyActiveProfile: name=Personal path=D:\rehabilitation\rehabilitation-ar\edge-profile\Default lastActive=2026-10-31T19:07:48.172Z
+2026-10-31 19:07:48.217: [INFO] OnDoneLoading sync enabled: 1
+2026-10-31 19:07:48.217: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-10-31 19:07:48.217: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-10-31 19:07:48.217: [INFO] BookmarksSnapshot Startup total=67 bar=39 other=2 mobile=0 showBar=1 showBarNTP=0
+2026-10-31 19:07:48.584: [INFO] Sync initialization duration: 362ms

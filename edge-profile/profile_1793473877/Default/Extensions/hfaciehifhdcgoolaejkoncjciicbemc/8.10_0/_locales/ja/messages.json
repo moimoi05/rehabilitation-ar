@@ -1,0 +1,1124 @@
+{
+   "_1filecouldnotberemoved": {
+      "description": "[aws:2019-09-22 22:34:56] 1 file could not be removed.",
+      "message": "1 個のファイルを削除できませんでした。"
+   },
+   "_1filewassuccessfullyremoved": {
+      "description": "[aws:2019-09-22 22:34:57] 1 file was successfully removed.",
+      "message": "1 個のファイルが正常に削除されました。"
+   },
+   "_ActivateallthelinksonthepagewhendownloadingasaPDFClickingonthelinkinthePDFwillopenapageinyourbrowser": {
+      "description": "[claude:2026-10-22] Activate all the links on the page when downloading as a PDF. Clicking on the link in the PDF will open a page in your browser.",
+      "message": "PDF としてダウンロードするときに、ページ内のすべてのリンクを有効にします。PDF 内のリンクをクリックすると、ブラウザでページが開きます。"
+   },
+   "_ActiveLinks": {
+      "description": "[claude:2026-10-22] Active Links",
+      "message": "アクティブリンク"
+   },
+   "_AddURLanddatetime": {
+      "description": "[claude:2026-10-22] Add URL and date/time",
+      "message": "URL と日時を追加"
+   },
+   "_AddyourscreenshotsURLandcapturedatetimewhenexportingtoPDFfromthemainviewscreenshotpageYoucanaddURLandcapturedateintheEditorfromtheMoremenu": {
+      "description": "[claude:2026-10-22] Add your screenshot’s URL and capture date/time when exporting to PDF from the main view screenshot page. You can add URL and capture date in the Editor from the “More” menu.",
+      "message": "スクリーンショットのメイン表示ページから PDF に書き出すときに、スクリーンショットの URL とキャプチャ日時を追加します。エディタでは「その他」メニューから URL とキャプチャ日を追加できます。"
+   },
+   "_Adjustrepeatingelements": {
+      "description": "[aws:2019-09-22 22:34:57] Adjust repeating elements",
+      "message": "繰り返し要素を調整する"
+   },
+   "_Advancedscrolling": {
+      "description": "[aws:2019-09-22 22:34:58] Advanced scrolling",
+      "message": "高度なスクロール"
+   },
+   "_Align": {
+      "description": "[aws:2019-09-22 22:34:59] Align",
+      "message": "[位置合わせ]"
+   },
+   "_Alleditsareautosaved": {
+      "description": "[claude:2026-10-22] All edits are auto-saved",
+      "message": "すべての編集は自動保存されます"
+   },
+   "_AllowsGoFullPagetocollectbasictechnicalandinteractiondataegbrowsertypefeatureusagetohelpimprovetheextensionNodataiscollecteduntilthisisgranted": {
+      "description": "[claude:2026-10-22] Allows GoFullPage to collect basic technical and interaction data (e.g. browser type, feature usage) to help improve the extension. No data is collected until this is granted.",
+      "message": "拡張機能の改善のため、GoFullPage が基本的な技術データと操作データ（ブラウザの種類、機能の使用状況など）を収集することを許可します。許可されるまでデータは一切収集されません。"
+   },
+   "_Analyticspermission": {
+      "description": "[claude:2026-10-22] Analytics permission",
+      "message": "アナリティクスの権限"
+   },
+   "_AndclickthepinnexttoGoFullPagesoitturnsblue": {
+      "description": "[claude:2026-10-22] And click the pin next to “GoFullPage” so it turns blue:",
+      "message": "「GoFullPage」の横にあるピンをクリックして青色にします:"
+   },
+   "_Anyissues": {
+      "description": "[aws:2019-09-22 22:35:00] Any issues?",
+      "message": "何か問題でも？"
+   },
+   "_Areyouenjoyingthisextension": {
+      "description": "[aws:2019-09-22 22:35:02] Are you enjoying this extension?",
+      "message": "この拡張機能を楽しんでいますか？"
+   },
+   "_Areyousureyouwanttodelete1screencaptureThisactioncannotbeundone": {
+      "description": "[aws:2019-09-22 22:35:03] Are you sure you want to delete 1 screencapture?\n (This action cannot be undone.)",
+      "message": "1 つのスクリーンキャプチャを削除してもよろしいですか?\n (この操作は元に戻せません)。"
+   },
+   "_AreyousureyouwanttodeletecountscreencapturesThisactioncannotbeundone": {
+      "description": "[aws:2019-09-22 23:04:46] Are you sure you want to delete $count$ screen captures?\n (This action cannot be undone.)",
+      "message": "$count$の画面キャプチャを削除してもよろしいですか？\n (この操作は元に戻せません)。",
+      "placeholders": {
+         "count": {
+            "content": "$1",
+            "example": "2"
+         }
+      }
+   },
+   "_AreyousureyouwanttodeletethisscreenshotThisactioncannotbeundone": {
+      "description": "[aws:2019-09-22 22:35:04] Are you sure you want to delete this screenshot?\n(This action cannot be undone.)",
+      "message": "このスクリーンショットを削除してもよろしいですか?\n(この操作は元に戻せません)。"
+   },
+   "_Areyousureyouwanttoresettotheextensionsoriginalthemedefaults": {
+      "description": "[aws:2019-09-22 22:35:05] Are you sure you want to reset to the extension’s original theme defaults?",
+      "message": "拡張機能の元のテーマのデフォルトにリセットしてもよろしいですか?"
+   },
+   "_Arrow": {
+      "description": "[aws:2019-09-22 22:35:05] Arrow",
+      "message": "矢印"
+   },
+   "_Autodownloadfiles": {
+      "description": "[aws:2019-09-22 22:35:06] Auto-download files",
+      "message": "ファイルの自動ダウンロード"
+   },
+   "_AutomaticallydownloadyourscreenshotasanimageinsteadofopeningitinanewwindowThismeanstheextensioncapturetabwillnotopenYoucanreturnbackherebyrightclickingontheextensionandselectingOptions": {
+      "description": "[claude:2026-10-22] Automatically download your screenshot as an image instead of opening it in a new window.This means the extension capture tab will not open. You can return back here by right-clicking on the extension and selecting \"Options\".",
+      "message": "スクリーンショットを新しいウィンドウで開く代わりに、画像として自動的にダウンロードします。この場合、拡張機能のキャプチャタブは開きません。拡張機能を右クリックして「オプション」を選択すると、ここに戻れます。"
+   },
+   "_AutomaticallyshowasaveasdialogwhendownloadingyourscreenshotsIftheAskwheretosaveeachfilebeforedownloadingoptionisenabledinyourbrowserssettingsthenthattakespriority": {
+      "description": "[claude:2026-10-22] Automatically show a \"save as\" dialog when downloading your screenshots. If the “Ask where to save each file before downloading” option is enabled in your browser’s settings, then that takes priority.",
+      "message": "スクリーンショットをダウンロードするときに「名前を付けて保存」ダイアログを自動的に表示します。ブラウザの設定で「ダウンロード前に各ファイルの保存場所を確認する」オプションが有効になっている場合は、そちらが優先されます。"
+   },
+   "_Backtocapturechangesareautosavedintheeditor": {
+      "description": "[claude:2026-10-22] Back to capture (changes are auto-saved in the editor)",
+      "message": "キャプチャに戻る（変更はエディタに自動保存されます）"
+   },
+   "_Betafeatures": {
+      "description": "[claude:2026-10-22] Beta features",
+      "message": "ベータ機能"
+   },
+   "_Blur": {
+      "description": "[aws:2019-09-22 22:35:10] Blur",
+      "message": "ぼかし"
+   },
+   "_Bold": {
+      "description": "[aws:2019-09-22 22:35:11] Bold",
+      "message": "太字"
+   },
+   "_Bonuswehaveaddednewtimestampformatstoo": {
+      "description": "[claude:2026-10-22] Bonus: we have added new timestamp formats too!",
+      "message": "おまけ: 新しいタイムスタンプ形式も追加しました！"
+   },
+   "_Cannotdownloadfiles": {
+      "description": "[aws:2019-09-22 22:35:12] Cannot download files",
+      "message": "ファイルをダウンロードできません"
+   },
+   "_Capture": {
+      "description": "[aws:2019-09-22 22:35:13] Capture",
+      "message": "捕獲"
+   },
+   "_Clickdraginlayerspane": {
+      "description": "[aws:2019-09-22 22:35:14] Click + drag in layers pane",
+      "message": "レイヤーペインでクリック+ドラッグ"
+   },
+   "_Color": {
+      "description": "[aws:2019-09-22 22:35:15] Color",
+      "message": "[色]"
+   },
+   "_Continueediting": {
+      "description": "[aws:2019-09-22 22:35:16] Continue editing",
+      "message": "編集を続行"
+   },
+   "_CopyImage": {
+      "description": "[claude:2026-10-22] Copy Image",
+      "message": "画像をコピー"
+   },
+   "_Copyingimagepleasewait": {
+      "description": "[claude:2026-10-22] Copying image, please wait…",
+      "message": "画像をコピーしています。お待ちください…"
+   },
+   "_CopyoriginalURL": {
+      "description": "[claude:2026-10-22] Copy original URL",
+      "message": "元の URL をコピー"
+   },
+   "_Copytoclipboard": {
+      "description": "[claude:2026-10-22] Copy to clipboard",
+      "message": "クリップボードにコピー"
+   },
+   "_CreatedPDF": {
+      "description": "[claude:2026-10-22] Created PDF!",
+      "message": "PDF を作成しました！"
+   },
+   "_CreatingPDF": {
+      "description": "[claude:2026-10-22] Creating PDF:",
+      "message": "PDF を作成中:"
+   },
+   "_CropImage": {
+      "description": "[aws:2019-09-22 22:35:17] Crop Image",
+      "message": "イメージのトリミング"
+   },
+   "_Cropeditannotateandexportpremium": {
+      "description": "[claude:2026-10-22] Crop, edit, annotate, and export (premium)",
+      "message": "切り抜き、編集、注釈、書き出し（プレミアム）"
+   },
+   "_Customfilename": {
+      "description": "[claude:2026-10-22] Custom filename",
+      "message": "カスタムファイル名"
+   },
+   "_DateTimeofCapture": {
+      "description": "[claude:2026-10-22] Date & Time of Capture",
+      "message": "キャプチャ日時"
+   },
+   "_Dateformat": {
+      "description": "[claude:2026-10-22] Date format",
+      "message": "日付形式"
+   },
+   "_Delete": {
+      "description": "[aws:2019-09-22 22:35:18] Delete",
+      "message": "[削除]"
+   },
+   "_Deletecurrentselection": {
+      "description": "[aws:2019-09-22 22:35:19] Delete current selection",
+      "message": "現在の選択を削除"
+   },
+   "_Demovideos": {
+      "description": "[claude:2026-10-22] Demo videos",
+      "message": "デモ動画"
+   },
+   "_Directory": {
+      "description": "[aws:2019-09-22 22:35:19] Directory",
+      "message": "ディレクトリ"
+   },
+   "_Displaythecapturedateinthisformatorhideitentirely": {
+      "description": "[claude:2026-10-22] Display the capture date in this format or hide it entirely.",
+      "message": "キャプチャ日をこの形式で表示するか、完全に非表示にします。"
+   },
+   "_Document": {
+      "description": "[aws:2019-09-22 22:35:20] Document",
+      "message": "ドキュメント"
+   },
+   "_Documentedits": {
+      "description": "[aws:2019-09-22 22:35:21] Document edits",
+      "message": "ドキュメントの編集"
+   },
+   "_DoneCropping": {
+      "description": "[aws:2019-09-22 22:35:21] Done Cropping",
+      "message": "クロップ完了"
+   },
+   "_DontworryyourfavoritefeaturesarestillhereCropURLdatestampandpaddingarenowinthenewFormattingmenuWatchahrefhttpsgofullpagecomdemoseditortargetblankandrelnoopenernoreferrerthedemoatoseemore": {
+      "description": "[claude:2026-10-22] Don’t worry, your favorite features are still here! Crop, URL, datestamp, and padding are now in the new “Formatting” menu. Watch \u003Ca href=\"https://gofullpage.com/demos#editor\" target=\"_blank\" and rel=\"noopener noreferrer\">the demo\u003C/a> to see more.",
+      "message": "ご安心ください。お気に入りの機能はそのままです！切り抜き、URL、日付スタンプ、余白は新しい「書式」メニューに移動しました。詳しくは\u003Ca href=\"https://gofullpage.com/demos#editor\" target=\"_blank\" and rel=\"noopener noreferrer\">デモ\u003C/a>をご覧ください。"
+   },
+   "_Download": {
+      "description": "[aws:2019-09-22 22:35:22] Download",
+      "message": "ダウンロード"
+   },
+   "_DownloadExport": {
+      "description": "[aws:2019-09-22 22:35:23] Download & Export",
+      "message": "ダウンロードとエクスポート"
+   },
+   "_Downloadpermissionisrequired": {
+      "description": "[aws:2019-09-22 22:35:23] Download permission is required",
+      "message": "ダウンロード権限が必要です"
+   },
+   "_Downloadpermissionnotgranted": {
+      "description": "[aws:2019-09-22 22:35:24] Download permission not granted",
+      "message": "ダウンロード権限が与えられていません"
+   },
+   "_Downloads": {
+      "description": "[claude:2026-10-22] Downloads",
+      "message": "ダウンロード"
+   },
+   "_Downloadspermission": {
+      "description": "[aws:2019-09-22 22:35:25] Downloads permission",
+      "message": "ダウンロードの権限"
+   },
+   "_Draglayercontrolpoints": {
+      "description": "[aws:2019-09-22 22:35:25] Drag layer control points",
+      "message": "レイヤーコントロールポイントをドラッグする"
+   },
+   "_Duplicateselection": {
+      "description": "[aws:2019-09-22 22:35:26] Duplicate selection",
+      "message": "重複した選択"
+   },
+   "_EditImage": {
+      "description": "[claude:2026-10-22] Edit Image",
+      "message": "画像を編集"
+   },
+   "_Edited": {
+      "description": "[aws:2019-09-22 22:35:27] Edited",
+      "message": "編集されました"
+   },
+   "_Elements": {
+      "description": "[aws:2019-09-22 22:35:27] Elements",
+      "message": "要素"
+   },
+   "_Emoji": {
+      "description": "[aws:2019-09-22 22:35:28] Emoji",
+      "message": "絵文字"
+   },
+   "_Enabled": {
+      "description": "[aws:2019-09-22 22:35:28] Enabled",
+      "message": "有効"
+   },
+   "_Entertexthere": {
+      "description": "[aws:2019-09-22 22:35:29] Enter text here",
+      "message": "ここにテキストを入力してください"
+   },
+   "_ErrorcopyingURL": {
+      "description": "[claude:2026-10-22] Error copying URL",
+      "message": "URL のコピー中にエラーが発生しました"
+   },
+   "_Errordownloadingfile": {
+      "description": "[aws:2019-09-22 22:35:30] Error downloading file",
+      "message": "ファイルのダウンロード中にエラーが発生しました"
+   },
+   "_Errordownloadingfiles": {
+      "description": "[aws:2019-09-22 22:35:31] Error downloading files",
+      "message": "ファイルのダウンロード中にエラーが発生しました"
+   },
+   "_ErrorhandlingfilesPleasereportthisviatheflagreportingbuttonabove": {
+      "description": "[aws:2019-09-22 22:35:32] Error handling files. Please report this via the flag reporting button above.",
+      "message": "ファイル処理エラーです。 上記のフラグレポートボタンから報告してください。"
+   },
+   "_Errorloadinghistory": {
+      "description": "[aws:2019-09-22 22:35:33] Error loading history",
+      "message": "履歴の読み込みエラー"
+   },
+   "_Errorloadingimage": {
+      "description": "[aws:2019-09-22 22:35:33] Error loading image",
+      "message": "イメージのロード中にエラーが発生しました"
+   },
+   "_Erroropeningscreenshot": {
+      "description": "[aws:2019-09-22 22:35:34] Error opening screenshot",
+      "message": "スクリーンショットを開くときにエラーが発生しました"
+   },
+   "_Errorremovingscreenshot": {
+      "description": "[aws:2019-09-22 22:35:34] Error removing screenshot",
+      "message": "スクリーンショットの削除中にエラーが発生しました"
+   },
+   "_Example": {
+      "description": "[claude:2026-10-22] Example:",
+      "message": "例:"
+   },
+   "_Exitzoom": {
+      "description": "[aws:2019-09-22 22:35:35] Exit zoom",
+      "message": "ズームを終了"
+   },
+   "_Export": {
+      "description": "[aws:2019-09-22 22:35:36] Export",
+      "message": "[書き出し]"
+   },
+   "_ExportImageAs": {
+      "description": "[claude:2026-10-22] Export Image As…",
+      "message": "画像を書き出し…"
+   },
+   "_ExportPDFAs": {
+      "description": "[claude:2026-10-22] Export PDF As…",
+      "message": "PDF を書き出し…"
+   },
+   "_Exportsaveas": {
+      "description": "[claude:2026-10-22] Export save as",
+      "message": "書き出し/名前を付けて保存"
+   },
+   "_Filenolongerexistsperhapsithasbeenclearedfromyourbrowser": {
+      "description": "[aws:2019-09-22 22:35:36] File no longer exists—perhaps it has been cleared from your browser",
+      "message": "ファイルは存在しません。ブラウザから消去された可能性があります。"
+   },
+   "_Files": {
+      "description": "[claude:2026-10-22] Files",
+      "message": "ファイル"
+   },
+   "_Fill": {
+      "description": "[aws:2019-09-22 22:35:37] Fill",
+      "message": "[塗りつぶし]"
+   },
+   "_FitcopiestoGoogleDocslimits": {
+      "description": "[claude:2026-10-22] Fit copies to Google Docs limits",
+      "message": "コピーを Google ドキュメントの上限に合わせる"
+   },
+   "_Font": {
+      "description": "[aws:2019-09-22 22:35:38] Font",
+      "message": "[フォント]"
+   },
+   "_Foradditionalinformationyoucancheckout": {
+      "description": "[claude:2026-10-22] For additional information, you can check out:",
+      "message": "詳しくは、次をご覧ください:"
+   },
+   "_Format": {
+      "description": "[claude:2026-10-22] Format",
+      "message": "形式"
+   },
+   "_Formatting": {
+      "description": "[claude:2026-10-22] Formatting",
+      "message": "書式"
+   },
+   "_Frequentlyaskedquestions": {
+      "description": "[claude:2026-10-22] Frequently asked questions",
+      "message": "よくある質問"
+   },
+   "_Getstarted": {
+      "description": "[aws:2019-09-22 22:35:39] Get started",
+      "message": "ご利用開始にあたって"
+   },
+   "_Goback": {
+      "description": "[claude:2026-10-22] Go back",
+      "message": "戻る"
+   },
+   "_Gotit": {
+      "description": "[aws:2019-09-22 22:35:40] Got it!",
+      "message": "分かった！"
+   },
+   "_GotoAccount": {
+      "description": "[claude:2026-10-22] Go to Account",
+      "message": "アカウントへ移動"
+   },
+   "_GotoFiles": {
+      "description": "[claude:2026-10-22] Go to Files",
+      "message": "ファイルへ移動"
+   },
+   "_GotoOptions": {
+      "description": "[claude:2026-10-22] Go to Options",
+      "message": "オプションへ移動"
+   },
+   "_Help": {
+      "description": "[aws:2019-09-22 22:35:41] Help",
+      "message": "助けて"
+   },
+   "_HelpShortcuts": {
+      "description": "[aws:2019-09-22 22:35:42] Help / Shortcuts",
+      "message": "ヘルプ/ショートカット"
+   },
+   "_Hooray": {
+      "description": "[aws:2019-09-22 22:35:43] Hooray",
+      "message": "おい"
+   },
+   "_Icon": {
+      "description": "[aws:2019-09-22 22:35:44] Icon",
+      "message": "アイコン"
+   },
+   "_Ifthispersistspleasereportitviatheflagreportingbuttonabove": {
+      "description": "[aws:2019-09-22 22:35:45] If this persists, please report it via the flag reporting button above.",
+      "message": "それでも問題が解決しない場合は、上のフラグレポートボタンから報告してください。"
+   },
+   "_IfyoudliketotrythisfeatureinthefutureclickontheEditbuttonuptop": {
+      "description": "[aws:2019-09-22 22:35:46] If you’d like to try this feature in the future, click on the “Edit” button up top.",
+      "message": "今後、この機能をお試しになりたい場合は、上部の「編集」ボタンをクリックしてください。"
+   },
+   "_IfyoudontseethecameraiconthenclicktheExtensionspuzzleiconinthetoprightofyourbrowser": {
+      "description": "[claude:2026-10-22] If you don’t see the camera icon, then click the “Extensions” puzzle icon in the top right of your browser:",
+      "message": "カメラアイコンが表示されない場合は、ブラウザ右上のパズルピース型の「拡張機能」アイコンをクリックしてください:"
+   },
+   "_Imagecopiedtoclipboard": {
+      "description": "[claude:2026-10-22] Image copied to clipboard",
+      "message": "画像をクリップボードにコピーしました"
+   },
+   "_Imagedeleted": {
+      "description": "[aws:2019-09-22 22:35:46] Image deleted",
+      "message": "画像が削除されました"
+   },
+   "_Imageformat": {
+      "description": "[claude:2026-10-22] Image format",
+      "message": "画像形式"
+   },
+   "_Insertshapes": {
+      "description": "[aws:2019-09-22 22:35:48] Insert shapes",
+      "message": "図形を挿入する"
+   },
+   "_Italic": {
+      "description": "[aws:2019-09-22 22:35:48] Italic",
+      "message": "斜体"
+   },
+   "_Layers": {
+      "description": "[aws:2019-09-22 22:35:49] Layers",
+      "message": "[画層]"
+   },
+   "_Learnmore": {
+      "description": "[aws:2019-09-22 22:35:50] Learn more",
+      "message": "詳細はこちら"
+   },
+   "_Line": {
+      "description": "[aws:2019-09-22 22:35:50] Line",
+      "message": "[線]"
+   },
+   "_LogintoExport": {
+      "description": "[aws:2019-09-22 22:35:51] Login to Export",
+      "message": "ログインしてエクスポート"
+   },
+   "_Lookforanelementwithinthepagewithitsownscrollbarsandscrollthatitemduringthecapture": {
+      "description": "[aws:2019-09-22 22:35:52] Look for an element within the page with its own scroll bars and scroll that item during the capture.",
+      "message": "独自のスクロールバーがあるページ内の要素を探し、キャプチャ中にその項目をスクロールします。"
+   },
+   "_Mightyouconsidertakingaminutetorateitinthewebstore": {
+      "description": "[claude:2026-10-22] Might you consider taking a minute to rate it in the $webstore$?",
+      "message": "少しお時間をいただき、$webstore$ で評価していただけませんか？",
+      "placeholders": {
+         "webstore": {
+            "content": "$1",
+            "example": "web store"
+         }
+      }
+   },
+   "_More": {
+      "description": "[aws:2019-09-22 22:35:54] More",
+      "message": "もっと詳しく"
+   },
+   "_Mouseorarrowkeys": {
+      "description": "[aws:2019-09-22 22:35:54] Mouse or arrow keys",
+      "message": "マウスまたは矢印キー"
+   },
+   "_Mouseorlayerspane": {
+      "description": "[aws:2019-09-22 22:35:55] Mouse or layers pane",
+      "message": "マウスまたはレイヤーペイン"
+   },
+   "_Movelayer": {
+      "description": "[aws:2019-09-22 22:35:55] Move layer",
+      "message": "レイヤを移動"
+   },
+   "_None": {
+      "description": "[aws:2019-09-22 22:35:56] None",
+      "message": "無し"
+   },
+   "_NoscreencapturesfoundGomakesome": {
+      "description": "[aws:2019-09-22 22:35:57] No screen captures found. Go make some!",
+      "message": "スクリーンキャプチャが見つかりません。 作ってみろ！"
+   },
+   "_Nothanks": {
+      "description": "[aws:2019-09-22 22:35:57] No, thanks.",
+      "message": "いいえ、結構です。"
+   },
+   "_Nothankscontinueediting": {
+      "description": "[aws:2019-09-22 22:35:58] No thanks continue editing",
+      "message": "いいえ、編集を続行します"
+   },
+   "_Notreally": {
+      "description": "[aws:2019-09-22 22:35:59] Not really",
+      "message": "本当に"
+   },
+   "_On": {
+      "description": "[aws:2019-09-22 22:36:01] On",
+      "message": "[オン"
+   },
+   "_OpenoriginalURL": {
+      "description": "[claude:2026-10-22] Open original URL",
+      "message": "元の URL を開く"
+   },
+   "_Orderlayer": {
+      "description": "[aws:2019-09-22 22:36:04] Order layer",
+      "message": "オーダレイヤー"
+   },
+   "_Outline": {
+      "description": "[aws:2019-09-22 22:36:04] Outline",
+      "message": "[アウトライン]"
+   },
+   "_Oval": {
+      "description": "[aws:2019-09-22 22:36:05] Oval",
+      "message": "楕円形"
+   },
+   "_PDFexport": {
+      "description": "[claude:2026-10-22] PDF export",
+      "message": "PDF 書き出し"
+   },
+   "_PNGislosslessandshouldmatchexactlywhatisseenonthescreenbutwillusuallyhavelargerfilesizesthanJPGwhichusescompression": {
+      "description": "[aws:2019-09-22 22:36:10] PNG is lossless and should match exactly what is seen on the screen, but will usually have larger file sizes than JPG, which uses compression.",
+      "message": "PNG は可逆性であり、画面に表示されるものと正確に一致する必要がありますが、通常、圧縮を使用する JPG よりもファイルサイズが大きくなります。"
+   },
+   "_Pad": {
+      "description": "[aws:2019-09-22 22:36:06] Pad",
+      "message": "パッド"
+   },
+   "_Padding": {
+      "description": "[aws:2019-09-22 22:36:06] Padding",
+      "message": "パディング"
+   },
+   "_PaddingBorder": {
+      "description": "[aws:2019-09-22 22:36:07] Padding / Border",
+      "message": "パディング/ ボーダー"
+   },
+   "_Papersize": {
+      "description": "[claude:2026-10-22] Paper size",
+      "message": "用紙サイズ"
+   },
+   "_PerformextracheckswhensplittingaPDFacrossmultiplepagestotrytopreventitfromcuttinglinesoftextinhalfOtherwisethescreenshotissplitatthepapersizeheightregardlessofitscontent": {
+      "description": "[claude:2026-10-22] Perform extra checks when splitting a PDF across multiple pages to try to prevent it from cutting lines of text in half. Otherwise, the screenshot is split at the paper size height regardless of its content.",
+      "message": "PDF を複数ページに分割するときに追加のチェックを行い、テキスト行が途中で切れないようにします。オフの場合、スクリーンショットは内容に関係なく用紙サイズの高さで分割されます。"
+   },
+   "_Permissionneededtodownloadfiles": {
+      "description": "[aws:2019-09-22 22:36:08] Permission needed to download files",
+      "message": "ファイルのダウンロードに必要な権限"
+   },
+   "_Permissions": {
+      "description": "[aws:2019-09-22 22:36:09] Permissions",
+      "message": "アクセス許可"
+   },
+   "_Persistiframepermissions": {
+      "description": "[claude:2026-10-22] Persist iframe permissions",
+      "message": "iframe の権限を保持"
+   },
+   "_PleasetryagainandwaittoseetheImagecopiedtoclipboardmessagebeforeswitchingtoanotherwindow": {
+      "description": "[claude:2026-10-22] Please try again and wait to see the “Image copied to clipboard” message before switching to another window.",
+      "message": "もう一度お試しください。別のウィンドウに切り替える前に「画像をクリップボードにコピーしました」というメッセージが表示されるまでお待ちください。"
+   },
+   "_Position": {
+      "description": "[aws:2019-09-22 22:36:11] Position",
+      "message": "[位置]"
+   },
+   "_Premiumfeature": {
+      "description": "[claude:2026-10-22] Premium feature",
+      "message": "プレミアム機能"
+   },
+   "_Radius": {
+      "description": "[aws:2019-09-22 22:36:11] Radius",
+      "message": "[半径]"
+   },
+   "_Rectangle": {
+      "description": "[aws:2019-09-22 22:36:12] Rectangle",
+      "message": "[長方形]"
+   },
+   "_Redo": {
+      "description": "[aws:2019-09-22 22:36:13] Redo",
+      "message": "やり直し"
+   },
+   "_Removefiles": {
+      "description": "[aws:2019-09-22 22:36:13] Remove files",
+      "message": "ファイルの削除"
+   },
+   "_Reportissue": {
+      "description": "[aws:2019-09-22 22:36:14] Report issue.",
+      "message": "問題を報告します。"
+   },
+   "_Resizelayer": {
+      "description": "[aws:2019-09-22 22:36:15] Resize layer",
+      "message": "レイヤーのサイズ変更"
+   },
+   "_Roundedcorners": {
+      "description": "[aws:2019-09-22 22:36:16] Rounded corners",
+      "message": "丸みを帯びたコーナー"
+   },
+   "_SaveImageAs": {
+      "description": "[claude:2026-10-22] Save Image As…",
+      "message": "画像に名前を付けて保存…"
+   },
+   "_SavePDFAs": {
+      "description": "[claude:2026-10-22] Save PDF As…",
+      "message": "PDF に名前を付けて保存…"
+   },
+   "_Saveas": {
+      "description": "[aws:2019-09-22 22:36:16] Save as",
+      "message": "名前を付けて保存"
+   },
+   "_SavethispermissionifacceptedforfuturecapturesItcanstillberevokedlaterfromtheoptionspage": {
+      "description": "[aws:2019-09-22 22:36:18] Save this permission (if accepted) for future captures. It can still be revoked later from the options page.",
+      "message": "この権限を今後のキャプチャ用に保存します (許可されている場合)。 後でオプションページから取り消すことができます。"
+   },
+   "_Select1ormorescreenshotstousethisaction": {
+      "description": "[aws:2019-09-22 22:36:19] Select 1 or more screenshots to use this action.",
+      "message": "このアクションを使用するには、1 つ以上のスクリーンショットを選択します。"
+   },
+   "_Selected": {
+      "description": "[aws:2019-09-22 22:36:20] Selected",
+      "message": "[選択]"
+   },
+   "_Selectlayer": {
+      "description": "[aws:2019-09-22 22:36:20] Select layer",
+      "message": "画層を選択"
+   },
+   "_Setthemedefaults": {
+      "description": "[aws:2019-09-22 22:36:21] Set theme defaults",
+      "message": "テーマの既定を設定する"
+   },
+   "_Shapes": {
+      "description": "[aws:2019-09-22 22:36:22] Shapes",
+      "message": "[図形]"
+   },
+   "_SignIn": {
+      "description": "[claude:2026-10-22] Sign In",
+      "message": "ログイン"
+   },
+   "_SignUp": {
+      "description": "[claude:2026-10-22] Sign Up",
+      "message": "新規登録"
+   },
+   "_Signinwithexistingaccount": {
+      "description": "[claude:2026-10-22] Sign in with existing account",
+      "message": "既存のアカウントでログイン"
+   },
+   "_SignupforPremiuminordertoexportyouredits": {
+      "description": "[claude:2026-10-22] Sign up for Premium in order to export your edits.",
+      "message": "編集内容を書き出すには、プレミアムに登録してください。"
+   },
+   "_Signupforafree7daytrialtounlocktheeditoranddownloadyourmasterpiece": {
+      "description": "[aws:2019-09-22 22:36:22] Sign up for a free 7-day trial to unlock the editor and download your masterpiece.",
+      "message": "7日間の無料トライアルにサインアップして、エディタのロックを解除し、傑作をダウンロードしてください。"
+   },
+   "_SignuptoExport": {
+      "description": "[aws:2019-09-22 22:36:23] Sign up to Export",
+      "message": "エクスポートにサインアップ"
+   },
+   "_Size": {
+      "description": "[aws:2019-09-22 22:36:24] Size",
+      "message": "サイズ"
+   },
+   "_Smartpagesplitting": {
+      "description": "[claude:2026-10-22] Smart page splitting",
+      "message": "スマートページ分割"
+   },
+   "_Somemenuoptionshavemoved": {
+      "description": "[claude:2026-10-22] Some menu options have moved!",
+      "message": "一部のメニュー項目が移動しました！"
+   },
+   "_Somethingwentwrongdeletingyourscreenshot": {
+      "description": "[aws:2019-09-22 22:36:24] Something went wrong deleting your screenshot.",
+      "message": "スクリーンショットの削除中に問題が発生しました。"
+   },
+   "_Somethingwentwrongopeningthisscreenshotintoanew": {
+      "description": "[aws:2019-09-22 22:36:25] Something went wrong opening this screenshot into a new.",
+      "message": "このスクリーンショットを新しいで開く際に問題が発生しました。"
+   },
+   "_SometimeselementslikeabacktotopbuttonorastickyfooterwillrepeatonthepageThistriestopositionthemabsolutelytostopthemfromrepeatinginascreeshot": {
+      "description": "[aws:2019-09-22 22:36:26] Sometimes elements, like a “back to top” button or a sticky footer will repeat on the page. This tries to position them absolutely to stop them from repeating in a screeshot.",
+      "message": "「トップに戻る」ボタンやスティッキーフッターなどの要素がページに繰り返されることがあります。 これは、スクリーンショットで繰り返すのを止めるために、それらを絶対に配置しようとします。"
+   },
+   "_Sorry": {
+      "description": "[aws:2019-09-22 22:36:27] Sorry",
+      "message": "すみません"
+   },
+   "_SpecifyadirectoryunderneathyourdownloadsdirectorytosaveyourscreenshotssuchasscreencapturesDefaultstothedownloadsdirectoryifblankPleaselimitittolettersnumbersdashesunderscoresandslashesinvalidcharacterswillautomaticallyberemoved": {
+      "description": "[aws:2019-09-22 22:36:27] Specify a directory underneath your downloads directory to save your screenshots, such as “screencaptures”. Defaults to the downloads directory if blank. (Please limit it to letters, numbers, dashes, underscores, and slashes—invalid characters will automatically be removed).",
+      "message": "ダウンロードディレクトリの下にあるディレクトリを指定して、スクリーンショットを保存します（「スクリーンキャプチャ」など）。 空白の場合は、デフォルトでダウンロードディレクトリになります。 （文字、数字、ダッシュ、アンダースコア、スラッシュに制限してください。無効な文字は自動的に削除されます）。"
+   },
+   "_SpecifytheformatsizeofPDFsforwhenexportingtoPDF": {
+      "description": "[aws:2019-09-22 22:36:28] Specify the format size of PDFs for when exporting to PDF.",
+      "message": "PDF に書き出すときの PDF の形式サイズを指定します。"
+   },
+   "_Startyourfreetrial": {
+      "description": "[aws:2019-09-22 22:36:29] Start your free trial",
+      "message": "無料トライアルを開始"
+   },
+   "_Stickers": {
+      "description": "[aws:2019-09-22 22:36:30] Stickers",
+      "message": "ステッカー"
+   },
+   "_Stillloading": {
+      "description": "[aws:2019-09-22 22:36:30] Still loading",
+      "message": "まだロード中"
+   },
+   "_Tabspermission": {
+      "description": "[claude:2026-10-22] Tabs permission",
+      "message": "タブの権限"
+   },
+   "_Takeascreenshotofanentirewebpageinjustoneclickoftheextensionsiconinthetoprightofbrowser": {
+      "description": "[claude:2026-10-22] Take a screenshot of an entire web page in just one click of the extension’s icon in the top right of $browser$",
+      "message": "$browser$ の右上にある拡張機能アイコンをワンクリックするだけで、ウェブページ全体のスクリーンショットを撮影できます",
+      "placeholders": {
+         "browser": {
+            "content": "$1",
+            "example": "Chrome"
+         }
+      }
+   },
+   "_Takemetothewebstore": {
+      "description": "[claude:2026-10-22] Take me to the $webstore$!",
+      "message": "$webstore$ を開く！",
+      "placeholders": {
+         "webstore": {
+            "content": "$1",
+            "example": "web store"
+         }
+      }
+   },
+   "_Text": {
+      "description": "[aws:2019-09-22 22:36:31] Text",
+      "message": "テキスト"
+   },
+   "_ThankyouforsupportingGoFullPage": {
+      "description": "[claude:2026-10-22] Thank you for supporting GoFullPage",
+      "message": "GoFullPage をご支援いただきありがとうございます"
+   },
+   "_Thebestandsafestwaytocaptureascreenshotofanentirewebpage": {
+      "description": "[aws:2019-09-22 22:36:33] The best and safest way to capture a screenshot of an entire web page.",
+      "message": "ウェブページ全体のスクリーンショットをキャプチャするための最良かつ安全な方法。"
+   },
+   "_ThebrowserpreventsextensionsfromsavingfilesoutsideofthedefaultdownloadsdirectoryThepathyouenteredhasbeenupdatedaccordinglySorry": {
+      "description": "[claude:2026-10-22] The browser prevents extensions from saving files outside of the default downloads directory. The path you entered has been updated accordingly. Sorry!",
+      "message": "ブラウザの制限により、拡張機能はデフォルトのダウンロードフォルダ以外にファイルを保存できません。入力されたパスはそれに合わせて変更されました。申し訳ありません！"
+   },
+   "_ThedownloadpermissionisrequiredtoenablethedownloadasPDFfeature": {
+      "description": "[aws:2019-09-22 22:36:33] The download permission is required to enable the download as PDF feature.",
+      "message": "PDF としてダウンロード機能を有効にするには、ダウンロード権限が必要です。"
+   },
+   "_Theextensioncannotscrollthispagebutyoucanstillcapturethevisiblecontent": {
+      "description": "[claude:2026-10-22] The extension cannot scroll this page, but you can still capture the visible content.",
+      "message": "拡張機能はこのページをスクロールできませんが、表示されている内容はキャプチャできます。"
+   },
+   "_Thefollowingfilescouldnotbedownloaded": {
+      "description": "[aws:2019-09-22 22:36:34] The following files could not be downloaded:",
+      "message": "次のファイルをダウンロードできませんでした:"
+   },
+   "_ThemeDefaults": {
+      "description": "[aws:2019-09-22 22:36:35] Theme Defaults",
+      "message": "テーマの既定値"
+   },
+   "_Thereareissueswithsaveasforautodownloadandwhendownloadingmultiplefilessoitisdisabledinthosescenarios": {
+      "description": "[claude:2026-10-22] There are issues with \"save as\" for auto-download and when downloading multiple files, so it is disabled in those scenarios.",
+      "message": "自動ダウンロード時や複数ファイルのダウンロード時は「名前を付けて保存」に問題があるため、これらの場合は無効になります。"
+   },
+   "_Therewasanerrordownloadingfilespleasereportitviatheflagbuttonabove": {
+      "description": "[aws:2019-09-22 22:36:36] There was an error downloading files, please report it via the flag button above.",
+      "message": "ファイルのダウンロード中にエラーが発生しました。上のフラグボタンから報告してください。"
+   },
+   "_ThesesettingswillapplytoallfutureeditsofscreenshotsChangesareautosaved": {
+      "description": "[aws:2019-09-22 22:36:37] These settings will apply to all future edits of screenshots. Changes are autosaved.",
+      "message": "これらの設定は、スクリーンショットの今後の編集すべてに適用されます。 変更は自動保存されます。"
+   },
+   "_Thespecifiedimagecouldnotbefound": {
+      "description": "[aws:2019-09-22 22:36:37] The specified image could not be found.",
+      "message": "指定されたイメージが見つかりませんでした。"
+   },
+   "_ThisallowstheextensiontoreadtheURLwhencapturingarestrictedpagesuchasanewtabbrowsersettingspageorlocalfile": {
+      "description": "[claude:2026-10-22] This allows the extension to read the URL when capturing a restricted page (such as a new tab, $browser$ settings page, or local file).",
+      "message": "制限付きページ（新しいタブ、$browser$ の設定ページ、ローカルファイルなど）をキャプチャするときに、拡張機能が URL を読み取れるようにします。",
+      "placeholders": {
+         "browser": {
+            "content": "$1",
+            "example": "Chrome"
+         }
+      }
+   },
+   "_ThisextensiontakesalotofworktomaintainItsreallymeaningfultohearthatyoufindituseful": {
+      "description": "[aws:2019-09-22 22:36:38] This extension takes a lot of work to maintain. It’s really meaningful to hear that you find it useful!",
+      "message": "この拡張は、維持するために多くの作業を必要とします。 あなたがそれが役に立つと聞いて本当に意味があります！"
+   },
+   "_ThisfeatureisincompatiblewiththeAskwheretosaveeachfilebeforedownloadingbrowsersettingandcanresultinerrorswiththesavedialogifthatisenabledtoo": {
+      "description": "[claude:2026-10-22] This feature is incompatible with the “Ask where to save each file before downloading” browser setting and can result in errors with the save dialog if that is enabled too.",
+      "message": "この機能はブラウザの「ダウンロード前に各ファイルの保存場所を確認する」設定と互換性がなく、その設定も有効な場合は保存ダイアログでエラーが発生することがあります。"
+   },
+   "_Thisisrequiredforthedownloadbuttonsandtheautodownloadfeature": {
+      "description": "[claude:2026-10-22] This is required for the download buttons and the auto-download feature.",
+      "message": "ダウンロードボタンと自動ダウンロード機能に必要です。"
+   },
+   "_Thisisrequiredinordertoscrolltheinnercontentsofiframesorframesets": {
+      "description": "[claude:2026-10-22] This is required in order to scroll the inner contents of $iframes$ or $framesets$.",
+      "message": "$iframes$ や $framesets$ の内部コンテンツをスクロールするために必要です。",
+      "placeholders": {
+         "framesets": {
+            "content": "\u003Ca class=\"dim\" target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Element/frameset\">framesets\u003C/a>",
+            "example": "framesets"
+         },
+         "iframes": {
+            "content": "\u003Ca class=\"dim\" target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe\">iframes\u003C/a>",
+            "example": "iframes"
+         }
+      }
+   },
+   "_ThisistakinglongertoloadthanexpectedHangtightIfnothingupdatesafterawhilepleasereportthisviathereportingflagbuttonabove": {
+      "description": "[aws:2019-09-22 22:36:39] This is taking longer to load than expected. Hang tight! If nothing updates after a while, please report this via the reporting flag button above.",
+      "message": "これは予想以上にロードに時間がかかっています。 しっかり吊るして！ しばらくしてから何も更新されない場合は、上の報告フラグボタンから報告してください。"
+   },
+   "_ThislookslikearestrictedpagesuchasanewtaborabrowsersettingspageWeneedtorequestthetabspermissiontoidentifytheURL": {
+      "description": "[claude:2026-10-22] This looks like a restricted page (such as a new tab or a $browser$ settings page). We need to request the “tabs” permission to identify the URL.",
+      "message": "制限付きページ（新しいタブや $browser$ の設定ページなど）のようです。URL を特定するには「タブ」の権限をリクエストする必要があります。",
+      "placeholders": {
+         "browser": {
+            "content": "$1",
+            "example": "Chrome"
+         }
+      }
+   },
+   "_ThispermissionallowsgreatercontroloverhowdownloadsworkwithintheextensionYourpreferencehasbeensavedandthisdownloadbuttonwillnowfallbacktodefaultbrowseronclickdownloadsHoweveryouwillstillbepromptedforitinordertouseanyoftheadvancedfeaturesontheFilesorEditpagessincetheyneedthispermissionstowork": {
+      "description": "[claude:2026-10-22] This permission allows greater control over how downloads work within the extension. Your preference has been saved, and this download button will now fall back to default browser on-click downloads. However, you will still be prompted for it in order to use any of the advanced features on the Files or Edit pages, since they need this permissions to work.",
+      "message": "この権限により、拡張機能内でのダウンロードの動作をより細かく制御できます。設定は保存され、このダウンロードボタンは今後ブラウザ標準のダウンロードを使用します。ただし、ファイルページや編集ページの高度な機能を使用するにはこの権限が必要なため、引き続き許可を求められます。"
+   },
+   "_Thisscreenshotbeensuccessfullyremoved": {
+      "description": "[aws:2019-09-22 22:36:42] This screenshot been successfully removed.",
+      "message": "このスクリーンショットは正常に削除されました。"
+   },
+   "_ToggleURLbrowser": {
+      "description": "[aws:2019-09-22 22:36:44] Toggle URL / browser",
+      "message": "URL /ブラウザを切り替える"
+   },
+   "_Togglecrop": {
+      "description": "[aws:2019-09-22 22:36:43] Toggle crop",
+      "message": "切り抜きの切り替え"
+   },
+   "_Togglepaddingborder": {
+      "description": "[aws:2019-09-22 22:36:43] Toggle padding / border",
+      "message": "パディング/境界線の切り替え"
+   },
+   "_Type": {
+      "description": "[aws:2019-09-22 22:36:45] Type",
+      "message": "タイプ"
+   },
+   "_URLBrowser": {
+      "description": "[aws:2019-09-22 22:36:48] URL / Browser",
+      "message": "URL/ブラウザ"
+   },
+   "_URLDate": {
+      "description": "[claude:2026-10-22] URL / Date",
+      "message": "URL / 日付"
+   },
+   "_URLcopiedtoclipboard": {
+      "description": "[claude:2026-10-22] URL copied to clipboard",
+      "message": "URL をクリップボードにコピーしました"
+   },
+   "_URLonbottom": {
+      "description": "[aws:2019-09-22 22:36:48] URL on bottom",
+      "message": "下部にURLがあります"
+   },
+   "_URLontop": {
+      "description": "[aws:2019-09-22 22:36:49] URL on top",
+      "message": "上部の URL"
+   },
+   "_Unabletocopyimage": {
+      "description": "[claude:2026-10-22] Unable to copy image",
+      "message": "画像をコピーできません"
+   },
+   "_Unabletofindimage": {
+      "description": "[aws:2019-09-22 22:36:45] Unable to find image",
+      "message": "画像が見つかりません"
+   },
+   "_Unabletoloadimage": {
+      "description": "[aws:2019-09-22 22:36:46] Unable to load image",
+      "message": "イメージを読み込めません"
+   },
+   "_Undo": {
+      "description": "[aws:2019-09-22 22:36:46] Undo",
+      "message": "[元に戻す]"
+   },
+   "_WatchDemo": {
+      "description": "[aws:2019-09-22 22:36:51] Watch Demo",
+      "message": "デモを見る"
+   },
+   "_WelcometoGoFullPage": {
+      "description": "[claude:2026-10-22] Welcome to GoFullPage",
+      "message": "GoFullPage へようこそ"
+   },
+   "_WelcometotheGoFullPageEditor": {
+      "description": "[claude:2026-10-22] Welcome to the GoFullPage Editor!",
+      "message": "GoFullPage エディタへようこそ！"
+   },
+   "_WelcometotheofficialGoFullPageEditor": {
+      "description": "[claude:2026-10-22] Welcome to the official GoFullPage Editor!",
+      "message": "GoFullPage 公式エディタへようこそ！"
+   },
+   "_Wereexcitedtohaveyouaboard": {
+      "description": "[aws:2019-09-22 22:36:53] We’re excited to have you aboard.",
+      "message": "ご乗船できることを嬉しいです。"
+   },
+   "_WhencopyingascreenshottoyourclipboardautoresizeitifitexceedstheGoogleDocscopypastelimit25000000pixelsYoumaystillexperienceissuespastingverylargeimagesintootherapplicationsforexampleGoogleDocssometimestruncatestheimageunlessyouresizeitmuchsmaller": {
+      "description": "[claude:2026-10-22] When copying a screenshot to your clipboard, auto-resize it if it exceeds the Google Docs copy-paste limit (25,000,000 pixels). You may still experience issues pasting very large images into other applications, for example Google Docs sometimes truncates the image unless you resize it much smaller.",
+      "message": "スクリーンショットをクリップボードにコピーするときに、Google ドキュメントのコピー＆ペーストの上限（25,000,000 ピクセル）を超える場合は自動的にサイズを変更します。非常に大きな画像を他のアプリに貼り付けると問題が発生することがあります。たとえば Google ドキュメントでは、画像をかなり小さくしないと途中で切れることがあります。"
+   },
+   "_Width": {
+      "description": "[aws:2019-09-22 22:36:54] Width",
+      "message": "[幅]"
+   },
+   "_Wouldyouliketoreportanyissuesyoureexperiencingsowecanimprovethisextensiontogether": {
+      "description": "[aws:2019-09-22 22:36:54] Would you like to report any issues you’re experiencing, so we can improve this extension together?",
+      "message": "発生した問題を報告して、この拡張機能を一緒に改善できるようにしますか？"
+   },
+   "_Yes": {
+      "description": "[aws:2019-09-22 22:36:55] Yes!",
+      "message": "はい！"
+   },
+   "_YoucanpintheextensionbyclickingthepuzzleiconinthetoprightofyourbrowserandselectingPintoToolbar": {
+      "description": "[claude:2026-10-22] You can pin the extension by clicking the puzzle icon in the top right of your browser and selecting \"Pin to Toolbar\":",
+      "message": "ブラウザ右上のパズルピース型アイコンをクリックし、「ツールバーに固定」を選択すると拡張機能を固定できます:"
+   },
+   "_Youcanstillcapturejustthevisiblecontentonthepage": {
+      "description": "[claude:2026-10-22] You can still capture just the visible content on the page.",
+      "message": "ページ上の表示されている内容だけをキャプチャすることはできます。"
+   },
+   "_Youneedtograntthedownloadprivilegeinordertodownloadfiles": {
+      "description": "[aws:2019-09-22 22:36:56] You need to grant the download privilege in order to download files",
+      "message": "ファイルをダウンロードするには、ダウンロード権限を付与する必要があります"
+   },
+   "_Youneedtosignupinordertoexportyoureditedimage": {
+      "description": "[claude:2026-10-22] You need to sign up in order to export your edited image.",
+      "message": "編集した画像を書き出すには登録が必要です。"
+   },
+   "_YourbrowserdoesnotsupporttheclipboardAPIpleaseupdatetothemostrecentversion": {
+      "description": "[claude:2026-10-22] Your browser does not support the clipboard API, please update to the most recent version.",
+      "message": "お使いのブラウザはクリップボード API に対応していません。最新バージョンに更新してください。"
+   },
+   "_YourscreenshotslivehereinGoFullPageandstayprivateonthiscomputer": {
+      "description": "[claude:2026-10-22] Your screenshots live here in GoFullPage and stay private on this computer.",
+      "message": "スクリーンショットはここ GoFullPage に保存され、このコンピュータ上で非公開のまま保たれます。"
+   },
+   "_Zoom": {
+      "description": "[aws:2019-09-22 22:36:56] Zoom",
+      "message": "[ズーム]"
+   },
+   "_Zoomin": {
+      "description": "[aws:2019-09-22 22:36:57] Zoom in",
+      "message": "拡大表示"
+   },
+   "_Zoomout": {
+      "description": "[aws:2019-09-22 22:36:57] Zoom out",
+      "message": "縮小"
+   },
+   "_billedannually": {
+      "description": "[aws:2019-09-22 22:35:09] billed annually",
+      "message": "毎年請求"
+   },
+   "_cancelanytime": {
+      "description": "[aws:2019-09-22 22:35:11] cancel anytime",
+      "message": "いつでもキャンセル"
+   },
+   "_fullimage": {
+      "description": "[aws:2019-09-22 22:35:38] full image",
+      "message": "フルイメージ"
+   },
+   "_iFramepermission": {
+      "description": "[aws:2019-09-22 22:35:44] iFrame permission",
+      "message": "iFrame パーミッション"
+   },
+   "_numfilescouldnotberemoved": {
+      "description": "[aws:2019-09-22 23:04:47] $num$ files could not be removed.",
+      "message": "$num$ ファイルを削除できませんでした。",
+      "placeholders": {
+         "num": {
+            "content": "$1",
+            "example": "2"
+         }
+      }
+   },
+   "_numfilesweresuccessfullyremoved": {
+      "description": "[aws:2019-09-22 23:04:48] $num$ files were successfully removed.",
+      "message": "$num$ ファイルが正常に削除されました。",
+      "placeholders": {
+         "num": {
+            "content": "$1",
+            "example": "2"
+         }
+      }
+   },
+   "_or": {
+      "description": "[aws:2019-09-22 22:36:03] or",
+      "message": "または"
+   },
+   "_restorefactorydefaults": {
+      "description": "[aws:2019-09-22 22:36:15] restore factory defaults",
+      "message": "工場出荷時のデフォルトに戻す"
+   },
+   "_search": {
+      "description": "[aws:2019-09-22 22:36:18] search…",
+      "message": "検索..."
+   },
+   "_upontrialcompletion": {
+      "description": "[aws:2019-09-22 22:36:47] upon trial completion",
+      "message": "トライアル完了時"
+   },
+   "_watchademovideo": {
+      "description": "[aws:2019-09-22 22:36:50] watch a demo video",
+      "message": "デモビデオを見る"
+   },
+   "actionClose": {
+      "description": "[aws:2019-09-22 22:36:58] Close",
+      "message": "閉じる"
+   },
+   "actionDeleteImage": {
+      "description": "[aws:2019-09-22 22:36:59] Delete image",
+      "message": "画像を削除"
+   },
+   "actionDownloadImage": {
+      "description": "[aws:2019-09-22 22:36:59] Download image",
+      "message": "画像をダウンロードする"
+   },
+   "actionDownloadPDF": {
+      "description": "[aws:2019-09-22 22:37:00] Download PDF",
+      "message": "PDFをダウンロード"
+   },
+   "actionEdit": {
+      "description": "[aws:2019-09-22 22:37:01] Edit",
+      "message": "[編集]"
+   },
+   "actionOK": {
+      "description": "[aws:2019-09-22 22:37:01] OK",
+      "message": "OK"
+   },
+   "actionReport": {
+      "description": "[aws:2019-09-22 22:37:02] Report issue",
+      "message": "問題を報告する"
+   },
+   "appDesc": {
+      "description": "[aws:2019-09-22 22:34:55] Capture a screenshot of your current page in entirety and reliably—without requesting any extra permissions!",
+      "message": "余分な権限を要求することなく、現在のページのスクリーンショットを完全に確実にキャプチャできます。"
+   },
+   "goPremiumHeader": {
+      "description": "Take your screenshots to the next level with Full Page Screen Capture Premium",
+      "message": "Full Page Screen Capture Premiumで、あなたのスクリーンショットを一つ上のレベルへ"
+   },
+   "goPremiumLink": {
+      "description": "Get started (free 1-week trial)",
+      "message": "始めてみる（１週間無料トライアル）"
+   },
+   "goPremiumSignInLink": {
+      "description": "Sign in",
+      "message": "ログイン"
+   },
+   "goPremiumSignInMessage": {
+      "description": "Already have an account?",
+      "message": "既にアカウントをお持ちですか？"
+   },
+   "goPremiumSubHeader": {
+      "description": "Speed up your workflow with advanced editing and annotation features directly in the extension!",
+      "message": "アプリケーション内の進化したスクリーンショット編集・注記機能で、あなたの業務フローをスピードアップしましょう"
+   },
+   "hostPermissionGrant": {
+      "description": "[claude:2026-10-22] Grant access",
+      "message": "アクセスを許可"
+   },
+   "hostPermissionHeader": {
+      "description": "[claude:2026-10-22] Stay signed in to GoFullPage",
+      "message": "GoFullPage にログインしたままにする"
+   },
+   "hostPermissionMessage": {
+      "description": "[claude:2026-10-22] The extension needs access to the GoFullPage website in order to check your account. This will trigger a dialog.",
+      "message": "アカウントを確認するため、拡張機能には GoFullPage ウェブサイトへのアクセスが必要です。ダイアログが表示されます。"
+   },
+   "hostPermissionSignInLink": {
+      "description": "[claude:2026-10-22] Sign in on the website",
+      "message": "ウェブサイトでログイン"
+   },
+   "hostPermissionSkipLink": {
+      "description": "[claude:2026-10-22] continue signed out",
+      "message": "ログインせずに続行"
+   },
+   "hostPermissionSkipMessage": {
+      "description": "[claude:2026-10-22] Rather not?",
+      "message": "許可したくない場合は"
+   },
+   "hostPermissionSkipOr": {
+      "description": "[claude:2026-10-22] or",
+      "message": "または"
+   },
+   "navFiles": {
+      "description": "[claude:2026-10-22] Files",
+      "message": "ファイル"
+   },
+   "navOptions": {
+      "description": "[aws:2019-09-22 22:37:03] Options",
+      "message": "オプション"
+   },
+   "tryEditingNo": {
+      "description": "No thanks",
+      "message": "いいえ"
+   },
+   "tryEditingRequest": {
+      "description": "Try editing and annotating your screenshot",
+      "message": "スクリーンショットの編集・注記を試してみてください"
+   },
+   "tryEditingYes": {
+      "description": "Ok!",
+      "message": "はい"
+   }
+}

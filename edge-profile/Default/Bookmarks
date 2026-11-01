@@ -1,0 +1,964 @@
+{
+   "checksum": "ddf20698a810380bf1a52577747db4a3",
+   "roots": {
+      "bookmark_bar": {
+         "children": [ {
+            "date_added": "0",
+            "date_last_used": "13436729404347425",
+            "guid": "19c00e8e-7a13-44b2-846f-2f2745bef8ed",
+            "id": "12",
+            "name": "",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://translate.google.com/",
+            "visit_count": 271
+         }, {
+            "date_added": "13422991250193582",
+            "date_last_used": "13423594171132903",
+            "guid": "c46fc66e-baaa-49dc-b875-fe795598c739",
+            "id": "13",
+            "name": "Mỗi ngày vài từ - Google Trang tính",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://docs.google.com/spreadsheets/d/17Ke9iH6s4MczBZCAw-_ld3ml68Vjh2M6MXnte-NYnjc/edit?gid=1584822952#gid=1584822952",
+            "visit_count": 11
+         }, {
+            "date_added": "13429888483588415",
+            "date_last_used": "13435906799507885",
+            "guid": "2367ce3e-61ef-4886-b71e-3d0f8c8082a4",
+            "id": "14",
+            "name": "skill",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://github.com/composio-community/awesome-codex-skills?fbclid=IwY2xjawTYI9ZleHRuA2FlbQIxMABicmlkETFTTEtHNXk1Tlc1TzJ0VGVPc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHq_iyg-D5738zGbzKQpE7DzzRkmIeBlLILJDe_K4XBpmDG045D2-n40OIWXg_aem_rDEA21hgXChJTcd8R2dE-w#development--code-tools",
+            "visit_count": 6
+         }, {
+            "date_added": "13423586017686183",
+            "date_last_used": "13428761746226907",
+            "guid": "6da08b88-d907-4ccc-83e5-8b21e0ff48cc",
+            "id": "15",
+            "name": "(Sheepy) FORECAST QUÝ 2/2026 - Google Tài liệu",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://docs.google.com/document/d/101CPLRzMSXSbagjZln80Q9LjPwQsHB14cE23BWMk7m0/edit?tab=t.0",
+            "visit_count": 18
+         }, {
+            "date_added": "13422814885498861",
+            "date_last_used": "13435643843667098",
+            "guid": "955f1ef9-6b56-4c1e-8a73-5cd46ec6bae1",
+            "id": "16",
+            "name": "JN66 - Google Drive",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://drive.google.com/drive/u/5/folders/1yActMEw19Q8RhiTRe60pnpQvKNaUKJTb?fbclid=IwY2xjawRsNONleHRuA2FlbQIxMABicmlkETFCeERHc05URFBHVlV4OGo0c3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHkyaOGIGVZeQI6SaTUDqhMtEjTMEdV25Qp7T1RFGiqxTQn-7jcv-DMbJ0fDU_aem_CdWpGYBXI9_AHsfWfvTB2g&brid=YWdncwFavIn1NgEJw8-dS4L2SnyC",
+            "visit_count": 27
+         }, {
+            "date_added": "13428330106461996",
+            "date_last_used": "13436468616689928",
+            "guid": "520be783-2984-446a-9f82-4b6a33879fe2",
+            "id": "17",
+            "name": "Junior 66 - Google Drive",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://drive.google.com/drive/u/5/folders/1p_2SD9tOPM-7yacFnUtk9Fjq3OQmUrDT?fbclid=IwY2xjawTAXLxleHRuA2FlbQIxMABicmlkETF1VDhpcmRUWlVmeG9hUFZBc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHuOgh7RV5v8zUz-_9H6eqzBN8bU2XIzxLrWi4u3h9I4Z7UPWD58-rj_YaCNr_aem_nsERiJ3e1lcH7tSQwf_pHw",
+            "visit_count": 5
+         }, {
+            "date_added": "13426614827660599",
+            "date_last_used": "13427218851572828",
+            "guid": "90c79749-dd18-45e2-8583-f621dfd18cce",
+            "id": "18",
+            "name": "speaking prep 2025 - Google Tài liệu",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://docs.google.com/document/d/1cWJXK4IUAJnlj8sUEO6qVBt9BqRKDxI88o97KOO1_bY/edit?tab=t.rvu968hrc33h",
+            "visit_count": 3
+         }, {
+            "date_added": "0",
+            "date_last_used": "13433409928261685",
+            "guid": "90c71612-3dbe-4660-9420-666b83ee283f",
+            "id": "19",
+            "name": "",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://dictionary.cambridge.org/vi/",
+            "visit_count": 11
+         }, {
+            "date_added": "0",
+            "date_last_used": "13361099066404538",
+            "guid": "2962c614-26b7-4432-bee2-90e007db7e34",
+            "id": "20",
+            "name": "",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://app.grammarly.com/ddocs/1716655423",
+            "visit_count": 0
+         }, {
+            "date_added": "13354558211555674",
+            "date_last_used": "13433352074955773",
+            "guid": "570b980b-b977-4dbd-8bab-e8cf6611061f",
+            "id": "21",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://github.com/moimoi05",
+            "visit_count": 73
+         }, {
+            "date_added": "13350418486827746",
+            "date_last_used": "13433790441356658",
+            "guid": "0baf6692-14ab-40ad-ac4e-7567293384b3",
+            "id": "22",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "...",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://voz.vn/t/tat-ca-da-that-su-cham-dut-roi.902036/",
+            "visit_count": 5
+         }, {
+            "date_added": "13377890704369108",
+            "date_last_used": "13422992273541871",
+            "guid": "27830ecc-d7b4-40e8-b4f7-8e56304f168c",
+            "id": "23",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "Python AI Web Scraper Tutorial - Use AI To Scrape ANYTHING - YouTube",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://www.youtube.com/watch?v=Oo8-nEuDBkk",
+            "visit_count": 9
+         }, {
+            "date_added": "13379873271150206",
+            "date_last_used": "13427035599833874",
+            "guid": "e94bf42e-071c-4e64-a056-1de919934f3a",
+            "id": "24",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "(54) Machine Learning with Python and Scikit-Learn – Full Course - YouTube",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://www.youtube.com/watch?v=hDKCxebp88A&t=3s",
+            "visit_count": 7
+         }, {
+            "date_added": "13380800245394567",
+            "date_last_used": "13406351392437825",
+            "guid": "ede21302-980a-4d2e-8141-1651629abb1b",
+            "id": "25",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "(94) Deep Learning for Computer Vision with Python and TensorFlow – Complete Course - YouTube",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://www.youtube.com/watch?v=IA3WxTTPXqQ&t=17s",
+            "visit_count": 8
+         }, {
+            "date_added": "13381947383783478",
+            "date_last_used": "0",
+            "guid": "e04cf5d2-da83-4447-8f3d-2e585eaf6211",
+            "id": "26",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "Football Ml",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://www.youtube.com/watch?v=neBZ6huolkg",
+            "visit_count": 1
+         }, {
+            "date_added": "13388760386562973",
+            "date_last_used": "13417978815311912",
+            "guid": "32681254-b503-451e-a5ab-38260df43713",
+            "id": "27",
+            "name": "Toán cho học sâu | ProtonX",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://protonx.coursemind.io/courses/669f392f9ae80d0019c696ac",
+            "visit_count": 5
+         }, {
+            "date_added": "13383197396197205",
+            "date_last_used": "13417593079460939",
+            "guid": "99500678-34bd-45dd-be9e-8fc450aefbc0",
+            "id": "28",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "Học liệu - Google Drive",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://drive.google.com/drive/folders/1SsouzRWaPygxo581hf5fZSiUtCE_KYC3?fbclid=IwY2xjawIPsRlleHRuA2FlbQIxMAABHXpiRYJgiGC2OXWkR56P3MIaiQ_VfBHnjKtxSBNGJG_6616QTHtUpPvZUA_aem_CfcxC9Z4PdD4NEmRryhvEw",
+            "visit_count": 6
+         }, {
+            "date_added": "13383578436580600",
+            "date_last_used": "0",
+            "guid": "d9eb4fdd-5639-45e1-abe7-ef49e8d6deac",
+            "id": "29",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "GitHub - undertheseanlp/underthesea: Underthesea - Vietnamese NLP Toolkit",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://github.com/undertheseanlp/underthesea",
+            "visit_count": 1
+         }, {
+            "children": [ {
+               "date_added": "13387118694410411",
+               "date_last_used": "13399914732515553",
+               "guid": "b88c08a6-d540-423b-8062-fa415bcf16e6",
+               "id": "31",
+               "meta_info": {
+                  "power_bookmark_meta": ""
+               },
+               "name": "Roboflow Universe: Computer Vision Datasets",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://universe.roboflow.com/",
+               "visit_count": 3
+            }, {
+               "date_added": "13387118744573286",
+               "date_last_used": "13399916182687378",
+               "guid": "681e57bc-4c92-4a16-8d11-bb76cfa7707b",
+               "id": "32",
+               "meta_info": {
+                  "power_bookmark_meta": ""
+               },
+               "name": "Dataset - Catalog",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://catalog.data.gov/dataset?q=gold+price",
+               "visit_count": 2
+            } ],
+            "date_added": "13387118728792650",
+            "date_last_used": "0",
+            "date_modified": "13387118744573286",
+            "guid": "ddfcd5bb-078c-47a3-985e-519a1ac8ee11",
+            "id": "30",
+            "name": "data",
+            "source": "unknown",
+            "type": "folder"
+         }, {
+            "date_added": "13390132274079728",
+            "date_last_used": "13403626390014772",
+            "guid": "5dc60734-a497-460b-bba6-07d2279e3e1a",
+            "id": "33",
+            "name": "(2128) Introduction | Mathematics and statistics for data science and machine learning - YouTube",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://www.youtube.com/watch?v=8ZI55Inh1_A&list=PLeo1K3hjS3uuKaU2nBDwr6zrSOTzNCs0l",
+            "visit_count": 4
+         }, {
+            "date_added": "13390132922385069",
+            "date_last_used": "13394906386238598",
+            "guid": "54691af1-1145-44c2-88fb-8eb0d8593093",
+            "id": "34",
+            "name": "(2128) Data Structures & Algorithms Tutorial in Python #1 - What are data structures? - YouTube",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://www.youtube.com/watch?v=_t2GVaQasRY&list=PLeo1K3hjS3uu_n_a__MI_KktGTLYopZ12&index=1",
+            "visit_count": 3
+         }, {
+            "date_added": "13390137251079184",
+            "date_last_used": "13414868305416770",
+            "guid": "f3e65f3a-5bf9-4d58-87ed-2f85381b3209",
+            "id": "35",
+            "name": "Tensorflow Tutorial, Keras & Python) - YouTube",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://www.youtube.com/watch?v=Mubj_fqiAv8&list=PLeo1K3hjS3uu7CxAacxVndI4bE_o3BDtO",
+            "visit_count": 2
+         }, {
+            "date_added": "13403540443054406",
+            "date_last_used": "0",
+            "guid": "84d3cd59-8221-48fd-8acb-e060dd6ec934",
+            "id": "36",
+            "name": "(2627) Hướng dẫn trọn bộ: CS231n - Deep Learning for Computer Vision - Assignment 1 - SVM Part 1 - YouTube",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://www.youtube.com/watch?v=M-K6CMItBhs&list=PLSkaRRud3PU1zwweoUe4fkWb8HnF-2hVB",
+            "visit_count": 1
+         }, {
+            "children": [ {
+               "date_added": "13403540493441785",
+               "date_last_used": "13407945447961766",
+               "guid": "d1b2a4c0-e18c-4615-b3d6-daa6f55f2cb8",
+               "id": "38",
+               "name": "(2627) Stanford CS231n Deep Learning for Computer Vision - YouTube",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/playlist?list=PLSkaRRud3PU1zwweoUe4fkWb8HnF-2hVB",
+               "visit_count": 4
+            }, {
+               "date_added": "13403545914024897",
+               "date_last_used": "13403849592255504",
+               "guid": "50d4aa3b-5969-4bb9-a290-8c00f9902361",
+               "id": "39",
+               "name": "(2629) Trí tuệ Nhân tạo - Mạng Nơ ron P1/15 - Tổng quan về Mạng Nơ ron - YouTube",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/watch?v=tAy8a6c598w&list=PLmtLOdLKF-og3HsyUGGNR5lhn96TOUllX",
+               "visit_count": 2
+            }, {
+               "date_added": "13404823480834742",
+               "date_last_used": "0",
+               "guid": "877a23b6-7d6c-4e07-b115-b3f150b560c0",
+               "id": "40",
+               "name": "Công cụ tạo Thẻ Sinh Viên",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://mmocommunity.io.vn/",
+               "visit_count": 1
+            }, {
+               "date_added": "13407937043332255",
+               "date_last_used": "13407945467256766",
+               "guid": "4332d4d1-2508-4536-9a70-d100e9ea4b75",
+               "id": "41",
+               "name": "Teaching",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://stanford.edu/~shervine/l/vi/teaching/?fbclid=IwY2xjawOJMFVleHRuA2FlbQIxMABicmlkETFrbmxKY014VmFRZDdIZ0dyc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHn5AOEFTdFGj3r7TFg8cudyzpUj2xoDtGPiSyfnq087IPwBAJSkqRhqZEgTY_aem_DF-xUMWVrQ3yE8m4yA9CIg",
+               "visit_count": 2
+            }, {
+               "date_added": "13408048304134711",
+               "date_last_used": "0",
+               "guid": "c04016fa-1035-44a8-8ce6-a2e65ec00b59",
+               "id": "42",
+               "name": "Google Gemini",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://gemini.google.com/u/3/app/c4a7ecbe60573795?pageId=none",
+               "visit_count": 1
+            }, {
+               "date_added": "13408294861836042",
+               "date_last_used": "13414868379674245",
+               "guid": "e74ea075-b000-4286-b1f3-fd030bbbec8e",
+               "id": "43",
+               "name": "(1564) I Visualised Attention in Transformers - YouTube",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/watch?v=RNF0FvRjGZk",
+               "visit_count": 2
+            }, {
+               "date_added": "13408634427976396",
+               "date_last_used": "0",
+               "guid": "52029062-2fad-4bf3-a851-7b9636e83c45",
+               "id": "44",
+               "name": "(1687) Tìm hiểu AI tạo sinh và xây dựng model GAN tái tạo ảnh vệ tinh - Mì AI - YouTube",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/watch?v=vDAgIokDQ4Q",
+               "visit_count": 1
+            }, {
+               "date_added": "13408634580159092",
+               "date_last_used": "0",
+               "guid": "31760a36-5332-4ede-8087-97e96c2646a7",
+               "id": "45",
+               "name": "(1687) Tìm hiểu và dạy máy tính chơi game bằng Deep Q-Learning (slide + code) - Mì AI - YouTube",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/watch?v=97gDXdA7kVc",
+               "visit_count": 1
+            }, {
+               "date_added": "13410466925339055",
+               "date_last_used": "13423477212472544",
+               "guid": "2171d8cf-282a-40be-94d3-e8abcf36bb9a",
+               "id": "46",
+               "name": "(2426) Transformers & Diffusion LLMs: What's the connection? - YouTube",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/watch?v=SFi9KsnidNc",
+               "visit_count": 3
+            }, {
+               "date_added": "13410537431307170",
+               "date_last_used": "0",
+               "guid": "3918b909-9ff7-4214-b754-994df0307e70",
+               "id": "47",
+               "name": "TRL_SFT_Nemotron_3_Nano_30B_A3B_A100.ipynb - Colab",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://colab.research.google.com/?fbclid=IwY2xjawOw3axleHRuA2FlbQIxMABicmlkETFHS3JKV3JRdkpqcFM5Nmlhc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHm6TfLgu3iiNOR3R3K3Ub5blzpoYrF6a1rxH1a4joUwQzmpOM94KL4y2SMdf_aem_q8PESBJh_hb6fA5s0YFwDQ#scrollTo=vITh0KVJ10qX&fileId=https%3A//huggingface.co/burtenshaw/nemo3-finetune/blob/main/TRL_SFT_Nemotron_3_Nano_30B_A3B_A100.ipynb",
+               "visit_count": 1
+            }, {
+               "date_added": "13410537441327264",
+               "date_last_used": "0",
+               "guid": "68f92a30-5aef-4a45-8a9c-ceae284855a4",
+               "id": "48",
+               "name": "TRL_SFT_Nemotron_3_Nano_30B_A3B_A100.ipynb - Colab",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://colab.research.google.com/?fbclid=IwY2xjawOw3axleHRuA2FlbQIxMABicmlkETFHS3JKV3JRdkpqcFM5Nmlhc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHm6TfLgu3iiNOR3R3K3Ub5blzpoYrF6a1rxH1a4joUwQzmpOM94KL4y2SMdf_aem_q8PESBJh_hb6fA5s0YFwDQ#scrollTo=Mkq4RvEq7FQr&fileId=https%3A//huggingface.co/burtenshaw/nemo3-finetune/blob/main/TRL_SFT_Nemotron_3_Nano_30B_A3B_A100.ipynb",
+               "visit_count": 1
+            }, {
+               "children": [  ],
+               "date_added": "13410726184969437",
+               "date_last_used": "0",
+               "date_modified": "13410726184969437",
+               "guid": "884d224b-b012-4c3e-8b55-ebb117d6ec24",
+               "id": "49",
+               "name": "New folder",
+               "source": "unknown",
+               "type": "folder"
+            }, {
+               "date_added": "13411661855079017",
+               "date_last_used": "13433936531807849",
+               "guid": "cb23521c-1f39-4e73-8798-d0036727b033",
+               "id": "50",
+               "name": "p học",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/watch?v=DrhJLHiia7g&list=PLgPbN3w-ia_PeT1_c5jiLW3RJdR7853b9",
+               "visit_count": 4
+            }, {
+               "date_added": "13419972511912187",
+               "date_last_used": "13423480602873631",
+               "guid": "9a08c727-36c7-484f-9241-66e45e4832e6",
+               "id": "51",
+               "name": "(5847) Diffusion models from scratch in PyTorch - YouTube",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/watch?v=a4Yfz2FxXiY",
+               "visit_count": 3
+            }, {
+               "date_added": "13421175820027690",
+               "date_last_used": "0",
+               "guid": "71b9beb1-e91c-4a7a-9179-6923bb6613b0",
+               "id": "52",
+               "name": "(6287) The Transformer Explained: A Complete Layer-by-Layer Visual Breakdown - YouTube",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/watch?v=G5LwkSB4NKU",
+               "visit_count": 1
+            }, {
+               "date_added": "13423482725605615",
+               "date_last_used": "0",
+               "guid": "6afe355b-aff8-43e4-a499-6341ce8d05b6",
+               "id": "53",
+               "name": "(7119) Diffusion Models (DDPM & DDIM) - Easily explained! - YouTube",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/watch?v=r4V0vLhYZIQ",
+               "visit_count": 1
+            } ],
+            "date_added": "13403540505748949",
+            "date_last_used": "0",
+            "date_modified": "13423482725605615",
+            "guid": "2a802c34-dbc8-4d91-a2e9-1bdd3b17dd4d",
+            "id": "37",
+            "name": "DL",
+            "source": "unknown",
+            "type": "folder"
+         }, {
+            "date_added": "13406228751939280",
+            "date_last_used": "0",
+            "guid": "d4bd8dbc-998e-4741-8bb6-35a8cffdf913",
+            "id": "54",
+            "name": "XSTK",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://www.youtube.com/playlist?list=PLMrJAkhIeNNR3sNYvfgiKgcStwuPSts9V",
+            "visit_count": 1
+         }, {
+            "date_added": "13406574280856879",
+            "date_last_used": "0",
+            "guid": "46c09afa-3ff7-4cf9-92ea-91a62c771317",
+            "id": "55",
+            "name": "(900) Deep Learning - YouTube",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://www.youtube.com/playlist?list=PLgPbN3w-ia_PeT1_c5jiLW3RJdR7853b9",
+            "visit_count": 1
+         }, {
+            "date_added": "13406577637021221",
+            "date_last_used": "0",
+            "guid": "920aa753-e891-42cc-824c-88389d90989c",
+            "id": "56",
+            "name": "(900) Finetune Large Language Model để trả lời ngon hơn, nuột hơn cùng Unsloth - Mì AI - YouTube",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://www.youtube.com/watch?v=b8XJrNACyUA",
+            "visit_count": 1
+         }, {
+            "date_added": "13406660582592703",
+            "date_last_used": "0",
+            "guid": "b1d3ae75-baa3-4e16-8092-5bdae50973a4",
+            "id": "57",
+            "name": "(933) Dự án Fine-tune LLMs | step by step - YouTube",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://www.youtube.com/watch?v=A9g4ZkJrcoA",
+            "visit_count": 1
+         }, {
+            "children": [ {
+               "date_added": "13407614639273214",
+               "date_last_used": "0",
+               "guid": "6d888b22-d961-4dcf-80ec-67de09e3ffb6",
+               "id": "59",
+               "name": "(1298) Bài 1a: Giới thiệu môn học Xử lý ngôn ngữ tự nhiên, Natural Language Processing, ĐH Bách Khoa - YouTube",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/watch?v=Q5xIhI_UpQA&list=PLIpLw6v7Z1qlOoEbTkA8uWYmkoc1OJlpe",
+               "visit_count": 1
+            }, {
+               "date_added": "13407614837048178",
+               "date_last_used": "13408384205433108",
+               "guid": "a82e014a-92c3-4cab-9800-6fe3e428d653",
+               "id": "60",
+               "name": "(1298) Bài 6.25 Cắt nghĩa khái niệm Attention và Transformers, Introduction to Large Language Models, CS124 - YouTube",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/watch?v=3aqHWiyDzdU",
+               "visit_count": 3
+            }, {
+               "date_added": "13407697127480753",
+               "date_last_used": "13408461869692598",
+               "guid": "fc78aea1-26c3-4340-9cab-bf8dcbd1806d",
+               "id": "61",
+               "name": "Mì Transformer - tìm hiểu transformer theo cách dễ hiểu, dễ nhớ - Mì AI - YouTube",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/watch?v=DVouDUMNFDY",
+               "visit_count": 3
+            }, {
+               "date_added": "13407697478428521",
+               "date_last_used": "0",
+               "guid": "3e549637-05bd-4d68-9eb4-0ff8e17f440e",
+               "id": "62",
+               "name": "Giải thích Mạng LSTM dễ hiểu và lập trình với Pytorch và Tensorflow - YouTube",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/watch?v=YcRPPy3EiJs",
+               "visit_count": 1
+            }, {
+               "date_added": "13407697632013807",
+               "date_last_used": "13408375065947639",
+               "guid": "e73769ae-3870-4bda-9eef-7f3aa41278d7",
+               "id": "63",
+               "name": "Mô hình ngôn ngữ và mạng nơ ron hồi quy (Language Model and Recurrent Neural Network) - YouTube",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/watch?v=t0EoeTYU-fc&list=PLMm4sOMuA2QI5x_0KlNT3LuKDi6-ByboB&index=20",
+               "visit_count": 2
+            }, {
+               "date_added": "13407697901093734",
+               "date_last_used": "13408460007067726",
+               "guid": "a39b873e-69e5-46cd-ac14-7af07664bdf4",
+               "id": "64",
+               "name": "Lập trình mô hình GPT và Transformer từ con số 0 - Phần 1: Tokenization - YouTube",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/watch?v=jkrWNs_y88w",
+               "visit_count": 2
+            }, {
+               "date_added": "13407745032144818",
+               "date_last_used": "0",
+               "guid": "f2914f16-0a75-41a5-944d-0db15244c9dd",
+               "id": "65",
+               "name": "SKIMS x ROSÉ",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://sites.google.com/d/13ez5uLMOOt0ZdjqW3zlE9JMAxtMRm1Pg/p/15IXZRh_oJLQO6P7AXTZ8qTtwpLLVajiL/edit",
+               "visit_count": 1
+            }, {
+               "date_added": "13407784218977972",
+               "date_last_used": "0",
+               "guid": "57b0086b-e81a-4ed0-9aff-e614b88ec975",
+               "id": "66",
+               "name": "Giới thiệu cơ chế Self-Attention, Kiến trúc Transformer và mô hình BERT - YouTube",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/watch?v=Kz1VBb8z8M0",
+               "visit_count": 1
+            }, {
+               "date_added": "13407785242518625",
+               "date_last_used": "0",
+               "guid": "f75b7bc0-9fe9-41a9-b7d2-e33e01302a13",
+               "id": "67",
+               "name": "Mô hình Seq2Seq và cơ chế Attention với bài toán dịch máy - YouTube",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/watch?v=iKDJig9VH-Q",
+               "visit_count": 1
+            } ],
+            "date_added": "13407614653169850",
+            "date_last_used": "0",
+            "date_modified": "13407785242518625",
+            "guid": "193a7d32-d6d1-4f90-962f-bd957215153a",
+            "id": "58",
+            "name": "NLP HUST",
+            "source": "unknown",
+            "type": "folder"
+         }, {
+            "children": [ {
+               "date_added": "13410806231603207",
+               "date_last_used": "13411143189268624",
+               "guid": "8ecfb369-9693-4c7b-9e66-b5a14f2858fd",
+               "id": "69",
+               "name": "(2575) RESTful API Golang Gin #10: Router Validation - Bảo Vệ API Của Bạn Khỏi Dữ Liệu Không Hợp Lệ! - YouTube",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/watch?v=ClJkzFWHDZI&list=PLTasIXUHepx1hPkFeN9OXa2bcuILAqiJM&index=10",
+               "visit_count": 4
+            }, {
+               "date_added": "13427026490443108",
+               "date_last_used": "0",
+               "guid": "466753fe-2b42-4958-8572-0932295e71be",
+               "id": "70",
+               "name": "(8458) Go và CON ĐƯỜNG lập trình toàn diện cho nhiều level khác nhau (1) | Series Golang | Source vs Book - YouTube",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/watch?v=BKCytwrSvV4&list=PL0Pnqmz-onB5Xk2o46BpvGHa-c8Toe0YP",
+               "visit_count": 1
+            } ],
+            "date_added": "13408141490704035",
+            "date_last_used": "0",
+            "date_modified": "13427026490443108",
+            "guid": "4d5fdf7a-62d3-4e4a-98a2-c50232dc8b12",
+            "id": "68",
+            "name": "Golang",
+            "source": "unknown",
+            "type": "folder"
+         }, {
+            "children": [ {
+               "date_added": "13410726169499677",
+               "date_last_used": "13425202543494221",
+               "guid": "8f74463f-c5a8-41bd-b5a8-bef077270cfd",
+               "id": "72",
+               "name": "(2544) [CTDL và GT] Giới thiệu loạt video sắp ra mắt về Cấu trúc dữ liệu và giải thuật. - YouTube",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/watch?v=IjV1NjBXVZ8&list=PL8ugZr_aDtFVr81YWrkOURTEapsw5mD1k",
+               "visit_count": 2
+            } ],
+            "date_added": "13410726184969814",
+            "date_last_used": "0",
+            "date_modified": "13410726184969814",
+            "guid": "782f7b1d-ad29-4217-842e-fa63eafb464e",
+            "id": "71",
+            "name": "DSA",
+            "source": "unknown",
+            "type": "folder"
+         }, {
+            "children": [ {
+               "date_added": "13410726706090683",
+               "date_last_used": "0",
+               "guid": "4b967f3e-d6a9-47b5-869f-04eb06098f4a",
+               "id": "74",
+               "name": "(2544) AI Foundations Course – Python, Machine Learning, Deep Learning, Data Science - YouTube",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/watch?v=0oyDqO8PjIg&t=2s",
+               "visit_count": 1
+            } ],
+            "date_added": "13410726713266239",
+            "date_last_used": "0",
+            "date_modified": "13410726713266239",
+            "guid": "e9742aa0-f398-40ab-b48d-205f47161530",
+            "id": "73",
+            "name": "ML",
+            "source": "unknown",
+            "type": "folder"
+         }, {
+            "children": [ {
+               "date_added": "13410883944031341",
+               "date_last_used": "0",
+               "guid": "fc7b1b87-0478-4bfe-8ab3-516d9392f2c4",
+               "id": "76",
+               "name": "(2604) MIT 6.S191: Reinforcement Learning - YouTube",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/watch?v=to-lHJfK4pw&list=PLtBw6njQRU-rwp5__7C0oIVt26ZgjG9NI&index=7",
+               "visit_count": 1
+            } ],
+            "date_added": "13410883960396412",
+            "date_last_used": "0",
+            "date_modified": "13410883960396412",
+            "guid": "efd5443c-7e02-47cb-a296-8a31ee473e1d",
+            "id": "75",
+            "name": "RL",
+            "source": "unknown",
+            "type": "folder"
+         }, {
+            "children": [ {
+               "date_added": "13412163500231682",
+               "date_last_used": "0",
+               "guid": "2fa5afd9-a576-470e-b070-473857192f75",
+               "id": "78",
+               "name": "RAG Tutorial - PDF Reader | AI VIET NAM",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://tutorial.aivietnam.edu.vn/pdf/48?fbclid=IwY2xjawPJrdVleHRuA2FlbQIxMABicmlkETFDcURCU0FZaDZ0cXZkZFFoc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHn2czvn4HyEhPgkgxUbXWAZc9PNwUVa5JB_EelPGUyfrCVcWgG1daS38h5aY_aem_XfUMSRagGgHVeTxGwpjjfg",
+               "visit_count": 1
+            } ],
+            "date_added": "13412163520192304",
+            "date_last_used": "0",
+            "date_modified": "13412163520192304",
+            "guid": "5be05404-7810-40ee-873a-85a829575c0a",
+            "id": "77",
+            "name": "RAG",
+            "source": "unknown",
+            "type": "folder"
+         }, {
+            "children": [ {
+               "date_added": "13414868208525135",
+               "date_last_used": "13414869824235223",
+               "guid": "30655f37-372e-40ef-805f-c93af6d4e513",
+               "id": "80",
+               "name": "(4048) namkuner - YouTube",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/@namkuner/playlists",
+               "visit_count": 2
+            }, {
+               "date_added": "13417973243524668",
+               "date_last_used": "0",
+               "guid": "d43829fc-c906-4545-8983-acfe43d0fb11",
+               "id": "81",
+               "name": "(5131) How DINO learns to see the world - Paper Explained - YouTube",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/watch?v=wO3-FMNugS4",
+               "visit_count": 1
+            } ],
+            "date_added": "13414868260152435",
+            "date_last_used": "0",
+            "date_modified": "13417973243524668",
+            "guid": "c210c1a7-c69a-4b69-995c-4108a234dc4a",
+            "id": "79",
+            "name": "kênh AI hay vcl bằng VN- must watch",
+            "source": "unknown",
+            "type": "folder"
+         }, {
+            "children": [ {
+               "date_added": "13419766330939646",
+               "date_last_used": "0",
+               "guid": "13accf55-a3b8-43f5-a651-7a1d05336257",
+               "id": "83",
+               "name": "Unsloth_Studio_Colab.ipynb - Colab",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://colab.research.google.com/github/unslothai/unsloth/blob/main/studio/Unsloth_Studio_Colab.ipynb",
+               "visit_count": 1
+            } ],
+            "date_added": "13419766365236727",
+            "date_last_used": "0",
+            "date_modified": "13419766365236727",
+            "guid": "4bf25d90-f6ba-4190-be24-ff377fa8fccd",
+            "id": "82",
+            "name": "Unsloth",
+            "source": "unknown",
+            "type": "folder"
+         }, {
+            "date_added": "13423585913235832",
+            "date_last_used": "0",
+            "guid": "1a8ba082-9f56-40fe-8f64-ea7f29d0232c",
+            "id": "84",
+            "name": "(Sheepy) FORECAST QUÝ 2/2026 - Google Tài liệu",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://docs.google.com/document/d/101CPLRzMSXSbagjZln80Q9LjPwQsHB14cE23BWMk7m0/edit?tab=t.0#heading=h.yvkxxqep5nkt",
+            "visit_count": 1
+         }, {
+            "children": [ {
+               "date_added": "13429872956961353",
+               "date_last_used": "0",
+               "guid": "f76ed724-1a28-4a4d-81aa-45a5b53809d0",
+               "id": "86",
+               "name": "(9520) Fundamentals of Backend Architecture - How to Design Scalable Software - YouTube",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.youtube.com/watch?v=Qa-7iWxDz1A",
+               "visit_count": 1
+            } ],
+            "date_added": "13429872973234239",
+            "date_last_used": "0",
+            "date_modified": "13429872973234239",
+            "guid": "20ddd05a-0d43-4bb9-bb8a-23174edcb92e",
+            "id": "85",
+            "name": "Design system",
+            "source": "unknown",
+            "type": "folder"
+         }, {
+            "date_added": "13433497301174582",
+            "date_last_used": "0",
+            "guid": "8c27d8a6-6bc4-454e-aa46-b7b599bed528",
+            "id": "87",
+            "name": "GitHub - Horaus/mac · GitHub",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://github.com/horaus/mac#english",
+            "visit_count": 1
+         } ],
+         "date_added": "13437946384109387",
+         "date_last_used": "0",
+         "date_modified": "13433497301174582",
+         "guid": "0bc5d13f-2cba-5d74-951f-3f233fe6c908",
+         "id": "1",
+         "name": "Favorites bar",
+         "source": "unknown",
+         "type": "folder"
+      },
+      "other": {
+         "children": [ {
+            "children": [ {
+               "date_added": "13339765022205901",
+               "date_last_used": "0",
+               "guid": "e0706537-dead-4a38-8292-32e6a40e21de",
+               "id": "8",
+               "meta_info": {
+                  "power_bookmark_meta": ""
+               },
+               "name": "Cài đặt hiệu quả về nguồn điện Windows 11 - Hỗ trợ của Microsoft",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://support.microsoft.com/vi-vn/windows/c%C3%A0i-%C4%91%E1%BA%B7t-hi%E1%BB%87u-qu%E1%BA%A3-v%E1%BB%81-ngu%E1%BB%93n-%C4%91i%E1%BB%87n-windows-11-0d6a2b6b-2e87-4611-9980-ac9ea2175734",
+               "visit_count": 0
+            }, {
+               "date_added": "13340124199719110",
+               "date_last_used": "0",
+               "guid": "314e9842-9efb-4c55-acab-3e8672274fd1",
+               "id": "9",
+               "meta_info": {
+                  "power_bookmark_meta": ""
+               },
+               "name": "",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.typingstudy.com/vi/lesson/1/extra_word_drill",
+               "visit_count": 0
+            } ],
+            "date_added": "13339763356191094",
+            "date_last_used": "0",
+            "date_modified": "13340124199719110",
+            "guid": "bc0c1c43-fb5e-4e91-8ce3-6c38a5b6e2e8",
+            "id": "7",
+            "name": "Other Bookmarks",
+            "source": "unknown",
+            "type": "folder"
+         }, {
+            "children": [ {
+               "date_added": "0",
+               "date_last_used": "13339816517069646",
+               "guid": "a85b59de-b0ed-4528-a885-f1da2c10b208",
+               "id": "11",
+               "name": "Đăng nhập - Tài khoản Google",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://accounts.google.com/signin/v2/recoveryidentifier?flowEntry=AccountRecovery&flowName=GlifWebSignIn&hl=vi",
+               "visit_count": 0
+            } ],
+            "date_added": "13339763356191305",
+            "date_last_used": "0",
+            "date_modified": "13339763356191305",
+            "guid": "5a1689ee-8b70-4305-8de2-769789969c18",
+            "id": "10",
+            "name": "Synced Bookmarks",
+            "source": "unknown",
+            "type": "folder"
+         } ],
+         "date_added": "13437946384109387",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "82b081ec-3dd3-529c-8475-ab6c344590dd",
+         "id": "2",
+         "name": "Other favorites",
+         "source": "unknown",
+         "type": "folder"
+      },
+      "synced": {
+         "children": [  ],
+         "date_added": "13437946384109387",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "4cf2e351-0e85-532b-bb37-df045d8f8d0f",
+         "id": "3",
+         "name": "Mobile favorites",
+         "source": "unknown",
+         "type": "folder"
+      },
+      "workspaces_v2": {
+         "children": [  ],
+         "date_added": "13437946384109387",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "75aa6670-344f-549d-b742-660f029506ab",
+         "id": "5",
+         "name": "Workspaces",
+         "source": "unknown",
+         "type": "folder"
+      }
+   },
+   "sync_metadata": "CjEKDgiIgQISCB/GUZOhAQAAEgAqGGRZZjBGOWNaTWY0S1JZVWx5STRjOVE9PUgDoAYMEq0BCEMSqAEKHEc0SmNkQ0FGa2hRbWY2M2JHcVgxcURKblBGVT0SJGY3NWI3YmMwLTlmZTktNDFhOS1iN2QyLWUzM2UwMTMwMmExMxgAIAAoADDm58HsqDM4u+3B7KgzQLvtweyoM0ocS2VoUFF1NnRyemNBWHFwc0hsRzVIMThNWmh3PVofIh3+TndiZ252R285NktQMmp0blJGUjAzUlhQa1NBPWVD+G2Awj4CYAUStQEIRBKwAQocVDM2cVZFMmVKRVhpaWNhZWUzUHpnTDlZWmtnPRIkNGQ1ZmRmN2EtNjJkMy00ZTRhLTk4YTItYzUwMjMyZGM4YjEyGAAgACgAMJC+sZaqMziTwbGWqjNAk8GxlqozShw3S2o2czZkclZwejZBa0RZcUVTeUI1WjBWVm89WiciJf////8AAAAH/i9jUnR6TlVLN1g5a0NRZlhmVlRQY0tDVGFHbz1lAAAAAMI+AmAAEq0BCEESqAEKHGE0bHg3ZzQzOWE2ZlFJY3VxOERYZXAydXVBTT0SJGYyOTE0ZjE2LTBhNzUtNDFhNS05NDRkLTBkYjE1MjQ0YzlkZBgAIAAoADCXxavZqDM45ser2agzQObHq9moM0ocVVBoUFdGWUdjV2dlcWlPWmorR3AyMWlHbTdJPVofIh37R01SQ3RWN0Z5cUtvc3dOMlBuL1FZRi9NcTZzPWVYMhzFwj4CYAUSrAEITBKnAQocSXBaOUNWZlFOczJ5TTQreU9FSGhwL25IVUUwPRIkZmM3YjFiODctMDQ3OC00YmZlLThhYjMtNTE2ZDkzOTJmMmM0GAAgACgAMK2/jLK0MziqxIuytDNAqsSLsrQzShx0V2VEVG9ndUlBTjNUcWttVFZSNEd5TFRGZWc9Wh4iHEdsRUFndllDNldWbURJNndVVzQ5SWxxTCtBYz1lQ/htgMI+AmAFEq0BCFESqAEKHGs3WmVvaUp1dU9UbVZRYlljMUFXVWxlK3pPRT0SJGQ0MzgyOWZjLWM5MDYtNDU0NS04OTgzLWFjZmU0M2QwZmIxMRgAIAAoADC9+cPmzjM4ioTE5s4zQIqExObOM0ocVEoxbVVjVjBuVElyVk5VWHg3SGcrWlZlQldvPVofIh2tVnZTbVFJdWFYV2VYaWtuMVZNMWgyclhtVzVBPWVD+G2Awj4CYAUSrAEIVhKnAQocWWw3Q3E4VFFjazdXdFJidWMrRnllK01hVDNNPRIkZjc2ZWQ3MjQtMWEyOC00YTRkLTgxYWEtNDVhNWI1MzgwOWQwGAAgACgAMK/t4ZD7MziOguGQ+zNAjoLhkPszShxqd0t6TDBCZ2FHKzFtK3lVTm9PUk0zYm5KMkU9Wh4iHGZaWWVxUTVMdTZJdVZBNVJWSE1GVEREb3ZsMD1lUELD0sI+AmAFEq0BCEASqAEKHEx1S1JLZnhLYWpmenQ4NkQrK3RybFJ5L1RKND0SJGEzOWI4NzNlLTY5ZTUtNDZjZC1hYzE0LTdhZjA3NjY0YmRmNBgAIAAoADDukKKuqzM4+fPuwqgzQPnz7sKoM0ocOTNFWU8vQUNZQ0cyUGNPQlpYWWJJTTFyQnNvPVofIh32c0Z1dTZ1M1lrTkJBMm1tSHZaZURlRkdlN1pZPWVD+G2Awj4CYAUSrAEIUBKnAQocWDQvZ2tZaHdtbk5NdXBHS3dlVzluU0hoMkZnPRIkMzA2NTVmMzctMzcyZS00MGVmLTgwNWYtYzkzYWY2ZDRlNTEzGAAgACgAMLKd2p7DMzjp2PedwzNA6dj3ncMzShwwdjlwZzcwVlA2MWJCZ25wb0pyaU1vaHd6M1k9Wh4iHFozQzR1bmlRblJ0b050enpWU3RJZldXQWkzOD1lQ/htgMI+AmAFEqwBCEgSpwEKHFZkYnlMaW8yK092dHB3dkFDRWJ2WndjbU5GST0SJDhmNzQ0NjNmLWM1YTgtNDFiZC1iNWE4LWJlZjA3NzI3MGNmZBgAIAAoADDz2t3d6TM4uOzt5rMzQLjs7eazM0ocYUxmK2hoRTFaL1ZMQ2Z5ZmlhNGQxd0J2UU1rPVoeIhxxaWNGR3RjbVF4ZnE1T3JScUFVQVZjdkpYd3M9ZVBCw9LCPgJgBRKsAQhOEqcBChxSa1R5THZiQ2E2M1U0ZFVjQ1VlTUR4Z0tvRlE9EiQyZmE1YWZkOS1hNTc2LTQ3MGUtYjA3MC00NzM4NTcxOTJmNzUYACAAKAAwu9GelLkzOJ26nZS5M0Cdup2UuTNKHGRHWS9EWE9UdkV1WEwrUjBsVTlLdENvN3Z5WT1aHiIcSzVFQXNQWGVoSVFvQzRlc01ldFFWa1ExZmE4PWVM8PCCwj4CYAUStQEISRKwAQocR3p0TTUrdU8rT2tJQmZlclRLa1Erd08vNkhRPRIkZTk3NDJhYTAtZjM5OC00MGFiLWI0OGQtMjA1ZjQ3MTYxNTMwGAAgACgAMJ3zjuezMzjv9Y7nszNA7/WO57MzShx1RzZkZUtzUEtGOCtkOHNuSm5GOGhNUFpNTnM9WiciJf////8AAAAIp0Y4VTVuWE1GTnNKVG4vOUZvb3ExOXlNeFZlaz1lAAAAAMI+AmAAErUBCEsSsAEKHDZRczhkU200YzRYdEVHa3J2aDA2RDZWY25RRT0SJGVmZDU0NDNjLTdlMDItNDdjYi1hMjk2LThhMzFlZTQ3M2UxZBgAIAAoADCsv4yytDM4mMOMsrQzQJjDjLK0M0ocWDRUc2lCZUhkNGVLM0NkQ0RjT1BKOHpjbWR3PVonIiX/////AAAACNNGY09peUxWQ1JMYlpxQUM2N2JGcE5RZm1Hb3c9ZQAAAADCPgJgABK1AQhSErABChx4L3V0djZSZ3BhZG40QzE5amxCWHlQdktSM2M9EiQ0YmYyNWQ5MC1mNmJhLTQxOTAtYmUyNC1mZjM3N2ZhOGZjY2QYACAAKAAw3MLHvdUzOLXFx73VM0C1xce91TNKHGcyeGNzNFpzOEE1UHI3WHlNSUpTbEcrcmF5UT1aJyIl/////wAAAAj6aFFiWmQ0Tk5CWG5xNVM2aEI2a2lQaFRRdEcwPWUAAAAAwj4CYAASrAEIShKnAQocdVEyY21lRlZxQU1JbTgrV2VvMC9nT2pRb1dZPRIkNGI5NjdmM2UtZDZhOS00N2I1LTg2OWYtMDRlYjA2MDk4ZjRhGAAgACgAMJ7zjuezMzi3w47nszNAt8OO57MzShxoYkkzbUxoOGM5SmFFczQvTU1zTm9LUmppbUU9Wh4iHGlNd0JQTHh4R05XQ0NER3Rab05lRkVHTWFHND1lQ/htgMI+AmAFErQBCEcSrwEKHGR2Z21samRJUVdhYmdKMXVSNjhUTUNKcGRuST0SJDc4MmY3YjFkLWFkMjktNDIxNy04NDJlLWZhNjNlYWZiNDY0ZRgAIAAoADDp0+7mszM43tbu5rMzQN7W7uazM0occEkrMDhCbllsd1pQSk9yby9LN2k0VVJYcFZVPVomIiT/////AAAACE9FNS9XWHRlSDV4WUdxRDlBNlpWS0dndXN2OD1lAAAAAMI+AmAAErUBCFcSsAEKHHlqd3NtZVk4RWxOeUJYTFVPS3FlMlVrSFhrRT0SJDhjMjdkOGE2LTZiYzQtNDU0ZS1hYTQ2LWI3YjU5OWJlZDUyOBgAIAAoADCQsv3QiDQ4ncb90Ig0QJ3G/dCINEocaktEOTRVblAzTE9qK3FoU0M4NFB5MTd6RVdRPVonIiX/////AAAACbA4QmsrN2lHbEl2S2ExNXh4eUpKR1RVWmNuMGc9ZYVn7Q/CPgJgBRKsAQhFEqcBChxEM0d1dVdDTGkrWitQU2NtQTNYK2EvQ2VCQU09EiQ4ZWNmYjM2OS05NjkzLTRjN2ItOWU2Ni1iNWExNGYyODU4ZmQYACAAKAAw+s7arbUzOMCyhI20M0DAsoSNtDNKHEZkYXp2MURmVnY2Znp0aEtLUWVWS243am1UYz1aHiIcb0FSbkxlY3Zqb1ZURnE2S0E4dCsreG1ZU1RFPWVD+G2Awj4CYAUSrQEIPRKoAQocWlVDNVVCVmZZaWZjSHB1aGlJYkN0T0NsQ2RNPRIkZmM3OGFlYTEtMjZjMy00MzQwLTljYWItYmY4ZGNiZDE4MDZkGAAgACgAMPDnk6+rMzjp3L/CqDNA6dy/wqgzShxEeUNaT1hDbTBBT3EwdW44a21TNEo4a0p6VzQ9Wh8iHbdoeFpuM1YvbjJIVDZXWmN6U3g3Rk9HTnl5cEE9ZUP4bYDCPgJgBRKuAQgzEqkBChxhcjlDNHpzcUJDTGZaWlU5WEpVRm9BUVFqZms9EiQ5YTA4YzcyNy0zNmM3LTQ4NGYtOTI0MS02NmU0NWU0ODMyZTYYACAAKAAw7MfSqOMzONLu7Z/WM0DS7u2f1jNKHHpnUy9hV0pDZk9jWUVOdkRVTXNESGozM05iMD1aICIe//1UN2UrMzN6aCtieDVZMG5GaFc5em9rd0xHVkU9ZVBCw9LCPgJgBRKuAQgxEqkBChw2TGI1RlRVUklZTmdWZHpYVi9GakR3TWRVa3c9EiQ4ODRkMjI0Yi1iMDEyLTRjM2UtOGI1NS1lYmIxMTdkNmVjMjQYACAAKAAw6NPu5rMzOL3W7uazM0C91u7mszNKHFNMRzBpUXpqeXpTd1JHdExSZWVGRFFobDVadz1aICIe//d4cjdXYi9kQmV5TUNSMTBJaFJjMGFsM2JIS3c9ZQAAAADCPgJgABKsAQg8EqcBChxtVTJ1WFRoMi9KNDkrK2ZpT3pVL1J3a3ZDNDg9EiRhODJlMDE0YS05MmMzLTRjYWItOTgwMC02ZmUzZTQyOGQ2NTMYACAAKAAwidCPiqszOOWPoZuoM0Dlj6GbqDNKHCszYTluMkFxMEJQdGhLbGlyTWNIR093alRTTT1aHiIcbzlLTnZFODIzUDBoRFVjR2JKQWw3cldNMkFZPWVD+G2Awj4CYAUStQEITRKwAQocNE5BbmJ4T3R4Nk9lWUo2TnhMWm9iMnEzaW5RPRIkNWJlMDU0MDQtNzgxMC00MGVlLTg3M2EtODVhODI5NTc1YzBhGAAgACgAMLrRnpS5Mzjd1J6UuTNA3dSelLkzShxDWFpNdlc2azlRSnhsRUV0anVVb2FYZnRjZEU9WiciJf////8AAAAI6WUzM2VpM09GMzFkcWYvY25tUWowaEpIdTk1MD1lAAAAAMI+AmAAErUBCDoSsAEKHEovU2NtV0RyUEpBLy8zVGZuaTJaZWRiWXB5MD0SJDE5M2E3ZDMyLWQ2ZDEtNGY5MC05NjJmLWJkOTU3MjE1MTUzYRgAIAAoADDO8JWbqDM4svOVm6gzQLLzlZuoM0ocQnJwaHNiaDFJTWpHbWR2ekh1MVZzOTZpSTdBPVonIiX/////AAAAB/1ZN0ZzWmJ6NmVHT3c3QkRaZWt0d3VqSkhlQTg9ZQAAAADCPgJgABKuAQg1EqkBChxVV0V3UGpFcUhzSVpBelNqQ0QxMzQvWnh1L2M9EiQ2YWZlMzU1Yi1hZmY4LTQzZTQtYTQ5OS02MzQxY2U4ZDA1YjYYACAAKAAwqOLUqeMzOOGg1KnjM0DhoNSp4zNKHFRndmdpYUVCYTJtVGxSVHhmWFp2WjgxQnFDOD1aICIe//9xOVlzQU5qSnRhZEpaSVo2Z2dtSmtjNlVJcTA9ZVBCw9LCPgJgBRKtAQgqEqgBChwzYXFOZk1JN2g0TGxqWWw1SmRlMkhVRVkvam89EiRjMDQwMTZmYS0xMDM1LTQ0YTgtOGNlNi1hMmU2NWVjMDBiNTkYACAAKAAw8+T56akzONTn+empM0DU5/npqTNKHEtMSTNMNCtwRnhnc25YSEtkUEtoSWlZQzR5UT1aHyId90VPd1NKSFhuVngrbUpZTHpNNEk2aEVFaWpYVT1lhXCxBMI+AmAFEowBCAMShwEKHG5qZ0R1ODhlQ3J2WHA4NnBEN2ZIR2NxRnA4OD0SJGY5Y2U5MTQ0LWI1NTYtNTUyYi1iZWZjLTBmNGY4YzNhNDkxMxgAIAAoADDussLd9i445Ibl/oIwQOSG5f6CMEoceXpOQjAxY241NEE3Y1JVMHVUKy9QZ21UdFVvPWUAAAAAwj4CYAASrQEIKRKoAQocV254c3lKbEtTaVJQOG93R29CWDI3cTV6WEw4PRIkNDMzMmQ0ZDEtMjUwOC00NTM2LTlhNzAtZDEwMGU5ZWE0Yjc1GAAgACgAMNiY9bipMziQiPO0qTNAkIjztKkzShxmd2dvNFBFM21yd3VkNHRUdk5vZHdZSFdGb0E9Wh8iHe9mVkpXazZPeVI4R1BiWUJRejlDRVJnall0bWs9ZUQC1OXCPgJgBRK0AQgYEq8BChxBRzR6bU5DOGlBd2dBcWdLZzV1MitYYXB5KzA9EiRlOTRiZjQyZS0wNzFjLTRlNjQtYTA1Ni0xZGU5MTk5MzRmM2EYACABKAEwlMzEmpk0OJavhu/AMkDDpMOamTRKHDMzWXI1bkJ1bDVZZENkNkljSkZVTWZGeDQ1MD1aJiIk/////wAAAARWMFk3ZytiVi9QL01kVFUwaWNOSVFQKzdOeVE9ZQAAAADCPgJgBRKsAQgnEqcBChxhcG5pSXZWYVAwTlRyTzU2eVZ2ZklXR0tuVHc9EiQ1MGQ0YWEzYi01OTY5LTRiYjktYTI5MC04YzAwZjk5MDIzNjEYACAAKAAwzfrsl5ozOOj0hYeZM0Do9IWHmTNKHGtXSmlTZFNPcHFEdEJ4RURubTJZSjliSzZ0WT1aHiIceURxYW1wckRjOG11RkhRVjlsZE52dDB0RTNrPWVD+G2Awj4CYAUStAEIJRKvAQocUXQ2bFFCZU95eXpSaWxmTncxSHd5VXF2d0xzPRIkMmE4MDJjMzQtZGJjOC00ZDkxLWEyZTktMWJkZDNiMTdkZDRkGAAgACgAMOXYu4SZMzjW27uEmTNA1tu7hJkzShxFZlNTWEhHaU1xelFnT1QvUC8ydDY3NnIvSGc9WiYiJP////8AAAAHY0ZnQzZZQXExaGwxM2d1aVFrYXQxMzF0b1BnPWUAAAAAwj4CYAAStQEINxKwAQocQTRzQTduY01JK21EcHdGb1RHb0pNWXYwWW9nPRIkNDZjMDlhZmEtM2ZmNy00Y2Y5LTkyZWEtOTFhNjJjNzcxMzE3GAAgACgAMM3FiqukMzikyoqrpDNApMqKq6QzShxMeks1cTBOQVdNL3RKSEFFamx6QWdmWDNNclU9WiciJf////8AAAAH2FFIWC9SemQ1ZER5TVN6TUFOc0hoUng0SjZvZz1lQ/htgMI+AmAFEq0BCBMSqAEKHGZlZVB1elMraDdERjdkaUhxcjVhSjVqUGpxWT0SJDkwYzcxNjEyLTNkYmUtNDY2MC05NDIwLTY2NmI4M2VlMjgzZhgAIAEoATCXzMSamTQ45J6TuasxQL+kw5qZNEocZW8xS25ia21YRnQ3aE5Qd0YyT0s4cU5ETi80PVofIh2QK2dmUzlZRm9DU053b2Q4TzJGZlZqbmdLNDZ3PWUAAAAAwj4CYAUStQEIIxKwAQocSVJuVDBqczdGQTlIOVNDUTFuVDVMY2dRTHJjPRIkZjNlNjVmM2EtNWJmOS00ZDU4LTg3ZWQtMmY4NTM4MWIzMjA5GAAgACgAMP3z/53DMzix8qWN5zJAsfKljecyShxFOE9zYm9uRks2d1hoUWs4Y25sQVRuL2dqVGM9WiciJf////8AAAAF9jlWbUlaTHlaeEphNnZmMmdJK2dQN3RSTTFwST1lQ/htgMI+AmAFErUBCCQSsAEKHDFBYTMya1RUMUZhRWwrbmJwWUJ3RFh2TEE5VT0SJDg0ZDNjZDU5LTgyMjEtNDhmZC04YWNiLWUwNjBkZDZlYzkzNBgAIAAoADDs8beEmTM4//y3hJkzQP/8t4SZM0ocWTBFRkRSbGNEczhkSGpzb1VncDRkR3NSZThNPVonIiX/////AAAABv5DcXhtRHVmalVidnlkSmRNcWNIMmVOZHpkZEk9ZUP4bYDCPgJgBRK1AQghErABChwwWGZjK3dQL3VrenZhNUw2WU9ZWU5sU1czOWM9EiQ1ZGM2MDczNC1hNDk3LTQ2MGItYmJhNi0wN2QyMjc5ZTNlMWEYACAAKAAw+9O1rZkzOPqc9ornMkD6nPaK5zJKHEZTQ1hORUNHU3BZMEZnOTlGK3I2a0cySDlGOD1aJyIl/////wAAAAXZYm9iSW1zWllNbkRQSmptUVhzaW5NdCs0NmVjPWVD+G2Awj4CYAUSrgEINBKpAQocQVlrY3h4RlM2Z2luVHVVZEVibTZucUoxYWRnPRIkNzFiOWJlYjEtZTkxYy00YTdhLTkxNzktNjkyM2JiNjYxM2IwGAAgACgAMOaG0t3aMziO69Hd2jNAjuvR3dozShxUTitqTUV1VjJpWW11bllQR0hxU2ovSzRFOHM9WiAiHv/+YUlGc0FkNGFHZXI0aTIrTlJZQ3NpZmxtOFU0PWVQQsPSwj4CYAUStAEIVRKvAQocQytlN3RYQjIxYlVaT0pvc2ppMHNiRjMrKys4PRIkMjBkZGQwNWEtMGQ0My00YmI5LWJiOGEtMjMxNzRlZGNiOTJlGAAgACgAMK7t4ZD7MzjK8eGQ+zNAyvHhkPszShxwcmtoMUxCTVpWVmFDRXp5VDI4VXlIdUtmNWs9WiYiJP////8AAAAJYXZIb0ZKbHFEOEV0K2FhSUFKL0xObk1WUEY0PWUAAAAAwj4CYAASrAEIIBKnAQocYUtzQWdRdmk4ODJMQUpDWkRVZWhYK1BKUXhFPRIkNjgxZTU3YmMtNGM5Mi00YTE2LThkMTEtYmI3NmNmYTc3MDdiGAAgACgAMLTfoMSLMziB8frt2zJAgfH67dsyShxOSWYyZnhWYXB2bnFObVh2c1A0RnkzZ2o4aWs9Wh4iHHNGMGMvZytvVnIxdnFYSy9jVWozSkJER3hSND1levIk/MI+AmAFEq4BCC8SqQEKHC9uU3h6QXJiN21IVHpjOGppS3d0aVl4L1ViYz0SJDM5MThiOTA5LTlmZjctNDIxNC1iNzU0LTk5NGRmMDMwN2U3MBgAIAAoADCDh+6MszM444vujLMzQOOL7oyzM0ocQldUb3JuZFlodmw3Y28zNCtjZkdvbWlId1FvPVogIh7/uzBoQm1MdFFNK0RYMmdQeWVVTTd5L090YUlBOD1lXiEyCcI+AmAFErUBCB0SsAEKHDh2SGU1RlVRcURyTmZsR0JKVVh5YVNJMnNBOD0SJGQ5ZWI0ZmRkLTU2MzktNDVlMS1hYmU3LWVmNDllOGQ2ZGVhYxgAIAAoADDtiJHDiTM4ttnn1c4yQLbZ59XOMkocMEVocUNZNW0zL1JndG9RT0tZWlV6WTI5OVdZPVonIiX/////AAAABPY2VG9IL2h6MjBLdXdPWDlabUtuZFVvS05MdDQ9ZYVn7Q/CPgJgBRK1AQg4ErABChxGNjNPbWhIY2k4RHJjSFNwcUxUUmE2a29tbWs9EiQ5MjBhYTc1My1lODkxLTQyY2MtODI0Yy04ODM4OWQ5MDk4OWMYACAAKAAwnLHXrKQzOKq116ykM0CqtdespDNKHGJodk10QmJDK1pITGJxOVJZeml2RXBXa013MD1aJyIl/////wAAAAfsWnErZU5hRVkzQ1haNXpGYU5DUUN4OVc1Z0drPWVD+G2Awj4CYAUStQEIGxKwAQocYTlFNzBvRWgrUUJFYlQwZVdScnlFY2VIR1hnPRIkMzI2ODEyNTQtYjUwMy00NTFlLWE1YWItMzgyNjBkZjQzNzEzGAAgACgAMLSKmOnOMziB5eD84TJAgeXg/OEyShxCTlFIbkw0SlpvMEhzWkUzTGFUdnhLZnBvSHc9WiciJf////8AAAAEyXM2VGFoMG1tckt0Vi9jeVMzZnQwdTd4Ly9qUT1l7wR63MI+AmAFEq0BCBQSqAEKHEswWHRiRVgycnBlWTdtak1FREkxMGdUQXJ0MD0SJDI5NjJjNjE0LTI2YjctNDQzMi1iZWUyLTkwZTAwN2RiN2UzNBgAIAEoATCTzMSamTQ4xJ2TuasxQL+kw5qZNEocZXJQSStIcVUvN1JvMm9wbjU5TFBObE43c2k0PVofIh21S0FzaWM5NjVHNFAyTUZJUXAyZ09qNFdZVXZNPWUAAAAAwj4CYAUSrAEICRKnAQoca3dmZmNaYTlCKzMxQTdDaCtveTdob2l4cnVvPRIkMzE0ZTk4NDItOWVmYi00YzU1LWFjYWItM2U4NjcyMjc0ZmQxGAAgACgAMIjVm+WsMTjqvpvlrDFA6r6b5awxShxXMDVoMGh5WE9xUm9ic2NhQ242THBxNTBCTUE9Wh4iHE9SNkF6bTIzSnBCL2JQdjI5NC81Z3pzaG5LOD1lPrIz6MI+AmAFErABCBcSqwEKHDQwc0RwOE9CenBrRGdOTkcwMnlLVzBXcDhBND0SJDI3ODMwZWNjLWQ3YjQtNDBlOC1iNGY3LThlNTYzMDRmMTY4YxgAIAEoATCQzMSamTQ45IDYvbkyQMOkw5qZNEocTHk0VkltWDZVc05nRnY3LzZ4dEJlVEdWZVJFPVoiIiD////+aXdRWHBCRzQxeXkvVmlaWEVsWHFMWXNIYlFzPWUAAAAAwj4CYAUSrAEIHxKnAQoccy9jcHBnR2U4WTRBS21DN1YrYmpIZmFGRUZZPRIkYjg4YzA4YTYtZDU0MC00MjNiLTgwNjItZmE0MTViY2YxNmU2GAAgACgAMO63yMOLMzjN6Pft2zJAzej37dsyShxKMnhWcStCSTU4Z2wyRWFTTnRyZWRrelVucmM9Wh4iHGV0Y3NRU2I2QXBvNlVOTDZENXJXbDZFaHNtRT1lFAlVssI+AmAFErUBCCISsAEKHElSazBKTGowQjZMNmhHOTg4dml4UHZJZVhsND0SJDU0NjkxYWYxLTExNDUtNDRjMi04OGZiLThlYjBkODU5MzA5MxgAIAAoADCMsbPv+DI4z+Sdi+cyQM/knYvnMkocQ1ZnWmFCenBvbWlLMEZsSWMvdUdqdkxCejRnPVonIiX/////AAAABexKOUYzLzc2YW1vSE1tSlFPVFlzNHNBUmNBb289Zf2cjErCPgJgBRK1AQgcErABChxsWDZ5eDEvL3hBdUorcUI3bDBSaVhVTEgrRkU9EiQ5OTUwMDY3OC0zNGJkLTQ1ZGQtYmU5ZS04ZmM0NTBhZWZiYzAYACAAKAAwhuCgsc0zOIHqjqDNMkCB6o6gzTJKHENaSWJiSnFHWnE3cGlXRm05aHBiTzhVUGlRdz1aJyIl/////wAAAATteG5TRjhrYnRoaElTSFdUaTVMSndMV3V1RHlJPWVqZO4Swj4CYAUSrQEIERKoAQocZWhxQXJUd1Bvb05XcDBmZFhRTU9BeTJDelU0PRIkNTIwYmU3ODMtMjk4NC00NDZhLTlmODItNGI2YTMzODc5ZmUyGAAgASgBMJHMxJqZNDiG84ix9TNAv6TDmpk0ShxxU1cvSnJsWUZwdlBaeXJRcEg5U1hKdFErUkk9Wh8iHYFBaFZiR3NublNPTkxrRWtLQXFhdjk0RnZoTHM9ZQAAAADCPgJgBRKtAQhGEqgBChxxSENUdE9ueHBScGJuWmR2ZVF1blQzRWlNMXc9EiQ0NjY3NTNmZS0yYjQyLTQ5NTgtODU3Mi0wOTMyMjk1ZTcxYmUYACAAKAAwpfe6w/AzOPDAusPwM0DwwLrD8DNKHG1CMVRRTjJ0WXoyeFJCSTByblpUNVlkTldaYz1aHyIdt2JNM3I1QlFxZDZqaVAwWEZENlFEVElPK0xWVT1lUELD0sI+AmAFEq0BCA0SqAEKHC9nTXBBbzdtVStIK0trNWxmZmp1V091cSt6cz0SJGM0NmZjNjZlLWJhYWEtNDlkYy1iODc1LWZlNzk1NTk4YzczORgAIAEoATCWzMSamTQ4+fCmv+EzQL6kw5qZNEocZ01IRzFaNjVCS0h0bzZLSDB5Vll1ZzdCR2ZVPVofIh1vU3ZWMVlXQ1JEcWhLSUxIVXk1VGt5ODgxMnRVPWUAAAAAwj4CYAUStQEIGhKwAQocUGdqeU5vOFVqcnIzMEpURlRIWGUzVGVRRnVNPRIkZTA0Y2Y1ZDItZGE4My00NDQ3LThmM2QtMmU1ODVlYWY2MjExGAAgACgAMJ3IjMzIMjj/lYjMyDJA/5WIzMgyShwvWFV6cEhmYXpXVnQyKzI1Q042aGgrK0p6Vzg9WiciJf////8AAAAEt0Q3RkJGZHBFcFczY3pDUWlydWRxbFpGZEQwRT1l/ZyMSsI+AmAFErUBCB4SsAEKHGx6YXBqR1NobzgrQXdJYml5QzFnd2xETHdsND0SJGRkZmNkNWJiLTA3OGMtNDdhMy05ODVlLTUxOWExYWM4ZWUxMRgAIAAoADCz8fnt2zI4ovX57dsyQKL1+e3bMkocVVVOb0plUGp0WkVVZm5iYzlVeWIrWTBrTFo4PVonIiX/////AAAABbJjenhOeVRydGNQLzNhQThiRkhJaFFIbGhtS3c9ZQAAAADCPgJgABKuAQgwEqkBChwxQ0tkTlZEdEthRmdoa1VlakN0aVpYRkhicjA9EiQ2OGY5MmEzMC01YWVmLTRhNDUtOGE5Yy1jZWFlMjg0ODU1YTQYACAAKAAwm9bujLMzOJLa7oyzM0CS2u6MszNKHE12cFNWbTFmZmh3ZzdKVHltcmZmR2tkWTJ4UT1aICIe/91XdHFES3N1djhRZlBnemRONlFjcW1TN01CSk09ZV4hMgnCPgJgBRKtAQgPEqgBChxZb0xzeWhBWUJaZm45V1dYY1JrZ0J4M3NqdW89EiQ2ZGEwOGI4OC1kOTA3LTRjY2MtODNlNS04YjIxZTBmZjQ4Y2MYACABKAEwlczEmpk0OK7O9NrjM0C+pMOamTRKHC84WC9oQ0w3MFNnQlVHcVVnKzMyTVd0cGtaTT1aHyIdeGdyOUc3VkREbGpUUHV6azZVektpQXFMTEhUaz1lAAAAAMI+AmAFEqwBCAwSpwEKHENUWE9iZFZaSTdaQjVXK0tqSlR3TG9BbUJSYz0SJDE5YzAwZThlLTdhMTMtNDRiMi04NDZmLTJmMjc0NWJlZjhlZBgAIAEoATCZzMSamTQ4q52TuasxQL6kw5qZNEocZUp1d0VsMWdFUzN2bUl1ZGFKRjV1MWJITnlRPVoeIhxrcUZveHpadHVPbXlTdTNkVHFSRkZGWE01akk9ZQAAAADCPgJgBRKMAQgBEocBChx5eEovNmZ2a2VjcjdrcDVFUXpCNHRXTHBkYkU9EiQ2OWUzMjI1MC03NDA2LTUxYjQtYjA5OC0yNzEyNGU0NTMxZTYYACAAKAAw6bLC3fYuOPaF5f6CMED2heX+gjBKHGFSQ1dMZ2hGOWI1SW5xS0lEdnVKL2p2UWtGYz1lAAAAAMI+AmAAEowBCAIShwEKHFljU1RvbnZFU1B3cUNzNEwyY3JWaHY2OEw5OD0SJDhkN2I4Y2ZiLTg5MjItNTVlNS05ZWJhLWRmMDVhMzBlNjAxMBgAIAAoADDqssLd9i44hobl/oIwQIaG5f6CMEocb1BWa2h3QlJiVjY1S0NXUjIrSU9OSFdvT3U4PWUAAAAAwj4CYAASrQEICxKoAQocSnlTR3U4UnV1Yit2OXZBYksvZFBGUmQrdDhVPRIkYTg1YjU5ZGUtYjBlZC00NTI4LWE4ODUtZjFkYTJjMTBiMjA4GAAgACgAMJnZ5YGiMzj1oJO5qzFA9aCTuasxShxqeGJwUXhMR2dyTWJUR0V5NWZ5dEJuaWVrajA9Wh8iHbZJaXpKSXBaSnBkVzRhTWJKV3loY0lXQjBsT2c9Zdpp3l3CPgJgBRK1AQg2ErABChxuVERwWVkwWjFDdmd5NkM5dG8wd3B2cnZKUFk9EiRkNGJkOGRiYy05OThlLTQ3NDEtOGJiNi0zNWE4Y2ZmZGY5MTMYACAAKAAwztKphqMzOJqYqYajM0CamKmGozNKHGFmMW9yNVN0M3hUYTZLbVFvM3Jham9KZjg2ST1aJyIl/////wAAAAexS1hrRHZlcFRkSlVqbXRXQnQ5VHI1NHlkT1ZRPWVD+G2Awj4CYAUSrAEIUxKnAQocdERZQklKa3ozWnpUbTVka1RmdlNWS2JaelprPRIkMTNhY2NmNTUtYTNiOC00M2Y1LWE2NTEtN2ExZDA1MzM2MjU3GAAgACgAMN3Cx73VMzjPu8W91TNAz7vFvdUzShxpS21pZlN2RGt0M3p5d1dtNEtVeHBHY2VSQkE9Wh4iHE5IeGxNRWduRVhWWWZtejJIbEtHK24yNW4vTT1lU1T/jsI+AmAFErUBCDkSsAEKHFdkSlNvZlR2ODNkVE5zV1ZxbVJwRDUvQVUyYz0SJGIxZDNhZTc1LWJhYTMtNGUxNi04MDkyLTViZGFlNTA5NzNhNBgAIAAoADDZ/J3UpDM4uIOe1KQzQLiDntSkM0ocUE5nVVJacGZNMjVjZkR5TDl6MEhPRUY3S3hJPVonIiX/////AAAAB/ZHS1QwZlV0RTIyZ2M0UDhtZURIemRDT3RJb2M9ZUP4bYDCPgJgBRKtAQgOEqgBChxwS0tvcTRYaCtSeWd3T2FpK0xlN2NYYTlUc3c9EiQyMzY3Y2UzZS02MWVmLTQ4ODYtYjcxZS0zZDBmOGM4MDgyYTQYACABKAEwmszEmpk0OOr0lJj7M0C+pMOamTRKHDBjVEM4Q3BPMzZpa2JaN0NFNGUrRU1pMnlOST1aHyIddGhhL3dLd2QzYlFEcnVWMzEvTWtLTUhuVHhTTT1lAAAAAMI+AmAFEqwBCDsSpwEKHEVBUkUxV1BWM2Jkcjg1cEo2ZzNrMXBIdWVpRT0SJDZkODg4YjIyLWQ5NjEtNGRjZi04MGVjLTY3ZGUwOWUzZmZiNhgAIAAoADDP8JWbqDM4noiVm6gzQJ6IlZuoM0ocZTlXOXJNMmtwakpwVmswbnBOU1E4T3pHeUJNPVoeIhxNUGlQMHhsZnJKWksrOTdRNlhQSC9OUnlFTzA9ZUP4bYDCPgJgBRKtAQgSEqgBChxjcUd1NUpQZWZMRUVHck9pYWFuUUQxY3VmVFU9EiQ5MGM3OTc0OS1kZDE4LTQ1ZTItODU4My1mNjIxZGZkMThjY2UYACABKAEwmMzEmpk0OKDAlP/uM0C/pMOamTRKHFZCMTFYdjNFcHBURHcvNDIySjFXMkh5UWEvWT1aHyIdhk9YaVdQN1hGZG81WVdBUHVBWkpuZW9pWU1oND1lAAAAAMI+AmAFEq0BCCgSqAEKHFZlOFNBTHRpVUROLzVHQ3hGVTNqY1JjTVhBND0SJDg3N2EyM2I2LTdkNmMtNGUwNy1iMTE1LWIzZjE1MGI1NjBjMBgAIAAoADDk9J7onTM4rfme6J0zQK35nuidM0ocOWdMWElIVHg3ZmpYblRBYmxCNXFmcWxOVEo4PVofIh3ec29XRnQrbkxzc1pPZW9kMnk1QW51M1dPbCtNPWUAAAAAwj4CYAUSrAEIBxKnAQocdUJpalhCT0s5ZlhjNDF5L291MUJKZmh6Z2x3PRIkYmMwYzFjNDMtZmI1ZS00ZTkxLThjZTMtNmMzOGE1YjZlMmU4GAAgACgAMIaak7mrMTi1npO5qzFAtZ6TuasxShwzYkIvTXB3MHFvaCtmczFlZGRoREd2RXpuS1E9Wh4iHEd2ZkVrWTJGSjVFaStWQitCUlNpT2hDc3ZFWT1lAAAAAMI+AmAAEq0BCD4SqAEKHHVVckp4V2xsK3NSY2VTdEVnb2hCc3pHYWFXYz0SJDNlNTQ5NjM3LTA1YmQtNGQ2OC05ZWI0LTBmZjhlMTdmNDQwZRgAIAAoADDaitXCqDM4ho7VwqgzQIaO1cKoM0ocN2k0ZmhFZEVHTkRKL0kxTWpEUmVxVkNvTWZzPVofIh3bZDBBZzZiU2hZUy80LzFFRXZwUWZKVFYvYU9ZPWVD+G2Awj4CYAUSrAEIChKnAQocRURadVhMOHdjbWtzU09BM0UzNnhqNFY4VXhJPRIkNWExNjg5ZWUtOGI3MC00MzA1LThkZTItNzY5Nzg5OTY5YzE4GAAgACgAMIqak7mrMTi+oJO5qzFAvqCTuasxShxJSVNWZ3FidE4xeU9lbFR4ZllUSnhJdlBXbmM9Wh4iHGhDVHVKUHo1K3RwaVRsR0t5K0JJR0drZkVtYz1lAAAAAMI+AmAAEq4BCDISqQEKHGxTdHFjWDdqSDV2SkRQbXVvTW9sQllwWFFGVT0SJGNiMjM1MjFjLTFmMzktNGU3My04Nzk4LWQwMDM2NzI3YjAzMxgAIAAoADCH6rWiijQ4lsaDpbczQJbGg6W3M0ocaUEyck0wckZyK0ZuVE1adTRqTXVtVlZPM2U0PVogIh7/+2JvUmZSdnRnYnAxdFVxRmE0M05QSU80Ri9qdz1lUELD0sI+AmAFEq0BCC0SqAEKHGRyT2NzWll4MDdUSjFFd0RhNGRndytpNHRBND0SJDMxNzYwYTM2LTUzMzItNGVkZS04MDg3LTk3ZTk2YzI2NDZhNxgAIAAoADCLncGBrDM45qLBgawzQOaiwYGsM0occC9NbHZ0WUxMa09YWFpKMWJ5NEYraDRrbHFFPVofIh3+YXZmRXBnR0p1UWRtaU9xaEQyR1NhN1pyZ2VzPWVD+G2Awj4CYAUSrQEIFhKoAQocTENITWZlWm5aT2Vtdko0RWRtMVJkOVBTVGRZPRIkMGJhZjY2OTItMTRhYi00MGFkLWFjNGUtNzU2NzI5MzM4NGIzGAAgASgBMJLMxJqZNDjT/PSR0zFAv6TDmpk0Shw4UE9vVFU4eWt2U0szSFF4eVlCNCtTSlB0RnM9Wh8iHftnSldqWDBqWGNMOXdOMUVJcWRJUWtRM2JYdmM9ZQAAAADCPgJgBRKtAQgQEqgBChxpb0ZGVTM3YXBOeElIeWh0bmJ4amkrejN4YlE9EiQ5NTVmMWVmOS02YjU2LTRjMWUtOGE3My01Y2Q0NmVjNmJhZTEYACABKAEwjszEmpk0OLq1muvgM0C+pMOamTRKHGthQVhtTU5NZHpKYXJ1V1dKalE3aXpXRmwwaz1aHyIdfU5udFZ2N1BnWFB2VDBpS2NpSGppYTU2UURQMD1lAAAAAMI+AmAFEq0BCCsSqAEKHER1K3NnRHdzbUFVMUczektITlZvSTFmcVpRaz0SJGU3NGVhMDc1LWIwMDAtNDI4Ni1iMWYzLWZkMDMwYmJiZWM4ZRgAIAAoADC3i4KewzM4lsbC36ozQJbGwt+qM0ocSmRmYWs2eXlENktGcU5qTUozTEgzWGEyZzhJPVofIh37WHhSZzcxZWdtVFZoUWE3bzZKQVZMWE4yb3B3PWVD+G2Awj4CYAUStQEITxKwAQocUEpHd01mVnlxclpUQTZHa25lS1J1YStEL1pNPRIkYzIxMGMxYTctYzY5YS00YjY5LTk5NWMtNDEwOGEyMzRkYzRhGAAgACgAMPnh+p3DMzjh5PqdwzNA4eT6ncMzShwwYjVFQ0FFZWZLVzQxRmNQNTYwWDVhbWJjcVU9WiciJf////8AAAAI9Fpndys0aUpvK3FkbDY1OW92dFJ3SFFlOEMyRT1lAAAAAMI+AmAAEq0BCEISqAEKHDZ0Z0kyUGhOcTAyQ1RRTHRidlNiQ1VsUzRwRT0SJDU3YjAwODZiLWU4MWEtNGVkMC05YWZmLWU2MTRiODhlYzk3NRgAIAAoADDBroPsqDM4t7mD7KgzQLe5g+yoM0ocdFVncnlaRnk3NHEzRk42cEwyZDV5YmpIOFNzPVofIh39bXZKMFp1bE5BbWhZaEYzakt5WENJVGIwRFk4PWVD+G2Awj4CYAUSrQEILhKoAQocWlg1eWJTdDNlZkg3YW9KQkUvN0V6NjBqa1FnPRIkMjE3MWQ4Y2YtMjgyYS00MGJlLTk0ZDMtZThhYmNmMzZiYjlhGAAgACgAMJXpg6fjMziW2p7rsjNAltqe67IzShxaTWNVTTk5ck9lakZrbXdiSEUyOWRpaUdGanM9Wh8iHf92OXFQbkdFcC9RMG10Z0cvWTB5N1NrK3ZVZkU9ZVBCw9LCPgJgBRKtAQg/EqgBChxycVk1elVMb1BHV2JuOU9PWEd4WmxrZ3drRmc9EiRlNzM3NjlhZS0zODcwLTRiZGEtOWVlZi03ZjNhYTQxMjc4ZDcYACAAKAAwleThhaszOJO83sKoM0CTvN7CqDNKHDhVZmVZTXFVb29uNjZUa0RWaG8wa0lpdXJWQT1aHyId7UpnaGdpSzYyZ2hiYk5pVzd4dEdLSTEvRVBKVT1lQ/htgMI+AmAFEq0BCCwSqAEKHGlaSHA0RkJieVk4c2VTNWZJUHZoeGdNT0tyZz0SJDUyMDI5MDYyLTJmYWQtNGJmMy1hODUxLTdiOTYzNmU4M2M0NRgAIAAoADCj+LeBrDM46/q3gawzQOv6t4GsM0ocblY5aGlqZmh1TXVIczJlazF4UkpHV0hsL2pvPVofIh39RU5vNWxWbG5MMmRLalVYL2VCNmpBOTBsc2M4PWVD+G2Awj4CYAUStQEIVBKwAQocZTZCS1JQY3l1Y0hjb2x0UnJueVdXV2JTOFgwPRIkMWE4YmEwODItOWY1Ni00MGZlLThmNjQtZWE3ZjI5ZDAyMzJjGAAgACgAMMK4l9vsMziNmu7a4zNAjZru2uMzShw3WEs5RlpLOW8ybjlIN2xSbXJqSk5vQTlzTUE9WiciJf////8AAAAI/WNLMDJLbzgxaUpnQU9Kcko1MmROUDJSM2h5ND1lXXgxV8I+AmAFEq0BCBUSqAEKHExhWUxibVQyZUk5MnFaL2R6aFcvc3NGUTZacz0SJDU3MGI5ODBiLWI5NzctNGRiZC04YmFiLWU4Y2Y2NjExMDYxZhgAIAEoATCPzMSamTQ4o9/xx+IxQL+kw5qZNEocbHBONS9mbUxOdlY3Tit1THpjMVZ2LzBVQVFzPVofIh3VU3AyWjNtZVZLNk1Xd1B1TFAyR2pzMlpYTzhZPWUAAAAAwj4CYAUSjAEIBRKHAQocd1JCclpMKzZQQTlhdktnak5QN0pYRExjZnZzPRIkYTY3NDAyODctZDQyOC01ZjIyLWE5MzUtN2FmOTkyZDI1ODI1GAAgACgAMMjD2YGiMziaxtmBojNAmsbZgaIzShxubXg2NXNRRHZ4SThUZ0VlditBK250dG9TbjQ9ZQAAAADCPgJgABK0AQgZEq8BChxIMGpFdk5lVUhWdTE4eXFVU2NtM2s1TDdoL289EiRlZGUyMTMwMi05ODBhLTRkMmUtODE0MS0xNjUxNjI5YWJiMWIYACAAKAAw08XmwKMzOJiriKnEMkCYq4ipxDJKHFU2L1hYN05XWGVqVlJqTDRqRWx6UkZCMnI5bz1aJiIk/////wAAAARuYnA0bGgxdm1LaWxEN1kzb3owZlJiN1NtSjQ9ZUP4bYDCPgJgBRKsAQgmEqcBChxVV0pFYk01cC9JL1V1T2tCQk43Z2xXdnNJams9EiRkMWIyYTRjMC1lMThjLTQ2MTUtYjNkNi1kYWE2ZjU1ZjJjYjgYACAAKAAw94L0uKkzOLb9uoSZM0C2/bqEmTNKHDMrVVZSSGxMOEtxaVpPalV2bUFnZXhZSWNXMD1aHiIcV0dReC9xVmk1MG1EL1dQS1pqM096TDYrZHRnPWVD+G2Awj4CYAUSrAEICBKnAQocZHdZTi9wMmlZUjY1bnZWeXdURXVwWVdsNERrPRIkZTA3MDY1MzctZGVhZC00YTM4LTgyOTItMzJlNmE0MGUyMWRlGAAgACgAMIKSp7/hMzjFhvm5qzFAxYb5uasxShxQK3JmdTI0YXFUaW12Ty9IRmtZcEhMRkVXaUE9Wh4iHEZvMmZuelZMZlk0Vllrd0lsdkRBSDZ5NUNBWT1lzqXDjcI+AmAFMAA4AA==",
+   "version": 1
+}

@@ -1,0 +1,703 @@
+{
+   "1010": {
+      "message": "Luo uusi"
+   },
+   "1109": {
+      "message": "Ei hakutuloksia"
+   },
+   "111": {
+      "message": "Järjestelmä ei voi suorittaa toimenpidettä nyt. Yritä myöhemmin uudelleen."
+   },
+   "1301": {
+      "message": "Asetukset"
+   },
+   "1343": {
+      "message": "Tallennettu omaan kirjastoon"
+   },
+   "1441": {
+      "message": "Edellinen"
+   },
+   "1442": {
+      "message": "Seuraava"
+   },
+   "1462": {
+      "message": "Sulje"
+   },
+   "1463": {
+      "message": "Lähetä"
+   },
+   "1484": {
+      "message": "Edellinen sivu"
+   },
+   "1485": {
+      "message": "Seuraava sivu"
+   },
+   "1486": {
+      "message": "Loitonna"
+   },
+   "1487": {
+      "message": "Lähennä"
+   },
+   "1488": {
+      "message": "Sovita korkeuteen"
+   },
+   "1489": {
+      "message": "Sovita leveyteen"
+   },
+   "1490": {
+      "message": "Kierrä"
+   },
+   "1491": {
+      "message": "Tallenna omaan kirjastoon"
+   },
+   "1492": {
+      "message": "Lataa"
+   },
+   "1493": {
+      "message": "Tulosta"
+   },
+   "1494": {
+      "message": "Lisää"
+   },
+   "1513": {
+      "message": "Pikkukuvat"
+   },
+   "1514": {
+      "message": "Tiivistä kaikki"
+   },
+   "1515": {
+      "message": "Laajenna kaikki"
+   },
+   "1542": {
+      "message": "Google Scholar"
+   },
+   "1617": {
+      "message": "Hae Googlesta"
+   },
+   "1618": {
+      "message": "Google Scholar ‑kirjasto"
+   },
+   "1620": {
+      "message": "Tulosten noutamisessa tapahtui virhe. Yritä myöhemmin uudelleen."
+   },
+   "1621": {
+      "message": "Haetaan Scholarista…"
+   },
+   "1623": {
+      "message": "Tallenna Scholar-kirjastoon"
+   },
+   "1626": {
+      "message": "Dokumentin ominaisuudet"
+   },
+   "1627": {
+      "message": "Avaa Chrome-katseluohjelmassa"
+   },
+   "1628": {
+      "message": "Näytä enemmän"
+   },
+   "1629": {
+      "message": "Näytä vähemmän"
+   },
+   "1630": {
+      "message": "Kirjaudu sisään"
+   },
+   "1631": {
+      "message": "Tallennettu $ANCHOR_BEGIN$Omaan kirjastoon$ANCHOR_END$",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1632": {
+      "message": "Tallennetaan Omaan kirjastoon…"
+   },
+   "1633": {
+      "message": "Artikkelia ei löydy Scholarista."
+   },
+   "1635": {
+      "message": "Tiedostonimi"
+   },
+   "1636": {
+      "message": "Tiedoston koko"
+   },
+   "1637": {
+      "message": "Otsikko"
+   },
+   "1638": {
+      "message": "Kirjailija"
+   },
+   "1639": {
+      "message": "Aihe"
+   },
+   "1640": {
+      "message": "Avainsanat"
+   },
+   "1641": {
+      "message": "Luotu"
+   },
+   "1642": {
+      "message": "Muokattu"
+   },
+   "1643": {
+      "message": "Sovellus"
+   },
+   "1644": {
+      "message": " PDF-luontiohjelma"
+   },
+   "1645": {
+      "message": "PDF-versio"
+   },
+   "1646": {
+      "message": "Sivumäärä"
+   },
+   "1647": {
+      "message": "Sivun koko"
+   },
+   "1648": {
+      "message": "pystysuunta"
+   },
+   "1649": {
+      "message": "vaakasuunta"
+   },
+   "1650": {
+      "message": "neliö"
+   },
+   "1651": {
+      "message": "Vaihtelee"
+   },
+   "1652": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ tuumaa ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1653": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_WIDTH": {
+            "content": "$3"
+         }
+      }
+   },
+   "1654": {
+      "message": "Nopea verkkonäkymä"
+   },
+   "1655": {
+      "message": "Kyllä"
+   },
+   "1656": {
+      "message": "Ei"
+   },
+   "1660": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1661": {
+      "message": "$PAGE_WIDTH$ × $PAGE_HEIGHT$ mm ($PAGE_SIZE_NAME$, $PAGE_ORIENTATION$)",
+      "placeholders": {
+         "PAGE_HEIGHT": {
+            "content": "$1"
+         },
+         "PAGE_ORIENTATION": {
+            "content": "$2"
+         },
+         "PAGE_SIZE_NAME": {
+            "content": "$3"
+         },
+         "PAGE_WIDTH": {
+            "content": "$4"
+         }
+      }
+   },
+   "1662": {
+      "message": "Kirje"
+   },
+   "1663": {
+      "message": "Lakiasiat"
+   },
+   "1664": {
+      "message": "Tabloid"
+   },
+   "1668": {
+      "message": "PDF-dokumentinlataaminen epäonnistui."
+   },
+   "1669": {
+      "message": "Päivitä"
+   },
+   "1670": {
+      "message": "Virhe"
+   },
+   "1673": {
+      "message": "Salasana on pakollinen"
+   },
+   "1674": {
+      "message": "Tämä asiakirja on suojattu salasanalla. Lisää salasana."
+   },
+   "1675": {
+      "message": "Tulosta PDF-asiakirja työkalurivin Tulosta-painikkeella."
+   },
+   "1676": {
+      "message": "Väärä salasana."
+   },
+   "1677": {
+      "message": "Scholarin PDF-lukija ei vielä tue lomakkeiden täyttämistä."
+   },
+   "1678": {
+      "message": "Google Scholarin PDF-lukija"
+   },
+   "1698": {
+      "message": "Sisältö"
+   },
+   "1702": {
+      "message": "Ota Scholar Reader käyttöön"
+   },
+   "1703": {
+      "message": "Jos haluat lukea paikallisia PDF-tiedostoja Google Scholar ‑lukijalla, ota tiedostojen URL-osoitteet käyttöön asetuksissa ja päivitä sitten PDF-tiedosto."
+   },
+   "1704": {
+      "message": "Avaa asetukset"
+   },
+   "1707": {
+      "message": "Näyttötila"
+   },
+   "1711": {
+      "message": "Koko näyttö"
+   },
+   "1712": {
+      "message": "Vaalea tila"
+   },
+   "1713": {
+      "message": "Tumma tila"
+   },
+   "1714": {
+      "message": "Yötila"
+   },
+   "1715": {
+      "message": "Katso Viitteissä"
+   },
+   "1716": {
+      "message": "Jos haluat ottaa käyttöön Scholar-kirjastoon tallentamisen, laajenna PDF koko näytölle."
+   },
+   "1717": {
+      "message": "Laajenna"
+   },
+   "1718": {
+      "message": "Ei nyt"
+   },
+   "1723": {
+      "message": "Ota tulostus käyttöön avaamalla PDF Chrome-katseluohjelmassa."
+   },
+   "1724": {
+      "message": "Avaa"
+   },
+   "1726": {
+      "message": "Tehosta tutkielmien lukemista: seuraa viittauksia, selaa asettelua, siirry kuvioihin, lisää viittaus ja tallenna."
+   },
+   "1732": {
+      "message": "Laitteen tila"
+   },
+   "1734": {
+      "message": "Ilmoita ongelmasta"
+   },
+   "1741": {
+      "message": "Osiot"
+   },
+   "1742": {
+      "message": "Tekoälyhahmotelma"
+   },
+   "1744": {
+      "message": "Tekoälyhahmotelman asetukset"
+   },
+   "1745": {
+      "message": "Pyydä Scholarilta tekoälyhahmotelmaa:"
+   },
+   "1746": {
+      "message": "Vain kun klikkaat $ICON$",
+      "placeholders": {
+         "ICON": {
+            "content": "$1"
+         }
+      }
+   },
+   "1748": {
+      "message": "Automaattisesti, kun avaat PDF-tiedoston"
+   },
+   "1749": {
+      "message": "Tekoälyhahmotelmat ovat saatavilla vain valituille artikkeleille"
+   },
+   "1750": {
+      "message": "Otetaanko tekoälyhahmotelma käyttöön kaikille PDF-tiedostoille?"
+   },
+   "1751": {
+      "message": "Reader yrittää löytää PDF-tiedoston Scholarista voidakseen näyttää hahmotelman"
+   },
+   "1752": {
+      "message": "Tietoa tekoälyhahmotelmasta"
+   },
+   "1753": {
+      "message": "Artikkelien osioiden tärkeimmät kohdat"
+   },
+   "1754": {
+      "message": "Tekoälyhahmotelmissa esitellään dokumentin pääosien tärkeimmät kohdat."
+   },
+   "1755": {
+      "message": "Selaa hahmotelmaa tai siirry yksityiskohtiin"
+   },
+   "1756": {
+      "message": "Näet nopeasti yhteenvedon tärkeimmistä kohdista ja lukea niitä lisää klikkaamalla."
+   },
+   "1757": {
+      "message": "Tekoälyhahmotelmat ovat saatavilla vain tietyille Scholarin tutkimusartikkeleille. Hahmotelmat on luotu tietokoneohjelmalla, ja niiden tiedot voivat olla puutteellisia tai epätarkkoja."
+   },
+   "1758": {
+      "message": "Uusi"
+   },
+   "1759": {
+      "message": "Tekoälyhahmotelma ei ole saatavilla tälle PDF-tiedostolle."
+   },
+   "1760": {
+      "message": "Tekoälyhahmotelma on luotu tämän PDF-tiedoston toisesta versiosta."
+   },
+   "1766": {
+      "message": "Chromen asetukset"
+   },
+   "1768": {
+      "message": "Automaattisesti, kun avaat PDF-tiedoston useimmilla akateemisilla sivustoilla"
+   },
+   "1773": {
+      "message": "Korostukset"
+   },
+   "1775": {
+      "message": "Korosta"
+   },
+   "1778": {
+      "message": "Kommentit"
+   },
+   "1779": {
+      "message": "Kohokohdat ja kommentit näkyvät täällä"
+   },
+   "1781": {
+      "message": "Yritä uudelleen"
+   },
+   "1783": {
+      "message": "Scholar-kirjastosi on täynnä"
+   },
+   "1785": {
+      "message": "Avaa kirjasto"
+   },
+   "1786": {
+      "message": "Hylkää"
+   },
+   "1787": {
+      "message": "Scholar-tilisi on poistettu"
+   },
+   "1788": {
+      "message": "Palauta tilisi, jotta voit korostaa ja kommentoida tekstiä PDF-tiedostossa."
+   },
+   "1790": {
+      "message": "Jos suljet tämän sivun tai lataat sen uudelleen, tallentamattomat muutokset menetetään."
+   },
+   "1791": {
+      "message": "Palvelinvirhe"
+   },
+   "1793": {
+      "message": "Ohita"
+   },
+   "1794": {
+      "message": "Selain on offline-tilassa"
+   },
+   "1796": {
+      "message": "Yritä uudelleen"
+   },
+   "1797": {
+      "message": "Laitteesi on täynnä"
+   },
+   "1800": {
+      "message": "Kirjaudu Google-tilillesi, jotta voit tallentaa korostuksia ja kommentteja."
+   },
+   "1801": {
+      "message": "Vapauta tilaa Scholar-kirjastosta, jotta voit tallentaa korostuksia ja kommentteja."
+   },
+   "1802": {
+      "message": "Kirjaudu sisään tilille $EMAIL_ADDRESS$, jotta voit tallentaa korostuksia ja kommentteja.",
+      "placeholders": {
+         "EMAIL_ADDRESS": {
+            "content": "$1"
+         }
+      }
+   },
+   "1803": {
+      "message": "Korostuksia tai kommentteja ei voitu tallentaa Scholar-kirjastoon. Yritämme tallentaa myöhemmin uudelleen."
+   },
+   "1804": {
+      "message": "Yhdistä internetiin, jotta voit tallentaa korostuksia ja kommentteja. Yritämme tallentaa myöhemmin uudelleen."
+   },
+   "1805": {
+      "message": "Vapauta tallennustilaa laitteelta, jotta voit tallentaa korostuksia ja kommentteja. Muuten muutoksia ei tallenneta."
+   },
+   "1806": {
+      "message": "Synkronoidaan…"
+   },
+   "1807": {
+      "message": "Synkronointi epäonnistui"
+   },
+   "1808": {
+      "message": "Korostusten ja kommenttien synkronoinnissa tapahtui virhe."
+   },
+   "1809": {
+      "message": "Laitteella ei verkkoyhteyttä"
+   },
+   "1810": {
+      "message": "Yhdistä internetiin, jotta voit nähdä korostukset ja kommentit."
+   },
+   "1811": {
+      "message": "Kirjaudu sisään, jotta voit nähdä korostukset ja kommentit."
+   },
+   "1812": {
+      "message": "Tallentamattomia muutoksia"
+   },
+   "1813": {
+      "message": "Kopioi tekoälyasettelu"
+   },
+   "1814": {
+      "message": "$BOLD_ANCHOR_BEGIN$Scholar PDF Readerin$BOLD_ANCHOR_END$ luoma tekoälyasettelu",
+      "placeholders": {
+         "BOLD_ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "BOLD_ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1815": {
+      "message": "Tekoälyasettelu kopioitu leikepöydälle"
+   },
+   "1816": {
+      "message": "Korostukset tallennetaan $ANCHOR_BEGIN$Scholar-kirjastoon$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1817": {
+      "message": "Kommentit tallennetaan Scholar-kirjastoon."
+   },
+   "1818": {
+      "message": "Tuntematon otsikko"
+   },
+   "1819": {
+      "message": "Etsi Scholarista"
+   },
+   "1822": {
+      "message": "Kommentti"
+   },
+   "1823": {
+      "message": "Vaihda väri"
+   },
+   "1824": {
+      "message": "Tallennettu $ANCHOR_BEGIN$kirjastoosi$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1825": {
+      "message": "Valitse teksti, jonka haluat korostaa tai kommentoida."
+   },
+   "1826": {
+      "message": "Korostukset tallennetaan $ANCHOR_BEGIN$Scholar-kirjastoon$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1827": {
+      "message": "Korosta PDF-tiedostoja"
+   },
+   "1830": {
+      "message": "Kohokohdat tallennetaan verkkoon"
+   },
+   "1831": {
+      "message": "Korostukset ja kommentit tallennetaan $ANCHOR_BEGIN$Scholar-kirjastoon$ANCHOR_END$.",
+      "placeholders": {
+         "ANCHOR_BEGIN": {
+            "content": "$1"
+         },
+         "ANCHOR_END": {
+            "content": "$2"
+         }
+      }
+   },
+   "1832": {
+      "message": "Käytä kohokohtia missä tahansa"
+   },
+   "1833": {
+      "message": "Korostukset näkyvät PDF Readerissa, kun olet kirjautuneena sisään."
+   },
+   "1834": {
+      "message": "Siirry Omaan kirjastoon"
+   },
+   "1862": {
+      "message": "Yhteyden muodostaminen selaimen tallennustilaan ei onnistu"
+   },
+   "1863": {
+      "message": "Korostukset on poistettu käytöstä tässä selaimessa, mutta muut PDF-lukuominaisuudet toimivat edelleen."
+   },
+   "1864": {
+      "message": "Jos haluat käyttää korostuksia, kokeile käynnistää selain tai laite uudelleen."
+   },
+   "1865": {
+      "message": "Yhteyden muodostaminen selaimen tallennustilaan ei onnistu. Kokeile käynnistää selain tai laite uudelleen."
+   },
+   "1866": {
+      "message": "Synkronointi selaimen tallennustilaan ei onnistu"
+   },
+   "1867": {
+      "message": "Korostusten synkronoinnissa selaimen tallennustilaan tapahtui virhe. Kokeile käynnistää selain tai laite uudelleen."
+   },
+   "1868": {
+      "message": "Selaimen tallennustila on täynnä"
+   },
+   "1869": {
+      "message": "Jos haluat käyttää korostuksia, yritä vapauttaa tilaa laitteelta."
+   },
+   "1870": {
+      "message": "Selaimen tallennustila on täynnä. Yritä vapauttaa tilaa laitteelta."
+   },
+   "1871": {
+      "message": "Jos haluat käyttää korostuksia, päivitä korostusten välimuisti. Tässä voi mennä hetki."
+   },
+   "1872": {
+      "message": "Päivitä välimuisti"
+   },
+   "1873": {
+      "message": "Korostusten synkronoinnissa selaimen tallennustilaan tapahtui virhe. Kokeile päivittää korostusten välimuisti. Tässä voi mennä hetki."
+   },
+   "1874": {
+      "message": "Liian paljon korostuksia"
+   },
+   "1875": {
+      "message": "Et voi lisätä enempää korostuksia kirjastoosi."
+   },
+   "1876": {
+      "message": "Jos haluat lisätä korostuksia, poista ensin joitain."
+   },
+   "1877": {
+      "message": "Hylkää muutokset"
+   },
+   "1882": {
+      "message": "Korostuksia liian monessa versiossa"
+   },
+   "1883": {
+      "message": "Voit lisätä korostuksia enintään kolmeen saman artikkelin versioon."
+   },
+   "1884": {
+      "message": "Jos haluat lisätä korostuksia tähän versioon, poista korostuksia toisesta versiosta."
+   },
+   "1885": {
+      "message": "Muokkaa korostuksia"
+   },
+   "1888": {
+      "message": " Näytä kirjastossa"
+   },
+   "1918": {
+      "message": "Tämän URL-osoitteen sisältö on muuttunut. Edellisessä versiossa on korostuksia."
+   },
+   "535": {
+      "message": "Scholar-haku"
+   },
+   "551": {
+      "message": "Poista artikkeli"
+   },
+   "59": {
+      "message": "Viittaa"
+   },
+   "625": {
+      "message": "Ladataan..."
+   },
+   "626": {
+      "message": "Sivu $PAGE_NUMBER$",
+      "placeholders": {
+         "PAGE_NUMBER": {
+            "content": "$1"
+         }
+      }
+   },
+   "64": {
+      "message": "Tallenna"
+   },
+   "644": {
+      "message": "Valmis"
+   },
+   "649": {
+      "message": "Ohita"
+   },
+   "732": {
+      "message": "Oma kirjasto"
+   },
+   "907": {
+      "message": "Palauta tili"
+   },
+   "920": {
+      "message": "Haku"
+   },
+   "924": {
+      "message": "Lisää tunniste:"
+   },
+   "96": {
+      "message": "Poista"
+   },
+   "965": {
+      "message": "Sopiihan se"
+   },
+   "966": {
+      "message": "Ei kiitos"
+   },
+   "chrome_client_3269861059707096562": {
+      "message": "Salli tiedostojen URL-osoitteiden käyttö"
+   }
+}

@@ -1,0 +1,756 @@
+{
+   "about": {
+      "message": "О нас"
+   },
+   "actions": {
+      "message": "Действия"
+   },
+   "add": {
+      "message": "Add"
+   },
+   "ai_overlay_close": {
+      "message": "Закрыть"
+   },
+   "ai_overlay_copied": {
+      "message": "Скопировано"
+   },
+   "ai_overlay_copy": {
+      "message": "Копировать"
+   },
+   "ai_overlay_error_generic": {
+      "message": "Что-то пошло не так."
+   },
+   "ai_overlay_error_unavailable": {
+      "message": "ИИ на устройстве недоступен на этом устройстве."
+   },
+   "ai_overlay_same_language": {
+      "message": "Обнаружен тот же язык."
+   },
+   "ai_overlay_summarizing": {
+      "message": "Суммирование…"
+   },
+   "ai_overlay_toggle_theme": {
+      "message": "Сменить тему"
+   },
+   "ai_overlay_translating": {
+      "message": "Перевод…"
+   },
+   "all_extensions": {
+      "message": "Все расширения ($ENABLED$/$TOTAL$)",
+      "placeholders": {
+         "enabled": {
+            "content": "$1"
+         },
+         "total": {
+            "content": "$2"
+         }
+      }
+   },
+   "anti_clickjacking": {
+      "message": "Анти-кликджекинг"
+   },
+   "anti_clickjacking_desc": {
+      "message": "Предупреждать о перехвате кликов iframe"
+   },
+   "app_description": {
+      "message": "J2TEAM Security помогает защитить от атак фишинга."
+   },
+   "app_name": {
+      "message": "J2TEAM Security"
+   },
+   "are_you_sure": {
+      "message": "Вы уверены?"
+   },
+   "auto_activate_on_domains": {
+      "message": "Auto-activate on domains"
+   },
+   "back_to_top": {
+      "message": "Наверх"
+   },
+   "backup": {
+      "message": "Резервная копия"
+   },
+   "backup_description": {
+      "message": "Нажмите кнопку ниже, чтобы скачать список всех установленных расширений в виде текстового файла."
+   },
+   "backup_file_header": {
+      "message": "Список ваших расширений, резервная копия от J2TEAM Security:"
+   },
+   "block_facebook_pixel": {
+      "message": "Блокировать Facebook Pixel"
+   },
+   "block_facebook_pixel_desc": {
+      "message": "Блокировать трекинговый пиксель Facebook"
+   },
+   "block_list": {
+      "message": "Список блокировки"
+   },
+   "block_page_heading": {
+      "message": "Сайт содержит вредоносные программы"
+   },
+   "block_page_p1": {
+      "message": "Злоумышленники на"
+   },
+   "block_page_p2": {
+      "message": "странице, на которую вы только что нажали,"
+   },
+   "block_page_p3": {
+      "message": "могут попытаться обмануть вас и заставить установить программы, которые навредят вашему интернет-серфингу (например, изменят домашнюю страницу или покажут дополнительную рекламу на посещаемых вами сайтах)."
+   },
+   "block_page_p4": {
+      "message": "Поскольку вы используете"
+   },
+   "block_page_p5": {
+      "message": ", этот сайт был заблокирован, чтобы обеспечить вашу безопасность!"
+   },
+   "block_page_title": {
+      "message": "Ошибка безопасности"
+   },
+   "block_seen_chat": {
+      "message": "Заблокировать функцию \"просмотрено\" в чате"
+   },
+   "block_seen_in_chat": {
+      "message": "Блокировать прочитано в чате"
+   },
+   "block_seen_in_chat_desc": {
+      "message": "Отключает уведомления о прочтении в Messenger. Вы тоже не будете видеть, когда другие прочитали ваши сообщения"
+   },
+   "block_seen_in_story": {
+      "message": "Блокировать просмотр в Story"
+   },
+   "block_seen_in_story_desc": {
+      "message": "Скрыть просмотр в Stories Instagram"
+   },
+   "block_seen_in_story_facebook": {
+      "message": "Блокировать просмотр в Story"
+   },
+   "block_seen_in_story_facebook_desc": {
+      "message": "Скрыть просмотр в Stories Facebook"
+   },
+   "block_seen_in_zalo": {
+      "message": "Block Seen in Zalo"
+   },
+   "block_seen_in_zalo_desc": {
+      "message": "Hide your read status on Zalo Web"
+   },
+   "block_seen_story_facebook": {
+      "message": "Заблокировать функцию \"просмотрено\" в историях Facebook"
+   },
+   "block_seen_story_instagram": {
+      "message": "Заблокировать функцию \"просмотрено\" в историях Instagram"
+   },
+   "block_suggested_posts": {
+      "message": "Блокировать рекомендуемые публикации"
+   },
+   "block_suggested_posts_desc": {
+      "message": "Скрывать публикации «Рекомендации для вас» в ленте Facebook"
+   },
+   "block_typing_chat": {
+      "message": "Заблокировать индикатор набора текста в чате"
+   },
+   "block_typing_comment": {
+      "message": "Заблокировать индикатор набора текста в комментариях"
+   },
+   "block_typing_in_chat": {
+      "message": "Блокировать печатает в чате"
+   },
+   "block_typing_in_chat_desc": {
+      "message": "Скрыть индикатор набора текста в чате"
+   },
+   "block_typing_in_zalo": {
+      "message": "Block Typing in Zalo"
+   },
+   "block_typing_in_zalo_desc": {
+      "message": "Hide your typing indicator on Zalo Web"
+   },
+   "blocked_url": {
+      "message": "Заблокированный URL-адрес: "
+   },
+   "buy_me_a_coffee": {
+      "message": "Угостите меня кофе"
+   },
+   "cancel": {
+      "message": "Отмена"
+   },
+   "changelog": {
+      "message": "Журнал изменений"
+   },
+   "clear": {
+      "message": "Очистить"
+   },
+   "click_to_rate": {
+      "message": "(нажмите на звёзды для оценки)"
+   },
+   "context_menu_ai_summarize": {
+      "message": "Суммировать выделение"
+   },
+   "context_menu_ai_translate": {
+      "message": "Перевести выделение"
+   },
+   "context_menu_block_domain": {
+      "message": "Заблокировать/Разблокировать этот домен"
+   },
+   "context_menu_change_hotkey": {
+      "message": "Изменить горячую клавишу"
+   },
+   "context_menu_change_language": {
+      "message": "Изменить язык"
+   },
+   "context_menu_changelog": {
+      "message": "Посмотреть журнал изменений"
+   },
+   "context_menu_donate": {
+      "message": "Пожертвовать"
+   },
+   "context_menu_faq": {
+      "message": "Часто задаваемые вопросы"
+   },
+   "context_menu_help": {
+      "message": "Помощь"
+   },
+   "context_menu_rate_me": {
+      "message": "Оценить J2TEAM Security в Chrome Store"
+   },
+   "context_menu_report_abuse": {
+      "message": "Сообщить о нарушении..."
+   },
+   "context_menu_report_badware": {
+      "message": "Вредоносное ПО"
+   },
+   "context_menu_report_phishing": {
+      "message": "Фишинг"
+   },
+   "context_menu_report_suggest": {
+      "message": "Сообщить или предложить"
+   },
+   "context_menu_report_webspam": {
+      "message": "Спам"
+   },
+   "context_menu_save_image_as": {
+      "message": "Сохранить изображение как…"
+   },
+   "context_menu_view_facebook_shares": {
+      "message": "Посмотреть, кто поделился этой записью"
+   },
+   "create": {
+      "message": "Создать"
+   },
+   "create_new_profile": {
+      "message": "Создать новый профиль"
+   },
+   "custom_block_list": {
+      "message": "Список блокировки настроек"
+   },
+   "custom_block_list_legend": {
+      "message": "будет заблокированы все сайты в этом списке"
+   },
+   "dark_theme_editor": {
+      "message": "Редактор тёмной темы"
+   },
+   "delete": {
+      "message": "Удалить"
+   },
+   "document": {
+      "message": "Документация"
+   },
+   "domain_input_placeholder": {
+      "message": "e.g. github.com"
+   },
+   "domain_profile_active": {
+      "message": "Active"
+   },
+   "domain_profile_active_banner": {
+      "message": "Domain profile active for $DOMAIN$",
+      "placeholders": {
+         "domain": {
+            "content": "$1"
+         }
+      }
+   },
+   "domain_profile_auto_managed": {
+      "message": "This profile is auto-managed by domain rules"
+   },
+   "download_extension_list": {
+      "message": "Скачать список расширений"
+   },
+   "enable_extension_manager": {
+      "message": "Включить менеджер расширений"
+   },
+   "enable_right_click": {
+      "message": "Восстановить правый клик, выделение текста, копирование и горячие клавиши на блокирующих страницах"
+   },
+   "enable_right_click_exclusions_help": {
+      "message": "One domain per line. The unlock will not run on these sites. Major services are excluded by default: big tech, AI assistants, social networks, video platforms, and document/design tools."
+   },
+   "enable_right_click_exclusions_label": {
+      "message": "Excluded sites"
+   },
+   "enable_right_click_label": {
+      "message": "Разблокировать правый клик и копирование"
+   },
+   "error": {
+      "message": "Ошибка"
+   },
+   "extension_manager": {
+      "message": "Менеджер расширений"
+   },
+   "extension_manager_desc": {
+      "message": "Включить панель менеджера расширений"
+   },
+   "extra_features": {
+      "message": "Дополнительные функции"
+   },
+   "facebook": {
+      "message": "Facebook"
+   },
+   "facebook_colon": {
+      "message": "Facebook:"
+   },
+   "facebook_kount": {
+      "message": "Facebook Kount"
+   },
+   "facebook_messenger_history": {
+      "message": "История Facebook Messenger"
+   },
+   "facebook_security_tester": {
+      "message": "Тестер безопасности Facebook"
+   },
+   "facebook_time_counter": {
+      "message": "Показать таймер использования Facebook"
+   },
+   "feature_request": {
+      "message": "Запрос функции"
+   },
+   "follow_me": {
+      "message": "Подписаться на меня"
+   },
+   "footer_text": {
+      "message": "J2TEAM ©$YEAR$ - Разработано $AUTHOR$ - Версия $VERSION$",
+      "placeholders": {
+         "author": {
+            "content": "$2"
+         },
+         "version": {
+            "content": "$3"
+         },
+         "year": {
+            "content": "$1"
+         }
+      }
+   },
+   "free_tools": {
+      "message": "Бесплатные инструменты"
+   },
+   "global_privacy_control": {
+      "message": "Отправлять заголовки Global Privacy Control (Sec-GPC) и Do Not Track (DNT) с каждым запросом"
+   },
+   "global_privacy_control_label": {
+      "message": "Global Privacy Control"
+   },
+   "help": {
+      "message": "Помощь"
+   },
+   "homepage": {
+      "message": "Домашняя страница"
+   },
+   "include_subdomains": {
+      "message": "Include subdomains"
+   },
+   "instagram": {
+      "message": "Instagram"
+   },
+   "instagram_colon": {
+      "message": "Instagram:"
+   },
+   "install_type": {
+      "message": "Тип установки: $TYPE$",
+      "placeholders": {
+         "type": {
+            "content": "$1"
+         }
+      }
+   },
+   "join_us": {
+      "message": "Присоединиться к нам"
+   },
+   "json_prettifier": {
+      "message": "Форматировать JSON-ответы с подсветкой синтаксиса"
+   },
+   "json_prettifier_label": {
+      "message": "Форматирование JSON"
+   },
+   "keyboard_shortcuts": {
+      "message": "Сочетания клавиш"
+   },
+   "languages": {
+      "message": "Языки"
+   },
+   "load": {
+      "message": "Загрузить"
+   },
+   "load_from_url": {
+      "message": "Загрузить по URL-адресу"
+   },
+   "message": {
+      "message": "Сообщение"
+   },
+   "more": {
+      "message": "ещё"
+   },
+   "name": {
+      "message": "Имя"
+   },
+   "new_profile": {
+      "message": "Новый профиль"
+   },
+   "no": {
+      "message": "Нет"
+   },
+   "notif_block_domain_added": {
+      "message": "Домен добавлен в список блокировки"
+   },
+   "notif_block_domain_removed": {
+      "message": "Домен удалён из списка блокировки"
+   },
+   "notif_save_image_as_failed": {
+      "message": "Не удалось сохранить изображение"
+   },
+   "notif_view_facebook_shares_failed": {
+      "message": "Не удалось извлечь ID записи из этой ссылки."
+   },
+   "notification_upgrade_button": {
+      "message": "Смотреть новые функции"
+   },
+   "notification_upgrade_message": {
+      "message": "Функции в Премиум-версии: Загрузка видео/Reel, Лучшие взаимодействия, Резервное копирование списка друзей и многое другое."
+   },
+   "notification_upgrade_title": {
+      "message": "J2TEAM Security: Хотите использовать больше функций?"
+   },
+   "open_side_panel": {
+      "message": "Открыть боковую панель"
+   },
+   "options": {
+      "message": "Опции"
+   },
+   "options_saved": {
+      "message": "Настройки сохранены!"
+   },
+   "others": {
+      "message": "Прочее"
+   },
+   "others_colon": {
+      "message": "Прочее:"
+   },
+   "perm_activeTab": {
+      "message": "Access current tab"
+   },
+   "perm_alarms": {
+      "message": "Schedule tasks"
+   },
+   "perm_bookmarks": {
+      "message": "Read and modify bookmarks"
+   },
+   "perm_browsingData": {
+      "message": "Delete browsing data"
+   },
+   "perm_clipboardRead": {
+      "message": "Read clipboard content"
+   },
+   "perm_clipboardWrite": {
+      "message": "Write to clipboard"
+   },
+   "perm_contentSettings": {
+      "message": "Change content settings"
+   },
+   "perm_contextMenus": {
+      "message": "Add right-click menu items"
+   },
+   "perm_cookies": {
+      "message": "Read and modify cookies"
+   },
+   "perm_debugger": {
+      "message": "Access browser debugger"
+   },
+   "perm_declarativeNetRequest": {
+      "message": "Block or modify network requests"
+   },
+   "perm_declarativeNetRequestFeedback": {
+      "message": "View blocked network requests"
+   },
+   "perm_declarativeNetRequestWithHostAccess": {
+      "message": "Block or modify network requests on specific sites"
+   },
+   "perm_desktopCapture": {
+      "message": "Capture screen content"
+   },
+   "perm_downloads": {
+      "message": "Manage downloads"
+   },
+   "perm_favicon": {
+      "message": "Access website icons"
+   },
+   "perm_fontSettings": {
+      "message": "Change font settings"
+   },
+   "perm_geolocation": {
+      "message": "Access your location"
+   },
+   "perm_history": {
+      "message": "Read browsing history"
+   },
+   "perm_identity": {
+      "message": "Sign in with your account"
+   },
+   "perm_idle": {
+      "message": "Detect when you're idle"
+   },
+   "perm_management": {
+      "message": "Manage other extensions"
+   },
+   "perm_nativeMessaging": {
+      "message": "Communicate with other programs"
+   },
+   "perm_notifications": {
+      "message": "Show notifications"
+   },
+   "perm_offscreen": {
+      "message": "Create offscreen documents"
+   },
+   "perm_pageCapture": {
+      "message": "Capture page content"
+   },
+   "perm_power": {
+      "message": "Prevent device from sleeping"
+   },
+   "perm_privacy": {
+      "message": "Change privacy settings"
+   },
+   "perm_proxy": {
+      "message": "Manage proxy settings"
+   },
+   "perm_runtime": {
+      "message": "Extension messaging"
+   },
+   "perm_scripting": {
+      "message": "Run scripts on pages"
+   },
+   "perm_search": {
+      "message": "Search with default engine"
+   },
+   "perm_sidePanel": {
+      "message": "Open side panel"
+   },
+   "perm_storage": {
+      "message": "Store extension data"
+   },
+   "perm_tabGroups": {
+      "message": "Organize tab groups"
+   },
+   "perm_tabs": {
+      "message": "Access browser tabs"
+   },
+   "perm_theme": {
+      "message": "Change browser theme"
+   },
+   "perm_topSites": {
+      "message": "Access most visited sites"
+   },
+   "perm_tts": {
+      "message": "Read text aloud"
+   },
+   "perm_unlimitedStorage": {
+      "message": "Use unlimited storage"
+   },
+   "perm_webNavigation": {
+      "message": "Track page navigation"
+   },
+   "perm_webRequest": {
+      "message": "Intercept network requests"
+   },
+   "perm_webRequestBlocking": {
+      "message": "Block network requests"
+   },
+   "permissions": {
+      "message": "Разрешения"
+   },
+   "pick_color_copied": {
+      "message": "Copied to clipboard"
+   },
+   "pick_color_failed": {
+      "message": "Unable to open color picker on this page."
+   },
+   "pick_color_menu": {
+      "message": "Pick Color (Eyedropper)"
+   },
+   "pick_color_title": {
+      "message": "J2TEAM Color Picker"
+   },
+   "pick_color_unsupported": {
+      "message": "EyeDropper API is not supported in this browser."
+   },
+   "pin_to_top": {
+      "message": "Закрепить вверху"
+   },
+   "pinned_extensions_tooltip": {
+      "message": "Закреплённые расширения не будут отключены этой кнопкой"
+   },
+   "pinned_to_top": {
+      "message": "Закреплено вверху"
+   },
+   "premium_dashboard": {
+      "message": "Премиум-панель управления"
+   },
+   "premium_tools": {
+      "message": "Премиум-инструменты"
+   },
+   "prevent_facebook_feed_reload": {
+      "message": "Запретить автообновление новостной ленты"
+   },
+   "prevent_facebook_feed_reload_desc": {
+      "message": "Не позволяет Facebook перезагружать ленту новостей при возврате на вкладку"
+   },
+   "privacy": {
+      "message": "Конфиденциальность на Facebook"
+   },
+   "profile_name": {
+      "message": "Имя профиля"
+   },
+   "profile_name_required": {
+      "message": "Пожалуйста, введите имя профиля!"
+   },
+   "profiles": {
+      "message": "Профили"
+   },
+   "profiles_description": {
+      "message": "Профили позволяют группировать расширения"
+   },
+   "rating_message": {
+      "message": "Если вам нравится это расширение, пожалуйста, поставьте 5 звёзд:"
+   },
+   "real_time_protection": {
+      "message": "Защита в реальном времени"
+   },
+   "real_time_protection_desc": {
+      "message": "Проверять страницы по базе фишинга"
+   },
+   "realtime": {
+      "message": "Защита в реальном времени"
+   },
+   "remove_tracking_params": {
+      "message": "Удалить параметры отслеживания из URL (fbclid, UTM, gclid и т.д.)"
+   },
+   "remove_tracking_params_label": {
+      "message": "Удалять параметры отслеживания"
+   },
+   "reviews": {
+      "message": "Отзывы"
+   },
+   "save": {
+      "message": "Сохранить"
+   },
+   "save_options": {
+      "message": "Сохранить настройки"
+   },
+   "search_extension": {
+      "message": "Поиск расширения..."
+   },
+   "security": {
+      "message": "Безопасность"
+   },
+   "security_colon": {
+      "message": "Безопасность:"
+   },
+   "select_extension_required": {
+      "message": "Пожалуйста, выберите хотя бы одно расширение!"
+   },
+   "select_extensions": {
+      "message": "Выбрать расширения"
+   },
+   "settings": {
+      "message": "Настройки"
+   },
+   "shortcut_ai_summarize_description": {
+      "message": "Суммировать выделенный текст с помощью ИИ"
+   },
+   "shortcut_ai_translate_description": {
+      "message": "Перевести выделенный текст с помощью ИИ"
+   },
+   "shortcut_pick_color_description": {
+      "message": "Выбрать цвет со страницы (Пипетка)"
+   },
+   "show_time_counter": {
+      "message": "Показать счётчик времени"
+   },
+   "show_time_counter_desc": {
+      "message": "Показывать время в Facebook"
+   },
+   "show_update_notification": {
+      "message": "Показывать уведомление об обновлении"
+   },
+   "show_update_notification_label": {
+      "message": "Уведомления об обновлении"
+   },
+   "status": {
+      "message": "Статус"
+   },
+   "stop_facebook_timeline": {
+      "message": "Остановить ленту новостей Facebook"
+   },
+   "telegram_channel": {
+      "message": "Telegram-канал"
+   },
+   "toggle_all_extensions": {
+      "message": "Переключить все расширения"
+   },
+   "toggle_block_seen_chat": {
+      "message": "Переключить функцию \"просмотрено\""
+   },
+   "toggle_block_typing_chat": {
+      "message": "Переключить индикатор набора текста"
+   },
+   "tools": {
+      "message": "Инструменты"
+   },
+   "type": {
+      "message": "Тип"
+   },
+   "uninstall": {
+      "message": "Удалить"
+   },
+   "unpin": {
+      "message": "Открепить"
+   },
+   "update": {
+      "message": "Обновить"
+   },
+   "update_message": {
+      "message": "{appName} только что обновился до версии {appVersion}. Нажмите здесь, чтобы увидеть изменения в этом выпуске!"
+   },
+   "update_profile": {
+      "message": "Обновить профиль: $NAME$",
+      "placeholders": {
+         "name": {
+            "content": "$1"
+         }
+      }
+   },
+   "upgrade_to_premium": {
+      "message": "Перейти на Премиум"
+   },
+   "user_info": {
+      "message": "Информация о пользователе"
+   },
+   "view": {
+      "message": "Просмотр"
+   },
+   "website": {
+      "message": "Веб-сайт"
+   },
+   "yes": {
+      "message": "Да"
+   },
+   "zalo": {
+      "message": "Zalo"
+   }
+}

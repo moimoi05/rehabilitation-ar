@@ -1,0 +1,5 @@
+2026/11/01-02:11:20.484 540c Creating DB D:\rehabilitation\rehabilitation-ar\edge-profile\profile_1793473877\Default\EdgeCoupons/coupons_data.db since it was missing.
+2026/11/01-02:11:20.490 540c Reusing MANIFEST D:\rehabilitation\rehabilitation-ar\edge-profile\profile_1793473877\Default\EdgeCoupons/coupons_data.db/MANIFEST-000001
+2026/11/01-02:11:20.814 28cc Level-0 table #5: started
+2026/11/01-02:11:20.817 28cc Level-0 table #5: 683273 bytes OK
+2026/11/01-02:11:20.820 28cc Delete type=0 #3

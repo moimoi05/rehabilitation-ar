@@ -5,12 +5,12 @@ import { describe, expect, it, vi } from 'vitest'
 // Exercise the actual classic worker script with isolated fake models. We only
 // inject models because its real initialization dynamically imports MediaPipe.
 function workerHarness(pose: unknown, hand: unknown, role = 'both') {
-  const messages: unknown[] = []
-  const scope: { onmessage?: (event: unknown) => Promise<void>; postMessage: (value: unknown) => void } = {
+  const messages: Record<string, unknown>[] = []
+  const scope: { onmessage?: (event: { data: Record<string, unknown> }) => Promise<void>; postMessage: (value: Record<string, unknown>) => void } = {
     postMessage: value => { messages.push(value) },
   }
   const source = readFileSync('public/tracking-worker.js', 'utf8')
-  const injected: { setModels?: (p: unknown, h: unknown) => void } = {}
+  const injected: { setModels?: (p: unknown, h: unknown, r: string) => void } = {}
   runInNewContext(`${source}\n;globalThis.setModels = (p, h, r) => { pose = p; hand = h; role = r }`, { self: scope, performance: { now: () => 10 }, globalThis: injected })
   ;(injected.setModels as (p: unknown, h: unknown, r: string) => void)(pose, hand, role)
   return { scope, messages }
@@ -40,7 +40,8 @@ describe('classic tracking worker', () => {
     const { scope, messages } = workerHarness(pose, hand)
     const bitmap = { close: vi.fn() }
     await scope.onmessage!({ data: { type: 'frame', id: 1, bitmap, timestamp: 10, hand: true, pose: false } })
-    expect(messages[0]).toMatchObject({ type: 'result', poseProcessed: false, handProcessed: true, poseInferenceMs: null, hands: [landmarks], handedness, handWorldLandmarks: worldLandmarks })
+    const resultMsg = messages.find(m => m.type === 'result')
+    expect(resultMsg).toMatchObject({ type: 'result', poseProcessed: false, handProcessed: true, poseInferenceMs: null, hands: [landmarks], handedness, handWorldLandmarks: worldLandmarks })
     expect(pose.detectForVideo).not.toHaveBeenCalled()
     expect(bitmap.close).toHaveBeenCalledOnce()
   })
@@ -74,7 +75,8 @@ describe('classic tracking worker', () => {
     const { scope, messages } = workerHarness(null, hand, 'hand')
     const bitmap = { close: vi.fn() }
     await scope.onmessage!({ data: { type: 'frame', id: 1, bitmap, timestamp: 10, hand: false } })
-    expect(messages[0]).toMatchObject({ type: 'result', id: 1, pose: [], hands: [[{ x: .4, y: .5 }]] })
+    const resultMsg = messages.find(m => m.type === 'result')
+    expect(resultMsg).toMatchObject({ type: 'result', id: 1, pose: [], hands: [[{ x: .4, y: .5 }]] })
     expect(hand.detectForVideo).toHaveBeenCalledOnce(); expect(bitmap.close).toHaveBeenCalledOnce()
   })
 
@@ -93,8 +95,9 @@ describe('classic tracking worker', () => {
     const first = { close: vi.fn() }, second = { close: vi.fn() }
     await scope.onmessage!({ data: { type: 'frame', id: 1, bitmap: first, timestamp: 10, hand: true } })
     await scope.onmessage!({ data: { type: 'frame', id: 2, bitmap: second, timestamp: 20, hand: true } })
-    expect(messages[0]).toMatchObject({ type: 'result', id: 1, pose: [{ x: .2, y: .3 }], hands: [], handFailed: true })
-    expect(messages[1]).toMatchObject({ type: 'result', id: 2, pose: [{ x: .2, y: .3 }], hands: [], handFailed: true, handError: expect.stringContaining('hand failed'), handProcessed: false })
+    const results = messages.filter(m => m.type === 'result')
+    expect(results[0]).toMatchObject({ type: 'result', id: 1, pose: [{ x: .2, y: .3 }], hands: [], handFailed: true })
+    expect(results[1]).toMatchObject({ type: 'result', id: 2, pose: [{ x: .2, y: .3 }], hands: [], handFailed: true, handError: expect.stringContaining('hand failed'), handProcessed: false })
     expect(hand.detectForVideo).toHaveBeenCalledOnce(); expect(hand.close).toHaveBeenCalledOnce()
     expect(first.close).toHaveBeenCalledOnce(); expect(second.close).toHaveBeenCalledOnce()
   })
@@ -114,7 +117,8 @@ describe('classic tracking worker', () => {
     const { scope, messages } = workerHarness(pose, hand)
     const bitmap = { close: vi.fn() }
     await scope.onmessage!({ data: { type: 'frame', id: 1, bitmap, timestamp: 10, hand: true } })
-    expect(messages[0]).toMatchObject({ type: 'result', handFailed: true, handCleanupFailed: true, hands: [] })
+    const resultMsg = messages.find(m => m.type === 'result')
+    expect(resultMsg).toMatchObject({ type: 'result', handFailed: true, handCleanupFailed: true, hands: [] })
     expect(hand.close).toHaveBeenCalledOnce(); expect(bitmap.close).toHaveBeenCalledOnce()
   })
 })

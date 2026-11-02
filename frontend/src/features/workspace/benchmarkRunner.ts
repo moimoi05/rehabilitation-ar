@@ -13,6 +13,17 @@ const delay = (ms: number) => new Promise<void>(resolve => setTimeout(resolve, m
 const errorText = (error: unknown) => error instanceof Error ? error.message : String(error)
 const fpsHeader = 'timestamp_ms,source_fps,pose_fps,hand_fps,render_fps,pose_latency_ms,hand_latency_ms,pose_result_age_ms,hand_result_age_ms,skipped_frames,pose_tracking_valid,hand_tracking_valid\n'
 
+export function latencyBenchmarkSuite(): BenchmarkConfig[] {
+  const base = { hands: true, filter: 'raw' as const, schedule: 'independent' as const, repeat: 1 }
+  return [
+    { ...base, name: 'A Existing MediaPipe GPU Main Thread baseline', engine: 'main', gpu: true, poseFps: 20, handFps: 12 },
+    { ...base, name: 'B Existing MediaPipe GPU Worker behavior', engine: 'worker', gpu: true, handFirst: false, poseFps: 20, handFps: 12 },
+    { ...base, name: 'C New Hand-first GPU Worker', engine: 'worker', gpu: true, handFirst: true, handFps: 30, poseFps: 15 },
+    { ...base, name: 'D New Hand-first GPU Worker with 1280 × 720 inference', engine: 'worker', gpu: true, handFirst: true, handFps: 30, poseFps: 15, inferenceResolution: { width: 1280, height: 720 } },
+    { ...base, name: 'E New Hand-first GPU Worker with 960 × 540 inference', engine: 'worker', gpu: true, handFirst: true, handFps: 30, poseFps: 15, inferenceResolution: { width: 960, height: 540 } },
+  ]
+}
+
 export function comparisonSuite(roi?: BenchmarkConfig['roi']): BenchmarkConfig[] {
   const base = { gpu: true, hands: true, poseFps: 30, handFps: 30, filter: 'raw' as const, schedule: 'independent' as const, repeat: 1, comparison: true }
   return [{ ...base, name: 'A MediaPipe GPU Pose + Hand', engine: 'main' }, { ...base, name: 'B RTMPose-m GPU — operator ROI', engine: 'rtmpose', roi }, { ...base, name: 'B detector + RTMPose-m GPU', engine: 'rtmpose', personDetection: true }]
@@ -58,7 +69,14 @@ export async function runBenchmark(config: BenchmarkConfig, video: HTMLVideoElem
   let frameId = 0, poseCount = 0, handCount = 0, renderCount = 0, sourceCount = 0, sourceSkipped = 0, poseSkipped = 0, handSkipped = 0, busySkipped = 0
   let poseInvalid = 0, handInvalid = 0, bothHands = 0, leftCount = 0, rightCount = 0
   let leftTime: number | null = null, rightTime: number | null = null, poseLatency: number | null = null, handLatency: number | null = null
+  let leftComplete21 = 0, rightComplete21 = 0, bothComplete21 = 0
+  const fingerAvailability = { thumb: 0, index: 0, middle: 0, ring: 0, pinky: 0 }
+  let fingerTotalHands = 0
+  const handednessScores: number[] = []
+  let handTrackingLossCount = 0, handTrackingRecoveryCount = 0, lastHandValid = false
   const pipelineLatencies: number[] = []
+  const captureLatencies: number[] = []
+  const transferLatencies: number[] = []
   const stageLatencies: Record<string, number[]> = {}
   const poseLatencies: number[] = [], handLatencies: number[] = [], deliveryAges: number[] = [], displayAges: number[] = [], frameTimes: number[] = []
   const jointAvailability = [0, 0, 0, 0, 0, 0], handCompleteness = { left: 0, right: 0 }
@@ -79,6 +97,8 @@ export async function runBenchmark(config: BenchmarkConfig, video: HTMLVideoElem
     latestObservation++; sourcePresentation = frame.now
     deliveryAges.push(deliveredAt - frame.now)
     pipelineLatencies.push(observation.pipelineMs ?? deliveredAt - timestamp)
+    if (observation.captureMs !== null && observation.captureMs !== undefined) captureLatencies.push(observation.captureMs)
+    if (observation.transferMs !== null && observation.transferMs !== undefined) transferLatencies.push(observation.transferMs)
     Object.entries(observation.timings ?? {}).forEach(([stage, duration]) => { if (Number.isFinite(duration) && duration >= 0) stageLatencies[stage] = [...(stageLatencies[stage] ?? []), duration] })
     if (observation.pose) [11, 12, 13, 14, 15, 16].forEach((index, joint) => { if (usableTrackingPoint(observation.pose![index])) jointAvailability[joint]++ })
     const nextPose = observation.pose === null ? null : quality.filter('pose', observation.pose, timestamp, config.filter)
@@ -91,13 +111,43 @@ export async function runBenchmark(config: BenchmarkConfig, video: HTMLVideoElem
     if (observation.pose !== null) { poseCount++; pose = nextPose ?? []; poseTime = timestamp; poseValid = wholebody ? [11, 12, 13, 14, 15, 16].every(index => usableTrackingPoint(observation.pose![index])) : validPose(observation.pose); if (!poseValid) poseInvalid++; poseLatency = observation.poseMs; if (poseLatency !== null) poseLatencies.push(poseLatency) }
     if (observation.hands !== null) {
       handCount++; hands = nextHands ?? []; handTime = timestamp; handValid = observation.hands.some(points => validHand(points) && points.every(point => usableTrackingPoint(point, true))); if (!handValid) handInvalid++
+      if (lastHandValid && !handValid) handTrackingLossCount++
+      else if (!lastHandValid && handValid) handTrackingRecoveryCount++
+      lastHandValid = handValid
+
       labels = observation.handedness?.map(categories => categories[0]?.categoryName || 'Unknown') ?? []
       const left = labels.some((label, index) => label === 'Left' && validHand(observation.hands![index]) && observation.hands![index].every(point => usableTrackingPoint(point, true)))
       const right = labels.some((label, index) => label === 'Right' && validHand(observation.hands![index]) && observation.hands![index].every(point => usableTrackingPoint(point, true)))
       if (left) { leftCount++; leftTime = timestamp } else { leftTime = null; quality.reset('Left') }
       if (right) { rightCount++; rightTime = timestamp } else { rightTime = null; quality.reset('Right') }
       if (left && right) bothHands++
-      observation.hands.forEach((points, index) => { const side = labels[index] === 'Left' ? 'left' : labels[index] === 'Right' ? 'right' : null; if (side) handCompleteness[side] += points.filter(point => usableTrackingPoint(point, true)).length })
+
+      let leftComp21ThisFrame = false, rightComp21ThisFrame = false
+      observation.hands.forEach((points, index) => {
+        const side = labels[index] === 'Left' ? 'left' : labels[index] === 'Right' ? 'right' : null
+        if (side) handCompleteness[side] += points.filter(point => usableTrackingPoint(point, true)).length
+        if (points.length === 21) {
+          fingerTotalHands++
+          const thumbValid = [1, 2, 3, 4].every(i => usableTrackingPoint(points[i], true))
+          const indexValid = [5, 6, 7, 8].every(i => usableTrackingPoint(points[i], true))
+          const middleValid = [9, 10, 11, 12].every(i => usableTrackingPoint(points[i], true))
+          const ringValid = [13, 14, 15, 16].every(i => usableTrackingPoint(points[i], true))
+          const pinkyValid = [17, 18, 19, 20].every(i => usableTrackingPoint(points[i], true))
+          if (thumbValid) fingerAvailability.thumb++
+          if (indexValid) fingerAvailability.index++
+          if (middleValid) fingerAvailability.middle++
+          if (ringValid) fingerAvailability.ring++
+          if (pinkyValid) fingerAvailability.pinky++
+          const isComplete21 = thumbValid && indexValid && middleValid && ringValid && pinkyValid && usableTrackingPoint(points[0], true)
+          if (isComplete21) {
+            if (side === 'left') { leftComplete21++; leftComp21ThisFrame = true }
+            if (side === 'right') { rightComplete21++; rightComp21ThisFrame = true }
+          }
+        }
+        const score = observation.handedness?.[index]?.[0]?.score
+        if (typeof score === 'number' && Number.isFinite(score)) handednessScores.push(score)
+      })
+      if (leftComp21ThisFrame && rightComp21ThisFrame) bothComplete21++
       handLatency = observation.handMs; if (handLatency !== null) handLatencies.push(handLatency)
     }
     pendingRows.push({ run_id: created.run_id, frame_id: ++frameId, source_timestamp_ms: frame.mediaTime * 1000, source_frame_id: frame.sourceFrameId ?? null,
@@ -216,18 +266,49 @@ export async function runBenchmark(config: BenchmarkConfig, video: HTMLVideoElem
     flushObservations(); flushRows()
   }
   const seconds = start ? (end - start) / 1000 : 0
+  const totalHandMs = handLatencies.reduce((sum, v) => sum + v, 0)
+  const totalPoseMs = poseLatencies.reduce((sum, v) => sum + v, 0)
+  const workerUtilization = seconds > 0 ? ((totalHandMs + totalPoseMs) / (seconds * 1000)) * 100 : 0
+
   const summary = { run_id: created.run_id, date_time: new Date().toISOString(), configuration: config, source_video_path: source.source_path, source_video_metadata: source,
     browser: navigator.userAgent, hardware: source.hardware, runtime_info: engine?.runtimeInfo ?? null, mediapipe_version: wholebody ? null : '0.10.35', pose_model: wholebody ? 'RTMPose-m WholeBody c8b76419' : 'pose_landmarker_lite.task', hand_model: wholebody ? null : config.hands ? 'hand_landmarker.task' : null,
     actual_delegates: engine?.delegates ?? { pose: null, hand: null }, pose_delegate: engine?.delegates.pose ?? null, hand_delegate: engine?.delegates.hand ?? null,
     resolution: { width: video.videoWidth, height: video.videoHeight }, playback_rate: 1, requested_fps: { pose: config.poseFps, hand: config.hands ? config.handFps : 0 },
     actual_fps: { pose: seconds ? poseCount / seconds : 0, hand: wholebody ? null : seconds ? handCount / seconds : 0, wholebody_result: wholebody && seconds ? poseCount / seconds : null, render: seconds ? renderCount / seconds : 0 },
     pose_latency: latencySummary(poseLatencies), hand_latency: wholebody ? null : latencySummary(handLatencies), render_fps: seconds ? renderCount / seconds : 0,
+    capture_latency: latencySummary(captureLatencies), transfer_latency: latencySummary(transferLatencies), worker_utilization_percent: Number(workerUtilization.toFixed(2)),
     processed_frames: { pose: poseCount, hand: handCount, observations: frameId, rendered: renderCount, source_presented: sourceCount },
     skipped_frames: { source_unpresented: sourceSkipped, worker_busy: busySkipped, pose_not_scheduled: poseSkipped, hand_not_scheduled: handSkipped },
-    landmark_availability: { joints: Object.fromEntries(['left_shoulder', 'right_shoulder', 'left_elbow', 'right_elbow', 'left_wrist', 'right_wrist'].map((name, index) => [name, poseCount ? jointAvailability[index] / poseCount : null])), left_hand_rate: handCount ? leftCount / handCount : null, right_hand_rate: handCount ? rightCount / handCount : null, both_hands_rate: handCount ? bothHands / handCount : null, left_hand_21_point_completeness: handCount ? handCompleteness.left / (21 * handCount) : null, right_hand_21_point_completeness: handCount ? handCompleteness.right / (21 * handCount) : null },
+    landmark_availability: {
+      joints: Object.fromEntries(['left_shoulder', 'right_shoulder', 'left_elbow', 'right_elbow', 'left_wrist', 'right_wrist'].map((name, index) => [name, poseCount ? jointAvailability[index] / poseCount : null])),
+      left_hand_rate: handCount ? leftCount / handCount : null,
+      right_hand_rate: handCount ? rightCount / handCount : null,
+      both_hands_rate: handCount ? bothHands / handCount : null,
+      complete_21_points_rate: {
+        left: leftCount ? leftComplete21 / leftCount : null,
+        right: rightCount ? rightComplete21 / rightCount : null,
+        both: bothHands ? bothComplete21 / bothHands : null,
+      },
+      per_finger_availability: {
+        thumb: fingerTotalHands ? fingerAvailability.thumb / fingerTotalHands : null,
+        index: fingerTotalHands ? fingerAvailability.index / fingerTotalHands : null,
+        middle: fingerTotalHands ? fingerAvailability.middle / fingerTotalHands : null,
+        ring: fingerTotalHands ? fingerAvailability.ring / fingerTotalHands : null,
+        pinky: fingerTotalHands ? fingerAvailability.pinky / fingerTotalHands : null,
+      },
+      left_hand_21_point_completeness: handCount ? handCompleteness.left / (21 * handCount) : null,
+      right_hand_21_point_completeness: handCount ? handCompleteness.right / (21 * handCount) : null,
+    },
     pipeline_latency: latencySummary(pipelineLatencies), runtime_stage_latency: Object.fromEntries(Object.entries(stageLatencies).map(([stage, durations]) => [stage, latencySummary(durations)])), person_region_strategy: wholebody ? config.personDetection ? 'detector' : 'operator_roi' : 'mediapipe_internal', end_to_end_delivery_age: latencySummary(deliveryAges), source_presented_to_first_display_age: latencySummary(displayAges), render_frame_time: latencySummary(frameTimes), long_tasks: { supported: PerformanceObserver.supportedEntryTypes?.includes('longtask') ?? false, count: longTaskCount, duration_ms: longTaskMs },
     gpu_telemetry: { utilization: null, memory: null, engine: null, temperature: null, power_state: null, note: 'Not measured by browser; no GPU utilization inferred from rendering.' },
     tracking_loss: { pose_invalid: poseInvalid, hand_invalid: handInvalid, both_hands_valid: bothHands, left_hand_valid: leftCount, right_hand_valid: rightCount },
+    tracking_loss_events: { losses: handTrackingLossCount, recoveries: handTrackingRecoveryCount },
+    handedness_confidence: {
+      mean: handednessScores.length ? handednessScores.reduce((a, b) => a + b, 0) / handednessScores.length : null,
+      p50: latencySummary(handednessScores.map(s => s * 1000)).p50_ms ? latencySummary(handednessScores.map(s => s * 1000)).p50_ms! / 1000 : null,
+      p95: latencySummary(handednessScores.map(s => s * 1000)).p95_ms ? latencySummary(handednessScores.map(s => s * 1000)).p95_ms! / 1000 : null,
+      samples: handednessScores.length,
+    },
     benchmark_duration_seconds: seconds, source_measured_duration_seconds: recordedDuration, filter_quality: quality.summary(),
     warmup: { seconds: 3, protocol: 'Repeated inference on actual paused first video frame, then complete playback at 1x without seek; compute warmup, not motion warmup.' },
     recording: { fps: 30, mime_type: recorder?.mimeType ?? null, note: 'Canvas render FPS is measured separately from the 30 FPS recording.' },

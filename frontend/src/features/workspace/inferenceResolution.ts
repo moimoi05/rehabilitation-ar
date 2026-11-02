@@ -58,7 +58,19 @@ export function computeInferenceDimensions(
 
 export type CaptureTimingResult = {
   bitmap: ImageBitmap
+  /**
+   * Unified duration of bitmap capture and optional browser-managed resampling.
+   * Note on browser limitation:
+   * The browser's createImageBitmap(video, { resizeWidth, resizeHeight }) executes frame
+   * capture and resampling in a single asynchronous call. Browser APIs do not expose
+   * separate execution timers for the capture step versus the resize step without
+   * allocating intermediate manual canvases. Thus, captureResizeTotalMs truthfully
+   * represents the combined duration. Resizing is browser-managed and not guaranteed zero-copy.
+   */
+  captureResizeTotalMs: number
+  /** Backward compatibility alias for captureResizeTotalMs */
   captureMs: number
+  /** Backward compatibility alias; separate resize time is bundled in captureResizeTotalMs */
   resizeMs: number
   scaled: ResolutionDimensions | null
 }
@@ -90,7 +102,7 @@ export async function captureInferenceBitmap(
 }
 
 /**
- * Captures an inference frame and measures capture and resize execution time.
+ * Captures an inference frame and measures truthful unified capture/resize execution time.
  */
 export async function captureInferenceBitmapWithTimings(
   video: HTMLVideoElement,
@@ -108,10 +120,10 @@ export async function captureInferenceBitmapWithTimings(
       resizeQuality: 'medium',
     })
     const totalMs = Math.max(0, performance.now() - started)
-    return { bitmap, captureMs: totalMs, resizeMs: totalMs, scaled }
+    return { bitmap, captureResizeTotalMs: totalMs, captureMs: totalMs, resizeMs: totalMs, scaled }
   }
 
   const bitmap = await createImageBitmap(video)
-  const captureMs = Math.max(0, performance.now() - started)
-  return { bitmap, captureMs, resizeMs: 0, scaled: null }
+  const totalMs = Math.max(0, performance.now() - started)
+  return { bitmap, captureResizeTotalMs: totalMs, captureMs: totalMs, resizeMs: 0, scaled: null }
 }

@@ -11,7 +11,8 @@ import { LandmarkSmoother, POSE_SMOOTHING_POLICY } from './landmarkSmoothing'
 import { getTrackingProfile, resolveCameraResolution } from './trackingProfiles'
 import type { TrackingProfileName } from './trackingProfiles'
 import { createWorkerTracker } from './workerTracker'
-import type { WorkerTracker } from './workerTracker'
+import type { WorkerHandResult, WorkerPoseResult, WorkerTracker } from './workerTracker'
+import { captureInferenceBitmap } from './inferenceResolution'
 import { createParallelWorkerTracker } from './parallelWorkerTracker'
 import type { ParallelWorkerTracker } from './parallelWorkerTracker'
 import { AdaptiveWorkerBudget, AUTO_WORKER_MAX_FPS } from './adaptiveWorkerBudget'
@@ -44,7 +45,7 @@ const actualDimension = (value: number | undefined) => typeof value === 'number'
 const upperLimbVisible = (pose: Point[], side: 'left' | 'right') => (side === 'left' ? [11, 13, 15] : [12, 14, 16]).every(index => usableTrackingPoint(pose[index]))
 const loadSettings = (): CameraSettings => {
   try { const saved = JSON.parse(localStorage.getItem('rehab.settings') || '{}'); return { mirrored: true, resolution: '1280x720', ...saved, trackingModel: saved.trackingModel === 'rtmpose' ? 'rtmpose' : 'mediapipe', poseTrackingModel: saved.poseTrackingModel === 'rtmpose' ? 'rtmpose' : 'mediapipe', handTrackingModel: saved.handTrackingModel === 'rtmpose' ? 'rtmpose' : 'mediapipe', profileCameraResolution: saved.profileCameraResolution === true, workerTracking: resolveWorkerPreference(saved.workerTracking, localStorage.getItem('rehab.workerTracking')) } }
-  catch { return { mirrored: true, resolution: '1280x720', profileCameraResolution: false, workerTracking: false } }
+  catch { return { mirrored: true, resolution: '1280x720', profileCameraResolution: false, workerTracking: true } }
 }
 
 async function calibrationRequest<T>(path: string, init?: RequestInit): Promise<T> {
@@ -158,7 +159,10 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
     stopFrameScheduler.current?.(); stopFrameScheduler.current = null
     if (watchdog.current !== null) clearInterval(watchdog.current); watchdog.current = null
     stopBudgetObserver.current?.(); stopBudgetObserver.current = null; setBudgetStatus(null)
-    workerRef.current?.close(); workerRef.current = null; parallelWorkerRef.current?.close(); parallelWorkerRef.current = null; workerAbort.current?.abort(); workerAbort.current = null
+    const oldWorker = workerRef.current
+    workerRef.current = null
+    oldWorker?.dispose().catch(() => {})
+    parallelWorkerRef.current?.close(); parallelWorkerRef.current = null; workerAbort.current?.abort(); workerAbort.current = null
     poseRef.current?.close(); handRef.current?.close()
     poseRef.current = null; handRef.current = null
     points.current = { pose: [], hands: [] }; displayPoints.current = { pose: [], hands: [] }; smoother.current.reset(); poseTime.current = 0; handTime.current = 0; handSides.current = { left: 0, right: 0 }; setTracking(false); setActiveEngine(null); setModelDelegates({ pose: '—', hand: 'Tắt' }); setParallelHandAvailable(false); setFps(0); setStatus('Đã dừng nhận diện')
@@ -290,7 +294,10 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
       stopFrameScheduler.current?.(); stopFrameScheduler.current = null
       if (watchdog.current !== null) clearInterval(watchdog.current); watchdog.current = null
       stopBudgetObserver.current?.(); stopBudgetObserver.current = null; setBudgetStatus(null)
-      workerRef.current?.close(); workerRef.current = null; parallelWorkerRef.current?.close(); parallelWorkerRef.current = null; workerAbort.current?.abort(); workerAbort.current = null
+      const oldWorker = workerRef.current
+    workerRef.current = null
+    oldWorker?.dispose().catch(() => {})
+    parallelWorkerRef.current?.close(); parallelWorkerRef.current = null; workerAbort.current?.abort(); workerAbort.current = null
       clearResults()
       try {
         const { FilesetResolver } = await import('@mediapipe/tasks-vision')
@@ -521,26 +528,99 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
       return
     }
     try {
+      if (workerRef.current) {
+        const old = workerRef.current
+        workerRef.current = null
+        try { await old.dispose() } catch (err) { setModelErrors(p => [...p, err instanceof Error ? err.message : String(err)]) }
+      }
       const controller = new AbortController(); workerAbort.current = controller
       const worker = new Worker('/tracking-worker.js')
-      // Vite emits the MediaPipe module as a same-origin asset for production builds.
       const moduleUrl = new URL('../../../node_modules/@mediapipe/tasks-vision/vision_bundle.mjs', import.meta.url).href
-      const tracker = await createWorkerTracker({ worker, moduleUrl, handEnabled, preferGpu: true, signal: controller.signal, capture: element => createImageBitmap(element), onResult: result => {
-        if (requestId !== generation.current) return
-        if (result.handFailed && handActive) {
-          // The failure applies to the model, even when this frame is too old to display.
-          handActive = false; handTime.current = 0
-          points.current = { ...points.current, hands: [] }; displayPoints.current = { ...displayPoints.current, hands: [] }
-          setMessage(result.handCleanupFailed
-            ? 'Nhận diện bàn tay bị lỗi; theo dõi tư thế vẫn hoạt động. Không thể giải phóng model bàn tay; hãy tải lại trang trước khi thử lại.'
-            : 'Nhận diện bàn tay bị lỗi; theo dõi tư thế vẫn hoạt động. Dừng và khởi động lại nhận diện để thử lại bàn tay.')
-          publishStatus(currentStatus(performance.now()))
-        }
-        if (result.hands !== null) handSides.current = handFreshness(result.hands, result.handedness ?? [], result.timestamp)
-        accept(result.pose, handActive ? result.hands : [], result.timestamp)
-      }, onError: () => {
-        if (requestId === generation.current) { setMessage('Worker không khả dụng; đang chuyển sang nhận diện trên luồng chính.'); void startMainThread() }
-      } })
+
+      type InFlightCapture = {
+        now: number
+        sourceFrameId: number | null
+        mediaTime: number
+        skippedSourceFrames: number
+        timestamp: number
+        scheduledPose: boolean
+        scheduledHand: boolean
+        poseResult: WorkerPoseResult | null
+        handResult: WorkerHandResult | null
+      }
+      const inFlightCaptures = new Map<number, InFlightCapture>()
+
+      const tracker = await createWorkerTracker({
+        worker,
+        moduleUrl,
+        handEnabled,
+        preferGpu: true,
+        signal: controller.signal,
+        capture: element => captureInferenceBitmap(element, { width: 1280, height: 720 }),
+        onHandResult: (result: WorkerHandResult) => {
+          if (requestId !== generation.current) return
+          const inFlight = inFlightCaptures.get(result.timestamp)
+          if (inFlight) inFlight.handResult = result
+
+          if (result.handFailed && handActive) {
+            handActive = false; handTime.current = 0
+            points.current = { ...points.current, hands: [] }; displayPoints.current = { ...displayPoints.current, hands: [] }
+            setMessage(result.handCleanupFailed
+              ? 'Nhận diện bàn tay bị lỗi; theo dõi tư thế vẫn hoạt động. Không thể giải phóng model bàn tay; hãy tải lại trang trước khi thử lại.'
+              : 'Nhận diện bàn tay bị lỗi; theo dõi tư thế vẫn hoạt động. Dừng và khởi động lại nhận diện để thử lại bàn tay.')
+            publishStatus(currentStatus(performance.now()))
+          }
+          if (result.handProcessed && result.hands.length) {
+            handSides.current = handFreshness(result.hands, result.handedness ?? [], result.timestamp)
+          }
+          acceptHand(result.hands, result.timestamp)
+        },
+        onPoseResult: (result: WorkerPoseResult) => {
+          if (requestId !== generation.current) return
+          const inFlight = inFlightCaptures.get(result.timestamp)
+          if (inFlight) inFlight.poseResult = result
+
+          acceptPose(result.pose, result.timestamp)
+        },
+        onFrameComplete: complete => {
+          if (requestId !== generation.current) return
+          const inFlight = inFlightCaptures.get(complete.timestamp)
+          if (inFlight) {
+            inFlightCaptures.delete(complete.timestamp)
+            if (capture.isActive()) {
+              const rawPose = inFlight.poseResult?.pose ?? []
+              const poseWorld = inFlight.poseResult?.poseWorldLandmarks ?? []
+              const displayPose = displayPoints.current.pose
+              const handRes = inFlight.handResult
+              const hands = handRes?.hands ?? []
+              const handWorld = handRes?.handWorldLandmarks ?? []
+              const handedness = handRes?.handedness ?? []
+
+              const rows = [
+                ...landmarkRows(rawPose, 'pose', 'normalized_image'),
+                ...landmarkRows(poseWorld, 'pose', 'world'),
+                ...landmarkRows(inFlight.scheduledPose ? displayPose as typeof rawPose : [], 'pose', 'normalized_image', 'display'),
+                ...(hands.flatMap((hand, index) => landmarkRows(hand, 'hand', 'normalized_image', 'raw', handedness[index])) || []),
+                ...(handWorld.flatMap((hand, index) => landmarkRows(hand, 'hand', 'world', 'raw', handedness[index])) || []),
+              ]
+              capture.addFrame({
+                timestamp: inFlight.now,
+                source_frame_id: inFlight.sourceFrameId,
+                video_media_time_ms: inFlight.mediaTime * 1000,
+                inference_performed: true,
+                pose_detected: inFlight.scheduledPose ? rawPose.length > 0 : null,
+                hand_detected: inFlight.scheduledHand ? hands.length > 0 : null,
+                inference_ms: complete.inferenceMs,
+                skipped_frames: inFlight.skippedSourceFrames,
+                landmarks: rows,
+              })
+            }
+          }
+        },
+        onError: () => {
+          if (requestId === generation.current) { setMessage('Worker không khả dụng; đang chuyển sang nhận diện trên luồng chính.'); void startMainThread() }
+        },
+      })
       if (requestId !== generation.current) { tracker.close(); return }
       workerRef.current = tracker
       setModelDelegates({
@@ -550,7 +630,39 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
       if (tracker.initializationErrors.length) {
         setModelErrors(previous => [...previous, ...tracker.initializationErrors])
       }
-      schedule('worker', (timestamp, doHand) => tracker.submit(video, timestamp, doHand))
+
+      let nextWorkerPose = -Infinity
+      let nextWorkerHand = -Infinity
+      schedule('worker', (timestamp, _doHand, now, mediaTime, sourceFrameId, skippedSourceFrames) => {
+        const doPose = now >= nextWorkerPose
+        const doHand = handActive && now >= nextWorkerHand
+        if (!doPose && !doHand) return false
+
+        if (capture.isActive()) {
+          inFlightCaptures.set(timestamp, {
+            now,
+            sourceFrameId: sourceFrameId ?? null,
+            mediaTime,
+            skippedSourceFrames: skippedSourceFrames ?? 0,
+            timestamp,
+            scheduledPose: doPose,
+            scheduledHand: doHand,
+            poseResult: null,
+            handResult: null,
+          })
+          if (inFlightCaptures.size > 50) {
+            const oldest = inFlightCaptures.keys().next().value
+            if (oldest !== undefined) inFlightCaptures.delete(oldest)
+          }
+        }
+
+        const accepted = tracker.submit(video, timestamp, doHand, doPose)
+        if (accepted) {
+          if (doPose) nextWorkerPose = now + 1000 / 15 - (Number.isFinite(nextWorkerPose) && nextWorkerPose > -Infinity ? (now - nextWorkerPose) % (1000 / 15) : 0)
+          if (doHand) nextWorkerHand = now + 1000 / 30 - (Number.isFinite(nextWorkerHand) && nextWorkerHand > -Infinity ? (now - nextWorkerHand) % (1000 / 30) : 0)
+        }
+        return accepted
+      })
     } catch {
       if (requestId === generation.current) { setMessage('Worker không khả dụng; đang chuyển sang nhận diện trên luồng chính.'); await startMainThread() }
     }
@@ -684,7 +796,7 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
           {!workflow && <button onClick={() => { stopCamera(); setDemo(value => !value); setSize({ width: 1280, height: 720 }); setMessage('') }}>{demo ? 'Thoát demo' : 'Chạy demo'}</button>}
           <button disabled={!streamActive || demo || starting} onClick={tracking ? stopTracking : startTracking}>{starting ? 'Đang tải…' : tracking ? 'Dừng nhận diện' : 'Bắt đầu nhận diện'}</button>
         </div>
-        {!workflow && <div className="workspace-meta"><span>{demo ? 'Mốc mô phỏng' : status}</span><span>{fps} FPS suy luận {activeEngine === 'rtmpose' ? 'WholeBody' : 'Pose'}</span>{activeEngine && <span>Pose: {modelDelegates.pose} | Hand: {modelDelegates.hand} · {activeEngine === 'parallel' ? (parallelHandAvailable ? 'hai Worker' : 'Worker Pose') : activeEngine === 'worker' ? 'Worker' : activeEngine === 'rtmpose' ? 'dịch vụ GPU localhost' : 'luồng chính'}</span>}<span>Yêu cầu camera: {requestedCameraSize.width} × {requestedCameraSize.height}</span>{streamActive && <span>Camera thực tế: {actualCameraSize ? `${actualCameraSize.width} × ${actualCameraSize.height}` : 'không xác định'}</span>}</div>}
+        {!workflow && <div className="workspace-meta"><span>{demo ? 'Mốc mô phỏng' : status}</span><span>{fps} FPS suy luận {activeEngine === 'rtmpose' ? 'WholeBody' : 'Pose'}</span>{activeEngine && <span>Pose: {modelDelegates.pose} | Hand: {modelDelegates.hand} · {activeEngine === 'parallel' ? (parallelHandAvailable ? 'hai Worker' : 'Worker Pose') : activeEngine === 'worker' ? ((modelDelegates.pose === 'GPU' || modelDelegates.hand === 'GPU') ? 'Worker GPU' : 'Worker CPU') : activeEngine === 'rtmpose' ? 'dịch vụ GPU localhost' : 'luồng chính'}</span>}<span>Yêu cầu camera: {requestedCameraSize.width} × {requestedCameraSize.height}</span>{streamActive && <span>Camera thực tế: {actualCameraSize ? `${actualCameraSize.width} × ${actualCameraSize.height}` : 'không xác định'}</span>}</div>}
         {!workflow && budgetStatus && <p>Giới hạn tự điều chỉnh Pose {budgetStatus.poseFps.toFixed(1)} / Hand {budgetStatus.handAvailable ? `${budgetStatus.handFps.toFixed(1)} FPS` : 'không khả dụng'} · {budgetStatus.phase === 'normal' ? 'bình thường' : 'đã giảm tải'}</p>}
         {!workflow && <><p><a href="/tracking-lab">Mở Tracking Test Lab</a></p>
         <div className="workspace-panel" aria-label="Thu thập dữ liệu nghiên cứu">
@@ -729,7 +841,7 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
         <label>Hiệu năng<select disabled={streamActive || cameraOpening} value={settings.trackingProfile || 'balanced'} onChange={event => updateSettings({ trackingProfile: event.target.value as TrackingProfileName })}><option value="economy">Economy</option><option value="balanced">Balanced</option><option value="quality">Quality</option></select></label>
         <label className="check"><input type="checkbox" disabled={streamActive || cameraOpening} checked={settings.profileCameraResolution} onChange={event => updateSettings({ profileCameraResolution: event.target.checked })} /> Dùng độ phân giải camera theo cấu hình tracking</label>
         <p className="workspace-hint">Kích thước theo cấu hình là yêu cầu gửi tới camera; thiết bị có thể chọn kích thước khác. Kiểm tra lại hiệu chuẩn khi thay đổi khung hình.</p>
-        <label className="check"><input type="checkbox" disabled={tracking || starting || settings.trackingModel === 'rtmpose'} checked={settings.workerTracking && !preferParallel} onChange={event => { setSettings(previous => ({ ...previous, workerTracking: event.target.checked })); if (event.target.checked) setPreferParallel(false) }} /> Sử dụng Worker CPU (thử nghiệm)</label>
+        <label className="check"><input type="checkbox" aria-label="Sử dụng Worker CPU (thử nghiệm)" disabled={tracking || starting || settings.trackingModel === 'rtmpose'} checked={settings.workerTracking && !preferParallel} onChange={event => { setSettings(previous => ({ ...previous, workerTracking: event.target.checked })); if (event.target.checked) setPreferParallel(false) }} /> Sử dụng Worker GPU (thử nghiệm)</label>
         <label className="check"><input type="checkbox" disabled={tracking || starting || !handEnabled || settings.trackingModel === 'rtmpose'} checked={preferParallel} onChange={event => setPreferParallel(event.target.checked)} /> Sử dụng hai Worker CPU (thử nghiệm)</label>
         <label className="check"><input type="checkbox" disabled={tracking || starting || !preferParallel || settings.trackingModel === 'rtmpose'} checked={adaptiveParallel} onChange={event => setAdaptiveParallel(event.target.checked)} /> Tự điều chỉnh nhịp hai Worker (thử nghiệm)</label>
         {preferParallel && <p className="workspace-hint">Tự điều chỉnh dùng thời gian nhận kết quả và độ phản hồi giao diện; không đo hoặc bảo đảm phần CPU còn lại của toàn máy. Giới hạn FPS không phải FPS thực tế.</p>}

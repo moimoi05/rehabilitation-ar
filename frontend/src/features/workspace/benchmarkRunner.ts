@@ -73,7 +73,7 @@ export async function runBenchmark(config: BenchmarkConfig, video: HTMLVideoElem
   const fingerAvailability = { thumb: 0, index: 0, middle: 0, ring: 0, pinky: 0 }
   let fingerTotalHands = 0
   const handednessScores: number[] = []
-  let handTrackingLossCount = 0, handTrackingRecoveryCount = 0, lastHandValid = false
+  let handTrackingLossCount = 0, handTrackingRecoveryCount = 0, lastHandValid = false, hadInitialDetection = false
   const pipelineLatencies: number[] = []
   const captureLatencies: number[] = []
   const transferLatencies: number[] = []
@@ -111,8 +111,12 @@ export async function runBenchmark(config: BenchmarkConfig, video: HTMLVideoElem
     if (observation.pose !== null) { poseCount++; pose = nextPose ?? []; poseTime = timestamp; poseValid = wholebody ? [11, 12, 13, 14, 15, 16].every(index => usableTrackingPoint(observation.pose![index])) : validPose(observation.pose); if (!poseValid) poseInvalid++; poseLatency = observation.poseMs; if (poseLatency !== null) poseLatencies.push(poseLatency) }
     if (observation.hands !== null) {
       handCount++; hands = nextHands ?? []; handTime = timestamp; handValid = observation.hands.some(points => validHand(points) && points.every(point => usableTrackingPoint(point, true))); if (!handValid) handInvalid++
-      if (lastHandValid && !handValid) handTrackingLossCount++
-      else if (!lastHandValid && handValid) handTrackingRecoveryCount++
+      if (!hadInitialDetection) {
+        if (handValid) hadInitialDetection = true
+      } else {
+        if (lastHandValid && !handValid) handTrackingLossCount++
+        else if (!lastHandValid && handValid) handTrackingRecoveryCount++
+      }
       lastHandValid = handValid
 
       labels = observation.handedness?.map(categories => categories[0]?.categoryName || 'Unknown') ?? []
@@ -268,7 +272,7 @@ export async function runBenchmark(config: BenchmarkConfig, video: HTMLVideoElem
   const seconds = start ? (end - start) / 1000 : 0
   const totalHandMs = handLatencies.reduce((sum, v) => sum + v, 0)
   const totalPoseMs = poseLatencies.reduce((sum, v) => sum + v, 0)
-  const workerUtilization = seconds > 0 ? ((totalHandMs + totalPoseMs) / (seconds * 1000)) * 100 : 0
+  const modelInferenceBusyRatio = seconds > 0 ? ((totalHandMs + totalPoseMs) / (seconds * 1000)) * 100 : 0
 
   const summary = { run_id: created.run_id, date_time: new Date().toISOString(), configuration: config, source_video_path: source.source_path, source_video_metadata: source,
     browser: navigator.userAgent, hardware: source.hardware, runtime_info: engine?.runtimeInfo ?? null, mediapipe_version: wholebody ? null : '0.10.35', pose_model: wholebody ? 'RTMPose-m WholeBody c8b76419' : 'pose_landmarker_lite.task', hand_model: wholebody ? null : config.hands ? 'hand_landmarker.task' : null,
@@ -276,7 +280,9 @@ export async function runBenchmark(config: BenchmarkConfig, video: HTMLVideoElem
     resolution: { width: video.videoWidth, height: video.videoHeight }, playback_rate: 1, requested_fps: { pose: config.poseFps, hand: config.hands ? config.handFps : 0 },
     actual_fps: { pose: seconds ? poseCount / seconds : 0, hand: wholebody ? null : seconds ? handCount / seconds : 0, wholebody_result: wholebody && seconds ? poseCount / seconds : null, render: seconds ? renderCount / seconds : 0 },
     pose_latency: latencySummary(poseLatencies), hand_latency: wholebody ? null : latencySummary(handLatencies), render_fps: seconds ? renderCount / seconds : 0,
-    capture_latency: latencySummary(captureLatencies), transfer_latency: latencySummary(transferLatencies), worker_utilization_percent: Number(workerUtilization.toFixed(2)),
+    capture_latency: latencySummary(captureLatencies), transfer_latency: latencySummary(transferLatencies),
+    model_inference_busy_ratio_percent: Number(modelInferenceBusyRatio.toFixed(2)),
+    worker_utilization_percent: Number(modelInferenceBusyRatio.toFixed(2)),
     processed_frames: { pose: poseCount, hand: handCount, observations: frameId, rendered: renderCount, source_presented: sourceCount },
     skipped_frames: { source_unpresented: sourceSkipped, worker_busy: busySkipped, pose_not_scheduled: poseSkipped, hand_not_scheduled: handSkipped },
     landmark_availability: {

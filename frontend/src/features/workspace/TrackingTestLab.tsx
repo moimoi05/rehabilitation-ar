@@ -22,6 +22,7 @@ import type { WorkerHandResult, WorkerPoseResult, WorkerTracker } from './worker
 import { createParallelWorkerTracker } from './parallelWorkerTracker'
 import type { ParallelWorkerTracker } from './parallelWorkerTracker'
 import { AdaptiveWorkerBudget, AUTO_WORKER_MAX_FPS } from './adaptiveWorkerBudget'
+import { resolveWorkerPreference } from './trackingEnginePreference'
 import { captureInferenceBitmapWithTimings, INFERENCE_RESOLUTIONS } from './inferenceResolution'
 import type { InferenceResolutionName } from './inferenceResolution'
 import './workspace.css'
@@ -124,7 +125,7 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
   const [delegate, setDelegate] = useState('—')
   const [preferGpu, setPreferGpu] = useState(true)
   const [modelErrors, setModelErrors] = useState<string[]>([])
-  const [preferWorker, setPreferWorker] = useState(false)
+  const [preferWorker, setPreferWorker] = useState(() => resolveWorkerPreference(settings().workerTracking, localStorage.getItem('rehab.workerTracking')))
   const [preferWorkerGpu, setPreferWorkerGpu] = useState(true)
   const [preferParallel, setPreferParallel] = useState(false)
   const [preferAdaptive, setPreferAdaptive] = useState(false)
@@ -177,7 +178,8 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
     rtmposeHandLabels.current = []
     scheduleRedraw()
     const target = canvas.current
-    const ctx = target?.getContext('2d')
+    let ctx: CanvasRenderingContext2D | null = null
+    try { ctx = target?.getContext('2d') ?? null } catch { ctx = null }
     if (target && ctx) {
       ctx.setTransform(1, 0, 0, 1, 0, 0)
       ctx.clearRect(0, 0, target.width, target.height)
@@ -271,7 +273,8 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
     const renderOverlay = () => {
       const now = performance.now()
       const target = canvas.current
-      const ctx = target?.getContext('2d')
+      let ctx: CanvasRenderingContext2D | null = null
+      try { ctx = target?.getContext('2d') ?? null } catch { ctx = null }
       const value = landmarks.current
       const poseFresh = isFreshPose(value.poseTime, now)
       const handFresh = isFreshHand(value.handTime, now)
@@ -936,7 +939,7 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
     }
 
     // Main thread execution fallback
-    if ((source === 'video' && onReplayFrame) || !preferWorker || typeof Worker === 'undefined' || typeof createImageBitmap !== 'function') {
+    if (!preferWorker || typeof Worker === 'undefined' || typeof createImageBitmap !== 'function') {
       if (preferParallel) setMessage('Hai Worker không được hỗ trợ; Lab dùng CPU trên luồng chính.')
       else if (preferWorker) setMessage('Worker không được hỗ trợ; Lab dùng luồng chính.')
       await startMain(requestId, preferWorker || preferParallel ? false : preferGpu)
@@ -950,7 +953,16 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
       const thread = new Worker('/tracking-worker.js')
       const moduleUrl = new URL('../../../node_modules/@mediapipe/tasks-vision/vision_bundle.mjs', import.meta.url).href
       let pending: Snapshot | null = null
-      let currentSourceFrame: Parameters<Inference>[3] | null = null
+
+      type InFlightReplay = {
+        sourceFrame: NonNullable<Parameters<Inference>[3]>
+        timestamp: number
+        scheduledHand: boolean
+        scheduledPose: boolean
+        handResult: WorkerHandResult | null
+        poseResult: WorkerPoseResult | null
+      }
+      const inFlightReplayFrames = new Map<number, InFlightReplay>()
 
       const useGpuForWorker = preferWorkerGpu && preferGpu
       const targetRes = INFERENCE_RESOLUTIONS[inferenceResolution]?.dimensions ?? null
@@ -966,6 +978,9 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
         capture: element => captureInferenceBitmapWithTimings(element, targetRes),
         onHandResult: (result: WorkerHandResult) => {
           if (requestId !== generation.current) return
+          const inFlight = inFlightReplayFrames.get(result.timestamp)
+          if (inFlight) inFlight.handResult = result
+
           const now = performance.now()
           if (result.handFailed && useHand) {
             const wasMeasuring = measuringRef.current
@@ -1007,6 +1022,9 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
         },
         onPoseResult: (result: WorkerPoseResult) => {
           if (requestId !== generation.current) return
+          const inFlight = inFlightReplayFrames.get(result.timestamp)
+          if (inFlight) inFlight.poseResult = result
+
           const now = performance.now()
           if (result.poseFailed && poseEnabled) {
             setModelErrors(prev => [...prev, result.poseError || 'Pose worker error'])
@@ -1042,22 +1060,30 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
             if (upperLimbVisible(landmarks.current.raw, [11, 13, 15])) sample.leftVisible++
             if (upperLimbVisible(landmarks.current.raw, [12, 14, 16])) sample.rightVisible++
           }
-        },
-        onResult: result => {
-          if (requestId !== generation.current) return
-          if (source === 'video' && onReplayFrame && currentSourceFrame) {
-            onReplayFrame(createReplayFrame({
-              ...currentSourceFrame,
-              inferenceMs: result.inferenceMs ?? 0,
-              pose: result.pose || [],
-              posePerformed: result.poseProcessed === true,
-              poseWorld: result.poseWorldLandmarks ?? [],
-              displayPose: landmarks.current.display,
-              hands: result.hands ?? [],
-              handsWorld: result.handWorldLandmarks ?? [],
-              handedness: result.handedness ?? [],
-              handPerformed: result.handProcessed === true,
-            }))
+
+          const inFlight = inFlightReplayFrames.get(complete.timestamp)
+          if (inFlight) {
+            inFlightReplayFrames.delete(complete.timestamp)
+            if (source === 'video' && onReplayFrame) {
+              const handRes = inFlight.handResult
+              const poseRes = inFlight.poseResult
+              const poseValid = Boolean(poseRes && poseRes.poseProcessed && !poseRes.poseFailed)
+              const handValid = Boolean(handRes && handRes.handProcessed && !handRes.handFailed)
+              onReplayFrame(createReplayFrame({
+                ...inFlight.sourceFrame,
+                inferenceMs: complete.inferenceMs,
+                pose: poseRes?.pose || [],
+                posePerformed: inFlight.scheduledPose ? poseValid : false,
+                poseWorld: poseRes?.poseWorldLandmarks ?? [],
+                displayPose: (poseRes?.pose && poseRes.pose.length && drawOptions.current.smoothed)
+                  ? smoother.current.filter('pose', poseRes.pose, inFlight.timestamp, POSE_SMOOTHING_POLICY)
+                  : (poseRes?.pose || []),
+                hands: handRes?.hands || [],
+                handsWorld: handRes?.handWorldLandmarks ?? [],
+                handedness: handRes?.handedness ?? [],
+                handPerformed: inFlight.scheduledHand ? handValid : false,
+              }))
+            }
           }
         },
         onError: () => fallback(requestId),
@@ -1076,7 +1102,20 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
       if (tracker.initializationErrors.length) setModelErrors(previous => [...previous, ...tracker.initializationErrors])
 
       schedule(requestId, (timestamp, doHand, sample, sourceFrame, doPose = true) => {
-        currentSourceFrame = sourceFrame
+        if (source === 'video' && onReplayFrame && sourceFrame) {
+          inFlightReplayFrames.set(timestamp, {
+            sourceFrame,
+            timestamp,
+            scheduledHand: doHand,
+            scheduledPose: doPose,
+            handResult: null,
+            poseResult: null,
+          })
+          if (inFlightReplayFrames.size > 50) {
+            const oldest = inFlightReplayFrames.keys().next().value
+            if (oldest !== undefined) inFlightReplayFrames.delete(oldest)
+          }
+        }
         const accepted = tracker.submit(input, timestamp, doHand, doPose)
         if (accepted) pending = sample
         return accepted

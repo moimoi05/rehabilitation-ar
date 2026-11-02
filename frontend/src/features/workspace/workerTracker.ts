@@ -28,7 +28,9 @@ export type WorkerHandResult = {
   handedness: WorkerCategory[][] | null
   handInferenceMs: number | null
   handProcessed: boolean
+  transferAndDispatchMs?: number | null
   transferMs?: number | null
+  captureResizeTotalMs?: number | null
   captureMs?: number | null
   handFailed?: boolean
   handError?: string
@@ -42,7 +44,9 @@ export type WorkerPoseResult = {
   poseWorldLandmarks: WorkerLandmark[] | null
   poseInferenceMs: number | null
   poseProcessed: boolean
+  transferAndDispatchMs?: number | null
   transferMs?: number | null
+  captureResizeTotalMs?: number | null
   captureMs?: number | null
   poseFailed?: boolean
   poseError?: string
@@ -57,14 +61,22 @@ export type WorkerFrameComplete = {
   handProcessed: boolean
   poseInferenceMs: number | null
   handInferenceMs: number | null
+  transferAndDispatchMs?: number | null
   transferMs?: number | null
+  captureResizeTotalMs?: number | null
   captureMs?: number | null
+  handFailed?: boolean
+  handError?: string
+  handCleanupFailed?: boolean
+  poseFailed?: boolean
+  poseError?: string
+  poseCleanupFailed?: boolean
 }
 
 type Delegates = { pose: 'GPU' | 'CPU' | null; hand: 'GPU' | 'CPU' | null }
 export type WorkerRole = 'both' | 'pose' | 'hand'
 
-export type CaptureOutput = ImageBitmap | { bitmap: ImageBitmap; captureMs?: number; resizeMs?: number }
+export type CaptureOutput = ImageBitmap | { bitmap: ImageBitmap; captureResizeTotalMs?: number; captureMs?: number; resizeMs?: number }
 
 type Options = {
   worker: Worker
@@ -72,6 +84,7 @@ type Options = {
   handEnabled: boolean
   role?: WorkerRole
   preferGpu?: boolean
+  handFirst?: boolean
   capture: (video: HTMLVideoElement) => Promise<CaptureOutput>
   onResult?: (result: WorkerResult) => void
   onHandResult?: (result: WorkerHandResult) => void
@@ -82,7 +95,7 @@ type Options = {
 }
 
 export type WorkerTracker = {
-  submit: (video: HTMLVideoElement, timestamp: number, hand: boolean, pose?: boolean) => boolean
+  submit: (video: HTMLVideoElement, timestamp: number, hand: boolean, pose?: boolean, frameId?: number) => boolean
   close: () => void
   dispose: () => Promise<void>
   readonly delegates: Delegates
@@ -99,6 +112,9 @@ export function createWorkerTracker(options: Options): Promise<WorkerTracker> {
     let initializationErrors: string[] = []
     let frameTimeout: ReturnType<typeof setTimeout> | null = null
     let completedSequence = 0
+
+    let latestHandForSequence: WorkerHandResult | null = null
+    let latestPoseForSequence: WorkerPoseResult | null = null
 
     const close = () => {
       if (closed) return
@@ -127,10 +143,10 @@ export function createWorkerTracker(options: Options): Promise<WorkerTracker> {
       }
       options.signal?.removeEventListener('abort', abort)
 
-      return new Promise<void>((resolve) => {
+      return new Promise<void>((resolve, reject) => {
         let cleanupTimeout: ReturnType<typeof setTimeout> | null = null
 
-        const terminateWorker = () => {
+        const terminateWorker = (error?: Error) => {
           if (cleanupTimeout !== null) {
             clearTimeout(cleanupTimeout)
             cleanupTimeout = null
@@ -139,23 +155,33 @@ export function createWorkerTracker(options: Options): Promise<WorkerTracker> {
           worker.onerror = null
           worker.onmessageerror = null
           worker.terminate()
-          resolve()
+          if (error) reject(error)
+          else resolve()
         }
 
-        cleanupTimeout = setTimeout(terminateWorker, 1000)
+        cleanupTimeout = setTimeout(() => {
+          terminateWorker(new Error('Worker disposal timed out'))
+        }, 1500)
 
         worker.onmessage = (event) => {
           if (event.data?.type === 'disposed') {
-            terminateWorker()
+            const cleanupErrors = event.data?.cleanupErrors
+            if (Array.isArray(cleanupErrors) && cleanupErrors.length > 0) {
+              const err = new Error(`Worker cleanup failed: ${cleanupErrors.join('; ')}`)
+              options.onError(err)
+              terminateWorker(err)
+            } else {
+              terminateWorker()
+            }
           }
         }
-        worker.onerror = terminateWorker
-        worker.onmessageerror = terminateWorker
+        worker.onerror = (e) => terminateWorker(new Error(e.message || 'Worker disposal error'))
+        worker.onmessageerror = () => terminateWorker(new Error('Worker disposal decode error'))
 
         try {
           worker.postMessage({ type: 'dispose' })
-        } catch {
-          terminateWorker()
+        } catch (error) {
+          terminateWorker(error instanceof Error ? error : new Error(String(error)))
         }
       })
     }
@@ -177,12 +203,15 @@ export function createWorkerTracker(options: Options): Promise<WorkerTracker> {
     const tracker: WorkerTracker = {
       get delegates() { return { ...delegates } },
       get initializationErrors() { return [...initializationErrors] },
-      submit(video, timestamp, hand, pose = true) {
+      submit(video, timestamp, hand, pose = true, frameId?: number) {
         if (closed || busy) return false
         busy = true
         pendingTimestamp = timestamp
         frameTimeout = setTimeout(() => fail(new Error('Worker inference timed out')), 8000)
-        const id = ++sequence
+        const id = typeof frameId === 'number' ? frameId : ++sequence
+        sequence = id
+        latestHandForSequence = null
+        latestPoseForSequence = null
         let capturePromise: Promise<CaptureOutput>
         try {
           capturePromise = options.capture(video)
@@ -193,24 +222,27 @@ export function createWorkerTracker(options: Options): Promise<WorkerTracker> {
         capturePromise.then(output => {
           const isTimingResult = output && typeof output === 'object' && 'bitmap' in output && (output as { bitmap: unknown }).bitmap !== undefined
           const bitmap = isTimingResult ? (output as { bitmap: ImageBitmap }).bitmap : (output as ImageBitmap)
-          const captureMs = isTimingResult && typeof (output as { captureMs?: number }).captureMs === 'number'
-            ? (output as { captureMs: number }).captureMs : undefined
+          const timingObj = isTimingResult ? (output as Record<string, unknown>) : null
+          const captureResizeTotalMs = timingObj && typeof timingObj.captureResizeTotalMs === 'number'
+            ? timingObj.captureResizeTotalMs
+            : timingObj && typeof timingObj.captureMs === 'number' ? timingObj.captureMs : undefined
 
           if (closed) {
             bitmap.close()
             return
           }
           try {
-            const submittedAt = performance.now()
+            const submittedAt = performance.timeOrigin + performance.now()
             worker.postMessage({
               type: 'frame',
               id,
               bitmap,
               timestamp,
               submittedAt,
-              ...(captureMs !== undefined ? { captureMs } : {}),
+              ...(captureResizeTotalMs !== undefined ? { captureResizeTotalMs, captureMs: captureResizeTotalMs } : {}),
               hand,
               ...(pose ? {} : { pose: false }),
+              ...(options.handFirst !== undefined ? { handFirst: options.handFirst } : {}),
             }, [bitmap])
           } catch (error) {
             bitmap.close()
@@ -244,7 +276,13 @@ export function createWorkerTracker(options: Options): Promise<WorkerTracker> {
 
       // Hand result delivered immediately to the main thread
       if (data.type === 'hand_result' && ready && busy && data.id === sequence) {
-        options.onHandResult?.({
+        const transferVal = typeof data.transferAndDispatchMs === 'number' && Number.isFinite(data.transferAndDispatchMs)
+          ? data.transferAndDispatchMs
+          : typeof data.transferMs === 'number' && Number.isFinite(data.transferMs) ? data.transferMs : null
+        const captureVal = typeof data.captureResizeTotalMs === 'number' && Number.isFinite(data.captureResizeTotalMs)
+          ? data.captureResizeTotalMs
+          : typeof data.captureMs === 'number' && Number.isFinite(data.captureMs) ? data.captureMs : null
+        const handResult: WorkerHandResult = {
           id: data.id,
           timestamp: pendingTimestamp,
           hands: data.hands ?? [],
@@ -252,28 +290,42 @@ export function createWorkerTracker(options: Options): Promise<WorkerTracker> {
           handedness: data.handedness ?? null,
           handInferenceMs: typeof data.handInferenceMs === 'number' && Number.isFinite(data.handInferenceMs) ? data.handInferenceMs : null,
           handProcessed: data.handProcessed === true,
-          transferMs: typeof data.transferMs === 'number' && Number.isFinite(data.transferMs) ? data.transferMs : null,
-          captureMs: typeof data.captureMs === 'number' && Number.isFinite(data.captureMs) ? data.captureMs : null,
+          transferAndDispatchMs: transferVal,
+          transferMs: transferVal,
+          captureResizeTotalMs: captureVal,
+          captureMs: captureVal,
           ...(data.handFailed === true ? { handFailed: true, handError: data.handError } : {}),
           ...(data.handCleanupFailed === true ? { handCleanupFailed: true } : {}),
-        })
+        }
+        latestHandForSequence = handResult
+        options.onHandResult?.(handResult)
         return
       }
 
       // Pose result delivered immediately to the main thread
       if (data.type === 'pose_result' && ready && busy && data.id === sequence) {
-        options.onPoseResult?.({
+        const transferVal = typeof data.transferAndDispatchMs === 'number' && Number.isFinite(data.transferAndDispatchMs)
+          ? data.transferAndDispatchMs
+          : typeof data.transferMs === 'number' && Number.isFinite(data.transferMs) ? data.transferMs : null
+        const captureVal = typeof data.captureResizeTotalMs === 'number' && Number.isFinite(data.captureResizeTotalMs)
+          ? data.captureResizeTotalMs
+          : typeof data.captureMs === 'number' && Number.isFinite(data.captureMs) ? data.captureMs : null
+        const poseResult: WorkerPoseResult = {
           id: data.id,
           timestamp: pendingTimestamp,
           pose: data.pose ?? [],
           poseWorldLandmarks: data.poseWorldLandmarks ?? null,
           poseInferenceMs: typeof data.poseInferenceMs === 'number' && Number.isFinite(data.poseInferenceMs) ? data.poseInferenceMs : null,
           poseProcessed: data.poseProcessed === true,
-          transferMs: typeof data.transferMs === 'number' && Number.isFinite(data.transferMs) ? data.transferMs : null,
-          captureMs: typeof data.captureMs === 'number' && Number.isFinite(data.captureMs) ? data.captureMs : null,
+          transferAndDispatchMs: transferVal,
+          transferMs: transferVal,
+          captureResizeTotalMs: captureVal,
+          captureMs: captureVal,
           ...(data.poseFailed === true ? { poseFailed: true, poseError: data.poseError } : {}),
           ...(data.poseCleanupFailed === true ? { poseCleanupFailed: true } : {}),
-        })
+        }
+        latestPoseForSequence = poseResult
+        options.onPoseResult?.(poseResult)
         return
       }
 
@@ -290,15 +342,9 @@ export function createWorkerTracker(options: Options): Promise<WorkerTracker> {
         const inferenceMs = typeof data.inferenceMs === 'number' && Number.isFinite(data.inferenceMs) && data.inferenceMs >= 0
           ? data.inferenceMs : undefined
         const latency = (value: unknown) => typeof value === 'number' && Number.isFinite(value) && value >= 0 ? value : null
-        const observations = typeof data.poseProcessed === 'boolean' && typeof data.handProcessed === 'boolean' ? {
-          poseProcessed: data.poseProcessed,
-          handProcessed: data.handProcessed,
-          poseInferenceMs: latency(data.poseInferenceMs),
-          handInferenceMs: latency(data.handInferenceMs),
-          poseWorldLandmarks: data.poseWorldLandmarks ?? [],
-          handWorldLandmarks: data.handWorldLandmarks ?? null,
-          handedness: data.handedness ?? null,
-        } : {}
+
+        const transferVal = latency(data.transferAndDispatchMs ?? data.transferMs)
+        const captureVal = latency(data.captureResizeTotalMs ?? data.captureMs)
 
         options.onFrameComplete?.({
           id: data.id,
@@ -308,20 +354,46 @@ export function createWorkerTracker(options: Options): Promise<WorkerTracker> {
           handProcessed: data.handProcessed === true,
           poseInferenceMs: latency(data.poseInferenceMs),
           handInferenceMs: latency(data.handInferenceMs),
-          transferMs: latency(data.transferMs),
-          captureMs: latency(data.captureMs),
+          transferAndDispatchMs: transferVal,
+          transferMs: transferVal,
+          captureResizeTotalMs: captureVal,
+          captureMs: captureVal,
+          ...(data.handFailed === true ? { handFailed: true, handError: data.handError } : {}),
+          ...(data.handCleanupFailed === true ? { handCleanupFailed: true } : {}),
+          ...(data.poseFailed === true ? { poseFailed: true, poseError: data.poseError } : {}),
+          ...(data.poseCleanupFailed === true ? { poseCleanupFailed: true } : {}),
         })
+
+        // Backward compatibility for consumers expecting aggregated onResult
+        const aggregatedPose = data.pose || latestPoseForSequence?.pose || []
+        const aggregatedHands = data.hands !== undefined ? data.hands : (latestHandForSequence ? latestHandForSequence.hands : null)
+        const aggregatedPoseWorld = data.poseWorldLandmarks ?? latestPoseForSequence?.poseWorldLandmarks ?? []
+        const aggregatedHandWorld = data.handWorldLandmarks ?? latestHandForSequence?.handWorldLandmarks ?? null
+        const aggregatedHandedness = data.handedness ?? latestHandForSequence?.handedness ?? null
+
+        const hasObservations = (typeof data.poseProcessed === 'boolean' && typeof data.handProcessed === 'boolean')
+          || (latestPoseForSequence !== null || latestHandForSequence !== null)
+
+        const observations = hasObservations ? {
+          poseProcessed: typeof data.poseProcessed === 'boolean' ? data.poseProcessed : latestPoseForSequence?.poseProcessed ?? false,
+          handProcessed: typeof data.handProcessed === 'boolean' ? data.handProcessed : latestHandForSequence?.handProcessed ?? false,
+          poseInferenceMs: latency(data.poseInferenceMs ?? latestPoseForSequence?.poseInferenceMs),
+          handInferenceMs: latency(data.handInferenceMs ?? latestHandForSequence?.handInferenceMs),
+          poseWorldLandmarks: aggregatedPoseWorld,
+          handWorldLandmarks: aggregatedHandWorld,
+          handedness: aggregatedHandedness,
+        } : {}
 
         options.onResult?.({
           timestamp: pendingTimestamp,
-          pose: data.pose || [],
-          hands: data.hands ?? null,
+          pose: aggregatedPose,
+          hands: aggregatedHands,
           inferenceMs,
           ...observations,
-          ...(data.handFailed === true ? {
+          ...(data.handFailed === true || latestHandForSequence?.handFailed === true ? {
             handFailed: true,
-            ...(typeof data.handError === 'string' ? { handError: data.handError } : {}),
-            ...(data.handCleanupFailed === true ? { handCleanupFailed: true } : {}),
+            ...(typeof data.handError === 'string' ? { handError: data.handError } : typeof latestHandForSequence?.handError === 'string' ? { handError: latestHandForSequence.handError } : {}),
+            ...(data.handCleanupFailed === true || latestHandForSequence?.handCleanupFailed === true ? { handCleanupFailed: true } : {}),
           } : {}),
         })
       }

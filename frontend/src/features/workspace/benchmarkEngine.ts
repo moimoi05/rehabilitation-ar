@@ -139,12 +139,14 @@ export async function createBenchmarkEngine(
     if (config.engine === 'worker') {
       const useHandFirst = config.handFirst !== false
       const targetRes = config.inferenceResolution ?? null
+      let frameTimingsRecorded = false
 
       worker = await createWorkerTracker({
         worker: new Worker('/tracking-worker.js'),
         moduleUrl: new URL('../../../node_modules/@mediapipe/tasks-vision/vision_bundle.mjs', import.meta.url).href,
         handEnabled: config.hands,
         preferGpu: config.gpu,
+        handFirst: useHandFirst,
         capture: element => captureInferenceBitmapWithTimings(element, targetRes),
         onError,
         onHandResult: useHandFirst ? (result: WorkerHandResult) => {
@@ -154,6 +156,8 @@ export async function createBenchmarkEngine(
             onError(new Error(result.handError || 'Hand worker inference failed'))
             return
           }
+          const recordTimings = !frameTimingsRecorded
+          if (recordTimings) frameTimingsRecorded = true
           onResult({
             frame,
             pose: null,
@@ -163,8 +167,8 @@ export async function createBenchmarkEngine(
             poseWorld: null,
             handWorld: result.handWorldLandmarks ?? null,
             handedness: result.handedness ?? null,
-            transferMs: result.transferMs ?? null,
-            captureMs: result.captureMs ?? null,
+            transferMs: recordTimings ? (result.transferAndDispatchMs ?? result.transferMs ?? null) : null,
+            captureMs: recordTimings ? (result.captureResizeTotalMs ?? result.captureMs ?? null) : null,
           })
         } : undefined,
         onPoseResult: useHandFirst ? (result: WorkerPoseResult) => {
@@ -174,6 +178,8 @@ export async function createBenchmarkEngine(
             onError(new Error(result.poseError || 'Pose worker inference failed'))
             return
           }
+          const recordTimings = !frameTimingsRecorded
+          if (recordTimings) frameTimingsRecorded = true
           onResult({
             frame,
             pose: result.poseProcessed ? result.pose : null,
@@ -183,16 +189,18 @@ export async function createBenchmarkEngine(
             poseWorld: result.poseWorldLandmarks ?? null,
             handWorld: null,
             handedness: null,
-            transferMs: result.transferMs ?? null,
-            captureMs: result.captureMs ?? null,
+            transferMs: recordTimings ? (result.transferAndDispatchMs ?? result.transferMs ?? null) : null,
+            captureMs: recordTimings ? (result.captureResizeTotalMs ?? result.captureMs ?? null) : null,
           })
         } : undefined,
         onFrameComplete: useHandFirst ? () => {
           pending = null
+          frameTimingsRecorded = false
         } : undefined,
         onResult: !useHandFirst ? (result: WorkerResult) => {
           const frame = pending
           pending = null
+          frameTimingsRecorded = false
           if (!frame) return
           if (result.handFailed) {
             onError(new Error(result.handError || 'Hand worker inference failed'))

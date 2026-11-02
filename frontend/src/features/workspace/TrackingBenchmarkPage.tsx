@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { benchmarkRequest } from './benchmarkArtifacts'
-import { benchmarkSuite, comparisonSuite, runBenchmark } from './benchmarkRunner'
+import { benchmarkSuite, comparisonSuite, latencyBenchmarkSuite, runBenchmark } from './benchmarkRunner'
 import type { RunResult, SourceInfo } from './benchmarkRunner'
 import TrackingRecordingComparison, { COMPARISON_RUNS_KEY } from './TrackingRecordingComparison'
 
@@ -8,7 +8,7 @@ export default function TrackingBenchmarkPage() {
   const video = useRef<HTMLVideoElement>(null), canvas = useRef<HTMLCanvasElement>(null), controller = useRef<AbortController | null>(null)
   const [source, setSource] = useState<SourceInfo | null>(null), [status, setStatus] = useState('Đang đọc video nguồn…')
   const [running, setRunning] = useState(false), [results, setResults] = useState<RunResult[]>([])
-  const [selected, setSelected] = useState('comparison')
+  const [selected, setSelected] = useState('latency')
   const [roi, setRoi] = useState({ x: 0, y: 0, width: 1, height: 1 }), [roiConfirmed, setRoiConfirmed] = useState(false)
   const validRoi = Object.values(roi).every(Number.isFinite) && roi.x >= 0 && roi.y >= 0 && roi.width > 0 && roi.height > 0 && roi.x + roi.width <= 1 && roi.y + roi.height <= 1
   useEffect(() => { let active = true; benchmarkRequest<SourceInfo>('/source-info').then(info => { if (active) { setSource(info); setStatus('Sẵn sàng') } }).catch(error => { if (active) setStatus(String(error)) }); return () => { active = false; controller.current?.abort() } }, [])
@@ -19,8 +19,8 @@ export default function TrackingBenchmarkPage() {
   const start = async () => {
     if (!source || !video.current || !canvas.current || controller.current) return
     const abort = new AbortController(); controller.current = abort; setRunning(true)
-    const suite = benchmarkSuite(), comparisons = comparisonSuite(roi)
-    const configurations = selected === 'comparison' ? comparisons : selected === 'mediapipe' ? [comparisons[0]] : selected === 'rtmpose' ? [comparisons[1]] : selected === 'rtmpose-detector' ? [comparisons[2]] : selected === 'suite' ? suite : [suite[Number(selected)]]
+    const suite = benchmarkSuite(), comparisons = comparisonSuite(roi), latencySuite = latencyBenchmarkSuite()
+    const configurations = selected === 'latency' ? latencySuite : selected === 'comparison' ? comparisons : selected === 'mediapipe' ? [comparisons[0]] : selected === 'rtmpose' ? [comparisons[1]] : selected === 'rtmpose-detector' ? [comparisons[2]] : selected === 'suite' ? suite : [suite[Number(selected)]]
     try {
       for (const config of configurations) {
         if (abort.signal.aborted) break
@@ -38,6 +38,7 @@ export default function TrackingBenchmarkPage() {
     {source && <p>{source.width} × {source.height} · {source.duration?.toFixed(2)} giây · FPS metadata: {source.fps ?? 'không có'}</p>}
     <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 12 }}>
       <select aria-label="Cấu hình benchmark" disabled={running} value={selected} onChange={event => setSelected(event.target.value)}>
+        <option value="latency">Bộ kiểm thử Hand-First GPU Worker (5 cấu hình tối ưu)</option>
         <option value="comparison">Tuần tự: MediaPipe → RTMPose ROI → RTMPose + detector</option>
         <option value="mediapipe">A MediaPipe GPU Pose + Hand</option>
         <option value="rtmpose">B RTMPose-m GPU — operator ROI</option>

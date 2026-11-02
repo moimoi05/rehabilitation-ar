@@ -1,12 +1,11 @@
 import { LandmarkSmoother, POSE_SMOOTHING_POLICY, SMOOTHING_PROFILES } from './landmarkSmoothing'
 import type { Point } from './drawing'
+import { usableTrackingPoint } from './trackingLandmark'
 
 export type BenchmarkFilter = 'raw' | 'standard' | 'responsive'
-const valid = (p: Point) => Number.isFinite(p.x) && Number.isFinite(p.y) && p.x >= 0 && p.x <= 1 && p.y >= 0 && p.y <= 1
-export const validPose = (points: Point[]) => [11, 12, 13, 14, 15, 16].every(index => {
-  const p = points[index]; return p && valid(p) && p.visibility !== undefined && p.visibility >= .4
-})
-export const validHand = (points: Point[]) => points.length === 21 && points.every(valid)
+const valid = (p: Point | undefined) => usableTrackingPoint(p, true)
+export const validPose = (points: Point[]) => [11, 12, 13, 14, 15, 16].every(index => usableTrackingPoint(points[index]))
+export const validHand = (points: Point[]) => points.length === 21 && Array.from(points).every(valid)
 
 /** Compare filters on identical observations; these are signal proxies, not ground-truth accuracy. */
 export class BenchmarkQuality {
@@ -17,18 +16,20 @@ export class BenchmarkQuality {
   reset(identity: string) { this.filters.standard.reset(identity); this.filters.responsive.reset(identity); if (this.previous.delete(identity)) this.discontinuities++ }
   filter(identity: string, points: Point[], timestamp: number, selected: BenchmarkFilter): Point[] {
     if (!points.length) { this.reset(identity); return [] }
+    const rawOnly = points.some(point => point.source === 'rtmpose')
     // Hand API visibility is not a confidence field. Keep raw metadata but don't use it to suppress filtering.
     const input = identity === 'pose' ? points : points.map(point => { const copy = { ...point }; delete copy.visibility; return copy })
     const policy = identity === 'pose' ? POSE_SMOOTHING_POLICY : {}
-    const output = { raw: points, standard: this.filters.standard.filter(identity, input, timestamp, policy), responsive: this.filters.responsive.filter(identity, input, timestamp, policy) }
+    const output = { raw: points, standard: rawOnly ? points : this.filters.standard.filter(identity, input, timestamp, policy), responsive: rawOnly ? points : this.filters.responsive.filter(identity, input, timestamp, policy) }
     const previous = this.previous.get(identity)
     const contiguous = previous && timestamp - previous.timestamp > 0 && timestamp - previous.timestamp <= 500
     if (previous && !contiguous) this.discontinuities++
     for (const name of ['raw', 'standard', 'responsive'] as const) {
+      if (rawOnly && name !== 'raw') continue
       const stat = this.stats[name]
       output[name].forEach((point, index) => {
         const raw = points[index], old = contiguous ? previous[name][index] : undefined
-        if (!valid(point) || !valid(raw) || (identity === 'pose' && (raw.visibility ?? 0) < .4)) return
+        if (!valid(point) || !valid(raw) || (identity === 'pose' && !usableTrackingPoint(raw))) return
         stat.distance += Math.hypot(point.x - raw.x, point.y - raw.y)
         if (old && valid(old)) stat.step += Math.hypot(point.x - old.x, point.y - old.y)
         stat.count++

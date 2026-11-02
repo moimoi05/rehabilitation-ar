@@ -41,6 +41,9 @@
 .workspace-info span { display: inline-block; color: #a46b24; background: #fff4df; padding: .25rem .5rem; border-radius: .35rem; font-size: .7rem; }
 .workspace-panel { padding: 1.2rem; }
 .workspace-panel h2 { font-size: 1.15rem; font-weight: 700; margin: .2rem 0; }
+.workspace-panel .tracking-model-options { display: grid; gap: .65rem; margin: 1rem 0 0; padding: .75rem; border: 1px solid #e0ebf2; border-radius: .6rem; }
+.workspace-panel .tracking-model-options legend { padding: 0 .3rem; color: #405b70; font-size: .76rem; font-weight: 700; }
+.workspace-panel .tracking-model-options label { display: block; color: #405b70; font-size: .76rem; font-weight: 650; }
 .workspace-panel > label { display: block; margin-top: .9rem; font-size: .76rem; font-weight: 650; color: #405b70; }
 .workspace-panel label > span { float: right; color: #1682aa; }
 .workspace-panel select { display: block; width: 100%; margin-top: .4rem; padding: .6rem; border: 1px solid #d8e4ec; border-radius: .45rem; color: #344f61; background: #fff; }

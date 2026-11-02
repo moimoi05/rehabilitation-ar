@@ -2,6 +2,15 @@
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 from app.benchmarks import router
+from app.benchmark_storage import report
+
+
+def test_wholebody_report_accepts_unavailable_independent_hand_metrics():
+    text = report({'actual_fps': {'pose': 7.0, 'hand': None},
+                   'hand_latency': None, 'runtime_info': {'runtime': 'OpenVINO GPU'}},
+                  {'configuration': {'engine': 'rtmpose'}}, [])
+    assert 'N/A (WholeBody chung)' in text
+    assert 'OpenVINO GPU' in text
 
 
 def client_for(tmp_path, monkeypatch, host='127.0.0.1'):
@@ -32,3 +41,17 @@ def test_unique_append_and_finalize_failure(tmp_path, monkeypatch):
     assert (tmp_path / run['run_id'] / 'manifest.json').is_file()
     assert (tmp_path / run['run_id'] / 'fps.csv').read_bytes() == b'timestamp_ms\n'
     assert client.put(base + '/artifacts/fps.csv?offset=13', content=b'late').status_code == 409
+
+
+def test_report_failure_is_recorded_as_incomplete(tmp_path, monkeypatch):
+    from app import benchmark_storage
+    client = client_for(tmp_path, monkeypatch)
+    run = client.post('/api/benchmarks/runs', json={}).json()
+    def fail_report(*_args):
+        raise TypeError('unavailable independent metric')
+    monkeypatch.setattr(benchmark_storage, 'report', fail_report)
+    final = client.post('/api/benchmarks/runs/' + run['run_id'] + '/finalize',
+                        json={'error': 'diagnostic stopped'}).json()
+    assert final['status'] == 'INCOMPLETE'
+    assert any('Report generation failed' in error for error in final['errors'])
+    assert (tmp_path / run['run_id'] / 'manifest.json').is_file()

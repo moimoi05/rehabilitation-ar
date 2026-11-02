@@ -1,4 +1,5 @@
 import type { Point, Side } from './drawing'
+import { usableTrackingPoint } from './trackingLandmark'
 import { mapVideoPoint } from './videoGeometry'
 import type { VideoMapping, VideoRect } from './videoGeometry'
 
@@ -19,7 +20,7 @@ export function initialRound(region?: VideoRect): Round {
 }
 export function wristForSide(pose: Point[], side: Side): Position | null {
   const p = pose[side === 'left' ? 15 : 16]
-  if (!p || p.visibility === undefined || !Number.isFinite(p.visibility) || p.visibility < .4 || !Number.isFinite(p.x) || !Number.isFinite(p.y) || p.x < 0 || p.x > 1 || p.y < 0 || p.y > 1) return null
+  if (!usableTrackingPoint(p)) return null
   return { x: p.x, y: p.y }
 }
 export function displayPoint(point: Position | null, mirrored: boolean, mapping?: VideoMapping): Position | null {

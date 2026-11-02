@@ -32,3 +32,10 @@ it('reports both exact initialization errors when fallback also fails', async ()
   vi.mocked(HandLandmarker.createFromOptions).mockRejectedValueOnce(new Error('GPU failure')).mockRejectedValueOnce(new Error('CPU failure'))
   await expect(initializeHand(files)).rejects.toThrow('Hand initialization failed. GPU: GPU failure. CPU: CPU failure')
 })
+
+it('passes a dedicated inference canvas through without changing the GPU delegate', async () => {
+  const canvas = {} as OffscreenCanvas
+  vi.mocked(PoseLandmarker.createFromOptions).mockResolvedValue({} as PoseLandmarker)
+  await initializePose(files, true, canvas)
+  expect(PoseLandmarker.createFromOptions).toHaveBeenCalledWith(expect.any(Object), expect.objectContaining({ canvas, baseOptions: expect.objectContaining({ delegate: 'GPU' }) }))
+})

@@ -627,13 +627,13 @@ describe('workspace calibration', () => {
     const confirm = await screen.findByLabelText('Tôi đã kiểm tra vị trí và tư thế người bệnh')
     await waitFor(() => expect(confirm).toBeEnabled())
     fireEvent.click(confirm)
-    fireEvent.change(screen.getByLabelText(/Vị trí ngang/), { target: { value: '0.7' } })
+    fireEvent.click(screen.getByLabelText('Lật ảnh ngang'))
     expect(confirm).not.toBeChecked()
     fireEvent.click(confirm)
     fireEvent.click(screen.getByRole('button', { name: 'Lưu hiệu chuẩn' }))
     await waitFor(() => expect(fetchMock).toHaveBeenCalledOnce())
     const payload = JSON.parse(fetchMock.mock.calls[0][1].body)
-    expect(payload).toMatchObject({ session_id: 7, camera_device_id: 'camera-1', width: 1280, height: 720, x: 0.7, confirmed: true })
+    expect(payload).toMatchObject({ session_id: 7, camera_device_id: 'camera-1', width: 1280, height: 720, mirrored: false, confirmed: true })
     cleanup(); expect(stop).toHaveBeenCalled()
   })
 
@@ -707,41 +707,12 @@ describe('workspace calibration', () => {
     expect(screen.getByRole('button', { name: 'Lưu hiệu chuẩn' })).toBeEnabled()
   })
 
-  it('requires fresh clinical confirmation after restoring a saved calibration', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: async () => [{ ghost_visible: true, opacity: .5, x: .6, y: .5, scale: 1, affected_side: 'right', confirmed: true, mirrored: false }] }))
+  it('does not render the ghost silhouette or its positioning controls', async () => {
     render(<WorkspacePage />)
     await screen.findByRole('option', { name: /Phiên #7/ })
-    fireEvent.click(screen.getByRole('button', { name: 'Khôi phục cấu hình' }))
-    expect(await screen.findByText(/Đã tải thông số/)).toBeInTheDocument()
-    expect(screen.getByLabelText('Tôi đã kiểm tra vị trí và tư thế người bệnh')).not.toBeChecked()
-    expect(screen.getByLabelText(/Vị trí ngang/)).toHaveValue('0.6')
-  })
-
-  it('cancels a pending image-anchor restore if the operator adjusts the ghost before starting the camera', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: async () => [{ ghost_visible: true, opacity: .5, x: .6, y: .5, scale: 1, affected_side: 'left', confirmed: true, mirrored: true, camera_device_id: 'camera-1', width: 1280, height: 720, image_anchor: { version: 1, x: .2, y: .4, scale: 1 } }] }))
-    render(<WorkspacePage />)
-    await screen.findByRole('option', { name: /Phiên #7/ })
-    fireEvent.click(screen.getByRole('button', { name: 'Khôi phục cấu hình' }))
-    await screen.findByText(/Đang chờ thông tin camera/)
-    fireEvent.change(screen.getByLabelText(/Vị trí ngang/), { target: { value: '0.3' } })
-    expect(screen.queryByText(/Đang chờ thông tin camera/)).not.toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: 'Bật camera' }))
-    await waitFor(() => expect(screen.getByRole('button', { name: 'Tắt camera' })).toBeVisible())
-    expect(screen.getByLabelText(/Vị trí ngang/)).toHaveValue('0.3')
-    expect(screen.getByLabelText('Tôi đã kiểm tra vị trí và tư thế người bệnh')).not.toBeChecked()
-  })
-
-  it('ignores a restore response after the user switches to a different session', async () => {
-    let resolveFetch: (value: unknown) => void = () => {}
-    vi.stubGlobal('fetch', vi.fn(() => new Promise(resolve => { resolveFetch = resolve })))
-    render(<WorkspacePage />)
-    await screen.findByRole('option', { name: /Phiên #8/ })
-    fireEvent.click(screen.getByRole('button', { name: 'Khôi phục cấu hình' }))
-    fireEvent.change(screen.getByLabelText('Phiên tập'), { target: { value: '8' } })
-    await act(async () => { resolveFetch({ ok: true, json: async () => [{ ghost_visible: true, opacity: .5, x: .8, y: .5, scale: 1, affected_side: 'left', confirmed: true, mirrored: false }] }) })
-    await waitFor(() => expect(screen.getByLabelText('Tay ảnh hưởng')).toHaveValue('right'))
-    expect(screen.getByLabelText(/Vị trí ngang/)).toHaveValue('0.5')
-    expect(screen.queryByText(/Đã tải thông số/)).not.toBeInTheDocument()
+    expect(screen.queryByLabelText('Hiển thị hình bóng')).not.toBeInTheDocument()
+    expect(screen.queryByLabelText(/Vị trí ngang/)).not.toBeInTheDocument()
+    expect(screen.queryByLabelText(/Độ trong suốt/)).not.toBeInTheDocument()
   })
 
   it('includes calibration controls in the fullscreen target', async () => {
@@ -751,8 +722,8 @@ describe('workspace calibration', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Toàn màn hình' }))
     expect(requestFullscreen).toHaveBeenCalledOnce()
     const fullscreenElement = requestFullscreen.mock.contexts[0] as HTMLElement
-    expect(fullscreenElement).toContainElement(screen.getByLabelText(/Vị trí ngang/))
     expect(fullscreenElement).toContainElement(screen.getByRole('button', { name: 'Lưu hiệu chuẩn' }))
+    expect(fullscreenElement.querySelector('[aria-label="Hiển thị hình bóng"]')).toBeNull()
   })
 
   it('explains denied camera permission and retains demo access', async () => {
@@ -868,7 +839,7 @@ describe('workspace calibration', () => {
     await waitFor(() => expect(screen.getByRole('button', { name: 'Bắt đầu nhận diện' })).toBeEnabled())
     fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu nhận diện' }))
     expect(await screen.findByText(/Không tải được MediaPipe hoặc model cục bộ/)).toBeInTheDocument()
-    expect(screen.getByLabelText(/Vị trí ngang/)).toBeEnabled()
+    expect(screen.queryByLabelText(/Vị trí ngang/)).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Lưu hiệu chuẩn' })).toBeEnabled()
   })
 
@@ -941,7 +912,7 @@ describe('workspace calibration', () => {
     expect(screen.getByRole('button', { name: 'Bắt đầu nhận diện' })).toBeDisabled()
   })
 
-  it('stores adjusted calibration controls and requires reconfirmation after each meaningful change', async () => {
+  it('requires camera and posture reconfirmation after camera settings change', async () => {
     const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ id: 2 }) })
     vi.stubGlobal('fetch', fetchMock)
     render(<WorkspacePage />)
@@ -949,16 +920,9 @@ describe('workspace calibration', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Bật camera' }))
     const confirm = await screen.findByLabelText('Tôi đã kiểm tra vị trí và tư thế người bệnh')
     await waitFor(() => expect(confirm).toBeEnabled())
-    const changeAndInvalidate = (label: RegExp, value: string) => {
-      fireEvent.click(confirm); expect(confirm).toBeChecked()
-      fireEvent.change(screen.getByLabelText(label), { target: { value } }); expect(confirm).not.toBeChecked()
-    }
-    changeAndInvalidate(/Độ trong suốt/, '0.75')
-    changeAndInvalidate(/Vị trí dọc/, '0.65')
-    changeAndInvalidate(/Tỷ lệ/, '1.5')
-    changeAndInvalidate(/Tay ảnh hưởng/, 'right')
+    // Ghost positioning controls were removed from calibration.
+    fireEvent.click(confirm)
     fireEvent.click(confirm); fireEvent.click(screen.getByLabelText('Lật ảnh ngang')); expect(confirm).not.toBeChecked()
-    fireEvent.click(confirm); fireEvent.click(screen.getByLabelText('Hiển thị hình bóng')); expect(confirm).not.toBeChecked()
     fireEvent.click(screen.getByLabelText('Hiển thị mốc vận động'))
     fireEvent.click(screen.getByLabelText('Theo dõi 21 mốc bàn tay'))
     expect(screen.getByLabelText('Hiển thị mốc vận động')).not.toBeChecked()
@@ -966,6 +930,6 @@ describe('workspace calibration', () => {
     fireEvent.click(confirm)
     fireEvent.click(screen.getByRole('button', { name: 'Lưu hiệu chuẩn' }))
     await waitFor(() => expect(fetchMock).toHaveBeenCalledOnce())
-    expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toMatchObject({ opacity: .75, y: .65, scale: 1.5, affected_side: 'right', mirrored: false, ghost_visible: false, confirmed: true })
+    expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toMatchObject({ mirrored: false, ghost_visible: true, confirmed: true })
   })
 })

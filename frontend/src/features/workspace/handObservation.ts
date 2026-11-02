@@ -1,8 +1,8 @@
 import type { Point } from './drawing'
+import { usableTrackingPoint } from './trackingLandmark'
 
 export type HandFreshness = { left: number; right: number }
-export const validHand = (points: Point[]) => points.length === 21 && points.every(point =>
-  Number.isFinite(point.x) && Number.isFinite(point.y) && point.x >= 0 && point.x <= 1 && point.y >= 0 && point.y <= 1)
+export const validHand = (points: Point[]) => points.length === 21 && Array.from(points).every(point => usableTrackingPoint(point, true))
 
 /** Only this observation establishes freshness. A missing side is cleared rather
  * than inheriting the other hand's timestamp. Coordinates and categories stay raw.

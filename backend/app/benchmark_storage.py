@@ -174,7 +174,7 @@ def report(summary, config, errors):
     filt = summary.get('filter_quality') or {}
     
     p_fps_str = f"{afps.get('pose', 0.0):.1f}"
-    h_fps_str = f"{afps.get('hand', 0.0):.1f}"
+    h_fps_str = f"{afps['hand']:.1f}" if afps.get('hand') is not None else "N/A (WholeBody chung)"
     r_fps_str = f"{rfps:.1f}"
     p_mean = f"{p_lat.get('mean_ms', 0.0):.1f}" if p_lat.get('mean_ms') is not None else "—"
     p_p95 = f"{p_lat.get('p95_ms', 0.0):.1f}" if p_lat.get('p95_ms') is not None else "—"
@@ -182,7 +182,7 @@ def report(summary, config, errors):
     h_p95 = f"{h_lat.get('p95_ms', 0.0):.1f}" if h_lat.get('p95_ms') is not None else "—"
     
     return '\n'.join([
-        '# Báo cáo Benchmark MediaPipe – Pose + Hand Tracking', '',
+        '# Báo cáo Benchmark Tracking – Pose + Hand', '',
         f"- **Mã lượt chạy (Run ID):** `{summary.get('run_id')}`",
         f"- **Thời điểm hoàn thành:** {summary.get('finalized_at', 'N/A')}",
         f"- **Trạng thái Artifacts:** **{summary.get('artifact_status', 'UNKNOWN')}**",
@@ -226,11 +226,11 @@ def report(summary, config, errors):
         f"- **CPU:** {hw.get('cpu', 'Intel Core i5-1340P')}",
         f"- **GPU tích hợp:** {hw.get('gpu', 'Intel Iris Xe Graphics')}",
         f"- **Bộ nhớ RAM vật lý:** {round((hw.get('ram_bytes') or 0)/(1024**3), 2)} GB",
-        '- **Ghi chú phần cứng:** Quá trình suy luận chạy qua WebGL/WebGPU delegate trên GPU tích hợp Intel Iris Xe, không đòi hỏi card rời NVIDIA/CUDA.',
+        f"- **Runtime/device do engine báo:** `{summary.get('runtime_info', 'Chưa ghi nhận')}`. Không suy ra thiết bị inference chỉ từ tên GPU hệ thống.",
         '',
         '## 7. So sánh với CPU Baseline (Comparison Against CPU Baseline)',
         '- Đối chiếu số đo FPS và P95 latency với baseline CPU trên cùng video 1080p và cùng scheduler.',
-        '- GPU delegate giúp giảm tải tính toán số học ma trận khỏi nhân CPU, giảm hiện tượng nghẽn UI main thread khi Pose và Hand chạy liên tục.',
+        '- Chưa kết luận lợi ích GPU/CPU nếu chưa có lượt chạy đối chứng cùng điều kiện.',
         '',
         '## 8. Quan sát chất lượng tracking (Tracking Quality Observations)',
         f"- **Tổng số quan sát mốc (observations):** {proc.get('observations', 0)}",
@@ -238,13 +238,13 @@ def report(summary, config, errors):
         '- **Dữ liệu thô (Raw) và Lọc (Filtered):** Tách biệt hoàn toàn trong `landmarks.jsonl`. Raw landmarks giữ nguyên độ tin cậy để lưu trữ nghiên cứu.',
         '',
         '## 9. Nút thắt cổ chai được xác định (Identified Bottlenecks)',
-        '- `detectForVideo` của MediaPipe Web Tasks là hàm đồng bộ; nếu chạy trên main thread, thời gian suy luận (30-50ms) có thể làm giảm nhịp render canvas nếu không điều phối nhịp độc lập.',
-        '- Việc lập lịch độc lập (Pose 20 FPS, Hand 12 FPS) đã giải quyết triệt để nút thắt nghẽn luồng so với việc ép Pose và Hand chạy trên cùng một frame.',
+        '- MediaPipe detectForVideo đồng bộ; RTMPose qua dịch vụ cục bộ có thêm capture, serialization và transfer. Đọc số đo pipeline và source-to-display trong summary trước khi kết luận nút thắt.',
+        '- Lịch gọi thực tế và mức bỏ frame được lưu trong configuration/summary; không suy ra cải thiện chỉ từ cấu hình scheduler.',
         '',
         '## 10. Cấu hình đề xuất cho sản phẩm (Recommended Production Configuration)',
-        '- **Khởi tạo:** GPU-first với CPU fallback tự động cho cả PoseLandmarker Lite và HandLandmarker.',
+        '- **Khởi tạo:** MediaPipe giữ GPU-first/CPU fallback; RTMPose thử nghiệm yêu cầu GPU và không tự fallback CPU.',
         '- **Lập lịch (Scheduler):** Independent scheduling với `requestVideoFrameCallback`.',
-        '- **Tần suất tối ưu:** Pose 20 FPS, Hand 12 FPS, Rendering theo tần số quét màn hình (60-90 Hz).',
+        '- **Cấu hình sản phẩm hiện có:** Pose 20 FPS, Hand 12 FPS; chưa coi đây là tần suất tối ưu được chứng minh bởi lượt đo này.',
         '- **Bộ lọc hiển thị:** One Euro filter chuẩn (`minCutoff=1, beta=0.5, dCutoff=1`) cho hiển thị giao diện; lưu trữ nghiên cứu giữ nguyên raw landmarks.',
         '',
         '## 11. Các giới hạn đã biết (Known Limitations)',
@@ -290,7 +290,15 @@ def finalize(folder, error=None):
     status = 'INCOMPLETE' if errors else 'COMPLETE'
     summary = {**summary, 'artifact_status': status, 'artifact_errors': errors}
     write_json(folder / 'summary.json', summary)
-    (folder / 'report.md').write_text(report(summary, config, errors), encoding='utf-8')
+    try:
+        (folder / 'report.md').write_text(report(summary, config, errors), encoding='utf-8')
+    except Exception as exc:
+        # Preserve observations and mark the run incomplete if a required
+        # artifact cannot be formatted or written.
+        status = 'INCOMPLETE'
+        errors = [*errors, f'Report generation failed: {type(exc).__name__}: {exc}']
+        summary = {**summary, 'artifact_status': status, 'artifact_errors': errors}
+        write_json(folder / 'summary.json', summary)
     manifest = {'run_id': folder.name, 'status': status, 'configuration': config, 'errors': errors,
                 'artifacts': [{'name': p.name, 'size_bytes': p.stat().st_size,
                                'status': 'generated'} for p in sorted(folder.iterdir()) if p.is_file() and p.name != '.busy']}

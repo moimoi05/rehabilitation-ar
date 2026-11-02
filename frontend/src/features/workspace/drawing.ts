@@ -1,9 +1,11 @@
 import { mapVideoPoint } from './videoGeometry'
 import type { VideoMapping } from './videoGeometry'
 import type { Size } from './videoGeometry'
+import { usableTrackingPoint } from './trackingLandmark'
+import type { TrackingPoint } from './trackingLandmark'
 
 export type Side = 'left' | 'right'
-export type Point = { x: number; y: number; visibility?: number }
+export type Point = TrackingPoint
 export type Ghost = { ghost_visible: boolean; opacity: number; x: number; y: number; scale: number; affected_side: Side; confirmed: boolean }
 
 export const initialGhost: Ghost = { ghost_visible: true, opacity: 0.45, x: 0.5, y: 0.5, scale: 1, affected_side: 'left', confirmed: false }
@@ -50,7 +52,7 @@ export function drawGhost(ctx: CanvasRenderingContext2D, width: number, height: 
 const poseLinks = [[11, 12], [11, 13], [13, 15], [12, 14], [14, 16], [11, 23], [12, 24], [23, 24], [0, 11], [0, 12]]
 const handLinks = [[0,1],[1,2],[2,3],[3,4],[0,5],[5,6],[6,7],[7,8],[5,9],[9,10],[10,11],[11,12],[9,13],[13,14],[14,15],[15,16],[13,17],[17,18],[18,19],[19,20],[0,17]]
 // Hand Landmarker does not provide meaningful visibility; MediaPipe may emit 0.
-const drawable = (point: Point | undefined, hand: boolean): point is Point => !!point && Number.isFinite(point.x) && Number.isFinite(point.y) && point.x >= 0 && point.x <= 1 && point.y >= 0 && point.y <= 1 && (hand || (point.visibility !== undefined && Number.isFinite(point.visibility) && point.visibility >= 0.4))
+const drawable = usableTrackingPoint
 
 export function drawLandmarks(ctx: CanvasRenderingContext2D, width: number, height: number, points: Point[], mirrored: boolean, hand = false, mapping?: VideoMapping) {
   const position = (p: Point) => {

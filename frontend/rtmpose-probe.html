@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="UTF-8"><title>RTMPose WebGPU compatibility probe</title></head>
+<body><h1>RTMPose-m WholeBody: kiểm tra WebGPU</h1>
+<p>Chỉ kiểm tra tương thích graph bằng tensor tổng hợp; không phải benchmark video hay độ chính xác.</p>
+<h2>WebGL diagnostic context</h2><pre id="webgl">Đang đọc renderer…</pre>
+<button id="run">Kiểm tra WebGPU</button><pre id="result" role="status">Chưa chạy</pre>
+<h2>Diagnostic một frame video thực tại 5 giây</h2>
+<p>Full-frame ROI, padding 1.25; 1 lần cold/warm + 10 lần đo. Không phải benchmark phát video 1×.</p>
+<button id="video-run">Đo WebGPU trên frame video 5s</button>
+<pre id="video-result" role="status">Chưa chạy video diagnostic</pre>
+<canvas id="video-overlay" style="max-width:100%;max-height:65vh"></canvas>
+<h2>OpenVINO cùng frame5s và detector WebGPU</h2>
+<button id="ov-run">Đo OpenVINO trên frame video 5s</button>
+<button id="detector-run">Kiểm tra detector WebGPU toàn graph</button>
+<pre id="decision-result" role="status">Chưa chạy</pre>
+<a id="diagnostic-download" hidden>Tải JSON diagnostic vừa chạy</a>
+<script type="module" src="/src/features/workspace/rtmposeWebGpuProbe.ts"></script></body></html>

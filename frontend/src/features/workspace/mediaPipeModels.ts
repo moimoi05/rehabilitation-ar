@@ -23,12 +23,12 @@ async function initialize<T>(name: string, create: (delegate: ModelDelegate) => 
   catch (error) { throw new Error(`${name} initialization failed. ${gpuError === null ? '' : `GPU: ${gpuError}. `}CPU: ${modelErrorMessage(error)}`) }
 }
 
-export const initializePose = (files: VisionFiles, preferGpu = true) => initialize('Pose', delegate =>
+export const initializePose = (files: VisionFiles, preferGpu = true, canvas?: HTMLCanvasElement | OffscreenCanvas) => initialize('Pose', delegate =>
   withOwnedMediaPipeLoader(files, isolated => PoseLandmarker.createFromOptions(isolated, {
-    baseOptions: { modelAssetPath: '/models/pose_landmarker_lite.task', delegate }, runningMode: 'VIDEO', numPoses: 1,
+    ...(canvas ? { canvas } : {}), baseOptions: { modelAssetPath: '/models/pose_landmarker_lite.task', delegate }, runningMode: 'VIDEO', numPoses: 1,
   })), preferGpu)
 
-export const initializeHand = (files: VisionFiles, preferGpu = true) => initialize('Hand', delegate =>
+export const initializeHand = (files: VisionFiles, preferGpu = true, canvas?: HTMLCanvasElement | OffscreenCanvas) => initialize('Hand', delegate =>
   withOwnedMediaPipeLoader(files, isolated => HandLandmarker.createFromOptions(isolated, {
-    baseOptions: { modelAssetPath: '/models/hand_landmarker.task', delegate }, runningMode: 'VIDEO', numHands: 2,
+    ...(canvas ? { canvas } : {}), baseOptions: { modelAssetPath: '/models/hand_landmarker.task', delegate }, runningMode: 'VIDEO', numHands: 2,
   })), preferGpu)

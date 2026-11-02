@@ -12,6 +12,10 @@ __pycache__/
 htmlcov/
 dist/
 coverage/
+frontend/public/rtmpose/*.onnx
 *.tsbuildinfo
 # Private research capture data (never served by the frontend)
 rehab-data/
+
+# Isolated experimental runtime process logs
+scratch/rtmpose-runtime/*.log

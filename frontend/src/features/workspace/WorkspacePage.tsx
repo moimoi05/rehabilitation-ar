@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from '
 import type { CSSProperties } from 'react'
 import { api } from '../../services/api'
 import type { Session } from '../../types'
-import { demoPose, drawGhost, drawLandmarks, initialGhost, prepareOverlay } from './drawing'
+import { demoPose, drawLandmarks, initialGhost, prepareOverlay } from './drawing'
 import type { Ghost, Point } from './drawing'
 import type { HandLandmarker, PoseLandmarker } from '@mediapipe/tasks-vision'
 import { useFlowerGame } from './useFlowerGame'
@@ -16,11 +16,11 @@ import { createParallelWorkerTracker } from './parallelWorkerTracker'
 import type { ParallelWorkerTracker } from './parallelWorkerTracker'
 import { AdaptiveWorkerBudget, AUTO_WORKER_MAX_FPS } from './adaptiveWorkerBudget'
 import { useVideoMapping } from './useVideoMapping'
-import { anchorGhost, ghostFitsCalibration, mapGhostAnchor, toPersistedGhostAnchor, fromPersistedGhostAnchor } from './ghostGeometry'
-import type { GhostAnchor, PersistedGhostAnchor } from './ghostGeometry'
 import { resolveWorkerPreference } from './trackingEnginePreference'
 import { initializePose, initializeHand, modelErrorMessage } from './mediaPipeModels'
 import { handFreshness } from './handObservation'
+import { createRTMPoseEngine, waitForRTMPoseDrain } from './rtmposeEngine'
+import { usableTrackingPoint } from './trackingLandmark'
 import { useResearchCapture } from './useResearchCapture'
 import { CaptureNavigationGuard } from './CaptureNavigationGuard'
 import { CaptureArtifactStatus } from './CaptureArtifactStatus'
@@ -28,9 +28,9 @@ import { landmarkRows } from './captureLandmarks'
 import type { WorkspaceWorkflow } from './gameWorkflow'
 import './workspace.css'
 
-type CameraSettings = { mirrored: boolean; resolution: string; cameraId?: string; tvMode?: boolean; trackingProfile?: TrackingProfileName; profileCameraResolution: boolean; workerTracking: boolean }
+type TrackingModel = 'mediapipe' | 'rtmpose'
+type CameraSettings = { mirrored: boolean; resolution: string; cameraId?: string; tvMode?: boolean; trackingProfile?: TrackingProfileName; profileCameraResolution: boolean; workerTracking: boolean; trackingModel?: TrackingModel; poseTrackingModel?: TrackingModel; handTrackingModel?: TrackingModel }
 type Calibration = Ghost & { id: number; session_id: number; camera_label: string | null; camera_device_id: string | null; width: number | null; height: number | null; mirrored: boolean; created_at: string; image_anchor?: unknown }
-type PendingAnchor = { image: PersistedGhostAnchor; deviceId: string; width: number; height: number; mirrored: boolean }
 const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'
 const maxLandmarkAgeMs = 700
 // A request can outlive this component. Keep the lock for the lifetime of the
@@ -41,12 +41,9 @@ const subscribeCalibrationSave = (listener: () => void) => { calibrationSaveList
 const getCalibrationSavePending = () => calibrationSavePending
 const setCalibrationSavePending = (pending: boolean) => { calibrationSavePending = pending; calibrationSaveListeners.forEach(listener => listener()) }
 const actualDimension = (value: number | undefined) => typeof value === 'number' && Number.isFinite(value) && value > 0 ? value : null
-const upperLimbVisible = (pose: Point[], side: 'left' | 'right') => (side === 'left' ? [11, 13, 15] : [12, 14, 16]).every(index => {
-  const point = pose[index]
-  return point && Number.isFinite(point.x) && Number.isFinite(point.y) && point.x >= 0 && point.x <= 1 && point.y >= 0 && point.y <= 1 && point.visibility !== undefined && Number.isFinite(point.visibility) && point.visibility >= .4
-})
+const upperLimbVisible = (pose: Point[], side: 'left' | 'right') => (side === 'left' ? [11, 13, 15] : [12, 14, 16]).every(index => usableTrackingPoint(pose[index]))
 const loadSettings = (): CameraSettings => {
-  try { const saved = JSON.parse(localStorage.getItem('rehab.settings') || '{}'); return { mirrored: true, resolution: '1280x720', ...saved, profileCameraResolution: saved.profileCameraResolution === true, workerTracking: resolveWorkerPreference(saved.workerTracking, localStorage.getItem('rehab.workerTracking')) } }
+  try { const saved = JSON.parse(localStorage.getItem('rehab.settings') || '{}'); return { mirrored: true, resolution: '1280x720', ...saved, trackingModel: saved.trackingModel === 'rtmpose' ? 'rtmpose' : 'mediapipe', poseTrackingModel: saved.poseTrackingModel === 'rtmpose' ? 'rtmpose' : 'mediapipe', handTrackingModel: saved.handTrackingModel === 'rtmpose' ? 'rtmpose' : 'mediapipe', profileCameraResolution: saved.profileCameraResolution === true, workerTracking: resolveWorkerPreference(saved.workerTracking, localStorage.getItem('rehab.workerTracking')) } }
   catch { return { mirrored: true, resolution: '1280x720', profileCameraResolution: false, workerTracking: false } }
 }
 
@@ -54,21 +51,6 @@ async function calibrationRequest<T>(path: string, init?: RequestInit): Promise<
   const response = await fetch(`${apiBase}${path}`, { ...init, headers: { 'Content-Type': 'application/json' } })
   if (!response.ok) throw new Error(`Không thể kết nối hoặc lưu hiệu chuẩn (HTTP ${response.status}).`)
   return response.json() as Promise<T>
-}
-
-/** Older backends do not know image_anchor. Check before POST, never retry a write. */
-async function imageAnchorSupported(): Promise<boolean> {
-  const controller = new AbortController()
-  let timeout: ReturnType<typeof setTimeout> | undefined
-  try {
-    const expired = new Promise<false>(resolve => { timeout = setTimeout(() => { controller.abort(); resolve(false) }, 2500) })
-    const request = fetch(`${apiBase}/api/capabilities`, { signal: controller.signal }).then(async response => {
-      if (!response.ok) return false
-      const body: unknown = await response.json()
-      return !!body && typeof body === 'object' && 'imageAnchorV1' in body && body.imageAnchorV1 === true && 'status' in body && body.status === 'ok'
-    }).catch(() => false)
-    return await Promise.race([request, expired])
-  } finally { if (timeout !== undefined) clearTimeout(timeout) }
 }
 
 export interface WorkspacePageProps { session?: Session; workflow?: WorkspaceWorkflow }
@@ -94,14 +76,19 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
   const [ghost, setGhost] = useState<Ghost>(initialGhost)
   const ghostRef = useRef(ghost)
   ghostRef.current = ghost
-  const ghostAnchor = useRef<GhostAnchor | null>(null)
-  const pendingAnchor = useRef<PendingAnchor | null>(null)
   const [devices, setDevices] = useState<MediaDeviceInfo[]>([])
   const [streamActive, setStreamActive] = useState(false)
   const [cameraOpening, setCameraOpening] = useState(false)
   const [actualCameraSize, setActualCameraSize] = useState<{ width: number; height: number } | null>(null)
   const [demo, setDemo] = useState(false)
   const [handEnabled, setHandEnabled] = useState(true)
+  // RTMPose is selectable during camera setup only. Clinical games stay on MediaPipe.
+  const selectedPoseModel: TrackingModel = workflow ? (workflow.view === 'setup' ? settings.poseTrackingModel || 'mediapipe' : 'mediapipe') : settings.trackingModel || 'mediapipe'
+  const selectedHandModel: TrackingModel = workflow ? (workflow.view === 'setup' ? settings.handTrackingModel || 'mediapipe' : 'mediapipe') : settings.trackingModel || 'mediapipe'
+  const selectedTrackingModel: TrackingModel | 'mixed' = !handEnabled || selectedPoseModel === selectedHandModel ? selectedPoseModel : 'mixed'
+  const [roi, setRoi] = useState({ x: 0, y: 0, width: 1, height: 1 })
+  const [roiConfirmed, setRoiConfirmed] = useState(false)
+  const [personDetection, setPersonDetection] = useState(false)
   const [preferParallel, setPreferParallel] = useState(false)
   const [adaptiveParallel, setAdaptiveParallel] = useState(true)
   const [budgetStatus, setBudgetStatus] = useState<ReturnType<AdaptiveWorkerBudget['snapshot']> | null>(null)
@@ -110,7 +97,7 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
   const [tracking, setTracking] = useState(false)
   const [modelDelegates, setModelDelegates] = useState({ pose: '—', hand: 'Tắt' })
   const [modelErrors, setModelErrors] = useState<string[]>([])
-  const [activeEngine, setActiveEngine] = useState<'main' | 'worker' | 'parallel' | null>(null)
+  const [activeEngine, setActiveEngine] = useState<'main' | 'worker' | 'parallel' | 'rtmpose' | 'mixed' | null>(null)
   const [parallelHandAvailable, setParallelHandAvailable] = useState(false)
   const [starting, setStarting] = useState(false)
   const [status, setStatus] = useState('Chưa khởi động nhận diện')
@@ -126,6 +113,7 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
   const workspaceRef = useRef<HTMLElement>(null)
   const streamRef = useRef<MediaStream | null>(null)
   const generation = useRef(0)
+  const requestedTrackingEngine = useRef<TrackingModel | 'mixed' | null>(null)
   const startingRef = useRef(false)
   const cameraGeneration = useRef(0)
   const restoreGeneration = useRef(0)
@@ -138,6 +126,7 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
   const workerRef = useRef<WorkerTracker | null>(null)
   const parallelWorkerRef = useRef<ParallelWorkerTracker | null>(null)
   const workerAbort = useRef<AbortController | null>(null)
+  const rtmposeRef = useRef<Awaited<ReturnType<typeof createRTMPoseEngine>> | null>(null)
   const points = useRef<{ pose: Point[]; hands: Point[][] }>({ pose: [], hands: [] })
   const displayPoints = useRef<{ pose: Point[]; hands: Point[][] }>({ pose: [], hands: [] })
   const smoother = useRef(new LandmarkSmoother())
@@ -162,7 +151,9 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
 
   const stopTracking = useCallback(() => {
     abortCapture()
+    rtmposeRef.current?.close(); rtmposeRef.current = null
     generation.current += 1
+    requestedTrackingEngine.current = null
     startingRef.current = false; setStarting(false)
     stopFrameScheduler.current?.(); stopFrameScheduler.current = null
     if (watchdog.current !== null) clearInterval(watchdog.current); watchdog.current = null
@@ -173,10 +164,8 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
     points.current = { pose: [], hands: [] }; displayPoints.current = { pose: [], hands: [] }; smoother.current.reset(); poseTime.current = 0; handTime.current = 0; handSides.current = { left: 0, right: 0 }; setTracking(false); setActiveEngine(null); setModelDelegates({ pose: '—', hand: 'Tắt' }); setParallelHandAvailable(false); setFps(0); setStatus('Đã dừng nhận diện')
   }, [abortCapture])
 
-  const stopCamera = useCallback((preservePending = false) => {
+  const stopCamera = useCallback(() => {
     cameraGeneration.current += 1
-    ghostAnchor.current = null
-    if (!preservePending) pendingAnchor.current = null
     stopTracking()
     streamRef.current?.getTracks().forEach(track => track.stop())
     streamRef.current = null
@@ -184,10 +173,10 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
     setStreamActive(false); setCameraOpening(false); setActualCameraSize(null)
     setGhost(previous => ({ ...previous, confirmed: false }))
   }, [stopTracking])
-  useEffect(() => () => { cameraGeneration.current += 1; generation.current += 1; restoreGeneration.current += 1; saveGeneration.current += 1; stopFrameScheduler.current?.(); if (watchdog.current !== null) clearInterval(watchdog.current); stopBudgetObserver.current?.(); workerRef.current?.close(); parallelWorkerRef.current?.close(); workerAbort.current?.abort(); poseRef.current?.close(); handRef.current?.close(); streamRef.current?.getTracks().forEach(track => track.stop()) }, [])
+  useEffect(() => () => { cameraGeneration.current += 1; generation.current += 1; restoreGeneration.current += 1; saveGeneration.current += 1; stopFrameScheduler.current?.(); if (watchdog.current !== null) clearInterval(watchdog.current); stopBudgetObserver.current?.(); workerRef.current?.close(); parallelWorkerRef.current?.close(); workerAbort.current?.abort(); rtmposeRef.current?.close(); poseRef.current?.close(); handRef.current?.close(); streamRef.current?.getTracks().forEach(track => track.stop()) }, [])
 
   const startCamera = async () => {
-    stopCamera(!streamRef.current); setDemo(false); setMessage('')
+    stopCamera(); setRoiConfirmed(false); setDemo(false); setMessage('')
     if (!navigator.mediaDevices?.getUserMedia) { setMessage('Trình duyệt không hỗ trợ camera hoặc trang không ở localhost/HTTPS.'); return }
     const requestId = ++cameraGeneration.current
     const { width, height } = requestedCameraSize
@@ -220,7 +209,7 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
 
   const startTracking = async () => {
     if (!streamActive || !videoRef.current || startingRef.current) return
-    stopTracking(); const requestId = ++generation.current; setStatus('Đang tải MediaPipe…'); setMessage(''); setModelErrors([])
+    stopTracking(); requestedTrackingEngine.current = selectedTrackingModel; const requestId = ++generation.current; setStatus(selectedTrackingModel === 'mixed' ? 'Đang tải MediaPipe + RTMPose…' : selectedTrackingModel === 'rtmpose' ? 'Đang tải RTMPose GPU…' : 'Đang tải MediaPipe…'); setMessage(''); setModelErrors([])
     startingRef.current = true; setStarting(true)
     const video = videoRef.current
     const profile = getTrackingProfile(settings.trackingProfile)
@@ -245,7 +234,7 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
       lastPoseTimestamp = timestamp
       const now = performance.now(); lastFrame = now; stalled = false; hasResult = true
       points.current = { ...points.current, pose: rawPose }
-      displayPoints.current = { ...displayPoints.current, pose: smoother.current.filter('pose', rawPose, timestamp, POSE_SMOOTHING_POLICY) }
+      displayPoints.current = { ...displayPoints.current, pose: selectedPoseModel === 'rtmpose' ? rawPose : smoother.current.filter('pose', rawPose, timestamp, POSE_SMOOTHING_POLICY) }
       poseTime.current = rawPose.length ? timestamp : 0
       count++
       if (now - lastUpdate >= 1000) {
@@ -263,7 +252,7 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
       acceptPose(rawPose, timestamp)
       if (hands !== null) acceptHand(hands, timestamp)
     }
-    const schedule = (engine: 'main' | 'worker' | 'parallel', infer: (timestamp: number, doHand: boolean, now: number, mediaTime: number, sourceFrameId?: number | null, skippedSourceFrames?: number) => boolean, budget?: AdaptiveWorkerBudget) => {
+    const schedule = (engine: 'main' | 'worker' | 'parallel' | 'rtmpose' | 'mixed', infer: (timestamp: number, doHand: boolean, now: number, mediaTime: number, sourceFrameId?: number | null, skippedSourceFrames?: number) => boolean, budget?: AdaptiveWorkerBudget) => {
       if (requestId !== generation.current) return
       lastFrame = performance.now(); startingRef.current = false; setStarting(false); setTracking(true); setActiveEngine(engine); publishedStatus = 'Đang chờ hình từ camera'; setStatus(publishedStatus)
       let expectedTick = performance.now() + 250, lastBudgetPublish = 0
@@ -370,6 +359,114 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
         stopTracking(); setModelErrors(previous => [...previous, modelErrorMessage(error)]); setStatus('MediaPipe chưa sẵn sàng'); setMessage('Không tải được MediaPipe hoặc model cục bộ. Hiệu chuẩn thủ công vẫn sử dụng được.')
       }
     }
+    try { await waitForRTMPoseDrain() } catch (error) { if (requestId === generation.current) { stopTracking(); setModelErrors([String(error)]); setMessage('Chưa xác nhận được engine GPU cũ đã dừng. Hãy chờ dịch vụ RTMPose rồi thử lại.') }; return }
+    if (requestId !== generation.current) return
+    if (selectedTrackingModel === 'mixed') {
+      const needsMediaPipePose = selectedPoseModel === 'mediapipe'
+      const needsMediaPipeHand = handActive && selectedHandModel === 'mediapipe'
+      const needsRtmpose = selectedPoseModel === 'rtmpose' || (handActive && selectedHandModel === 'rtmpose')
+      let mixedPose: PoseLandmarker | null = null
+      let mixedHand: HandLandmarker | null = null
+      let mixedRtmpose: Awaited<ReturnType<typeof createRTMPoseEngine>> | null = null
+      let waitingForRtmpose = false
+      let nextEngine: 'mediapipe' | 'rtmpose' = 'rtmpose'
+      const controller = new AbortController()
+      workerAbort.current = controller
+      const fail = (error: Error) => {
+        if (requestId !== generation.current) return
+        stopTracking(); setRoiConfirmed(false); setModelErrors([error.message]); setMessage(`Tracking nối tiếp bị lỗi: ${error.message}`)
+      }
+      if (needsRtmpose && !personDetection && !roiConfirmed) { fail(new Error('Cần xác nhận ROI chứa toàn bộ người tập trước khi chạy RTMPose.')); return }
+      try {
+        const { FilesetResolver } = await import('@mediapipe/tasks-vision')
+        const files = needsMediaPipePose || needsMediaPipeHand ? await FilesetResolver.forVisionTasks('/mediapipe/wasm') : null
+        if (files && needsMediaPipePose) {
+          const createdPose = await initializePose(files)
+          if (requestId !== generation.current) { createdPose.model.close(); return }
+          mixedPose = createdPose.model; poseRef.current = mixedPose
+          setModelDelegates(previous => ({ ...previous, pose: createdPose.delegate }))
+          if (createdPose.gpuError) setModelErrors(previous => [...previous, `Pose GPU: ${createdPose.gpuError}`])
+        }
+        if (files && needsMediaPipeHand) {
+          const createdHand = await initializeHand(files)
+          if (requestId !== generation.current) { createdHand.model.close(); return }
+          mixedHand = createdHand.model; handRef.current = mixedHand
+          setModelDelegates(previous => ({ ...previous, hand: createdHand.delegate }))
+          if (createdHand.gpuError) setModelErrors(previous => [...previous, `Hand GPU: ${createdHand.gpuError}`])
+        }
+        mixedRtmpose = await createRTMPoseEngine({ roi, personDetection, signal: controller.signal, onError: fail, onResult: result => {
+          if (requestId !== generation.current) return
+          if (!result.roiValid) { fail(new Error('ROI không còn hợp lệ hoặc mất mốc vai. Kiểm tra người tập trong vùng và xác nhận lại ROI.')); return }
+          if (selectedPoseModel === 'rtmpose') acceptPose(result.pose, result.timestamp)
+          if (handActive && selectedHandModel === 'rtmpose') {
+            handSides.current = result.hands.reduce((sides, hand, index) => {
+              const complete = hand.length === 21 && Array.from({ length: 21 }, (_, point) => usableTrackingPoint(hand[point], true)).every(Boolean)
+              const side = result.handedness[index]?.[0]?.categoryName
+              return complete && side === 'Left' ? { ...sides, left: result.timestamp } : complete && side === 'Right' ? { ...sides, right: result.timestamp } : sides
+            }, { left: 0, right: 0 })
+            acceptHand(result.hands, result.timestamp)
+          }
+          waitingForRtmpose = false
+          nextEngine = needsMediaPipePose || needsMediaPipeHand ? 'mediapipe' : 'rtmpose'
+        } })
+        if (requestId !== generation.current) { mixedRtmpose.close(); mixedPose?.close(); mixedHand?.close(); return }
+        rtmposeRef.current = mixedRtmpose
+        const info = mixedRtmpose.runtimeInfo
+        setModelDelegates(previous => ({ ...previous, ...(selectedPoseModel === 'rtmpose' ? { pose: `${info.runtime} · ${info.device} · ${info.model}` } : {}), ...(handActive && selectedHandModel === 'rtmpose' ? { hand: 'RTMPose WholeBody: cùng lượt suy luận' } : {}) }))
+        setMessage('Hai model được chạy nối tiếp trên các frame khác nhau, không chạy inference đồng thời. Chuyển sang bài tập lâm sàng sẽ dùng MediaPipe. RTMPose chỉ có tọa độ 2D.')
+        schedule('mixed', (timestamp) => {
+          if (waitingForRtmpose) return false
+          if (nextEngine === 'rtmpose') {
+            if (!mixedRtmpose || !mixedRtmpose.submit(video, timestamp)) return false
+            waitingForRtmpose = true
+            return true
+          }
+          try {
+            if (mixedPose) {
+              const result = mixedPose.detectForVideo(video, timestamp)
+              acceptPose(result.landmarks[0] || [], timestamp)
+            }
+            if (handActive && mixedHand) {
+              const result = mixedHand.detectForVideo(video, timestamp)
+              acceptHand(result.landmarks, timestamp)
+              handSides.current = handFreshness(result.landmarks, result.handedness, timestamp)
+            }
+            nextEngine = 'rtmpose'
+            return true
+          } catch (error) { fail(error instanceof Error ? error : new Error(String(error))); return false }
+        })
+      } catch (error) {
+        mixedRtmpose?.close(); mixedPose?.close(); mixedHand?.close()
+        fail(error instanceof Error ? error : new Error(String(error)))
+      }
+      return
+    }
+    if (selectedTrackingModel === 'rtmpose') {
+      const fail = (error: Error) => {
+        if (requestId !== generation.current) return
+        stopTracking(); setRoiConfirmed(false); setModelErrors([error.message]); setMessage(`RTMPose GPU: ${error.message}`)
+      }
+      if (!roiConfirmed && !personDetection) { fail(new Error('Cần xác nhận ROI chứa toàn bộ người tập trước khi chạy RTMPose.')); return }
+      try {
+        const controller = new AbortController(); workerAbort.current = controller
+        const tracker = await createRTMPoseEngine({ roi, personDetection, signal: controller.signal, onError: fail, onResult: result => {
+          if (requestId !== generation.current) return
+          if (!result.roiValid) { fail(new Error('ROI không còn hợp lệ hoặc mất mốc vai. Kiểm tra người tập trong vùng và xác nhận lại ROI.')); return }
+          handSides.current = result.hands.reduce((sides, hand, index) => {
+            const complete = hand.length === 21 && Array.from({ length: 21 }, (_, i) => usableTrackingPoint(hand[i], true)).every(Boolean)
+            const side = result.handedness[index]?.[0]?.categoryName
+            return complete && side === 'Left' ? { ...sides, left: result.timestamp } : complete && side === 'Right' ? { ...sides, right: result.timestamp } : sides
+          }, { left: 0, right: 0 })
+          accept(result.pose, handActive ? result.hands : [], result.timestamp)
+        } })
+        if (requestId !== generation.current) { tracker.close(); return }
+        rtmposeRef.current = tracker
+        const info = tracker.runtimeInfo
+        setModelDelegates({ pose: `${info.runtime} · ${info.device} · ${info.model}`, hand: handActive ? 'WholeBody: cùng lượt suy luận' : 'Ẩn' })
+        schedule('rtmpose', timestamp => tracker.submit(video, timestamp))
+      } catch (error) { fail(error instanceof Error ? error : new Error(String(error))) }
+      return
+    }
     if (!settings.workerTracking && !preferParallel) { await startMainThread(); return }
     if (typeof Worker === 'undefined' || typeof createImageBitmap !== 'function') { setMessage('Worker không khả dụng; đang chuyển sang nhận diện trên luồng chính.'); await startMainThread(); return }
     if (preferParallel && handActive) {
@@ -459,47 +556,12 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
     }
   }
 
-  // Existing stored calibration uses box-relative coordinates. The anchor is
-  // session-only and starts from the current display; old records keep their meaning.
-  const currentMappedGhost = useCallback((): Ghost => {
-    const current = ghostRef.current
-    const mapping = videoMapping.current
-    if (!streamActive || !streamRef.current || demo || !mapping) return current
-    if (pendingAnchor.current) {
-      const pending = pendingAnchor.current
-      const track = streamRef.current.getVideoTracks()[0]
-      const actual = track?.getSettings()
-      const video = videoRef.current
-      // Wait for the new video mapping; never project onto an old source.
-      if (!video?.videoWidth || !video.videoHeight) return current
-      pendingAnchor.current = null
-      const sameCamera = !!actual?.deviceId && actual.deviceId === pending.deviceId && actual.width === pending.width && actual.height === pending.height && video.videoWidth === pending.width && video.videoHeight === pending.height
-      const imageAnchor = fromPersistedGhostAnchor(pending.image, pending.mirrored)
-      if (sameCamera && imageAnchor) {
-        ghostAnchor.current = imageAnchor
-        const next = { ...current, ...mapGhostAnchor(imageAnchor, mapping), confirmed: false }
-        ghostRef.current = next; setGhost(next)
-        setMessage('Đã khôi phục vị trí theo ảnh. Hãy kiểm tra camera và tư thế, sau đó xác nhận lại.')
-        return next
-      }
-      setMessage('Camera hoặc kích thước khác cấu hình đã lưu; hãy căn chỉnh và xác nhận lại.')
-    }
-    if (!ghostAnchor.current) { ghostAnchor.current = anchorGhost(current, mapping); return current }
-    const mapped = mapGhostAnchor(ghostAnchor.current, mapping)
-    if (Math.abs(mapped.x - current.x) < 1e-9 && Math.abs(mapped.y - current.y) < 1e-9 && Math.abs(mapped.scale - current.scale) < 1e-9) return current
-    const next = { ...current, ...mapped, confirmed: false }
-    ghostRef.current = next
-    setGhost(next)
-    return next
-  }, [streamActive, demo, videoMapping])
-
   useEffect(() => {
     let animation = 0
     const draw = (time: number) => {
       const canvas = canvasRef.current; const ctx = canvas?.getContext('2d')
       if (canvas && ctx) {
         const display = prepareOverlay(ctx, canvas.width, canvas.height, displayBox.current)
-        drawGhost(ctx, display.width, display.height, currentMappedGhost(), settings.mirrored)
         if (showSkeleton) {
           if (demo) drawLandmarks(ctx, display.width, display.height, demoPose(time), settings.mirrored)
           else if (videoMapping.current) {
@@ -515,107 +577,55 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
     }
     animation = requestAnimationFrame(draw)
     return () => cancelAnimationFrame(animation)
-  }, [ghost, settings.mirrored, showSkeleton, showRaw, demo, videoMapping, displayBox, currentMappedGhost])
+  }, [ghost, settings.mirrored, showSkeleton, showRaw, demo, videoMapping, displayBox])
 
   const updateGhost = (changes: Partial<Ghost>) => {
     restoreGeneration.current += 1
-    const next = { ...currentMappedGhost(), ...changes, confirmed: false }
-    pendingAnchor.current = null
+    const next = { ...ghostRef.current, ...changes, confirmed: false }
     ghostRef.current = next
-    if (streamActive && !demo && videoMapping.current) ghostAnchor.current = anchorGhost(next, videoMapping.current)
     setGhost(next)
   }
-  const updateSettings = (changes: Partial<CameraSettings>, restoring = false) => {
-    if (!restoring) restoreGeneration.current += 1
-    const current = currentMappedGhost()
-    if (!restoring) pendingAnchor.current = null
-    const reflect = !restoring && streamActive && !!streamRef.current && !demo && !!videoMapping.current && changes.mirrored !== undefined && changes.mirrored !== settings.mirrored
-    // The video uses a centered object-position, so reflecting the displayed
-    // point around the box center preserves its underlying image location.
-    const next = { ...current, x: reflect ? 1 - current.x : current.x, confirmed: false }
+  const updateSettings = (changes: Partial<CameraSettings>) => {
+    restoreGeneration.current += 1
+    const next = { ...ghostRef.current, confirmed: false }
     ghostRef.current = next
-    if (reflect && videoMapping.current) ghostAnchor.current = anchorGhost(next, videoMapping.current)
     setSettings(previous => ({ ...previous, ...changes }))
     setGhost(next)
   }
   const onSessionChange = (value: string) => {
     restoreGeneration.current += 1
-    pendingAnchor.current = null
     setSessionId(value); const session = sessions.find(item => String(item.id) === value)
     setGhost(previous => ({ ...previous, affected_side: session?.affected_side || previous.affected_side, confirmed: false }))
-  }
-  const restore = async () => {
-    if (!sessionId) { setMessage('Hãy chọn một phiên trước khi tải hiệu chuẩn.'); return }
-    const requestId = ++restoreGeneration.current
-    const cameraRequestId = cameraGeneration.current
-    try {
-      const records = await calibrationRequest<Calibration[]>(`/api/calibrations?session_id=${encodeURIComponent(sessionId)}`)
-      if (requestId !== restoreGeneration.current) return
-      if (cameraRequestId !== cameraGeneration.current) { setMessage('Camera đã thay đổi trong khi tải hiệu chuẩn. Hãy khôi phục lại sau khi camera ổn định.'); return }
-      const record = records[0]
-      if (!record) { setMessage('Chưa có cấu hình hiệu chuẩn cho phiên này.'); return }
-      ghostAnchor.current = null
-      const restored: Ghost = { ghost_visible: record.ghost_visible, opacity: record.opacity, x: record.x, y: record.y, scale: record.scale, affected_side: record.affected_side, confirmed: false }
-      ghostRef.current = restored
-      setGhost(restored)
-      // Saved x is already expressed in the saved mirror state; do not reflect
-      // it again when restoring an unversioned, box-relative calibration.
-      updateSettings({ mirrored: record.mirrored }, true)
-      const candidate = fromPersistedGhostAnchor(record.image_anchor, false)
-      if (candidate && typeof record.mirrored === 'boolean' && typeof record.camera_device_id === 'string' && record.camera_device_id && typeof record.width === 'number' && Number.isFinite(record.width) && record.width > 0 && typeof record.height === 'number' && Number.isFinite(record.height) && record.height > 0) {
-        pendingAnchor.current = { image: { version: 1, ...candidate }, deviceId: record.camera_device_id, width: record.width, height: record.height, mirrored: record.mirrored }
-      } else pendingAnchor.current = null
-      setMessage('Đã tải thông số. Hãy kiểm tra lại camera và tư thế, sau đó xác nhận lại.')
-    } catch { if (requestId === restoreGeneration.current) setMessage('Không tải được hiệu chuẩn. Kiểm tra kết nối backend.') }
   }
   const save = async () => {
     if (calibrationSavePending) return
     if (demo || !streamActive || !sessionId) { setMessage('Chọn phiên và bật camera thật trước khi lưu. Chế độ demo không ghi dữ liệu.'); return }
-    const currentGhost = currentMappedGhost()
-    if (pendingAnchor.current) { setMessage('Đang chờ thông tin camera để khôi phục vị trí theo ảnh; hãy chờ hoặc căn chỉnh thủ công.') ; return }
-    if (!ghostFitsCalibration(currentGhost)) { setMessage('Hình bóng nằm ngoài phạm vi hiệu chuẩn. Hãy điều chỉnh lại vị trí và tỷ lệ trước khi lưu.'); return }
+    const currentGhost = ghostRef.current
+    if (workflow && !currentGhost.confirmed) { setMessage('Hãy xác nhận đã kiểm tra camera và tư thế trước khi lưu.'); return }
     setCalibrationSavePending(true)
     const requestId = ++saveGeneration.current
     const savedSessionId = sessionId
     const savedCameraGeneration = cameraGeneration.current
     const savedRestoreGeneration = restoreGeneration.current
     const isCurrent = () => {
-      const current = currentMappedGhost()
+      const current = ghostRef.current
       return requestId === saveGeneration.current && savedCameraGeneration === cameraGeneration.current && savedRestoreGeneration === restoreGeneration.current && current.x === currentGhost.x && current.y === currentGhost.y && current.scale === currentGhost.scale && current.confirmed === currentGhost.confirmed && current.affected_side === currentGhost.affected_side && current.opacity === currentGhost.opacity && current.ghost_visible === currentGhost.ghost_visible
     }
     try {
-      if (workflow && (!currentGhost.confirmed || !currentGhost.ghost_visible)) { setMessage('Hãy hiển thị hình bóng và xác nhận tư thế trước khi lưu.'); return }
       const setupRevision = workflow ? await workflow.beforeCalibrationSave() : undefined
       if (workflow && !isCurrent()) { setMessage('Camera hoặc hiệu chuẩn đã thay đổi; hãy kiểm tra và lưu lại.'); return }
       const track = streamRef.current?.getVideoTracks()[0]; const actual = track?.getSettings()
-      const source = videoRef.current
-      const anchor = ghostAnchor.current && videoMapping.current && actual?.deviceId && actualDimension(actual.width) && actualDimension(actual.height) && source && source.videoWidth === actual.width && source.videoHeight === actual.height ? toPersistedGhostAnchor(ghostAnchor.current, settings.mirrored) : null
-      const supported = anchor ? await imageAnchorSupported() : false
-      if (anchor) {
-        const current = currentMappedGhost()
-        if (requestId !== saveGeneration.current || savedCameraGeneration !== cameraGeneration.current || savedRestoreGeneration !== restoreGeneration.current || current.x !== currentGhost.x || current.y !== currentGhost.y || current.scale !== currentGhost.scale || current.confirmed !== currentGhost.confirmed || current.affected_side !== currentGhost.affected_side || current.opacity !== currentGhost.opacity || current.ghost_visible !== currentGhost.ghost_visible) {
-          if (requestId === saveGeneration.current) setMessage('Camera hoặc hiệu chuẩn đã thay đổi; hãy kiểm tra và lưu lại.')
-          return
-        }
-      }
-      const storedAnchor = supported ? anchor : null
-      const saved = await calibrationRequest<Calibration>('/api/calibrations', { method: 'POST', body: JSON.stringify({ session_id: Number(savedSessionId), ...currentGhost, camera_label: track?.label || null, camera_device_id: actual?.deviceId || null, width: actualDimension(actual?.width), height: actualDimension(actual?.height), mirrored: settings.mirrored, ...(storedAnchor ? { image_anchor: storedAnchor } : {}), ...(setupRevision !== undefined ? { setup_revision: setupRevision } : {}) }) })
+      const saved = await calibrationRequest<Calibration>('/api/calibrations', { method: 'POST', body: JSON.stringify({ session_id: Number(savedSessionId), ...currentGhost, camera_label: track?.label || null, camera_device_id: actual?.deviceId || null, width: actualDimension(actual?.width), height: actualDimension(actual?.height), mirrored: settings.mirrored, ...(setupRevision !== undefined ? { setup_revision: setupRevision } : {}) }) })
       if (workflow && !isCurrent()) { invalidateWorkflow(); if (requestId === saveGeneration.current) setMessage('Camera hoặc hiệu chuẩn đã thay đổi; hãy kiểm tra và lưu lại.'); return }
       if (requestId === saveGeneration.current) {
-        const returned = fromPersistedGhostAnchor(saved.image_anchor, false)
-        const retained = !!storedAnchor && !!returned && Math.abs(returned.x - storedAnchor.x) < 1e-9 && Math.abs(returned.y - storedAnchor.y) < 1e-9 && Math.abs(returned.scale - storedAnchor.scale) < 1e-9
-        setMessage(retained ? `Đã lưu cấu hình hiệu chuẩn đã gửi cho phiên #${savedSessionId}.` : `Đã lưu cấu hình hiệu chuẩn đã gửi cho phiên #${savedSessionId}. Không xác nhận được vị trí theo ảnh; hãy căn chỉnh lại khi khôi phục.`)
+        setMessage(`Đã lưu xác nhận camera và hiệu chuẩn cho phiên #${savedSessionId}.`)
         if (workflow && saved.confirmed) { savedSetup.current = true; workflow.onSetupSaved(saved.id) }
       }
     } catch { if (requestId === saveGeneration.current) setMessage(`Không xác nhận được lưu hiệu chuẩn cho phiên #${savedSessionId}. Hãy kiểm tra cấu hình đã lưu trước khi thử lại.`) }
     finally { setCalibrationSavePending(false) }
   }
   const continueSetup = () => {
-    const current = currentMappedGhost()
-    if (!workflow || pendingAnchor.current || !current.ghost_visible || !ghostFitsCalibration(current)) return
-    const confirmed = { ...current, confirmed: true }
-    ghostRef.current = confirmed
-    setGhost(confirmed)
+    if (!workflow || !ghostRef.current.confirmed) return
     void save()
   }
   const toggleFullscreen = async () => {
@@ -625,6 +635,7 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
 
   const startCollection = async () => {
     const session = sessions.find(item => String(item.id) === sessionId)
+    if (selectedTrackingModel !== 'mediapipe') { setMessage('Thu dữ liệu nghiên cứu chỉ hỗ trợ MediaPipe. Dùng benchmark riêng để lưu artifact RTMPose.'); return }
     if (!session || !streamRef.current || demo || !tracking || activeEngine !== 'main') { setMessage('Chọn phiên và bật nhận diện trên luồng chính với camera thật trước khi thu.'); return }
     const trial = captureTrial.trim() ? Number(captureTrial) : undefined
     if (trial !== undefined && (!Number.isSafeInteger(trial) || trial <= 0)) { setMessage('Mã lượt tập phải là số nguyên dương.'); return }
@@ -632,9 +643,26 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
     catch (error) { setMessage(error instanceof Error ? error.message : 'Không thể bắt đầu thu dữ liệu.') }
   }
 
+  const previousWorkflowView = useRef(workflow?.view)
+  const pendingClinicalTrackingRestart = useRef(false)
+  useEffect(() => {
+    const viewChanged = previousWorkflowView.current !== workflow?.view
+    previousWorkflowView.current = workflow?.view
+    if (!viewChanged) return
+    const experimentalEngineActive = activeEngine === 'rtmpose' || activeEngine === 'mixed' || ((tracking || starting) && requestedTrackingEngine.current !== 'mediapipe')
+    if (workflow && workflow.view !== 'setup' && experimentalEngineActive) {
+      pendingClinicalTrackingRestart.current = true
+      stopTracking()
+    }
+    if (workflow?.view === 'game' && pendingClinicalTrackingRestart.current) {
+      pendingClinicalTrackingRestart.current = false
+      setTimeout(() => { if (streamRef.current) void startTracking() }, 0)
+    }
+  }, [workflow?.view])
+
   return <section ref={workspaceRef} hidden={!!workflow && workflow.view === 'monitor'} className={`${settings.tvMode ? 'workspace workspace-tv' : 'workspace'}${workflow ? ` clinical-workspace clinical-${workflow.view}` : ''}`}>
     <CaptureNavigationGuard shouldBlock={() => capture.busy || capture.isActive()} />
-    <div className="workspace-heading"><div><p className="workspace-eyebrow">{workflow?.view === 'game' ? 'KHÔNG GIAN THỰC HÀNH' : 'THIẾT LẬP CAMERA'}</p>{workflow ? <h2>{workflow.view === 'game' ? 'Thực hiện bài tập' : 'Căn chỉnh camera'}</h2> : <h1>Camera & hiệu chuẩn</h1>}<p>{workflow?.view === 'game' ? 'Thực hiện trò chơi theo hướng dẫn trên màn hình.' : 'Điều chỉnh ghế và hình bóng tham chiếu trước khi bắt đầu.'}</p></div>{workflow?.view === 'setup' && <span className="workspace-tag">Nhân viên kiểm tra tư thế</span>}</div>
+    <div className="workspace-heading"><div><p className="workspace-eyebrow">{workflow?.view === 'game' ? 'KHÔNG GIAN THỰC HÀNH' : 'THIẾT LẬP CAMERA'}</p>{workflow ? <h2>{workflow.view === 'game' ? 'Thực hiện bài tập' : 'Căn chỉnh camera'}</h2> : <h1>Camera & hiệu chuẩn</h1>}<p>{workflow?.view === 'game' ? 'Thực hiện trò chơi theo hướng dẫn trên màn hình.' : 'Đặt người tập trong khung hình và kiểm tra camera trước khi tiếp tục.'}</p></div>{workflow?.view === 'setup' && <span className="workspace-tag">Nhân viên kiểm tra tư thế</span>}</div>
     {message && <div className="workspace-message" role="status" aria-label="Thông báo camera và hiệu chuẩn">{message}<button aria-label="Đóng thông báo" onClick={() => setMessage('')}>×</button></div>}
     {sessionsError && <div className="workspace-message" role="alert">{sessionsError}</div>}
     <div className="workspace-grid">
@@ -643,7 +671,7 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
           <div className="workspace-image" style={{ aspectRatio: `${size.width} / ${size.height}` }}>
             <video ref={videoRef} muted playsInline className={settings.mirrored ? 'mirrored' : ''} />
             {!streamActive && <div className="workspace-empty">{demo ? 'KHUNG MÔ PHỎNG' : 'Camera đang tắt'}<small>{demo ? 'Chuyển động mốc được tạo để thử giao diện' : 'Bật camera hoặc chọn chế độ demo để bắt đầu'}</small></div>}
-            <canvas ref={canvasRef} width={size.width} height={size.height} aria-label="Lớp phủ hiệu chuẩn và mốc vận động" />
+            <canvas ref={canvasRef} width={size.width} height={size.height} aria-label="Lớp phủ mốc vận động" />
             {game.overlay}
             {(!workflow || workflow.view === 'game') && game.hud}
             {demo && <div className="demo-badge">DEMO — KHÔNG PHẢI DỮ LIỆU BỆNH NHÂN</div>}
@@ -656,7 +684,7 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
           {!workflow && <button onClick={() => { stopCamera(); setDemo(value => !value); setSize({ width: 1280, height: 720 }); setMessage('') }}>{demo ? 'Thoát demo' : 'Chạy demo'}</button>}
           <button disabled={!streamActive || demo || starting} onClick={tracking ? stopTracking : startTracking}>{starting ? 'Đang tải…' : tracking ? 'Dừng nhận diện' : 'Bắt đầu nhận diện'}</button>
         </div>
-        {!workflow && <div className="workspace-meta"><span>{demo ? 'Mốc mô phỏng' : status}</span><span>{fps} FPS suy luận Pose</span>{activeEngine && <span>Pose: {modelDelegates.pose} | Hand: {modelDelegates.hand} · {activeEngine === 'parallel' ? (parallelHandAvailable ? 'hai Worker' : 'Worker Pose') : activeEngine === 'worker' ? 'Worker' : 'luồng chính'}</span>}<span>Yêu cầu camera: {requestedCameraSize.width} × {requestedCameraSize.height}</span>{streamActive && <span>Camera thực tế: {actualCameraSize ? `${actualCameraSize.width} × ${actualCameraSize.height}` : 'không xác định'}</span>}</div>}
+        {!workflow && <div className="workspace-meta"><span>{demo ? 'Mốc mô phỏng' : status}</span><span>{fps} FPS suy luận {activeEngine === 'rtmpose' ? 'WholeBody' : 'Pose'}</span>{activeEngine && <span>Pose: {modelDelegates.pose} | Hand: {modelDelegates.hand} · {activeEngine === 'parallel' ? (parallelHandAvailable ? 'hai Worker' : 'Worker Pose') : activeEngine === 'worker' ? 'Worker' : activeEngine === 'rtmpose' ? 'dịch vụ GPU localhost' : 'luồng chính'}</span>}<span>Yêu cầu camera: {requestedCameraSize.width} × {requestedCameraSize.height}</span>{streamActive && <span>Camera thực tế: {actualCameraSize ? `${actualCameraSize.width} × ${actualCameraSize.height}` : 'không xác định'}</span>}</div>}
         {!workflow && budgetStatus && <p>Giới hạn tự điều chỉnh Pose {budgetStatus.poseFps.toFixed(1)} / Hand {budgetStatus.handAvailable ? `${budgetStatus.handFps.toFixed(1)} FPS` : 'không khả dụng'} · {budgetStatus.phase === 'normal' ? 'bình thường' : 'đã giảm tải'}</p>}
         {!workflow && <><p><a href="/tracking-lab">Mở Tracking Test Lab</a></p>
         <div className="workspace-panel" aria-label="Thu thập dữ liệu nghiên cứu">
@@ -676,11 +704,24 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
         {(!workflow || workflow.view === 'game') && game.panel}
       </div>
       <aside className="workspace-panel" hidden={!!workflow && workflow.view !== 'setup'}>
-        <div><p className="workspace-eyebrow">{workflow ? 'CĂN CHỈNH' : 'THIẾT LẬP PHIÊN'}</p><h2>{workflow ? 'Căn chỉnh camera' : 'Hiệu chuẩn tư thế'}</h2><p>{workflow ? 'Điều chỉnh ghế và hình bóng; nhân viên kiểm tra đầu, vai, thân trước khi tiếp tục.' : 'Điều chỉnh ghế để đầu, vai và thân trùng hình bóng. Hình bóng chỉ hỗ trợ căn chỉnh tư thế.'}</p></div>
+        <div><p className="workspace-eyebrow">{workflow ? 'CĂN CHỈNH' : 'THIẾT LẬP PHIÊN'}</p><h2>{workflow ? 'Căn chỉnh camera' : 'Hiệu chuẩn tư thế'}</h2><p>{workflow ? 'Đặt người tập thoải mái trong khung hình. Nhân viên quan sát và xác nhận thủ công.' : 'Đặt người tập trong khung hình camera rồi bật theo dõi để kiểm tra mốc vận động.'}</p></div>
         {!controlledSession && <label>Phiên tập<select value={sessionId} disabled={capture.isActive() || capture.busy} onChange={event => onSessionChange(event.target.value)}><option value="">Chọn phiên</option>{sessions.map(item => <option key={item.id} value={item.id}>Phiên #{item.id} · Bệnh nhân #{item.patient_id}</option>)}</select></label>}
         <label>Camera<select value={settings.cameraId || ''} onChange={event => { stopCamera(); updateSettings({ cameraId: event.target.value }) }}><option value="">Camera mặc định</option>{devices.map(device => <option key={device.deviceId} value={device.deviceId}>{device.label || 'Camera'}</option>)}</select></label>
         <label className="check"><input type="checkbox" checked={settings.mirrored} onChange={event => updateSettings({ mirrored: event.target.checked })} /> Lật ảnh ngang</label>
-        <label className="check"><input type="checkbox" checked={ghost.ghost_visible} onChange={event => updateGhost({ ghost_visible: event.target.checked })} /> Hiển thị hình bóng</label>
+        {workflow?.view === 'setup' ? <>
+          <fieldset className="tracking-model-options"><legend>Model theo dõi</legend>
+            <label>Pose<select aria-label="Model tracking Pose" value={settings.poseTrackingModel || 'mediapipe'} disabled={tracking || starting} onChange={event => { stopTracking(); setSettings(previous => ({ ...previous, poseTrackingModel: event.target.value === 'rtmpose' ? 'rtmpose' : 'mediapipe' })); setModelErrors([]); setModelDelegates({ pose: '—', hand: 'Tắt' }); setRoiConfirmed(false) }}><option value="mediapipe">MediaPipe Pose</option><option value="rtmpose">RTMPose WholeBody Pose (thử nghiệm)</option></select></label>
+            <label>Hand<select aria-label="Model tracking Hand" value={settings.handTrackingModel || 'mediapipe'} disabled={tracking || starting} onChange={event => { stopTracking(); setSettings(previous => ({ ...previous, handTrackingModel: event.target.value === 'rtmpose' ? 'rtmpose' : 'mediapipe' })); setModelErrors([]); setModelDelegates({ pose: '—', hand: 'Tắt' }); setRoiConfirmed(false) }}><option value="mediapipe">MediaPipe Hand</option><option value="rtmpose">RTMPose WholeBody Hand (thử nghiệm)</option></select></label>
+          </fieldset>
+          <p className="workspace-hint">Mặc định MediaPipe cho Pose và Hand. RTMPose WholeBody trả hai nhóm mốc trong cùng lượt; khi chọn model khác nhau, hai bộ tracking xử lý nối tiếp. Bài tập lâm sàng luôn dùng MediaPipe.</p>
+          {(selectedPoseModel === 'rtmpose' || (handEnabled && selectedHandModel === 'rtmpose')) && <details><summary>ROI một người tập (tọa độ ảnh chuẩn hóa)</summary><label className="check"><input type="checkbox" aria-label="RTMPose person detector" disabled={tracking || starting} checked={personDetection} onChange={event => { setPersonDetection(event.target.checked); setRoiConfirmed(false) }} />Phát hiện vùng người bằng RTMDet GPU (thử nghiệm)</label><p>Detector thêm chi phí suy luận nhưng crop người sát hơn. Nếu tắt, phải xác nhận ROI thủ công. Cả hai cách chỉ phục vụ một người.</p><p>Chỉ dùng khi người tập nằm trọn trong ROI. Mất mốc hoặc chạm biên không bảo đảm phát hiện mọi trường hợp ra ngoài ROI; dừng và xác nhận lại khi đổi vị trí.</p>{(['x', 'y', 'width', 'height'] as const).map(key => <label key={key}>{key}<input type="number" min="0" max="1" step="0.01" value={roi[key]} disabled={tracking || starting} onChange={event => { setRoi(previous => ({ ...previous, [key]: Number(event.target.value) })); setRoiConfirmed(false) }} /></label>)}<label className="check"><input type="checkbox" checked={roiConfirmed} disabled={tracking || starting} onChange={event => setRoiConfirmed(event.target.checked)} />Tôi đã kiểm tra ROI chứa toàn bộ người tập</label></details>}
+        </> : !workflow ? <>
+          <label>Model tracking<select aria-label="Model tracking" value={settings.trackingModel || 'mediapipe'} disabled={capture.busy || capture.isActive()} onChange={event => { stopTracking(); setSettings(previous => ({ ...previous, trackingModel: event.target.value === 'rtmpose' ? 'rtmpose' : 'mediapipe' })); setModelErrors([]); setModelDelegates({ pose: '—', hand: '—' }); setRoiConfirmed(false) }}><option value="mediapipe">MediaPipe Pose + Hand</option><option value="rtmpose">MMPose RTMPose WholeBody (thử nghiệm)</option></select></label>
+          <p className="workspace-hint">{selectedTrackingModel === 'rtmpose' ? 'Whole-body pose + 21 landmarks per hand. Chỉ có tọa độ 2D; chưa hỗ trợ thu nghiên cứu z/world. Không tự chuyển sang CPU hoặc MediaPipe.' : 'Pose Landmarker Lite + Hand Landmarker. Delegate Pose và Hand hiển thị riêng; có CPU fallback.'}</p>
+          {selectedTrackingModel === 'rtmpose' && <details><summary>ROI một người tập (tọa độ ảnh chuẩn hóa)</summary><label className="check"><input type="checkbox" aria-label="RTMPose person detector" disabled={tracking || starting} checked={personDetection} onChange={event => { setPersonDetection(event.target.checked); setRoiConfirmed(false) }} />Phát hiện vùng người bằng RTMDet GPU (thử nghiệm)</label><p>Detector thêm chi phí suy luận nhưng crop người sát hơn. Nếu tắt, phải xác nhận ROI thủ công. Cả hai cách chỉ phục vụ một người.</p><p>Chỉ dùng khi người tập nằm trọn trong ROI. Mất mốc hoặc chạm biên không bảo đảm phát hiện mọi trường hợp ra ngoài ROI; dừng và xác nhận lại khi đổi vị trí.</p>{(['x', 'y', 'width', 'height'] as const).map(key => <label key={key}>{key}<input type="number" min="0" max="1" step="0.01" value={roi[key]} disabled={tracking || starting} onChange={event => { setRoi(previous => ({ ...previous, [key]: Number(event.target.value) })); setRoiConfirmed(false) }} /></label>)}<label className="check"><input type="checkbox" checked={roiConfirmed} disabled={tracking || starting} onChange={event => setRoiConfirmed(event.target.checked)} />Tôi đã kiểm tra ROI chứa toàn bộ người tập</label></details>}
+        </> : <p className="workspace-hint">Bài tập lâm sàng luôn dùng MediaPipe Pose + Hand.</p>}
+        <p role="status">{status}{activeEngine && <> · Pose: {modelDelegates.pose} | Hand: {modelDelegates.hand}</>}</p>
+        {modelErrors.length > 0 && <details open><summary>Lỗi khởi tạo / suy luận model</summary>{modelErrors.map((error, index) => <p key={index}>{error}</p>)}</details>}
         <label className="check"><input type="checkbox" disabled={tracking || starting} checked={handEnabled} onChange={event => { setHandEnabled(event.target.checked); if (!event.target.checked) setPreferParallel(false) }} /> Theo dõi 21 mốc bàn tay</label>
         {!workflow && <>
         <label className="check"><input type="checkbox" checked={showSkeleton} onChange={event => setShowSkeleton(event.target.checked)} /> Hiển thị mốc vận động</label>
@@ -688,25 +729,17 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
         <label>Hiệu năng<select disabled={streamActive || cameraOpening} value={settings.trackingProfile || 'balanced'} onChange={event => updateSettings({ trackingProfile: event.target.value as TrackingProfileName })}><option value="economy">Economy</option><option value="balanced">Balanced</option><option value="quality">Quality</option></select></label>
         <label className="check"><input type="checkbox" disabled={streamActive || cameraOpening} checked={settings.profileCameraResolution} onChange={event => updateSettings({ profileCameraResolution: event.target.checked })} /> Dùng độ phân giải camera theo cấu hình tracking</label>
         <p className="workspace-hint">Kích thước theo cấu hình là yêu cầu gửi tới camera; thiết bị có thể chọn kích thước khác. Kiểm tra lại hiệu chuẩn khi thay đổi khung hình.</p>
-        <label className="check"><input type="checkbox" disabled={tracking || starting} checked={settings.workerTracking && !preferParallel} onChange={event => { setSettings(previous => ({ ...previous, workerTracking: event.target.checked })); if (event.target.checked) setPreferParallel(false) }} /> Sử dụng Worker CPU (thử nghiệm)</label>
-        <label className="check"><input type="checkbox" disabled={tracking || starting || !handEnabled} checked={preferParallel} onChange={event => setPreferParallel(event.target.checked)} /> Sử dụng hai Worker CPU (thử nghiệm)</label>
-        <label className="check"><input type="checkbox" disabled={tracking || starting || !preferParallel} checked={adaptiveParallel} onChange={event => setAdaptiveParallel(event.target.checked)} /> Tự điều chỉnh nhịp hai Worker (thử nghiệm)</label>
+        <label className="check"><input type="checkbox" disabled={tracking || starting || settings.trackingModel === 'rtmpose'} checked={settings.workerTracking && !preferParallel} onChange={event => { setSettings(previous => ({ ...previous, workerTracking: event.target.checked })); if (event.target.checked) setPreferParallel(false) }} /> Sử dụng Worker CPU (thử nghiệm)</label>
+        <label className="check"><input type="checkbox" disabled={tracking || starting || !handEnabled || settings.trackingModel === 'rtmpose'} checked={preferParallel} onChange={event => setPreferParallel(event.target.checked)} /> Sử dụng hai Worker CPU (thử nghiệm)</label>
+        <label className="check"><input type="checkbox" disabled={tracking || starting || !preferParallel || settings.trackingModel === 'rtmpose'} checked={adaptiveParallel} onChange={event => setAdaptiveParallel(event.target.checked)} /> Tự điều chỉnh nhịp hai Worker (thử nghiệm)</label>
         {preferParallel && <p className="workspace-hint">Tự điều chỉnh dùng thời gian nhận kết quả và độ phản hồi giao diện; không đo hoặc bảo đảm phần CPU còn lại của toàn máy. Giới hạn FPS không phải FPS thực tế.</p>}
-        {activeEngine && <p role="status">Pose: {modelDelegates.pose} | Hand: {modelDelegates.hand}</p>}
-        {modelErrors.length > 0 && <details><summary>Lỗi khởi tạo / suy luận MediaPipe</summary>{modelErrors.map((error, index) => <p key={index}>{error}</p>)}</details>}
         <p className="workspace-hint">Dừng nhận diện để thay đổi. Hai Worker cần bật bàn tay và có thể xử lý các frame khác nhau. Nếu Pose Worker không khả dụng, hệ thống sẽ thử GPU trên luồng chính, rồi CPU nếu GPU lỗi.</p>
-        <label>Độ trong suốt <span>{Math.round(ghost.opacity * 100)}%</span><input type="range" min="0.1" max="1" step="0.05" value={ghost.opacity} onChange={event => updateGhost({ opacity: Number(event.target.value) })} /></label>
         </>}
-        <label>Vị trí ngang <span>{Math.round(ghost.x * 100)}%</span><input type="range" min="0" max="1" step="0.01" value={ghost.x} onChange={event => updateGhost({ x: Number(event.target.value) })} /></label>
-        <label>Vị trí dọc <span>{Math.round(ghost.y * 100)}%</span><input type="range" min="0" max="1" step="0.01" value={ghost.y} onChange={event => updateGhost({ y: Number(event.target.value) })} /></label>
-        <label>Tỷ lệ <span>{Math.round(ghost.scale * 100)}%</span><input type="range" min="0.2" max="3" step="0.05" value={ghost.scale} onChange={event => updateGhost({ scale: Number(event.target.value) })} /></label>
         {!workflow && <label>Tay ảnh hưởng<select value={ghost.affected_side} onChange={event => updateGhost({ affected_side: event.target.value as 'left' | 'right' })}><option value="left">Trái</option><option value="right">Phải</option></select></label>}
-        {!ghostFitsCalibration(ghost) && <p role="alert">Hình bóng nằm ngoài phạm vi hiệu chuẩn. Hãy điều chỉnh lại vị trí và tỷ lệ.</p>}
-        {pendingAnchor.current && <p>Đang chờ thông tin camera để khôi phục vị trí theo ảnh; căn chỉnh thủ công để bỏ chờ.</p>}
-        {workflow ? <div className="workspace-panel-actions"><button className="primary" onClick={continueSetup} disabled={!sessionId || demo || !streamActive || saving || !!pendingAnchor.current || !ghost.ghost_visible || !ghostFitsCalibration(ghost)}>Tiếp theo</button></div> : <>
-          <label className="check confirm"><input type="checkbox" checked={ghost.confirmed} disabled={demo || !streamActive || !!pendingAnchor.current || !ghostFitsCalibration(ghost)} onChange={event => { const current = currentMappedGhost(); if (pendingAnchor.current || !ghostFitsCalibration(current)) return; const next = { ...current, confirmed: event.target.checked }; ghostRef.current = next; setGhost(next) }} /> Tôi đã kiểm tra vị trí và tư thế người bệnh</label>
-          <div className="workspace-panel-actions"><button onClick={restore} disabled={!sessionId}>Khôi phục cấu hình</button><button className="primary" onClick={save} disabled={!sessionId || demo || !streamActive || saving || !!pendingAnchor.current || !ghostFitsCalibration(ghost)}>Lưu hiệu chuẩn</button></div>
-          <p className="workspace-hint">Cánh tay màu vàng biểu thị tay ảnh hưởng. Hình bóng chỉ là công cụ căn chỉnh, không tự xác định tư thế đạt chuẩn lâm sàng. Không lưu dữ liệu demo.</p>
+        {workflow ? <><label className="check confirm"><input type="checkbox" checked={ghost.confirmed} disabled={demo || !streamActive} onChange={event => { const next = { ...ghostRef.current, confirmed: event.target.checked }; ghostRef.current = next; setGhost(next) }} /> Nhân viên đã kiểm tra camera và tư thế người tập</label><div className="workspace-panel-actions"><button className="primary" onClick={continueSetup} disabled={!sessionId || demo || !streamActive || saving || !ghost.confirmed}>Tiếp theo</button></div></> : <>
+          <label className="check confirm"><input type="checkbox" checked={ghost.confirmed} disabled={demo || !streamActive} onChange={event => { const next = { ...ghostRef.current, confirmed: event.target.checked }; ghostRef.current = next; setGhost(next) }} /> Tôi đã kiểm tra vị trí và tư thế người bệnh</label>
+          <div className="workspace-panel-actions"><button className="primary" onClick={save} disabled={!sessionId || demo || !streamActive}>Lưu hiệu chuẩn</button></div>
+          <p className="workspace-hint">Hiệu chuẩn này ghi nhận camera và xác nhận thủ công, không tự đánh giá tư thế lâm sàng. Không lưu dữ liệu demo.</p>
         </>}
       </aside>
     </div>

@@ -1,8 +1,8 @@
 import { FilesetResolver } from '@mediapipe/tasks-vision'
 import type { HandLandmarker, PoseLandmarker } from '@mediapipe/tasks-vision'
 import { initializeHand, initializePose } from './mediaPipeModels'
-import { createWorkerTracker } from './workerTracker'
-import type { WorkerHandResult, WorkerPoseResult, WorkerResult, WorkerTracker } from './workerTracker'
+import { createWorkerTracker, waitForWorkerDisposals } from './workerTracker'
+import type { WorkerFrameComplete, WorkerHandResult, WorkerPoseResult, WorkerResult, WorkerTracker } from './workerTracker'
 import type { Point } from './drawing'
 import type { ScheduledVideoFrame } from './videoFrameScheduler'
 import { createRTMPoseEngine, waitForRTMPoseDrain } from './rtmposeEngine'
@@ -27,6 +27,8 @@ export type BenchmarkConfig = {
 }
 export type Observation = {
   frame: ScheduledVideoFrame
+  requestId?: number
+  frameComplete?: boolean
   pose: Point[] | null
   hands: Point[][] | null
   poseMs: number | null
@@ -42,13 +44,19 @@ export type Observation = {
   runtimeTimestamps?: Record<string, number> | null
   transferMs?: number | null
   captureMs?: number | null
+  captureResizeTotalMs?: number | null
+  transferAndDispatchMs?: number | null
+  poseFailed?: boolean
+  handFailed?: boolean
+  poseProcessed?: boolean
+  handProcessed?: boolean
 }
 export type BenchmarkEngine = {
   delegates: { pose: string | null; hand: string | null }
   runtimeInfo?: unknown
   errors: string[]
   submit: (frame: ScheduledVideoFrame, doPose: boolean, doHand: boolean) => boolean
-  close: () => void
+  close: () => void | Promise<void>
   idle: () => boolean
 }
 
@@ -57,8 +65,14 @@ export async function createBenchmarkEngine(
   video: HTMLVideoElement,
   onResult: (observation: Observation) => void,
   onError: (error: Error) => void,
+  signal?: AbortSignal,
 ): Promise<BenchmarkEngine> {
+  const checkCancelled = () => { if (signal?.aborted) throw new Error('Benchmark initialization cancelled') }
+  checkCancelled()
+  await waitForWorkerDisposals()
+  checkCancelled()
   await waitForRTMPoseDrain()
+  checkCancelled()
   if (config.engine === 'rtmpose') {
     let frame: ScheduledVideoFrame | null = null
     const engine = await createRTMPoseEngine({
@@ -122,109 +136,148 @@ export async function createBenchmarkEngine(
 
   const delegates: BenchmarkEngine['delegates'] = { pose: null, hand: null }
   const errors: string[] = []
-  let pending: ScheduledVideoFrame | null = null
+  let pending: { frame: ScheduledVideoFrame; requestId?: number; handDelivered: boolean; poseDelivered: boolean; timingsRecorded: boolean } | null = null
+  let closed = false, runtimeFailed = false
+  let closing: Promise<void> | null = null
 
   const close = () => {
+    if (closing) return closing
+    signal?.removeEventListener('abort', abort)
+    closed = true
+    pending = null
     const oldWorker = worker
     worker = null
-    if (typeof oldWorker?.dispose === 'function') {
-      oldWorker.dispose().catch(() => {})
-    } else {
-      oldWorker?.close()
+    const oldPose = pose, oldHand = hand
+    pose = null; hand = null
+    closing = (async () => {
+      const failures: string[] = []
+      try { await oldWorker?.dispose() } catch (error) { failures.push(String(error)) }
+      for (const model of [oldPose, oldHand]) {
+        try { model?.close() } catch (error) { failures.push(String(error)) }
+      }
+      if (failures.length) throw new Error(`Model cleanup failed: ${failures.join('; ')}`)
+    })()
+    return closing
+  }
+  const abort = () => { void close().catch(error => onError(error instanceof Error ? error : new Error(String(error)))) }
+  const inferenceFailure = (error: string) => { runtimeFailed = true; onError(new Error(error)) }
+
+  const matchingFrame = (result: WorkerHandResult | WorkerPoseResult | WorkerFrameComplete | WorkerResult) => {
+    if (closed || !pending) return null
+    const { frame } = pending
+    if (result.timestamp !== frame.inferenceTimestamp || result.sourceFrameId !== (frame.sourceFrameId ?? null)
+      || result.sourceMediaTimeMs !== frame.mediaTime * 1000 || result.sourcePerformanceMs !== frame.now) return null
+    if (pending.requestId !== undefined && pending.requestId !== result.requestId) return null
+    pending.requestId = result.requestId
+    return pending
+  }
+
+  const captureTimings = (result: WorkerHandResult | WorkerPoseResult, observed: NonNullable<typeof pending>) => {
+    if (observed.timingsRecorded) return { captureResizeTotalMs: null, transferAndDispatchMs: null }
+    observed.timingsRecorded = true
+    return {
+      captureResizeTotalMs: result.captureResizeTotalMs ?? null,
+      transferAndDispatchMs: result.transferAndDispatchMs ?? null,
     }
-    try { pose?.close() } finally { pose = null; hand?.close(); hand = null }
   }
 
   try {
     if (config.engine === 'worker') {
       const useHandFirst = config.handFirst !== false
       const targetRes = config.inferenceResolution ?? null
-      let frameTimingsRecorded = false
-
       worker = await createWorkerTracker({
         worker: new Worker('/tracking-worker.js'),
         moduleUrl: new URL('../../../node_modules/@mediapipe/tasks-vision/vision_bundle.mjs', import.meta.url).href,
         handEnabled: config.hands,
         preferGpu: config.gpu,
         handFirst: useHandFirst,
+        signal,
         capture: element => captureInferenceBitmapWithTimings(element, targetRes),
-        onError,
+        onError: error => { runtimeFailed = true; pending = null; onError(error) },
         onHandResult: useHandFirst ? (result: WorkerHandResult) => {
-          const frame = pending
-          if (!frame) return
-          if (result.handFailed) {
-            onError(new Error(result.handError || 'Hand worker inference failed'))
-            return
-          }
-          const recordTimings = !frameTimingsRecorded
-          if (recordTimings) frameTimingsRecorded = true
+          const observed = matchingFrame(result)
+          if (!observed || observed.handDelivered) return
+          observed.handDelivered = true
           onResult({
-            frame,
+            frame: observed.frame,
+            requestId: result.requestId,
             pose: null,
-            hands: result.handProcessed ? result.hands : null,
+            hands: result.handFailed ? [] : result.handProcessed ? result.hands : null,
             poseMs: null,
-            handMs: result.handInferenceMs ?? null,
+            handMs: result.handProcessed && !result.handFailed ? result.handInferenceMs : null,
             poseWorld: null,
             handWorld: result.handWorldLandmarks ?? null,
             handedness: result.handedness ?? null,
-            transferMs: recordTimings ? (result.transferAndDispatchMs ?? result.transferMs ?? null) : null,
-            captureMs: recordTimings ? (result.captureResizeTotalMs ?? result.captureMs ?? null) : null,
+            handFailed: result.handFailed,
+            handProcessed: result.handProcessed && !result.handFailed,
+            ...captureTimings(result, observed),
           })
+          if (result.handFailed) inferenceFailure(result.handError || 'Hand worker inference failed')
         } : undefined,
         onPoseResult: useHandFirst ? (result: WorkerPoseResult) => {
-          const frame = pending
-          if (!frame) return
-          if (result.poseFailed) {
-            onError(new Error(result.poseError || 'Pose worker inference failed'))
-            return
-          }
-          const recordTimings = !frameTimingsRecorded
-          if (recordTimings) frameTimingsRecorded = true
+          const observed = matchingFrame(result)
+          if (!observed || observed.poseDelivered) return
+          observed.poseDelivered = true
           onResult({
-            frame,
-            pose: result.poseProcessed ? result.pose : null,
+            frame: observed.frame,
+            requestId: result.requestId,
+            pose: result.poseFailed ? [] : result.poseProcessed ? result.pose : null,
             hands: null,
-            poseMs: result.poseInferenceMs ?? null,
+            poseMs: result.poseProcessed && !result.poseFailed ? result.poseInferenceMs : null,
             handMs: null,
             poseWorld: result.poseWorldLandmarks ?? null,
             handWorld: null,
             handedness: null,
-            transferMs: recordTimings ? (result.transferAndDispatchMs ?? result.transferMs ?? null) : null,
-            captureMs: recordTimings ? (result.captureResizeTotalMs ?? result.captureMs ?? null) : null,
+            poseFailed: result.poseFailed,
+            poseProcessed: result.poseProcessed && !result.poseFailed,
+            ...captureTimings(result, observed),
           })
+          if (result.poseFailed) inferenceFailure(result.poseError || 'Pose worker inference failed')
         } : undefined,
-        onFrameComplete: useHandFirst ? () => {
+        onFrameComplete: useHandFirst ? result => {
+          const observed = matchingFrame(result)
+          if (!observed) return
           pending = null
-          frameTimingsRecorded = false
+          onResult({ frame: observed.frame, requestId: result.requestId, frameComplete: true,
+            pose: null, hands: null, poseMs: null, handMs: null, poseWorld: null, handWorld: null, handedness: null,
+            pipelineMs: performance.now() - observed.frame.inferenceTimestamp })
         } : undefined,
         onResult: !useHandFirst ? (result: WorkerResult) => {
-          const frame = pending
+          const observed = matchingFrame(result)
+          if (!observed) return
           pending = null
-          frameTimingsRecorded = false
-          if (!frame) return
-          if (result.handFailed) {
-            onError(new Error(result.handError || 'Hand worker inference failed'))
-            return
-          }
           onResult({
-            frame,
-            pose: result.poseProcessed ? result.pose : null,
-            hands: result.handProcessed ? result.hands : null,
-            poseMs: result.poseInferenceMs ?? null,
-            handMs: result.handInferenceMs ?? null,
+            frame: observed.frame,
+            requestId: result.requestId,
+            frameComplete: true,
+            pipelineMs: performance.now() - observed.frame.inferenceTimestamp,
+            pose: result.poseFailed ? [] : result.poseProcessed ? result.pose : null,
+            hands: result.handFailed ? [] : result.handProcessed ? result.hands : null,
+            poseMs: result.poseProcessed && !result.poseFailed ? result.poseInferenceMs ?? null : null,
+            handMs: result.handProcessed && !result.handFailed ? result.handInferenceMs ?? null : null,
             poseWorld: result.poseWorldLandmarks ?? null,
             handWorld: result.handWorldLandmarks ?? null,
             handedness: result.handedness ?? null,
+            poseFailed: result.poseFailed,
+            handFailed: result.handFailed,
+            poseProcessed: result.poseProcessed && !result.poseFailed,
+            handProcessed: result.handProcessed && !result.handFailed,
+            captureResizeTotalMs: result.captureResizeTotalMs ?? null,
+            transferAndDispatchMs: result.transferAndDispatchMs ?? null,
           })
+          if (result.handFailed || result.poseFailed) inferenceFailure([result.handFailed ? result.handError || 'Hand worker inference failed' : '', result.poseFailed ? result.poseError || 'Pose worker inference failed' : ''].filter(Boolean).join('; '))
         } : undefined,
       })
+      checkCancelled()
       Object.assign(delegates, worker.delegates)
       errors.push(...worker.initializationErrors)
     } else {
       const files = await FilesetResolver.forVisionTasks('/mediapipe/wasm')
+      checkCancelled()
       const poseCanvas = new OffscreenCanvas(1, 1)
       const p = await initializePose(files, config.gpu, poseCanvas)
       pose = p.model
+      checkCancelled()
       delegates.pose = p.delegate
       if (p.delegate === 'GPU') inferenceDevices = { ...inferenceDevices, pose: inspectCanvas(poseCanvas) }
       if (p.gpuError) errors.push(`Pose GPU: ${p.gpuError}`)
@@ -232,32 +285,44 @@ export async function createBenchmarkEngine(
         const handCanvas = new OffscreenCanvas(1, 1)
         const h = await initializeHand(files, config.gpu, handCanvas)
         hand = h.model
+        checkCancelled()
         delegates.hand = h.delegate
         if (h.delegate === 'GPU') inferenceDevices = { ...inferenceDevices, hand: inspectCanvas(handCanvas) }
         if (h.gpuError) errors.push(`Hand GPU: ${h.gpuError}`)
       }
     }
 
+    if (delegates.pose === null || (config.hands && delegates.hand === null)) throw new Error(`Requested benchmark model unavailable: Pose=${delegates.pose}, Hand=${delegates.hand}. ${errors.join(' ')}`)
     if (config.comparison && (delegates.pose !== 'GPU' || (config.hands && delegates.hand !== 'GPU'))) {
       throw new Error(`GPU comparison rejected CPU fallback: Pose=${delegates.pose}, Hand=${delegates.hand}. ${errors.join(' ')}`)
     }
+    checkCancelled()
+    signal?.addEventListener('abort', abort, { once: true })
 
     return {
       delegates,
       runtimeInfo: {
-        runtime: 'MediaPipe WebGL',
+        runtime: config.engine === 'worker' ? 'MediaPipe Tasks Vision Worker' : 'MediaPipe Tasks Vision main thread',
         device: inferenceDevices,
-        deviceEvidence: 'Separate actual task inference canvases; renderer may be redacted by browser',
+        deviceEvidence: config.engine === 'worker' ? 'Worker reports selected delegates separately; hardware telemetry unavailable' : 'Actual task inference canvases; renderer may be redacted by browser',
+        actualDelegates: delegates,
         model: 'Pose Lite + Hand 0.10.35',
       },
       errors,
       close,
       idle: () => pending === null,
       submit(frame, doPose, doHand) {
+        if (closed || runtimeFailed || signal?.aborted) return false
         if (worker) {
           if (pending) return false
-          if (!worker.submit(video, frame.inferenceTimestamp, doHand, doPose)) return false
-          pending = frame
+          pending = { frame, handDelivered: false, poseDelivered: false, timingsRecorded: false }
+          const submitted = pending
+          if (!worker.submit(video, frame.inferenceTimestamp, doHand, doPose, {
+            sourceFrameId: frame.sourceFrameId ?? null,
+            sourceMediaTimeMs: frame.mediaTime * 1000,
+            sourcePerformanceMs: frame.now,
+          })) { pending = null; return false }
+          if (pending === submitted && worker.lastRequestId != null) pending = { ...submitted, requestId: worker.lastRequestId }
           return true
         }
         try {
@@ -287,7 +352,7 @@ export async function createBenchmarkEngine(
       },
     }
   } catch (error) {
-    close()
+    try { await close() } catch (cleanupError) { throw new Error(`${String(error)}; ${String(cleanupError)}`) }
     throw error
   }
 }

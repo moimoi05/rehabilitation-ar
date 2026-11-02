@@ -2,6 +2,20 @@
 
 > **Lưu ý:** Toàn bộ thư mục `e2e/` chứa các harness và probe benchmark (như `tracking-baseline.cjs`, `tracking-worker-probe.cjs`...) đã được xóa hoàn toàn để tinh giản codebase. Tài liệu này được giữ lại làm dữ liệu lịch sử tham khảo hiệu năng.
 
+## Benchmark Hand-first hiện tại
+
+Mở `/tracking-benchmark`, chọn từng cấu hình **D (1280 × 720)** hoặc **E (960 × 540)** để đo ngắn trên video nguồn cục bộ. Có thể chọn cả bộ năm cấu hình để đối chiếu baseline khi cần; không phải chạy cả bộ để kiểm tra một độ phân giải. Mục tiêu mới là Hand 30 FPS/Pose 15 FPS, lịch model độc lập và tối đa một frame đang xử lý. UI và summary tách FPS yêu cầu khỏi FPS thực đạt, đồng thời báo delegate Pose/Hand thực tế. Không dùng WebGL khả dụng làm bằng chứng model đã chạy GPU.
+
+`pose_latency`/`hand_latency` lấy mẫu thời gian suy luận thực của đúng model, mỗi request/model chỉ một mẫu. JSONL giữ `worker_request_id`, `source_frame_id`, media timestamp và `source_observation_id`; các dòng Hand/Pose cập nhật độc lập, model chưa chạy có trạng thái `not_observed`, lỗi suy luận là `inference_failed`. `processed_frames.observations` đếm dòng quan sát model; `source_observations` đếm frame nguồn riêng biệt. Capture/resize và transfer/dispatch chỉ ghi một lần cho mỗi frame qua `captureResizeTotalMs` và `transferAndDispatchMs`; các tên cũ `capture_latency`/`transfer_latency` được giữ tương thích với cùng ý nghĩa gộp.
+
+Tuổi kết quả bắt đầu từ callback trình duyệt trình bày frame, dùng clock `performance` của trang; không phải thời điểm camera phơi sáng. `hand_source_to_delivery_age`/`pose_source_to_delivery_age` đo từng stream. `hand_source_to_overlay_age`/`pose_source_to_overlay_age` chỉ lấy mẫu lần overlay hợp lệ thực sự được vẽ, với giới hạn Hand 150 ms/Pose 250 ms. Thống kê gồm p50/p95 và số mẫu; không tính frame chưa vẽ thành độ trễ overlay. Chỉ số delivery chung lấy stream đầu tiên một lần cho mỗi frame. Riêng `pipeline_latency` của Worker chờ `frame_complete`, bao gồm capture/transfer và tất cả model được chạy, nên không nhầm độ trễ Hand đến sớm với thời gian hoàn tất toàn frame.
+
+`skipped_frames` tách `worker_busy`, `source_throttled`, `source_unpresented` (chênh lệch bộ đếm frame trình bày) và `decoder_dropped` (nếu trình duyệt cung cấp). Các loại này có ý nghĩa khác nhau; không cộng chúng thành một phép đo chính xác frame rơi của camera. Lần nhận diện Hand hợp lệ đầu tiên không phải recovery; chỉ tính recovery sau khi đã có Hand rồi mất tracking.
+
+`model_inference_busy_ratio_percent` là tổng thời gian suy luận model chia thời gian đo, **không phải utilization GPU phần cứng**. `worker_utilization_percent` chỉ là alias cũ đã deprecated với cùng ý nghĩa; summary ghi rõ điều này. Browser không cung cấp telemetry GPU thực ở đây. Mỗi lượt chờ Worker xác nhận disposal trước lượt tiếp; lỗi/timeout cleanup làm lượt chạy không hoàn chỉnh và hiển thị lỗi, không xác nhận tài nguyên GPU đã giải phóng.
+
+Các bảng bên dưới là số đo lịch sử, không xác minh hiệu năng của bản sửa Hand-first hiện tại. Vitest/typecheck/build không chứng minh độ trễ tracking trên Iris Xe; chỉ báo FPS/p50/p95 mới khi đã thực sự đo trong browser đích.
+
 ## Điều kiện và phương pháp
 
 Các lần đo ngày 28-10-2026 dùng video do người dùng cung cấp, nạp trực tiếp qua file picker vào Chromium headless 156, trên Windows 11, CPU Intel Core i5-1340P và Intel Iris Xe. File gốc truy cập được; metadata do trình duyệt đọc là **1920 × 1080, 13,739959 giây**. Không sao chép, upload hoặc ghi video vào database. Không xác định được frame rate mã hóa chính xác bằng công cụ hiện có.

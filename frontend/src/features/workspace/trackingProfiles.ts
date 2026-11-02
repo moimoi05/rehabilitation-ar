@@ -1,10 +1,11 @@
 export type TrackingProfileName = 'economy' | 'balanced' | 'quality'
 export type TrackingProfile = { label: string; poseFps: number; handFps: number; width: number; height: number }
 
-// Input dimensions are camera constraints. File video is always processed at its native resolution.
+// Dimensions are optional camera constraints; Worker inference is downscaled
+// separately and never changes the source recording.
 export const TRACKING_PROFILES: Record<TrackingProfileName, TrackingProfile> = {
   economy: { label: 'Economy', poseFps: 15, handFps: 8, width: 640, height: 480 },
-  balanced: { label: 'Balanced', poseFps: 20, handFps: 12, width: 1280, height: 720 },
+  balanced: { label: 'Balanced', poseFps: 15, handFps: 30, width: 1280, height: 720 },
   quality: { label: 'Quality', poseFps: 30, handFps: 20, width: 1920, height: 1080 },
 }
 

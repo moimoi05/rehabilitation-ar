@@ -7,14 +7,17 @@ describe('tracking profiles', () => {
     expect(getTrackingProfile('invalid')).toBe(TRACKING_PROFILES.balanced)
   })
   it('uses distinct bounded budgets and camera sizes', () => {
-    expect(TRACKING_PROFILES.economy.poseFps).toBeLessThan(TRACKING_PROFILES.balanced.poseFps)
+    expect(TRACKING_PROFILES.economy.handFps).toBeLessThan(TRACKING_PROFILES.balanced.handFps)
     expect(TRACKING_PROFILES.quality.poseFps).toBeGreaterThan(TRACKING_PROFILES.balanced.poseFps)
     for (const profile of Object.values(TRACKING_PROFILES)) {
-      expect(profile.handFps).toBeLessThanOrEqual(profile.poseFps)
+      expect(profile.handFps).toBeLessThanOrEqual(30)
       expect(profile.poseFps).toBeLessThanOrEqual(30)
       expect(profile.width).toBeGreaterThan(0)
       expect(profile.height).toBeGreaterThan(0)
     }
+  })
+  it('requests Hand30 and Pose15 independently in the balanced default', () => {
+    expect(TRACKING_PROFILES.balanced).toMatchObject({ handFps: 30, poseFps: 15, width: 1280, height: 720 })
   })
   it('uses the manually selected resolution unless explicitly opted in', () => {
     expect(resolveCameraResolution('economy', undefined, '1920x1080')).toEqual({ width: 1920, height: 1080 })

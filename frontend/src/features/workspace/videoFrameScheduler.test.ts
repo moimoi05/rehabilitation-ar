@@ -19,6 +19,13 @@ function videoHarness() {
 afterEach(() => { vi.unstubAllGlobals() })
 
 describe('video frame scheduler', () => {
+  it('accepts thirty callbacks per second from a thirty FPS source without floating-point half-rate throttling', () => {
+    const { video, frame } = videoHarness(), infer = vi.fn()
+    const stop = startVideoFrameScheduler(video, infer, { maxFps: 30 })
+    for (let index = 0; index < 30; index++) frame(index * 1000 / 30, index / 30, index + 1)
+    expect(infer).toHaveBeenCalledTimes(30)
+    stop()
+  })
   it('uses the presented frame counter when a live source has a constant media time', () => {
     const { video, frame } = videoHarness(), infer = vi.fn(), onSkip = vi.fn()
     const stop = startVideoFrameScheduler(video, infer, { maxFps: 30, onSkip })

@@ -130,6 +130,7 @@ describe('Target Architecture: Hand-first GPU Worker and Optimization', () => {
     expect(accepted3).toBe(false)
 
     tracker.close()
+    messageListener({ data: { type: 'disposed', cleanupErrors: [] } } as MessageEvent)
   })
 
   // 4. Stale Hand results are rejected.
@@ -368,6 +369,8 @@ describe('Target Architecture: Hand-first GPU Worker and Optimization', () => {
 
   // 14. Non-empty cleanupErrors propagates error and rejects disposal
   it('rejects disposal and invokes onError when model close fails with non-empty cleanupErrors', async () => {
+    vi.resetModules()
+    const isolated = await import('./workerTracker')
     let messageListener!: (event: MessageEvent) => void
     const fakeWorker = {
       postMessage: vi.fn(),
@@ -378,7 +381,7 @@ describe('Target Architecture: Hand-first GPU Worker and Optimization', () => {
     } as unknown as Worker
 
     const onError = vi.fn()
-    const trackerPromise = createWorkerTracker({
+    const trackerPromise = isolated.createWorkerTracker({
       worker: fakeWorker,
       moduleUrl: '/test-bundle.mjs',
       handEnabled: true,
@@ -456,6 +459,7 @@ describe('Target Architecture: Hand-first GPU Worker and Optimization', () => {
     }))
 
     tracker.close()
+    messageListener({ data: { type: 'disposed', cleanupErrors: [] } } as MessageEvent)
   })
 
   // 16. Cross-context timestamps in consistent monotonic time domain

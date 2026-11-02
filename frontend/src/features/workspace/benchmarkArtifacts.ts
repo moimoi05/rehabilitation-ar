@@ -43,5 +43,5 @@ export class BenchmarkArtifacts {
 export function latencySummary(values: number[]) {
   const sorted = [...values].sort((a, b) => a - b)
   const percentile = (fraction: number) => sorted.length ? sorted[Math.max(0, Math.ceil(sorted.length * fraction) - 1)] : null
-  return { mean_ms: values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : null, p50_ms: percentile(.5), p95_ms: percentile(.95) }
+  return { mean_ms: values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : null, p50_ms: percentile(.5), p95_ms: percentile(.95), samples: values.length }
 }

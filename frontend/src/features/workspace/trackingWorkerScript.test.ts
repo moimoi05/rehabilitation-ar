@@ -17,6 +17,49 @@ function workerHarness(pose: unknown, hand: unknown, role = 'both') {
 }
 
 describe('classic tracking worker', () => {
+  it('echoes explicit source identity on Hand, Pose, and completion without duplicate landmark messages', async () => {
+    const hand = { detectForVideo: vi.fn(() => ({ landmarks: [[]] })) }
+    const pose = { detectForVideo: vi.fn(() => ({ landmarks: [[]] })) }
+    const { scope, messages } = workerHarness(pose, hand)
+    const identity = { requestId: 17, sourceFrameId: 8, sourceMediaTimeMs: 266.6, sourcePerformanceMs: 400 }
+    await scope.onmessage!({ data: { type: 'frame', id: 17, ...identity, bitmap: { close: vi.fn() }, timestamp: 400, hand: true } })
+    expect(messages.map(message => message.type)).toEqual(['hand_result', 'pose_result', 'frame_complete'])
+    for (const message of messages) expect(message).toMatchObject(identity)
+    expect(messages[2]).not.toHaveProperty('hands')
+    expect(messages[2]).not.toHaveProperty('pose')
+  })
+
+  it('does not acknowledge disposal until model initialization finishes', async () => {
+    const messages: Record<string, unknown>[] = []
+    let finishModel!: (value: { close: () => void }) => void
+    let markCreating!: () => void
+    const creating = new Promise<void>(resolve => { markCreating = resolve })
+    const model = { close: vi.fn() }
+    const poseCreate = vi.fn(() => new Promise(resolve => { finishModel = resolve; markCreating() }))
+    const scope: { onmessage?: (event: unknown) => Promise<void>; postMessage: (value: Record<string, unknown>) => void } = { postMessage: value => { messages.push(value) } }
+    const fakeImport = async () => ({ FilesetResolver: { forVisionTasks: async () => ({}) }, PoseLandmarker: { createFromOptions: poseCreate }, HandLandmarker: {} })
+    const source = readFileSync('public/tracking-worker.js', 'utf8').replace('await import(data.moduleUrl)', 'await fakeImport(data.moduleUrl)')
+    runInNewContext(source, { self: scope, fakeImport })
+    const initializing = scope.onmessage!({ data: { type: 'init', handEnabled: false, moduleUrl: '/vision.mjs' } })
+    await creating
+    expect(poseCreate).toHaveBeenCalledOnce()
+    const disposing = scope.onmessage!({ data: { type: 'dispose' } })
+    await Promise.resolve()
+    expect(messages.some(message => message.type === 'disposed')).toBe(false)
+    finishModel(model)
+    await initializing; await disposing
+    expect(model.close).toHaveBeenCalledOnce()
+    expect(messages.at(-1)).toMatchObject({ type: 'disposed', cleanupErrors: [] })
+  })
+
+  it('reports a previously failed Hand close again during final disposal', async () => {
+    const hand = { detectForVideo: vi.fn(() => { throw new Error('hand failed') }), close: vi.fn(() => { throw new Error('Hand close failed') }) }
+    const pose = { detectForVideo: vi.fn(() => ({ landmarks: [[]] })), close: vi.fn() }
+    const { scope, messages } = workerHarness(pose, hand)
+    await scope.onmessage!({ data: { type: 'frame', id: 1, bitmap: { close: vi.fn() }, timestamp: 10, hand: true } })
+    await scope.onmessage!({ data: { type: 'dispose' } })
+    expect(messages.at(-1)).toMatchObject({ type: 'disposed', cleanupErrors: [expect.stringContaining('Hand close failed')] })
+  })
   it('attempts GPU independently and reports the exact Hand fallback error', async () => {
     const messages: unknown[] = []
     const poseCreate = vi.fn(async () => ({ close: vi.fn() }))

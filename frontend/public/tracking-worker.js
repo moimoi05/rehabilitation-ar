@@ -1,5 +1,8 @@
 /* Classic dedicated worker: MediaPipe's WASM loader is not compatible with module workers. */
 let pose, hand, role = 'both', handInitializationError = null
+let initialization = null
+let poseInferenceError = null
+const cleanupFailures = []
 const errorText = error => error instanceof Error ? error.message : String(error)
 
 async function initializeModel(Model, files, modelAssetPath, options, preferGpu, name, errors) {
@@ -26,15 +29,25 @@ async function initializeModel(Model, files, modelAssetPath, options, preferGpu,
 function closeModels() {
   const models = [pose, hand]
   pose = undefined; hand = undefined
-  const errors = []
+  const errors = [...cleanupFailures]
   for (const model of models) {
-    try { model?.close() } catch (error) { errors.push(errorText(error)) }
+    try { model?.close() } catch (error) {
+      const message = errorText(error)
+      errors.push(message); cleanupFailures.push(message)
+    }
   }
   return errors
 }
 
 self.onmessage = async ({ data }) => {
   if (data.type === 'init') {
+    // Message handlers may overlap across await boundaries. Disposal must wait
+    // for model creation, including an import/create already in progress.
+    if (initialization) {
+      self.postMessage({ type: 'error', message: 'Worker already initialized' })
+      return
+    }
+    initialization = (async () => {
     const initializationErrors = [], delegates = { pose: null, hand: null }
     try {
       if (pose || hand) throw new Error('Worker already initialized')
@@ -61,12 +74,22 @@ self.onmessage = async ({ data }) => {
       const cleanupErrors = closeModels()
       self.postMessage({ type: 'error', message: [errorText(error), ...cleanupErrors].join('; ') })
     }
+    })()
+    await initialization
   } else if (data.type === 'dispose') {
+    await initialization
     const cleanupErrors = closeModels()
     handInitializationError = null
+    poseInferenceError = null
     self.postMessage({ type: 'disposed', cleanupErrors })
   } else if (data.type === 'frame') {
     try {
+      const frameIdentity = {
+        requestId: data.requestId ?? data.id,
+        sourceFrameId: data.sourceFrameId ?? null,
+        sourceMediaTimeMs: data.sourceMediaTimeMs ?? null,
+        sourcePerformanceMs: data.sourcePerformanceMs ?? data.timestamp,
+      }
       const started = performance.now()
       const timeOrigin = typeof performance.timeOrigin === 'number' ? performance.timeOrigin : 0
       const workerArrival = timeOrigin + started
@@ -88,7 +111,7 @@ self.onmessage = async ({ data }) => {
         if (!hand) {
           handFailed = true; handError = handInitializationError; hands = []
           self.postMessage({
-            type: 'hand_result', id: data.id, timestamp: data.timestamp, hands: [],
+            type: 'hand_result', id: data.id, ...frameIdentity, timestamp: data.timestamp, hands: [],
             handWorldLandmarks: [], handedness: [], handInferenceMs: 0, handProcessed: false,
             handFailed: true, handError, transferAndDispatchMs, transferMs: transferAndDispatchMs,
             captureResizeTotalMs, captureMs: captureResizeTotalMs,
@@ -100,7 +123,7 @@ self.onmessage = async ({ data }) => {
             handInferenceMs = performance.now() - beforeHand; handProcessed = true
             hands = result.landmarks; handWorldLandmarks = result.worldLandmarks ?? []; handedness = result.handedness ?? []
             self.postMessage({
-              type: 'hand_result', id: data.id, timestamp: data.timestamp, hands,
+              type: 'hand_result', id: data.id, ...frameIdentity, timestamp: data.timestamp, hands,
               handWorldLandmarks, handedness, handInferenceMs, handProcessed: true,
               transferAndDispatchMs, transferMs: transferAndDispatchMs,
               captureResizeTotalMs, captureMs: captureResizeTotalMs,
@@ -110,9 +133,13 @@ self.onmessage = async ({ data }) => {
             if (role === 'hand') throw error
             const failedHand = hand; hand = undefined; hands = []; handFailed = true; handError = errorText(error)
             handInitializationError = handError
-            try { failedHand.close() } catch (cleanupError) { handCleanupFailed = true; handError += `; cleanup: ${errorText(cleanupError)}` }
+            try { failedHand.close() } catch (cleanupError) {
+              handCleanupFailed = true
+              const message = `Hand cleanup: ${errorText(cleanupError)}`
+              cleanupFailures.push(message); handError += `; ${message}`
+            }
             self.postMessage({
-              type: 'hand_result', id: data.id, timestamp: data.timestamp, hands: [],
+              type: 'hand_result', id: data.id, ...frameIdentity, timestamp: data.timestamp, hands: [],
               handWorldLandmarks: [], handedness: [], handInferenceMs, handProcessed: false,
               handFailed: true, handError, transferAndDispatchMs, transferMs: transferAndDispatchMs,
               captureResizeTotalMs, captureMs: captureResizeTotalMs, ...(handCleanupFailed ? { handCleanupFailed: true } : {}),
@@ -125,11 +152,11 @@ self.onmessage = async ({ data }) => {
       let poseFailed = false, poseCleanupFailed = false, poseError = null
 
       const runPose = () => {
-        if (!doPose || (!pose && role !== 'pose')) return
+        if (!doPose) return
         if (!pose) {
-          poseFailed = true; poseError = 'Pose model not available'; poseLandmarks = []
+          poseFailed = true; poseError = poseInferenceError || 'Pose model not available'; poseLandmarks = []
           self.postMessage({
-            type: 'pose_result', id: data.id, timestamp: data.timestamp, pose: [],
+            type: 'pose_result', id: data.id, ...frameIdentity, timestamp: data.timestamp, pose: [],
             poseWorldLandmarks: [], poseInferenceMs: 0, poseProcessed: false,
             poseFailed: true, poseError, transferAndDispatchMs, transferMs: transferAndDispatchMs,
             captureResizeTotalMs, captureMs: captureResizeTotalMs,
@@ -141,7 +168,7 @@ self.onmessage = async ({ data }) => {
             poseInferenceMs = performance.now() - beforePose; poseProcessed = true
             poseLandmarks = result.landmarks[0] || []; poseWorldLandmarks = result.worldLandmarks?.[0] || []
             self.postMessage({
-              type: 'pose_result', id: data.id, timestamp: data.timestamp, pose: poseLandmarks,
+              type: 'pose_result', id: data.id, ...frameIdentity, timestamp: data.timestamp, pose: poseLandmarks,
               poseWorldLandmarks, poseInferenceMs, poseProcessed: true,
               transferAndDispatchMs, transferMs: transferAndDispatchMs,
               captureResizeTotalMs, captureMs: captureResizeTotalMs,
@@ -150,9 +177,14 @@ self.onmessage = async ({ data }) => {
             poseInferenceMs = performance.now() - beforePose
             if (role === 'pose' || !hand) throw error
             const failedPose = pose; pose = undefined; poseLandmarks = []; poseFailed = true; poseError = errorText(error)
-            try { failedPose.close() } catch (cleanupError) { poseCleanupFailed = true; poseError += `; cleanup: ${errorText(cleanupError)}` }
+            poseInferenceError = poseError
+            try { failedPose.close() } catch (cleanupError) {
+              poseCleanupFailed = true
+              const message = `Pose cleanup: ${errorText(cleanupError)}`
+              cleanupFailures.push(message); poseError += `; ${message}`
+            }
             self.postMessage({
-              type: 'pose_result', id: data.id, timestamp: data.timestamp, pose: [],
+              type: 'pose_result', id: data.id, ...frameIdentity, timestamp: data.timestamp, pose: [],
               poseWorldLandmarks, poseInferenceMs, poseProcessed: false,
               poseFailed: true, poseError, transferAndDispatchMs, transferMs: transferAndDispatchMs,
               captureResizeTotalMs, captureMs: captureResizeTotalMs, ...(poseCleanupFailed ? { poseCleanupFailed: true } : {}),
@@ -170,10 +202,11 @@ self.onmessage = async ({ data }) => {
       }
 
       // Summary and completion message (lightweight: avoids structured cloning duplicate landmark arrays)
-      const totalInferenceMs = performance.now() - started
+      const totalInferenceMs = (poseInferenceMs ?? 0) + (handInferenceMs ?? 0)
       self.postMessage({
         type: 'frame_complete',
         id: data.id,
+        ...frameIdentity,
         timestamp: data.timestamp,
         inferenceMs: totalInferenceMs,
         poseProcessed,

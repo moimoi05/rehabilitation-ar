@@ -17,7 +17,7 @@ import { getTrackingProfile, TRACKING_PROFILES } from './trackingProfiles'
 import type { TrackingProfileName } from './trackingProfiles'
 import { useVideoMapping } from './useVideoMapping'
 import { mapVideoPoint } from './videoGeometry'
-import { createWorkerTracker } from './workerTracker'
+import { createWorkerTracker, waitForWorkerDisposals } from './workerTracker'
 import type { WorkerHandResult, WorkerPoseResult, WorkerTracker } from './workerTracker'
 import { createParallelWorkerTracker } from './parallelWorkerTracker'
 import type { ParallelWorkerTracker } from './parallelWorkerTracker'
@@ -59,6 +59,7 @@ type Snapshot = {
   throttled: number
   duplicates: number
   workerBusy: number
+  droppedFrames: number
   valid: number
   leftVisible: number
   rightVisible: number
@@ -78,7 +79,7 @@ const emptySnapshot = (config: MeasurementConfig | null = null): Snapshot => {
   const now = performance.now()
   return {
     config, adaptiveWorkerBudget: null, videoFrames: 0, inferences: 0, renders: 0, throttled: 0, duplicates: 0,
-    workerBusy: 0, valid: 0, leftVisible: 0, rightVisible: 0, durations: [], roundTrips: [], overlayDurations: [],
+    workerBusy: 0, droppedFrames: 0, valid: 0, leftVisible: 0, rightVisible: 0, durations: [], roundTrips: [], overlayDurations: [],
     handDisplayAges: [], longTasks: { count: 0, totalMs: 0 }, dualPose: emptyStream(), dualHand: emptyStream(),
     started: now, snapshotAt: now, ended: null,
   }
@@ -148,6 +149,8 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
   const pose = useRef<PoseLandmarker | null>(null)
   const hand = useRef<HandLandmarker | null>(null)
   const worker = useRef<WorkerTracker | null>(null)
+  const workerShutdown = useRef<Promise<boolean>>(Promise.resolve(true))
+  const clearFrameAssociations = useRef<(() => void) | null>(null)
   const parallelWorker = useRef<ParallelWorkerTracker | null>(null)
   const adaptiveBudget = useRef<AdaptiveWorkerBudget | null>(null)
   const stopAdaptive = useRef<(() => void) | null>(null)
@@ -166,10 +169,12 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
   const redrawRequested = useRef(true)
   const lastPoseFresh = useRef(false)
   const lastHandFresh = useRef(false)
+  const sampledHandDisplayTime = useRef<number | null>(null)
 
   const scheduleRedraw = useCallback(() => {
     redrawRequested.current = true
   }, [])
+  useEffect(() => { scheduleRedraw() }, [smoothed, mirrored, size, scheduleRedraw])
 
   const clearResults = useCallback(() => {
     smoother.current.reset()
@@ -192,11 +197,30 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
     }
   }, [])
 
+  const disposeWorker = useCallback((tracker: WorkerTracker) => {
+    let disposal: Promise<void>
+    try { disposal = typeof tracker.dispose === 'function' ? tracker.dispose() : Promise.resolve(tracker.close()) }
+    catch (error) { disposal = Promise.reject(error) }
+    const previous = workerShutdown.current
+    workerShutdown.current = Promise.all([previous, disposal.then(() => true, error => {
+      const detail = modelErrorMessage(error)
+      console.error('Tracking Worker cleanup failed:', error)
+      setModelErrors(value => [...value, `Worker cleanup: ${detail}`])
+      setMessage(`Không xác nhận được việc giải phóng tài nguyên Worker: ${detail}. Tải lại trang trước khi khởi động lại.`)
+      return false
+    })]).then(results => results.every(Boolean))
+    return workerShutdown.current
+  }, [])
+
   const stopTracking = useCallback(() => {
+    generation.current++
+    stopScheduler.current?.()
+    stopScheduler.current = null
+    clearFrameAssociations.current?.()
+    clearFrameAssociations.current = null
     onReplayInterrupted?.()
     rtmpose.current?.close()
     rtmpose.current = null
-    generation.current++
     if (measuringRef.current) {
       captureBudget(measurement.current)
       measurement.current.ended = performance.now()
@@ -207,18 +231,12 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
     stopAdaptive.current?.()
     stopAdaptive.current = null
     adaptiveBudget.current = null
-    stopScheduler.current?.()
-    stopScheduler.current = null
     const oldWorker = worker.current
     worker.current = null
-    if (typeof oldWorker?.dispose === 'function') {
-      oldWorker.dispose().catch(() => {})
-    } else {
-      oldWorker?.close()
-    }
+    if (oldWorker) disposeWorker(oldWorker)
     parallelWorker.current?.close()
     parallelWorker.current = null
-    workerAbort.current?.abort()
+    if (!oldWorker) workerAbort.current?.abort()
     workerAbort.current = null
     pose.current?.close()
     hand.current?.close()
@@ -228,7 +246,8 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
     setRunning(false)
     setStarting(false)
     setModel('Đã dừng')
-  }, [clearResults, captureBudget, onReplayInterrupted])
+    return workerShutdown.current
+  }, [clearResults, captureBudget, onReplayInterrupted, disposeWorker])
 
   const stopSource = useCallback(() => {
     stopTracking()
@@ -270,6 +289,8 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
 
   useEffect(() => {
     let animId = 0
+    let lastMapping = videoMapping.current
+    let lastBox = displayBox.current
     const renderOverlay = () => {
       const now = performance.now()
       const target = canvas.current
@@ -280,8 +301,11 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
       const handFresh = isFreshHand(value.handTime, now)
       const poseFreshChanged = lastPoseFresh.current !== poseFresh
       const handFreshChanged = lastHandFresh.current !== handFresh
+      const mappingChanged = lastMapping !== videoMapping.current || lastBox !== displayBox.current
 
-      if (redrawRequested.current || poseFreshChanged || handFreshChanged) {
+      if (redrawRequested.current || poseFreshChanged || handFreshChanged || mappingChanged) {
+        lastMapping = videoMapping.current
+        lastBox = displayBox.current
         redrawRequested.current = false
         lastPoseFresh.current = poseFresh
         lastHandFresh.current = handFresh
@@ -306,7 +330,8 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
                   ctx.fillText(label, mapped.x * display.width, mapped.y * display.height - 10)
                 }
               })
-              if (measuringRef.current && value.handTime > 0) {
+              if (measuringRef.current && value.handTime >= measurement.current.started && sampledHandDisplayTime.current !== value.handTime) {
+                sampledHandDisplayTime.current = value.handTime
                 const age = Math.max(0, now - value.handTime)
                 if (measurement.current.handDisplayAges.length < 10000) {
                   measurement.current.handDisplayAges.push(age)
@@ -451,7 +476,7 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
 
   const startTracking = async () => {
     if (!video.current || source === 'none' || (!poseEnabled && !handEnabled)) return
-    stopTracking()
+    const shutdown = stopTracking()
     const requestId = ++generation.current
     setModel('Đang tải')
     setStarting(true)
@@ -460,6 +485,22 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
     const input = video.current
     const profile = getTrackingProfile(profileName)
     let useHand = handEnabled
+    let usePose = poseEnabled
+    if (!await shutdown || requestId !== generation.current) {
+      if (requestId === generation.current) {
+        setStarting(false)
+        setMessage('Không xác nhận được việc giải phóng tài nguyên Worker cũ. Tải lại trang trước khi khởi động lại.')
+      }
+      return
+    }
+    try { await waitForWorkerDisposals() } catch (error) {
+      if (requestId === generation.current) {
+        setStarting(false)
+        setMessage(`Không xác nhận được việc giải phóng Worker cũ: ${modelErrorMessage(error)}`)
+      }
+      return
+    }
+    if (requestId !== generation.current) return
 
     type Inference = (
       timestamp: number,
@@ -516,8 +557,8 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
       infer: Inference,
       replayConfig: object = {},
       independent = false,
-      targetHandFps = 30,
-      targetPoseFps = 15,
+      targetHandFps = profile.handFps,
+      targetPoseFps = profile.poseFps,
     ) => {
       if (id !== generation.current) return
       setModel('Sẵn sàng')
@@ -531,10 +572,10 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
       stopScheduler.current = startVideoFrameScheduler(input, ({ now, mediaTime, inferenceTimestamp, sourceFrameId: presentedFrame, skippedSourceFrames }) => {
         if (id !== generation.current) return
         const sample = measuringRef.current ? measurement.current : null
-        if (sample) sample.videoFrames++
+        if (sample) { sample.videoFrames++; sample.droppedFrames += skippedSourceFrames ?? 0 }
 
-        const doHand = useHand && (independent ? now >= nextHand : true)
-        const doPose = poseEnabled && (independent ? now >= nextPose : true)
+        const doHand = useHand && (independent ? now + .5 >= nextHand : true)
+        const doPose = usePose && (independent ? now + .5 >= nextPose : true)
 
         if (independent && !doHand && !doPose) {
           if (sample) sample.throttled++
@@ -557,7 +598,7 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
           sample.workerBusy++
         }
       }, {
-        maxFps: independent ? 120 : poseEnabled ? profile.poseFps : profile.handFps,
+        maxFps: independent ? Math.max(useHand ? targetHandFps : 0, usePose ? targetPoseFps : 0) : Math.max(usePose ? profile.poseFps : 0, useHand ? profile.handFps : 0),
         onReset: () => {
           stopTracking()
           setMessage('Nguồn đã seek hoặc phát lại. Khởi động nhận diện lại để reset trạng thái model.')
@@ -570,6 +611,7 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
           }
         },
         onSkippedFrame: frame => {
+          if (measuringRef.current) measurement.current.droppedFrames += frame.skippedSourceFrames
           if (source === 'video' && trackingModel === 'mediapipe' && onReplayFrame) {
             onReplayFrame({
               frame_id: ++sourceFrameId,
@@ -705,14 +747,28 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
       }
     }
 
-    const fallback = (id: number) => {
+    const fallback = async (id: number) => {
       if (id !== generation.current) return
-      stopTracking()
+      const shutdown = stopTracking()
       const fallbackId = ++generation.current
       setMessage('Worker không khả dụng; phép đo đã dừng và Lab đang chuyển sang CPU trên luồng chính.')
       setModel('Đang tải CPU')
       setStarting(true)
-      void startMain(fallbackId, false)
+      if (!await shutdown || fallbackId !== generation.current) {
+        if (fallbackId === generation.current) {
+          setStarting(false)
+          setMessage('Không xác nhận được việc giải phóng Worker; không thể khởi tạo engine thay thế. Tải lại trang.')
+        }
+        return
+      }
+      try { await waitForWorkerDisposals() } catch (error) {
+        if (fallbackId === generation.current) {
+          setStarting(false)
+          setMessage(`Không xác nhận được việc giải phóng Worker: ${modelErrorMessage(error)}`)
+        }
+        return
+      }
+      if (fallbackId === generation.current) await startMain(fallbackId, false)
     }
 
     try { await waitForRTMPoseDrain() } catch (error) {
@@ -849,7 +905,7 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
             landmarks.current = { ...landmarks.current, hands: result.hands ?? [], handTime: result.timestamp }
             scheduleRedraw()
           },
-          onPoseError: () => fallback(requestId),
+          onPoseError: () => { void fallback(requestId) },
           onHandError: () => disableHand(),
         })
         if (requestId !== generation.current) { tracker.close(); return }
@@ -894,14 +950,16 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
         setStarting(false)
         setRunning(true)
         let lastHand = -Infinity
+        let lastPose = -Infinity
         stopScheduler.current = startVideoFrameScheduler(input, ({ now, inferenceTimestamp }) => {
           if (requestId !== generation.current || (budget && document.hidden)) return
           const sample = measuringRef.current ? measurement.current : null
           if (sample) sample.videoFrames++
-          if (budget && !budget.canSubmit('pose', now)) {
+          if (budget ? !budget.canSubmit('pose', now) : now - lastPose + .001 < 1000 / profile.poseFps) {
             if (sample) sample.dualPose.throttledFrames++
           } else if (tracker.submitPose(input, inferenceTimestamp)) {
             pendingPose = sample
+            lastPose = now
             budget?.submitted('pose', now)
           } else if (sample) {
             sample.workerBusy++
@@ -917,7 +975,7 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
             } else if (sample) sample.dualHand.busyFrames++
           }
         }, {
-          maxFps: budget ? 60 : profile.poseFps,
+          maxFps: budget ? 60 : Math.max(profile.poseFps, profile.handFps),
           onReset: () => {
             stopTracking()
             setMessage('Nguồn đã seek hoặc phát lại. Khởi động nhận diện lại để reset trạng thái model.')
@@ -933,7 +991,7 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
       } catch {
         poseThread?.terminate()
         handThread?.terminate()
-        fallback(requestId)
+        void fallback(requestId)
       }
       return
     }
@@ -952,17 +1010,29 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
       workerAbort.current = controller
       const thread = new Worker('/tracking-worker.js')
       const moduleUrl = new URL('../../../node_modules/@mediapipe/tasks-vision/vision_bundle.mjs', import.meta.url).href
-      let pending: Snapshot | null = null
-
       type InFlightReplay = {
         sourceFrame: NonNullable<Parameters<Inference>[3]>
-        timestamp: number
+        sample: Snapshot | null
         scheduledHand: boolean
         scheduledPose: boolean
         handResult: WorkerHandResult | null
         poseResult: WorkerPoseResult | null
+        displayPose: Point[]
       }
+      // Single in-flight request: rejected/busy submissions never create an association.
       const inFlightReplayFrames = new Map<number, InFlightReplay>()
+      clearFrameAssociations.current = () => inFlightReplayFrames.clear()
+      const observation = (result: { id: number; requestId?: number; sourceFrameId?: number | null; sourceMediaTimeMs?: number | null; sourcePerformanceMs?: number }) => {
+        const frame = inFlightReplayFrames.get(result.requestId ?? result.id)
+        if (!frame) return null
+        const source = frame.sourceFrame
+        if (result.sourceFrameId !== (source.sourceFrameId ?? null)
+          || result.sourceMediaTimeMs !== source.mediaTime * 1000
+          || result.sourcePerformanceMs !== source.framePerformanceMs) return null
+        return frame
+      }
+      const currentSample = (frame: InFlightReplay) => frame.sample && measuringRef.current
+        && frame.sample === measurement.current && frame.sourceFrame.framePerformanceMs >= frame.sample.started ? frame.sample : null
 
       const useGpuForWorker = preferWorkerGpu && preferGpu
       const targetRes = INFERENCE_RESOLUTIONS[inferenceResolution]?.dimensions ?? null
@@ -978,13 +1048,19 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
         capture: element => captureInferenceBitmapWithTimings(element, targetRes),
         onHandResult: (result: WorkerHandResult) => {
           if (requestId !== generation.current) return
-          const inFlight = inFlightReplayFrames.get(result.timestamp)
-          if (inFlight) inFlight.handResult = result
-
+          const frame = observation(result)
+          if (!frame || frame.handResult || !frame.scheduledHand) return
+          frame.handResult = result
           const now = performance.now()
-          if (result.handFailed && useHand) {
-            const wasMeasuring = measuringRef.current
-            if (wasMeasuring) {
+          const timestamp = frame.sourceFrame.framePerformanceMs
+          const sample = currentSample(frame)
+          if (sample && result.handProcessed) {
+            sample.dualHand.inferences++
+            if (result.handInferenceMs !== null && sample.dualHand.durations.length < 10000) sample.dualHand.durations.push(result.handInferenceMs)
+            if (sample.dualHand.roundTrips.length < 10000) sample.dualHand.roundTrips.push(Math.max(0, now - timestamp))
+          }
+          if (result.handFailed) {
+            if (measuringRef.current) {
               measurement.current.ended = now
               measuringRef.current = false
               setMeasuring(false)
@@ -992,108 +1068,110 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
             }
             useHand = false
             landmarks.current = { ...landmarks.current, hands: [], handTime: 0 }
+            handSides.current = { left: 0, right: 0 }
             setHandEnabled(false)
+            setModelErrors(previous => [...previous, `Hand inference: ${result.handError || 'Worker inference failed'}`])
+            setDelegate(previous => previous.replace(/Hand (GPU|CPU)/, 'Hand Lỗi'))
             scheduleRedraw()
             setMessage(result.handCleanupFailed
-              ? 'Suy luận bàn tay thất bại; không giải phóng được model. Pose vẫn hoạt động.'
+              ? 'Suy luận bàn tay thất bại; không xác nhận được việc giải phóng model Hand. Pose vẫn hoạt động.'
               : 'Suy luận bàn tay thất bại; Pose vẫn hoạt động.')
+            if (!usePose) { stopTracking(); setMessage('Suy luận bàn tay thất bại; không còn model hoạt động. Hãy thử lại.') }
+            return
           }
-
-          if (result.handProcessed && result.hands.length) {
-            handSides.current = handFreshness(result.hands, result.handedness ?? [], result.timestamp)
-          }
-
-          if (!isFreshHand(result.timestamp, now) || input.seeking) return
-
-          landmarks.current = {
-            ...landmarks.current,
-            hands: result.hands ?? [],
-            handTime: result.timestamp,
-            resultTime: result.timestamp,
-          }
-
-          if (measuringRef.current && pending) {
-            const s = pending.dualHand
-            s.inferences++
-            if (result.handInferenceMs !== null) s.durations.push(result.handInferenceMs)
-            s.roundTrips.push(Math.max(0, now - result.timestamp))
-          }
+          if (!result.handProcessed || !isFreshHand(timestamp, now) || input.seeking) return
+          handSides.current = handFreshness(result.hands, result.handedness ?? [], timestamp)
+          landmarks.current = { ...landmarks.current, hands: result.hands, handTime: timestamp, resultTime: timestamp }
           scheduleRedraw()
         },
         onPoseResult: (result: WorkerPoseResult) => {
           if (requestId !== generation.current) return
-          const inFlight = inFlightReplayFrames.get(result.timestamp)
-          if (inFlight) inFlight.poseResult = result
-
+          const frame = observation(result)
+          if (!frame || frame.poseResult || !frame.scheduledPose) return
+          frame.poseResult = result
           const now = performance.now()
-          if (result.poseFailed && poseEnabled) {
-            setModelErrors(prev => [...prev, result.poseError || 'Pose worker error'])
+          const timestamp = frame.sourceFrame.framePerformanceMs
+          const sample = currentSample(frame)
+          if (sample && result.poseProcessed) {
+            sample.dualPose.inferences++
+            if (result.poseInferenceMs !== null && sample.dualPose.durations.length < 10000) sample.dualPose.durations.push(result.poseInferenceMs)
+            if (sample.dualPose.roundTrips.length < 10000) sample.dualPose.roundTrips.push(Math.max(0, now - timestamp))
           }
-
-          if (!isFreshPose(result.timestamp, now) || input.seeking) return
-
-          landmarks.current = {
-            ...landmarks.current,
-            raw: result.pose,
-            display: smoother.current.filter('pose', result.pose, result.timestamp, POSE_SMOOTHING_POLICY),
-            poseTime: result.timestamp,
-            resultTime: result.timestamp,
+          if (result.poseFailed) {
+            if (measuringRef.current) {
+              measurement.current.ended = now
+              measuringRef.current = false
+              setMeasuring(false)
+              setStats({ ...measurement.current })
+            }
+            usePose = false
+            landmarks.current = { ...landmarks.current, raw: [], display: [], poseTime: 0 }
+            smoother.current.reset('pose')
+            setModelErrors(previous => [...previous, `Pose inference: ${result.poseError || 'Worker inference failed'}`])
+            setDelegate(previous => previous.replace(/Pose (GPU|CPU)/, 'Pose Lỗi'))
+            setPoseEnabled(false)
+            setMessage(result.poseCleanupFailed
+              ? 'Suy luận tư thế thất bại; không xác nhận được việc giải phóng model Pose. Hand vẫn hoạt động.'
+              : 'Suy luận tư thế thất bại; Hand vẫn hoạt động.')
+            scheduleRedraw()
+            if (!useHand) { stopTracking(); setMessage('Suy luận tư thế thất bại; không còn model hoạt động. Hãy thử lại.') }
+            return
           }
-
-          if (measuringRef.current && pending) {
-            const s = pending.dualPose
-            s.inferences++
-            if (result.poseInferenceMs !== null) s.durations.push(result.poseInferenceMs)
-            s.roundTrips.push(Math.max(0, now - result.timestamp))
-          }
+          if (!result.poseProcessed || !isFreshPose(timestamp, now) || input.seeking) return
+          frame.displayPose = smoother.current.filter('pose', result.pose, timestamp, POSE_SMOOTHING_POLICY)
+          landmarks.current = { ...landmarks.current, raw: result.pose, display: frame.displayPose, poseTime: timestamp, resultTime: timestamp }
           scheduleRedraw()
         },
         onFrameComplete: complete => {
-          const sample = pending
-          pending = null
           if (requestId !== generation.current) return
-          if (sample && measuringRef.current && sample === measurement.current) {
+          const frame = observation(complete)
+          if (!frame) return
+          inFlightReplayFrames.delete(complete.requestId ?? complete.id)
+          const poseRes = frame.poseResult
+          const handRes = frame.handResult
+          const poseValid = Boolean(complete.poseProcessed && poseRes?.poseProcessed && !complete.poseFailed && !poseRes.poseFailed)
+          const handValid = Boolean(complete.handProcessed && handRes?.handProcessed && !complete.handFailed && !handRes.handFailed)
+          const raw = poseValid ? poseRes!.pose : []
+          const hands = handValid ? handRes!.hands : []
+          const sample = currentSample(frame)
+          if (sample) {
             sample.inferences++
-            if (complete.inferenceMs) sample.durations.push(complete.inferenceMs)
-            sample.roundTrips.push(Math.max(0, performance.now() - complete.timestamp))
-            if (landmarks.current.raw.length || landmarks.current.hands.length) sample.valid++
-            if (upperLimbVisible(landmarks.current.raw, [11, 13, 15])) sample.leftVisible++
-            if (upperLimbVisible(landmarks.current.raw, [12, 14, 16])) sample.rightVisible++
+            if (sample.durations.length < 10000) sample.durations.push(complete.inferenceMs)
+            if (sample.roundTrips.length < 10000) sample.roundTrips.push(Math.max(0, performance.now() - frame.sourceFrame.framePerformanceMs))
+            if (raw.length || hands.length) sample.valid++
+            if (poseValid && upperLimbVisible(raw, [11, 13, 15])) sample.leftVisible++
+            if (poseValid && upperLimbVisible(raw, [12, 14, 16])) sample.rightVisible++
           }
-
-          const inFlight = inFlightReplayFrames.get(complete.timestamp)
-          if (inFlight) {
-            inFlightReplayFrames.delete(complete.timestamp)
-            if (source === 'video' && onReplayFrame) {
-              const handRes = inFlight.handResult
-              const poseRes = inFlight.poseResult
-              const poseValid = Boolean(poseRes && poseRes.poseProcessed && !poseRes.poseFailed)
-              const handValid = Boolean(handRes && handRes.handProcessed && !handRes.handFailed)
-              onReplayFrame(createReplayFrame({
-                ...inFlight.sourceFrame,
-                inferenceMs: complete.inferenceMs,
-                pose: poseRes?.pose || [],
-                posePerformed: inFlight.scheduledPose ? poseValid : false,
-                poseWorld: poseRes?.poseWorldLandmarks ?? [],
-                displayPose: (poseRes?.pose && poseRes.pose.length && drawOptions.current.smoothed)
-                  ? smoother.current.filter('pose', poseRes.pose, inFlight.timestamp, POSE_SMOOTHING_POLICY)
-                  : (poseRes?.pose || []),
-                hands: handRes?.hands || [],
-                handsWorld: handRes?.handWorldLandmarks ?? [],
-                handedness: handRes?.handedness ?? [],
-                handPerformed: inFlight.scheduledHand ? handValid : false,
-              }))
-            }
+          if (source === 'video' && onReplayFrame) {
+            onReplayFrame(createReplayFrame({
+              ...frame.sourceFrame,
+              inferenceMs: complete.inferenceMs,
+              pose: raw,
+              posePerformed: complete.poseProcessed || Boolean(complete.poseFailed),
+              poseFailed: Boolean(complete.poseFailed || (complete.poseProcessed && !poseValid)),
+              poseWorld: poseValid ? poseRes?.poseWorldLandmarks ?? [] : [],
+              displayPose: poseValid ? (drawOptions.current.smoothed ? frame.displayPose : raw) : [],
+              hands,
+              handsWorld: handValid ? handRes?.handWorldLandmarks ?? [] : [],
+              handedness: handValid ? handRes?.handedness ?? [] : [],
+              handPerformed: complete.handProcessed || Boolean(complete.handFailed),
+              handFailed: Boolean(complete.handFailed || (complete.handProcessed && !handValid)),
+            }))
           }
         },
-        onError: () => fallback(requestId),
+        onError: error => {
+          inFlightReplayFrames.clear()
+          if (requestId !== generation.current) return
+          setModelErrors(previous => [...previous, `Worker runtime: ${modelErrorMessage(error)}`])
+          void fallback(requestId)
+        },
       })
 
-      if (requestId !== generation.current) { tracker.close(); return }
+      if (requestId !== generation.current) { await disposeWorker(tracker); return }
       worker.current = tracker
       setEngine('worker')
 
-      const poseDelegate = tracker.delegates.pose ? `Pose ${tracker.delegates.pose}` : 'Pose —'
+      const poseDelegate = tracker.delegates.pose ? `Pose ${tracker.delegates.pose}` : 'Pose Tắt'
       const handDelegate = useHand && tracker.delegates.hand ? `Hand ${tracker.delegates.hand}` : 'Hand Tắt'
       const engineLabel = tracker.delegates.hand === 'GPU' || tracker.delegates.pose === 'GPU'
         ? 'Worker GPU (Hand-First)' : 'Worker CPU'
@@ -1102,26 +1180,31 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
       if (tracker.initializationErrors.length) setModelErrors(previous => [...previous, ...tracker.initializationErrors])
 
       schedule(requestId, (timestamp, doHand, sample, sourceFrame, doPose = true) => {
-        if (source === 'video' && onReplayFrame && sourceFrame) {
-          inFlightReplayFrames.set(timestamp, {
-            sourceFrame,
-            timestamp,
-            scheduledHand: doHand,
-            scheduledPose: doPose,
-            handResult: null,
-            poseResult: null,
+        const accepted = tracker.submit(input, timestamp, doHand, doPose, {
+          sourceFrameId: sourceFrame.sourceFrameId ?? null,
+          sourceMediaTimeMs: sourceFrame.mediaTime * 1000,
+          sourcePerformanceMs: sourceFrame.framePerformanceMs,
+        })
+        if (accepted) {
+          inFlightReplayFrames.clear()
+          const frameRequestId = tracker.lastRequestId
+          if (frameRequestId === null) throw new Error('Worker accepted a frame without request identity')
+          inFlightReplayFrames.set(frameRequestId, {
+            sourceFrame, sample, scheduledHand: doHand, scheduledPose: doPose,
+            handResult: null, poseResult: null, displayPose: [],
           })
-          if (inFlightReplayFrames.size > 50) {
-            const oldest = inFlightReplayFrames.keys().next().value
-            if (oldest !== undefined) inFlightReplayFrames.delete(oldest)
-          }
         }
-        const accepted = tracker.submit(input, timestamp, doHand, doPose)
-        if (accepted) pending = sample
         return accepted
-      }, {}, true, 30, 15)
-    } catch {
-      fallback(requestId)
+      }, {
+        pipeline: 'tracking_test_lab', tasks_vision_version: '0.10.35', hand_first: true,
+        video_timestamp: 'video_media_time', pose_enabled: poseEnabled, hand_enabled: useHand,
+        delegate: { pose: tracker.delegates.pose, hand: tracker.delegates.hand }, profile: profileName,
+        requested_hand_fps: profile.handFps, requested_pose_fps: profile.poseFps,
+      }, true, profile.handFps, profile.poseFps)
+    } catch (error) {
+      if (requestId !== generation.current) return
+      setModelErrors(previous => [...previous, `Worker initialization: ${modelErrorMessage(error)}`])
+      void fallback(requestId)
     }
   }
 
@@ -1162,6 +1245,8 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
       inferenceResolution: config.inferenceResolution,
       poseEnabled: config.poseEnabled,
       handEnabled: config.handEnabled,
+      requestedHandFps: config.handEnabled ? getTrackingProfile(config.profile).handFps : 0,
+      requestedPoseFps: config.poseEnabled ? getTrackingProfile(config.profile).poseFps : 0,
       mirrored: config.mirrored,
       smoothing: config.smoothed ? {
         version: SMOOTHING_VERSION,
@@ -1186,6 +1271,7 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
       handDisplayAgeP95Ms: percentile(snapshot.handDisplayAges, .95),
       throttledFrames: snapshot.throttled,
       workerBusyFrames: snapshot.workerBusy,
+      droppedFrames: snapshot.droppedFrames,
       duplicateCallbacks: snapshot.duplicates,
       validFraction: snapshot.inferences ? snapshot.valid / snapshot.inferences : null,
       leftUpperLimbVisibleFraction: fraction(snapshot.leftVisible),
@@ -1304,12 +1390,14 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
           <div><dt>FPS suy luận</dt><dd>{fmt(rate(stats.inferences))}</dd></div>
           <div><dt>FPS render</dt><dd>{fmt(rate(stats.renders))}</dd></div>
           <div><dt>FPS Hand / Pose riêng</dt><dd>{fmt(rate(stats.dualHand.inferences))} / {fmt(rate(stats.dualPose.inferences))}</dd></div>
+          <div><dt>FPS Hand / Pose yêu cầu</dt><dd>{handEnabled ? getTrackingProfile(profileName).handFps : 0} / {poseEnabled ? getTrackingProfile(profileName).poseFps : 0}</dd></div>
           <div><dt>Hand p50 / p95</dt><dd>{fmt(percentile(stats.dualHand.durations, .5))} / {fmt(percentile(stats.dualHand.durations, .95))} ms</dd></div>
           <div><dt>Pose p50 / p95</dt><dd>{fmt(percentile(stats.dualPose.durations, .5))} / {fmt(percentile(stats.dualPose.durations, .95))} ms</dd></div>
           <div><dt>Hand round-trip p50 / p95</dt><dd>{fmt(percentile(stats.dualHand.roundTrips, .5))} / {fmt(percentile(stats.dualHand.roundTrips, .95))} ms</dd></div>
           <div><dt>Hand display age p50 / p95</dt><dd>{fmt(percentile(stats.handDisplayAges, .5))} / {fmt(percentile(stats.handDisplayAges, .95))} ms</dd></div>
           <div><dt>Overlay render p95</dt><dd>{fmt(percentile(stats.overlayDurations, .95))} ms</dd></div>
           <div><dt>Frame giới hạn / Worker bận / trùng</dt><dd>{stats.throttled} / {stats.workerBusy} / {stats.duplicates}</dd></div>
+          <div><dt>Frame nguồn bị bỏ</dt><dd>{stats.droppedFrames}</dd></div>
           <div><dt>Mẫu có đầu ra model</dt><dd>{stats.inferences ? `${(stats.valid * 100 / stats.inferences).toFixed(1)}%` : '—'}</dd></div>
           <div><dt>Cấu hình phép đo</dt><dd>{stats.config ? `${stats.config.engine} · ${stats.config.delegate} · ${stats.config.inferenceResolution}` : 'Chưa đo'}</dd></div>
           <div><dt>Trạng thái tracking</dt><dd>{trackingStatus}</dd></div>
@@ -1507,7 +1595,7 @@ export default function TrackingTestLab({ onReplaySource, onReplayFrame, onRepla
         </label>
 
         <p>
-          Mặc định Worker GPU với luồng Hand-first độc lập. Bàn tay hiển thị Raw tức thì không trễ; Pose hiển thị lọc mượt.
+          Mặc định Worker GPU với luồng Hand-first độc lập. Bàn tay hiển thị Raw ngay khi có kết quả; Pose hiển thị lọc mượt. FPS đạt được phụ thuộc thời gian suy luận thực tế.
         </p>
       </aside>
     </div>

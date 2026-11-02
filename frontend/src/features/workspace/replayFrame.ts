@@ -16,6 +16,7 @@ type Inputs = {
   pose: readonly ReplayPoint[]; poseWorld: readonly ReplayPoint[]; displayPose: readonly ReplayPoint[]
   hands: readonly (readonly ReplayPoint[])[]; handsWorld: readonly (readonly ReplayPoint[])[]
   handedness: readonly (readonly { categoryName: string }[])[]; posePerformed?: boolean; handPerformed?: boolean
+  poseFailed?: boolean; handFailed?: boolean
 }
 const poseNames = ['nose', 'left_eye_inner', 'left_eye', 'left_eye_outer', 'right_eye_inner', 'right_eye', 'right_eye_outer', 'left_ear', 'right_ear', 'mouth_left', 'mouth_right', 'left_shoulder', 'right_shoulder', 'left_elbow', 'right_elbow', 'left_wrist', 'right_wrist', 'left_pinky', 'right_pinky', 'left_index', 'right_index', 'left_thumb', 'right_thumb', 'left_hip', 'right_hip', 'left_knee', 'right_knee', 'left_ankle', 'right_ankle', 'left_heel', 'right_heel', 'left_foot_index', 'right_foot_index']
 const handNames = ['wrist', 'thumb_cmc', 'thumb_mcp', 'thumb_ip', 'thumb_tip', 'index_finger_mcp', 'index_finger_pip', 'index_finger_dip', 'index_finger_tip', 'middle_finger_mcp', 'middle_finger_pip', 'middle_finger_dip', 'middle_finger_tip', 'ring_finger_mcp', 'ring_finger_pip', 'ring_finger_dip', 'ring_finger_tip', 'pinky_mcp', 'pinky_pip', 'pinky_dip', 'pinky_tip']
@@ -34,12 +35,16 @@ function rows(points: readonly ReplayPoint[], source: 'pose' | 'hand', space: 'n
   })
 }
 export function createReplayFrame(input: Inputs): ReplayFrame {
-  const hands = input.hands.flatMap((points, index) => rows(points, 'hand', 'normalized_image', 'raw', input.handedness[index]?.[0]?.categoryName))
-  const handsWorld = input.handsWorld.flatMap((points, index) => rows(points, 'hand', 'world', 'raw', input.handedness[index]?.[0]?.categoryName))
+  const poseObserved = input.posePerformed !== false
+  const handObserved = input.handPerformed !== false
+  const poseValid = poseObserved && !input.poseFailed
+  const handValid = handObserved && !input.handFailed
+  const hands = handValid ? input.hands.flatMap((points, index) => rows(points, 'hand', 'normalized_image', 'raw', input.handedness[index]?.[0]?.categoryName)) : []
+  const handsWorld = handValid ? input.handsWorld.flatMap((points, index) => rows(points, 'hand', 'world', 'raw', input.handedness[index]?.[0]?.categoryName)) : []
   return {
     frame_id: input.frameId, source_frame_id: input.sourceFrameId ?? null, frame_performance_ms: input.framePerformanceMs, video_media_time_ms: input.mediaTime * 1000,
-    utc_time: input.capturedAt, inference_performed: true, pose_detected: input.posePerformed === false ? null : input.pose.length > 0,
-    hand_detected: input.handPerformed === false ? null : input.hands.length > 0, inference_ms: input.inferenceMs, skipped_frames: input.skippedSourceFrames ?? 0,
-    landmarks: [...rows(input.pose, 'pose', 'normalized_image', 'raw'), ...rows(input.poseWorld, 'pose', 'world', 'raw'), ...rows(input.displayPose, 'pose', 'normalized_image', 'display'), ...hands, ...handsWorld],
+    utc_time: input.capturedAt, inference_performed: poseObserved || handObserved, pose_detected: !poseObserved ? null : poseValid && input.pose.length > 0,
+    hand_detected: !handObserved ? null : handValid && input.hands.length > 0, inference_ms: input.inferenceMs, skipped_frames: input.skippedSourceFrames ?? 0,
+    landmarks: [...(poseValid ? [...rows(input.pose, 'pose', 'normalized_image', 'raw'), ...rows(input.poseWorld, 'pose', 'world', 'raw'), ...rows(input.displayPose, 'pose', 'normalized_image', 'display')] : []), ...hands, ...handsWorld],
   }
 }

@@ -53,7 +53,7 @@ function TrainingHistory({ data }: { data: PatientReport }) {
     const day = hospitalDay(report.session.created_at)
     return (!fromDate || day >= fromDate) && (!toDate || day <= toDate) && (!exerciseId || report.trials.some(trial => trial.exercise_id === Number(exerciseId)))
   })
-  const chart = history.flatMap(report => report.results.filter(result => !exerciseId || report.trials.find(trial => trial.id === result.trial_id)?.exercise_id === Number(exerciseId)).map(result => {
+  const chart = [...history].sort((a, b) => new Date(a.session.created_at).getTime() - new Date(b.session.created_at).getTime() || a.session.id - b.session.id).flatMap(report => report.results.filter(result => !exerciseId || report.trials.find(trial => trial.id === result.trial_id)?.exercise_id === Number(exerciseId)).map(result => {
     const trial = report.trials.find(item => item.id === result.trial_id)
     return { label: `${hospitalDate(report.session.created_at)} · #${report.session.id}`, duration_seconds: result.duration_seconds, game: exercises.find(item => item.id === trial?.exercise_id)?.name ?? trial?.exercise_code ?? result.game_key }
   }))

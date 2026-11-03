@@ -1,14 +1,22 @@
 import { useEffect, useRef, useState } from 'react'
 import { benchmarkRequest } from './benchmarkArtifacts'
-import { benchmarkSuite, comparisonSuite, runBenchmark } from './benchmarkRunner'
+import { benchmarkSuite, comparisonSuite, latencyBenchmarkSuite, runBenchmark } from './benchmarkRunner'
 import type { RunResult, SourceInfo } from './benchmarkRunner'
 import TrackingRecordingComparison, { COMPARISON_RUNS_KEY } from './TrackingRecordingComparison'
+
+function measuredRates(result: RunResult) {
+  const requested = result.summary?.requested_fps as { pose?: number; hand?: number } | undefined
+  const achieved = result.summary?.actual_fps as { pose?: number | null; hand?: number | null } | undefined
+  const delegates = result.summary?.actual_delegates as { pose?: string | null; hand?: string | null } | undefined
+  if (!achieved) return null
+  return `Đạt/mục tiêu: Hand ${achieved.hand?.toFixed(1) ?? 'N/A'}/${requested?.hand ?? '—'} FPS (${delegates?.hand ?? 'OFF'}); Pose ${achieved.pose?.toFixed(1) ?? 'N/A'}/${requested?.pose ?? '—'} FPS (${delegates?.pose ?? '—'}).`
+}
 
 export default function TrackingBenchmarkPage() {
   const video = useRef<HTMLVideoElement>(null), canvas = useRef<HTMLCanvasElement>(null), controller = useRef<AbortController | null>(null)
   const [source, setSource] = useState<SourceInfo | null>(null), [status, setStatus] = useState('Đang đọc video nguồn…')
   const [running, setRunning] = useState(false), [results, setResults] = useState<RunResult[]>([])
-  const [selected, setSelected] = useState('comparison')
+  const [selected, setSelected] = useState('latency')
   const [roi, setRoi] = useState({ x: 0, y: 0, width: 1, height: 1 }), [roiConfirmed, setRoiConfirmed] = useState(false)
   const validRoi = Object.values(roi).every(Number.isFinite) && roi.x >= 0 && roi.y >= 0 && roi.width > 0 && roi.height > 0 && roi.x + roi.width <= 1 && roi.y + roi.height <= 1
   useEffect(() => { let active = true; benchmarkRequest<SourceInfo>('/source-info').then(info => { if (active) { setSource(info); setStatus('Sẵn sàng') } }).catch(error => { if (active) setStatus(String(error)) }); return () => { active = false; controller.current?.abort() } }, [])
@@ -19,8 +27,8 @@ export default function TrackingBenchmarkPage() {
   const start = async () => {
     if (!source || !video.current || !canvas.current || controller.current) return
     const abort = new AbortController(); controller.current = abort; setRunning(true)
-    const suite = benchmarkSuite(), comparisons = comparisonSuite(roi)
-    const configurations = selected === 'comparison' ? comparisons : selected === 'mediapipe' ? [comparisons[0]] : selected === 'rtmpose' ? [comparisons[1]] : selected === 'rtmpose-detector' ? [comparisons[2]] : selected === 'suite' ? suite : [suite[Number(selected)]]
+    const suite = benchmarkSuite(), comparisons = comparisonSuite(roi), latencySuite = latencyBenchmarkSuite()
+    const configurations = selected === 'latency' ? latencySuite : selected.startsWith('latency-') ? [latencySuite[Number(selected.slice(8))]] : selected === 'comparison' ? comparisons : selected === 'mediapipe' ? [comparisons[0]] : selected === 'rtmpose' ? [comparisons[1]] : selected === 'rtmpose-detector' ? [comparisons[2]] : selected === 'suite' ? suite : [suite[Number(selected)]]
     try {
       for (const config of configurations) {
         if (abort.signal.aborted) break
@@ -38,6 +46,8 @@ export default function TrackingBenchmarkPage() {
     {source && <p>{source.width} × {source.height} · {source.duration?.toFixed(2)} giây · FPS metadata: {source.fps ?? 'không có'}</p>}
     <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 12 }}>
       <select aria-label="Cấu hình benchmark" disabled={running} value={selected} onChange={event => setSelected(event.target.value)}>
+        <option value="latency">Bộ kiểm thử Hand-first GPU Worker (5 cấu hình đối chiếu)</option>
+        {latencyBenchmarkSuite().map((config, index) => <option key={`latency-${index}`} value={`latency-${index}`}>{config.name}</option>)}
         <option value="comparison">Tuần tự: MediaPipe → RTMPose ROI → RTMPose + detector</option>
         <option value="mediapipe">A MediaPipe GPU Pose + Hand</option>
         <option value="rtmpose">B RTMPose-m GPU — operator ROI</option>
@@ -60,8 +70,9 @@ export default function TrackingBenchmarkPage() {
     <video ref={video} muted playsInline preload="auto" style={{ position: 'absolute', top: 0, left: 0, width: 320, height: 180, opacity: 0.001, pointerEvents: 'none', zIndex: -1 }} />
     <canvas ref={canvas} width={1280} height={720} style={{ width: '100%', maxHeight: '65vh', objectFit: 'contain', background: '#0f172a' }} />
     <p>Warm-up: suy luận khung đầu video trong ít nhất 3 giây; sau đó đo toàn bộ video. Mỗi lần lưu MP4 chú thích, JSONL raw/filtered, CSV, summary, báo cáo và manifest. Chỉ backend xác minh đủ artifact mới ghi COMPLETE.</p>
+    {selected.startsWith('latency') && <p>Hand-first Worker yêu cầu Hand 30 FPS và Pose 15 FPS; kết quả hiển thị FPS thực đạt riêng từng model. Tuổi overlay Hand/Pose giới hạn 150/250 ms. Có thể chọn riêng 1280 × 720 hoặc 960 × 540. captureResizeTotalMs đo gộp capture/resize; transferAndDispatchMs đo truyền/dispatch. Tỷ lệ thời gian suy luận model không phải mức sử dụng GPU.</p>}
     <p>So sánh mặc định dùng raw overlay, cùng mục tiêu 30 FPS, warm-up 3 giây và toàn bộ video ở 1×; mỗi lượt đóng engine trước khi chạy lượt tiếp. MediaPipe CPU fallback bị từ chối trong so sánh GPU. RTMPose suy luận cả thân và tay trong một graph nên Hand FPS/P95 độc lập là N/A. Bộ MediaPipe cũ giữ lịch và filter cũ. Chỉ số có điểm không phải độ chính xác lâm sàng; CPU/GPU utilization, nhiệt độ và power chưa được đo.</p>
     {!running && <TrackingRecordingComparison />}
-    <ul>{results.map(result => <li key={result.run_id}><strong>{result.status}</strong> — {result.directory}<br />{result.errors?.join(' | ')}</li>)}</ul>
+    <ul>{results.map(result => <li key={result.run_id}><strong>{result.status}</strong> — {result.directory}<br />{measuredRates(result)}<br />{result.errors?.join(' | ')}</li>)}</ul>
   </section>
 }

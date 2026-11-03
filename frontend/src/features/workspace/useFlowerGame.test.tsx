@@ -9,7 +9,7 @@ const pose = { current: { pose: Array.from({ length: 17 }, (_, i) => ({ x: i ===
 const poseTime = { current: 100 }
 function Harness({ currentSession = session, demo = false, mapping, displayBox }: { currentSession?: Session; demo?: boolean; mapping?: { current: VideoMapping | null }; displayBox?: { current: Size | null } }) {
   const game = useFlowerGame({ demo, session: currentSession, streamActive: !demo, tracking: !demo, mirrored: false, side: 'left', confirmed: true, size: { width: 1280, height: 720 }, pose, poseTime, mapping, displayBox })
-  return <>{game.overlay}{game.panel}</>
+  return <>{game.overlay}{game.hud}{game.panel}</>
 }
 
 describe('flower game integration', () => {
@@ -27,8 +27,30 @@ describe('flower game integration', () => {
   const playAndFinish = () => {
     fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu trò chơi' }))
     tick(100); tick(250)
-    fireEvent.click(screen.getByRole('button', { name: 'Dừng và xem kết quả' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Dừng' }))
   }
+
+  it('rejects a Pose wrist older than 250ms and resumes with a fresh observation', () => {
+    render(<Harness />)
+    fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu trò chơi' }))
+    tick(100)
+    tick(351)
+    expect(screen.getByText('Điểm').parentElement).toHaveTextContent('0')
+    expect(screen.getByText('Thời gian').parentElement).toHaveTextContent('30s')
+    poseTime.current = 400; tick(550)
+    expect(screen.getByText('Điểm').parentElement).toHaveTextContent('1')
+  })
+
+  it('cancels the render loop on stop and removes the overlay on reset', () => {
+    render(<Harness />)
+    fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu trò chơi' }))
+    tick(100)
+    expect(screen.getByLabelText('Hoa và vị trí cổ tay')).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Dừng' }))
+    expect(cancelAnimationFrame).toHaveBeenCalledOnce()
+    fireEvent.click(screen.getByRole('button', { name: 'Lượt mới' }))
+    expect(screen.queryByLabelText('Hoa và vị trí cổ tay')).not.toBeInTheDocument()
+  })
 
   it('retries an uncertain save with the same round ID and locks duplicate submission', async () => {
     let resolveSave: (value: { ok: boolean }) => void = () => {}
@@ -63,7 +85,7 @@ describe('flower game integration', () => {
     const fetchMock = vi.fn(); vi.stubGlobal('fetch', fetchMock)
     render(<Harness demo />)
     fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu trò chơi' }))
-    fireEvent.click(screen.getByRole('button', { name: 'Dừng và xem kết quả' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Dừng' }))
     expect(screen.getByText(/kết quả này không được lưu/)).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Xác nhận lưu kết quả' })).not.toBeInTheDocument()
     expect(fetchMock).not.toHaveBeenCalled()
@@ -74,15 +96,15 @@ describe('flower game integration', () => {
     render(<Harness mapping={mapping} />)
     fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu trò chơi' }))
     tick(100); tick(250)
-    expect(screen.getByText('Hoa đã chạm').parentElement).toHaveTextContent('0')
+    expect(screen.getByText('Điểm').parentElement).toHaveTextContent('0')
   })
 
   it('pauses scoring when source dimensions are not available', () => {
     render(<Harness mapping={{ current: null }} />)
     fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu trò chơi' }))
     tick(100); tick(250)
-    expect(screen.getByText('Hoa đã chạm').parentElement).toHaveTextContent('0')
-    expect(screen.getByText('Tạm dừng · mất mốc')).toBeInTheDocument()
+    expect(screen.getByText('Điểm').parentElement).toHaveTextContent('0')
+    expect(screen.getByText('Thời gian').parentElement).toHaveTextContent('30s')
   })
 
   it('pauses scoring when the wrist visibility is missing', () => {
@@ -90,8 +112,8 @@ describe('flower game integration', () => {
     render(<Harness />)
     fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu trò chơi' }))
     tick(100); tick(250)
-    expect(screen.getByText('Hoa đã chạm').parentElement).toHaveTextContent('0')
-    expect(screen.getByText('Tạm dừng · mất mốc')).toBeInTheDocument()
+    expect(screen.getByText('Điểm').parentElement).toHaveTextContent('0')
+    expect(screen.getByText('Thời gian').parentElement).toHaveTextContent('30s')
   })
 
   it('uses displayed box proportions for hit testing when canvas aspect differs', () => {
@@ -99,7 +121,7 @@ describe('flower game integration', () => {
     render(<Harness displayBox={{ current: { width: 1000, height: 1000 } }} />)
     fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu trò chơi' }))
     tick(100); tick(250)
-    expect(screen.getByText('Hoa đã chạm').parentElement).toHaveTextContent('1')
+    expect(screen.getByText('Điểm').parentElement).toHaveTextContent('1')
   })
 
   it('retains the release requirement when the visible region changes after a hit', () => {
@@ -108,10 +130,10 @@ describe('flower game integration', () => {
     render(<Harness mapping={mapping} displayBox={{ current: { width: 1000, height: 1000 } }} />)
     fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu trò chơi' }))
     tick(100); tick(250)
-    expect(screen.getByText('Hoa đã chạm').parentElement).toHaveTextContent('1')
+    expect(screen.getByText('Điểm').parentElement).toHaveTextContent('1')
     mapping.current = { box: { width: 1000, height: 1000 }, rect: { x: 400, y: 0, width: 200, height: 1000 } }
     tick(400)
-    expect(screen.getByText('Hoa đã chạm').parentElement).toHaveTextContent('1')
+    expect(screen.getByText('Điểm').parentElement).toHaveTextContent('1')
   })
 
   it('does not treat a change in crop as movement of a stationary wrist', () => {
@@ -120,21 +142,21 @@ describe('flower game integration', () => {
     render(<Harness mapping={mapping} displayBox={{ current: { width: 1000, height: 1000 } }} />)
     fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu trò chơi' }))
     tick(100); tick(250)
-    expect(screen.getByText('Hoa đã chạm').parentElement).toHaveTextContent('1')
+    expect(screen.getByText('Điểm').parentElement).toHaveTextContent('1')
     mapping.current = { box: { width: 1000, height: 1000 }, rect: { x: -100, y: 0, width: 1200, height: 1000 } }
     poseTime.current = 400
     tick(400)
     mapping.current = { box: { width: 1000, height: 1000 }, rect: { x: 400, y: 0, width: 200, height: 1000 } }
     poseTime.current = 550
     tick(550)
-    expect(screen.getByText('Hoa đã chạm').parentElement).toHaveTextContent('1')
-    expect(screen.getByText(/di chuyển cổ tay sau khi đổi khung hình/)).toBeInTheDocument()
+    expect(screen.getByText('Điểm').parentElement).toHaveTextContent('1')
+    expect(screen.getByRole('button', { name: 'Tiếp tục sau khi kiểm tra' })).toBeInTheDocument()
     poseTime.current = 600; tick(600)
     pose.current.pose[15].x = .9
     poseTime.current = 700
     tick(700)
-    expect(screen.getByText('Hoa đã chạm').parentElement).toHaveTextContent('2')
-    expect(screen.queryByText(/di chuyển cổ tay sau khi đổi khung hình/)).not.toBeInTheDocument()
+    expect(screen.getByText('Điểm').parentElement).toHaveTextContent('2')
+    expect(screen.queryByRole('button', { name: 'Tiếp tục sau khi kiểm tra' })).not.toBeInTheDocument()
   })
 
   it('requires a new observed movement after tracking is lost and reacquired', () => {
@@ -145,8 +167,8 @@ describe('flower game integration', () => {
     mapping.current = { box: { width: 1000, height: 1000 }, rect: { x: 400, y: 0, width: 200, height: 1000 } }; tick(400)
     poseTime.current = 0; tick(550)
     pose.current.pose[15].x = .9; poseTime.current = 700; tick(700)
-    expect(screen.getByText('Hoa đã chạm').parentElement).toHaveTextContent('1')
-    expect(screen.getByText(/di chuyển cổ tay sau khi đổi khung hình/)).toBeInTheDocument()
+    expect(screen.getByText('Điểm').parentElement).toHaveTextContent('1')
+    expect(screen.getByRole('button', { name: 'Tiếp tục sau khi kiểm tra' })).toBeInTheDocument()
   })
 
   it('reanchors after video geometry disappears along with tracking', () => {
@@ -158,8 +180,8 @@ describe('flower game integration', () => {
     mapping.current = null; poseTime.current = 0; tick(550)
     mapping.current = { box: { width: 1000, height: 1000 }, rect: { x: 400, y: 0, width: 200, height: 1000 } }
     pose.current.pose[15].x = .9; poseTime.current = 700; tick(700)
-    expect(screen.getByText('Hoa đã chạm').parentElement).toHaveTextContent('1')
-    expect(screen.getByText(/di chuyển cổ tay sau khi đổi khung hình/)).toBeInTheDocument()
+    expect(screen.getByText('Điểm').parentElement).toHaveTextContent('1')
+    expect(screen.getByRole('button', { name: 'Tiếp tục sau khi kiểm tra' })).toBeInTheDocument()
   })
 
   it('allows a supervised resume without counting a stationary wrist as a hit', () => {
@@ -173,15 +195,15 @@ describe('flower game integration', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Tiếp tục sau khi kiểm tra' })); clock.mockRestore()
     const sameFrame = vi.spyOn(performance, 'now').mockReturnValue(501)
     act(() => { nextFrame(499) }); sameFrame.mockRestore()
-    expect(screen.getByText(/chờ quan sát mới/)).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Tiếp tục sau khi kiểm tra' })).toBeDisabled()
     // A worker can deliver an older in-flight frame after the click.
     poseTime.current = 480
     tick(550)
-    expect(screen.getByText('Hoa đã chạm').parentElement).toHaveTextContent('1')
-    expect(screen.getByText(/chờ quan sát mới/)).toBeInTheDocument()
+    expect(screen.getByText('Điểm').parentElement).toHaveTextContent('1')
+    expect(screen.getByRole('button', { name: 'Tiếp tục sau khi kiểm tra' })).toBeDisabled()
     poseTime.current = 600; tick(700)
-    expect(screen.queryByText(/di chuyển cổ tay sau khi đổi khung hình/)).not.toBeInTheDocument()
-    expect(screen.getByText('Hoa đã chạm').parentElement).toHaveTextContent('1')
+    expect(screen.queryByRole('button', { name: 'Tiếp tục sau khi kiểm tra' })).not.toBeInTheDocument()
+    expect(screen.getByText('Điểm').parentElement).toHaveTextContent('1')
   })
 
   it('does not carry a supervised resume request across lost tracking', () => {
@@ -194,8 +216,8 @@ describe('flower game integration', () => {
     const clock = vi.spyOn(performance, 'now').mockReturnValue(550)
     fireEvent.click(screen.getByRole('button', { name: 'Tiếp tục sau khi kiểm tra' })); clock.mockRestore()
     pose.current.pose[15].x = .9; poseTime.current = 700; tick(700)
-    expect(screen.getByText('Hoa đã chạm').parentElement).toHaveTextContent('1')
-    expect(screen.getByText(/di chuyển cổ tay sau khi đổi khung hình/)).toBeInTheDocument()
+    expect(screen.getByText('Điểm').parentElement).toHaveTextContent('1')
+    expect(screen.getByRole('button', { name: 'Tiếp tục sau khi kiểm tra' })).toBeInTheDocument()
   })
 
   it('expires a supervised resume and reanchors after a long observation gap', () => {
@@ -208,9 +230,9 @@ describe('flower game integration', () => {
     const clock = vi.spyOn(performance, 'now').mockReturnValue(500)
     fireEvent.click(screen.getByRole('button', { name: 'Tiếp tục sau khi kiểm tra' })); clock.mockRestore()
     pose.current.pose[15].x = .9; poseTime.current = 2100; tick(2100)
-    expect(screen.getByText('Hoa đã chạm').parentElement).toHaveTextContent('1')
-    expect(screen.getByText(/di chuyển cổ tay sau khi đổi khung hình/)).toBeInTheDocument()
-    expect(screen.queryByText(/chờ quan sát mới/)).not.toBeInTheDocument()
+    expect(screen.getByText('Điểm').parentElement).toHaveTextContent('1')
+    expect(screen.getByRole('button', { name: 'Tiếp tục sau khi kiểm tra' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Tiếp tục sau khi kiểm tra' })).toBeEnabled()
   })
 
   it('ignores an in-flight worker observation captured before geometry changed', () => {
@@ -220,8 +242,8 @@ describe('flower game integration', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu trò chơi' })); tick(100); tick(250)
     mapping.current = { box: { width: 1000, height: 1000 }, rect: { x: 400, y: 0, width: 200, height: 1000 } }; tick(400)
     pose.current.pose[15].x = .9; poseTime.current = 300; tick(450)
-    expect(screen.getByText(/di chuyển cổ tay sau khi đổi khung hình/)).toBeInTheDocument()
-    expect(screen.getByText('Hoa đã chạm').parentElement).toHaveTextContent('1')
+    expect(screen.getByRole('button', { name: 'Tiếp tục sau khi kiểm tra' })).toBeInTheDocument()
+    expect(screen.getByText('Điểm').parentElement).toHaveTextContent('1')
   })
 
   it('rejects stale results using callback execution time rather than an old animation timestamp', () => {
@@ -236,8 +258,8 @@ describe('flower game integration', () => {
     poseTime.current = 550
     const lateClock = vi.spyOn(performance, 'now').mockReturnValue(1300)
     act(() => { nextFrame(560) }); lateClock.mockRestore()
-    expect(screen.getByText('Hoa đã chạm').parentElement).toHaveTextContent('1')
-    expect(screen.getByText(/di chuyển cổ tay sau khi đổi khung hình/)).toBeInTheDocument()
+    expect(screen.getByText('Điểm').parentElement).toHaveTextContent('1')
+    expect(screen.getByRole('button', { name: 'Tiếp tục sau khi kiểm tra' })).toBeInTheDocument()
   })
 
   it('cancels supervised resume after an unobserved tracking gap', () => {
@@ -250,8 +272,8 @@ describe('flower game integration', () => {
     const clickClock = vi.spyOn(performance, 'now').mockReturnValue(500)
     fireEvent.click(screen.getByRole('button', { name: 'Tiếp tục sau khi kiểm tra' })); clickClock.mockRestore()
     pose.current.pose[15].x = .9; poseTime.current = 1100; tick(1100)
-    expect(screen.getByText('Hoa đã chạm').parentElement).toHaveTextContent('1')
-    expect(screen.getByText(/di chuyển cổ tay sau khi đổi khung hình/)).toBeInTheDocument()
-    expect(screen.queryByText(/chờ quan sát mới/)).not.toBeInTheDocument()
+    expect(screen.getByText('Điểm').parentElement).toHaveTextContent('1')
+    expect(screen.getByRole('button', { name: 'Tiếp tục sau khi kiểm tra' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Tiếp tục sau khi kiểm tra' })).toBeEnabled()
   })
 })

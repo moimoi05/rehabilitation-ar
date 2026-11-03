@@ -10,7 +10,7 @@ const poseTime = { current: 100 }
 let frame: FrameRequestCallback
 function Harness({ workflow, tracking = true }: { workflow: FlowerWorkflow; tracking?: boolean }) {
   const game = useFlowerGame({ demo: false, streamActive: true, tracking, mirrored: false, side: 'left', confirmed: true, session, size: { width: 1280, height: 720 }, pose, poseTime, workflow })
-  return <>{game.panel}{game.overlay}</>
+  return <>{game.panel}{game.hud}{game.overlay}</>
 }
 function tick(time: number) {
   act(() => { const clock = vi.spyOn(performance, 'now').mockReturnValue(time); try { frame(time) } finally { clock.mockRestore() } })
@@ -33,11 +33,11 @@ it('waits for a persisted trial and saves the same trial on an uncertain retry',
   render(<Harness workflow={config}/>)
   fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu trò chơi' }))
   expect(config.createTrial).toHaveBeenCalledOnce()
-  expect(screen.queryByRole('button', { name: 'Dừng và xem kết quả' })).not.toBeInTheDocument()
-  expect(screen.getByRole('button', { name: 'Đang chuẩn bị lượt…' })).toBeDisabled()
+  expect(screen.queryByRole('button', { name: 'Dừng' })).not.toBeInTheDocument()
+  expect(screen.getByRole('button', { name: 'Đang chuẩn bị…' })).toBeDisabled()
   await act(async () => finishTrial(19))
   tick(100); tick(250)
-  fireEvent.click(screen.getByRole('button', { name: 'Dừng và xem kết quả' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Dừng' }))
   expect(screen.queryByRole('button', { name: 'Lượt mới' })).not.toBeInTheDocument()
   fireEvent.click(screen.getByRole('button', { name: 'Xác nhận lưu kết quả' }))
   fireEvent.click(await screen.findByRole('button', { name: 'Thử lưu lại' }))
@@ -60,7 +60,7 @@ it('keeps failed trial creation out of the game and reports a clear error', asyn
   render(<Harness workflow={workflow({ createTrial: vi.fn().mockRejectedValue(new Error('Bài tập chưa được chỉ định.')) })}/>)
   fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu trò chơi' }))
   expect(await screen.findByText('Bài tập chưa được chỉ định.')).toBeInTheDocument()
-  expect(screen.queryByRole('button', { name: 'Dừng và xem kết quả' })).not.toBeInTheDocument()
+  expect(screen.queryByRole('button', { name: 'Dừng' })).not.toBeInTheDocument()
 })
 
 it('ignores a trial created after setup was invalidated', async () => {
@@ -70,7 +70,7 @@ it('ignores a trial created after setup was invalidated', async () => {
   fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu trò chơi' }))
   view.rerender(<Harness workflow={{ ...config, setupReady: false }}/>)
   await act(async () => finishTrial(19))
-  expect(screen.queryByRole('button', { name: 'Dừng và xem kết quả' })).not.toBeInTheDocument()
+  expect(screen.queryByRole('button', { name: 'Dừng' })).not.toBeInTheDocument()
   expect(screen.getByRole('button', { name: 'Bắt đầu trò chơi' })).toBeDisabled()
   expect(config.onRoundAbandoned).toHaveBeenCalledOnce()
 })
@@ -79,7 +79,7 @@ it('cancels the managed trial when tracking is stopped during a round', async ()
   const config = workflow({ onRoundAbandoned: vi.fn() })
   const view = render(<Harness workflow={config}/>)
   fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu trò chơi' }))
-  await screen.findByRole('button', { name: 'Dừng và xem kết quả' })
+  await screen.findByRole('button', { name: 'Dừng' })
   view.rerender(<Harness workflow={config} tracking={false}/>)
   await waitFor(() => expect(config.onRoundAbandoned).toHaveBeenCalledOnce())
   expect(screen.queryByRole('button', { name: 'Xác nhận lưu kết quả' })).not.toBeInTheDocument()
@@ -89,7 +89,7 @@ it('lets staff cancel a round with no observed data without making a result or r
   const config = workflow({ cancelTrial: vi.fn().mockResolvedValue(undefined) })
   render(<Harness workflow={config}/>)
   fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu trò chơi' }))
-  fireEvent.click(await screen.findByRole('button', { name: 'Dừng và xem kết quả' }))
+  fireEvent.click(await screen.findByRole('button', { name: 'Dừng' }))
   expect(screen.getByRole('button', { name: 'Xác nhận lưu kết quả' })).toBeDisabled()
   fireEvent.click(screen.getByRole('button', { name: 'Hủy lượt chưa có dữ liệu' }))
   await waitFor(() => expect(config.cancelTrial).toHaveBeenCalledWith(19))

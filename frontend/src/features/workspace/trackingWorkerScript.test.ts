@@ -5,18 +5,61 @@ import { describe, expect, it, vi } from 'vitest'
 // Exercise the actual classic worker script with isolated fake models. We only
 // inject models because its real initialization dynamically imports MediaPipe.
 function workerHarness(pose: unknown, hand: unknown, role = 'both') {
-  const messages: unknown[] = []
-  const scope: { onmessage?: (event: unknown) => Promise<void>; postMessage: (value: unknown) => void } = {
+  const messages: Record<string, unknown>[] = []
+  const scope: { onmessage?: (event: { data: Record<string, unknown> }) => Promise<void>; postMessage: (value: Record<string, unknown>) => void } = {
     postMessage: value => { messages.push(value) },
   }
   const source = readFileSync('public/tracking-worker.js', 'utf8')
-  const injected: { setModels?: (p: unknown, h: unknown) => void } = {}
+  const injected: { setModels?: (p: unknown, h: unknown, r: string) => void } = {}
   runInNewContext(`${source}\n;globalThis.setModels = (p, h, r) => { pose = p; hand = h; role = r }`, { self: scope, performance: { now: () => 10 }, globalThis: injected })
   ;(injected.setModels as (p: unknown, h: unknown, r: string) => void)(pose, hand, role)
   return { scope, messages }
 }
 
 describe('classic tracking worker', () => {
+  it('echoes explicit source identity on Hand, Pose, and completion without duplicate landmark messages', async () => {
+    const hand = { detectForVideo: vi.fn(() => ({ landmarks: [[]] })) }
+    const pose = { detectForVideo: vi.fn(() => ({ landmarks: [[]] })) }
+    const { scope, messages } = workerHarness(pose, hand)
+    const identity = { requestId: 17, sourceFrameId: 8, sourceMediaTimeMs: 266.6, sourcePerformanceMs: 400 }
+    await scope.onmessage!({ data: { type: 'frame', id: 17, ...identity, bitmap: { close: vi.fn() }, timestamp: 400, hand: true } })
+    expect(messages.map(message => message.type)).toEqual(['hand_result', 'pose_result', 'frame_complete'])
+    for (const message of messages) expect(message).toMatchObject(identity)
+    expect(messages[2]).not.toHaveProperty('hands')
+    expect(messages[2]).not.toHaveProperty('pose')
+  })
+
+  it('does not acknowledge disposal until model initialization finishes', async () => {
+    const messages: Record<string, unknown>[] = []
+    let finishModel!: (value: { close: () => void }) => void
+    let markCreating!: () => void
+    const creating = new Promise<void>(resolve => { markCreating = resolve })
+    const model = { close: vi.fn() }
+    const poseCreate = vi.fn(() => new Promise(resolve => { finishModel = resolve; markCreating() }))
+    const scope: { onmessage?: (event: unknown) => Promise<void>; postMessage: (value: Record<string, unknown>) => void } = { postMessage: value => { messages.push(value) } }
+    const fakeImport = async () => ({ FilesetResolver: { forVisionTasks: async () => ({}) }, PoseLandmarker: { createFromOptions: poseCreate }, HandLandmarker: {} })
+    const source = readFileSync('public/tracking-worker.js', 'utf8').replace('await import(data.moduleUrl)', 'await fakeImport(data.moduleUrl)')
+    runInNewContext(source, { self: scope, fakeImport })
+    const initializing = scope.onmessage!({ data: { type: 'init', handEnabled: false, moduleUrl: '/vision.mjs' } })
+    await creating
+    expect(poseCreate).toHaveBeenCalledOnce()
+    const disposing = scope.onmessage!({ data: { type: 'dispose' } })
+    await Promise.resolve()
+    expect(messages.some(message => message.type === 'disposed')).toBe(false)
+    finishModel(model)
+    await initializing; await disposing
+    expect(model.close).toHaveBeenCalledOnce()
+    expect(messages.at(-1)).toMatchObject({ type: 'disposed', cleanupErrors: [] })
+  })
+
+  it('reports a previously failed Hand close again during final disposal', async () => {
+    const hand = { detectForVideo: vi.fn(() => { throw new Error('hand failed') }), close: vi.fn(() => { throw new Error('Hand close failed') }) }
+    const pose = { detectForVideo: vi.fn(() => ({ landmarks: [[]] })), close: vi.fn() }
+    const { scope, messages } = workerHarness(pose, hand)
+    await scope.onmessage!({ data: { type: 'frame', id: 1, bitmap: { close: vi.fn() }, timestamp: 10, hand: true } })
+    await scope.onmessage!({ data: { type: 'dispose' } })
+    expect(messages.at(-1)).toMatchObject({ type: 'disposed', cleanupErrors: [expect.stringContaining('Hand close failed')] })
+  })
   it('attempts GPU independently and reports the exact Hand fallback error', async () => {
     const messages: unknown[] = []
     const poseCreate = vi.fn(async () => ({ close: vi.fn() }))
@@ -40,7 +83,10 @@ describe('classic tracking worker', () => {
     const { scope, messages } = workerHarness(pose, hand)
     const bitmap = { close: vi.fn() }
     await scope.onmessage!({ data: { type: 'frame', id: 1, bitmap, timestamp: 10, hand: true, pose: false } })
-    expect(messages[0]).toMatchObject({ type: 'result', poseProcessed: false, handProcessed: true, poseInferenceMs: null, hands: [landmarks], handedness, handWorldLandmarks: worldLandmarks })
+    const handMsg = messages.find(m => m.type === 'hand_result')
+    expect(handMsg).toMatchObject({ type: 'hand_result', handProcessed: true, hands: [landmarks], handedness, handWorldLandmarks: worldLandmarks })
+    const frameCompleteMsg = messages.find(m => m.type === 'frame_complete')
+    expect(frameCompleteMsg).toMatchObject({ type: 'frame_complete', poseProcessed: false, handProcessed: true, poseInferenceMs: null })
     expect(pose.detectForVideo).not.toHaveBeenCalled()
     expect(bitmap.close).toHaveBeenCalledOnce()
   })
@@ -74,7 +120,8 @@ describe('classic tracking worker', () => {
     const { scope, messages } = workerHarness(null, hand, 'hand')
     const bitmap = { close: vi.fn() }
     await scope.onmessage!({ data: { type: 'frame', id: 1, bitmap, timestamp: 10, hand: false } })
-    expect(messages[0]).toMatchObject({ type: 'result', id: 1, pose: [], hands: [[{ x: .4, y: .5 }]] })
+    const handMsg = messages.find(m => m.type === 'hand_result')
+    expect(handMsg).toMatchObject({ type: 'hand_result', id: 1, hands: [[{ x: .4, y: .5 }]] })
     expect(hand.detectForVideo).toHaveBeenCalledOnce(); expect(bitmap.close).toHaveBeenCalledOnce()
   })
 
@@ -93,8 +140,12 @@ describe('classic tracking worker', () => {
     const first = { close: vi.fn() }, second = { close: vi.fn() }
     await scope.onmessage!({ data: { type: 'frame', id: 1, bitmap: first, timestamp: 10, hand: true } })
     await scope.onmessage!({ data: { type: 'frame', id: 2, bitmap: second, timestamp: 20, hand: true } })
-    expect(messages[0]).toMatchObject({ type: 'result', id: 1, pose: [{ x: .2, y: .3 }], hands: [], handFailed: true })
-    expect(messages[1]).toMatchObject({ type: 'result', id: 2, pose: [{ x: .2, y: .3 }], hands: [], handFailed: true, handError: expect.stringContaining('hand failed'), handProcessed: false })
+    const handResults = messages.filter(m => m.type === 'hand_result')
+    expect(handResults[0]).toMatchObject({ type: 'hand_result', id: 1, hands: [], handFailed: true })
+    expect(handResults[1]).toMatchObject({ type: 'hand_result', id: 2, hands: [], handFailed: true, handError: expect.stringContaining('hand failed'), handProcessed: false })
+    const poseResults = messages.filter(m => m.type === 'pose_result')
+    expect(poseResults[0]).toMatchObject({ type: 'pose_result', id: 1, pose: [{ x: .2, y: .3 }] })
+    expect(poseResults[1]).toMatchObject({ type: 'pose_result', id: 2, pose: [{ x: .2, y: .3 }] })
     expect(hand.detectForVideo).toHaveBeenCalledOnce(); expect(hand.close).toHaveBeenCalledOnce()
     expect(first.close).toHaveBeenCalledOnce(); expect(second.close).toHaveBeenCalledOnce()
   })
@@ -114,7 +165,8 @@ describe('classic tracking worker', () => {
     const { scope, messages } = workerHarness(pose, hand)
     const bitmap = { close: vi.fn() }
     await scope.onmessage!({ data: { type: 'frame', id: 1, bitmap, timestamp: 10, hand: true } })
-    expect(messages[0]).toMatchObject({ type: 'result', handFailed: true, handCleanupFailed: true, hands: [] })
+    const handMsg = messages.find(m => m.type === 'hand_result')
+    expect(handMsg).toMatchObject({ type: 'hand_result', handFailed: true, handCleanupFailed: true, hands: [] })
     expect(hand.close).toHaveBeenCalledOnce(); expect(bitmap.close).toHaveBeenCalledOnce()
   })
 })

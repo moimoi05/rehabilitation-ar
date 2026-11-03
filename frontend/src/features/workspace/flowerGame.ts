@@ -1,7 +1,8 @@
+import { prepareOverlay } from './drawing'
 import type { Point, Side } from './drawing'
 import { usableTrackingPoint } from './trackingLandmark'
 import { mapVideoPoint } from './videoGeometry'
-import type { VideoMapping, VideoRect } from './videoGeometry'
+import type { Size, VideoMapping, VideoRect } from './videoGeometry'
 
 export type Position = { x: number; y: number }
 export type Round = { score: number; targetCount: number; target: Position; elapsedMs: number; finished: boolean; releaseFrom: Position | null }
@@ -41,8 +42,7 @@ export function stepRound(round: Round, pointer: Position | null, delta: number,
   return { ...round, releaseFrom: released, elapsedMs, finished: elapsedMs >= roundDurationMs }
 }
 
-export function drawFlower(ctx: CanvasRenderingContext2D, width: number, height: number, target: Position, pointer: Position | null) {
-  const x = target.x * width, y = target.y * height, r = targetRadius(height)
+function drawFlowerArtwork(ctx: CanvasRenderingContext2D, x: number, y: number, r: number) {
   ctx.save(); ctx.shadowColor = '#fff49b'; ctx.shadowBlur = r * .45
   ctx.fillStyle = '#ffd66c'
   for (let i = 0; i < 6; i += 1) {
@@ -50,9 +50,54 @@ export function drawFlower(ctx: CanvasRenderingContext2D, width: number, height:
     ctx.beginPath(); ctx.arc(x + Math.cos(angle) * r * .57, y + Math.sin(angle) * r * .57, r * .40, 0, Math.PI * 2); ctx.fill()
   }
   ctx.shadowBlur = 0; ctx.fillStyle = '#ef8d38'; ctx.beginPath(); ctx.arc(x, y, r * .38, 0, Math.PI * 2); ctx.fill()
-  if (pointer) {
-    ctx.strokeStyle = '#ffffff'; ctx.lineWidth = Math.max(3, height * .005)
-    ctx.beginPath(); ctx.arc(pointer.x * width, pointer.y * height, r * .32, 0, Math.PI * 2); ctx.stroke()
-  }
   ctx.restore()
+}
+
+function drawWristCursor(ctx: CanvasRenderingContext2D, width: number, height: number, pointer: Position | null) {
+  if (pointer) {
+    ctx.save()
+    const r = targetRadius(height)
+    ctx.shadowBlur = 0; ctx.strokeStyle = '#ffffff'; ctx.lineWidth = Math.max(3, height * .005)
+    ctx.beginPath(); ctx.arc(pointer.x * width, pointer.y * height, r * .32, 0, Math.PI * 2); ctx.stroke()
+    ctx.restore()
+  }
+}
+
+export function drawFlower(ctx: CanvasRenderingContext2D, width: number, height: number, target: Position, pointer: Position | null) {
+  drawFlowerArtwork(ctx, target.x * width, target.y * height, targetRadius(height))
+  drawWristCursor(ctx, width, height, pointer)
+}
+
+/** One small sprite per game loop; no shadow work or full-canvas clear on unchanged ticks. */
+export function createFlowerRenderer(ctx: CanvasRenderingContext2D) {
+  let sprite: HTMLCanvasElement | null = null
+  let spriteKey = ''
+  let previous = ''
+  return (width: number, height: number, box: Size, target: Position, pointer: Position | null) => {
+    const display = box.width > 0 && box.height > 0 ? box : { width, height }
+    const key = `${width}|${height}|${display.width}|${display.height}`
+    const frameKey = `${key}|${target.x}|${target.y}|${pointer?.x ?? ''}|${pointer?.y ?? ''}`
+    if (frameKey === previous) return
+    const scaleX = width / display.width, scaleY = height / display.height
+    if (key !== spriteKey) {
+      const r = targetRadius(display.height), blur = r * .45
+      sprite = document.createElement('canvas')
+      // shadowBlur is measured in backing pixels, independently of the current transform.
+      sprite.width = Math.ceil(2 * r * scaleX + 6 * blur)
+      sprite.height = Math.ceil(2 * r * scaleY + 6 * blur)
+      const artwork = sprite.getContext('2d')
+      if (artwork) {
+        artwork.setTransform(scaleX, 0, 0, scaleY, sprite.width / 2, sprite.height / 2)
+        drawFlowerArtwork(artwork, 0, 0, r)
+      } else sprite = null
+      spriteKey = key
+    }
+    prepareOverlay(ctx, width, height, display)
+    if (sprite) {
+      const w = sprite.width / scaleX, h = sprite.height / scaleY
+      ctx.drawImage(sprite, target.x * display.width - w / 2, target.y * display.height - h / 2, w, h)
+      drawWristCursor(ctx, display.width, display.height, pointer)
+    } else drawFlower(ctx, display.width, display.height, target, pointer)
+    previous = frameKey
+  }
 }

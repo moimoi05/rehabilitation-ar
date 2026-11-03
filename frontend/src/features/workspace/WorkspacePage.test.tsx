@@ -10,13 +10,18 @@ vi.mock('../../services/api', () => ({ api: { sessions: () => Promise.resolve([{
 vi.mock('@mediapipe/tasks-vision', () => ({ FilesetResolver: { forVisionTasks: vi.fn().mockResolvedValue({ wasmLoaderPath: '/mediapipe/wasm/vision_wasm_internal.js', wasmBinaryPath: '/mediapipe/wasm/vision_wasm_internal.wasm' }) }, PoseLandmarker: { createFromOptions: vi.fn().mockRejectedValue(new Error('model unavailable')) }, HandLandmarker: { createFromOptions: vi.fn() } }))
 vi.mock('./videoFrameScheduler', () => ({ startVideoFrameScheduler: vi.fn(() => vi.fn()) }))
 
+const enableHands = () => {
+  const checkbox = screen.getByLabelText('Theo dõi 21 mốc bàn tay') as HTMLInputElement
+  if (!checkbox.checked) fireEvent.click(checkbox)
+}
+
 describe('workspace calibration', () => {
   const stop = vi.fn()
   const trackListener = vi.fn()
   beforeEach(() => {
     vi.mocked(FilesetResolver.forVisionTasks).mockResolvedValue({ wasmLoaderPath: '/mediapipe/wasm/vision_wasm_internal.js', wasmBinaryPath: '/mediapipe/wasm/vision_wasm_internal.wasm' })
     vi.mocked(PoseLandmarker.createFromOptions).mockReset().mockRejectedValue(new Error('model unavailable'))
-    vi.mocked(HandLandmarker.createFromOptions).mockReset()
+    vi.mocked(HandLandmarker.createFromOptions).mockReset().mockResolvedValue({ close: vi.fn(), detectForVideo: vi.fn(() => ({ landmarks: [], worldLandmarks: [], handedness: [] })) } as never)
     vi.mocked(startVideoFrameScheduler).mockClear()
     localStorage.clear(); history.replaceState({}, '', '/workspace?sessionId=7')
     vi.stubGlobal('requestAnimationFrame', vi.fn(() => 1)); vi.stubGlobal('cancelAnimationFrame', vi.fn())
@@ -60,14 +65,14 @@ describe('workspace calibration', () => {
       onmessage: ((event: { data: unknown }) => void) | null = null
       onerror = null; onmessageerror = null
       terminate = vi.fn()
-      postMessage(message: { type: string }) { if (message.type === 'init') queueMicrotask(() => this.onmessage?.({ data: { type: 'ready' } })) }
+      postMessage(message: { type: string }) { queueMicrotask(() => this.onmessage?.({ data: message.type === 'dispose' ? { type: 'disposed' } : { type: 'ready', delegates: { pose: 'CPU', hand: 'CPU' } } })) }
     }
     vi.stubGlobal('Worker', ReadyWorker)
     vi.stubGlobal('createImageBitmap', vi.fn().mockResolvedValue({ close: vi.fn() }))
     render(<WorkspacePage />)
     const adaptive = screen.getByLabelText('Tự điều chỉnh nhịp hai Worker (thử nghiệm)')
     expect(adaptive).toBeDisabled()
-    fireEvent.click(screen.getByLabelText('Theo dõi 21 mốc bàn tay'))
+    enableHands()
     fireEvent.click(screen.getByLabelText('Sử dụng hai Worker CPU (thử nghiệm)'))
     expect(adaptive).toBeEnabled(); expect(adaptive).toBeChecked()
     fireEvent.click(screen.getByRole('button', { name: 'Bật camera' }))
@@ -75,7 +80,7 @@ describe('workspace calibration', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu nhận diện' }))
     await screen.findByRole('button', { name: 'Dừng nhận diện' })
     expect(adaptive).toBeDisabled()
-    expect(vi.mocked(startVideoFrameScheduler).mock.lastCall![2].maxFps).toBe(60)
+    expect(vi.mocked(startVideoFrameScheduler).mock.lastCall![2].maxFps).toBe(120)
     expect(screen.getByText(/Giới hạn tự điều chỉnh Pose/)).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'Dừng nhận diện' }))
     expect(screen.queryByText(/Giới hạn tự điều chỉnh Pose/)).not.toBeInTheDocument()
@@ -92,7 +97,8 @@ describe('workspace calibration', () => {
       terminate = vi.fn()
       constructor() { ReadyWorker.instances.push(this) }
       postMessage(message: { type: string; id: number }) {
-        if (message.type === 'init') queueMicrotask(() => this.onmessage?.({ data: { type: 'ready' } }))
+        if (message.type === 'dispose') queueMicrotask(() => this.onmessage?.({ data: { type: 'disposed' } }))
+        if (message.type === 'init') queueMicrotask(() => this.onmessage?.({ data: { type: 'ready', delegates: { pose: 'CPU', hand: 'CPU' } } }))
         if (message.type === 'frame') this.frames.push(message.id)
       }
     }
@@ -100,7 +106,7 @@ describe('workspace calibration', () => {
     vi.stubGlobal('createImageBitmap', vi.fn().mockResolvedValue({ close: vi.fn() }))
     const removed = vi.spyOn(document, 'removeEventListener')
     render(<WorkspacePage />)
-    fireEvent.click(screen.getByLabelText('Theo dõi 21 mốc bàn tay'))
+    enableHands()
     fireEvent.click(screen.getByLabelText('Sử dụng hai Worker CPU (thử nghiệm)'))
     fireEvent.click(screen.getByRole('button', { name: 'Bật camera' }))
     await waitFor(() => expect(screen.getByRole('button', { name: 'Bắt đầu nhận diện' })).toBeEnabled())
@@ -124,7 +130,7 @@ describe('workspace calibration', () => {
     await waitFor(() => { expect(pose.frames).toHaveLength(3); expect(hand.frames).toHaveLength(2) })
     fireEvent.click(screen.getByRole('button', { name: 'Dừng nhận diện' }))
     expect(removed.mock.calls.some(call => call[0] === 'visibilitychange')).toBe(true)
-    expect(pose.terminate).toHaveBeenCalledOnce(); expect(hand.terminate).toHaveBeenCalledOnce()
+    await waitFor(() => { expect(pose.terminate).toHaveBeenCalledOnce(); expect(hand.terminate).toHaveBeenCalledOnce() })
   })
 
   it('samples UI pressure only while the camera video is visible and playing', async () => {
@@ -144,11 +150,11 @@ describe('workspace calibration', () => {
     class ReadyWorker {
       onmessage: ((event: { data: unknown }) => void) | null = null
       onerror = null; onmessageerror = null; terminate = vi.fn()
-      postMessage(message: { type: string }) { if (message.type === 'init') queueMicrotask(() => this.onmessage?.({ data: { type: 'ready' } })) }
+      postMessage(message: { type: string }) { queueMicrotask(() => this.onmessage?.({ data: message.type === 'dispose' ? { type: 'disposed' } : { type: 'ready', delegates: { pose: 'CPU', hand: 'CPU' } } })) }
     }
     vi.stubGlobal('Worker', ReadyWorker); vi.stubGlobal('createImageBitmap', vi.fn())
     render(<WorkspacePage />)
-    fireEvent.click(screen.getByLabelText('Theo dõi 21 mốc bàn tay'))
+    enableHands()
     fireEvent.click(screen.getByLabelText('Sử dụng hai Worker CPU (thử nghiệm)'))
     fireEvent.click(screen.getByRole('button', { name: 'Bật camera' }))
     await waitFor(() => expect(screen.getByRole('button', { name: 'Bắt đầu nhận diện' })).toBeEnabled())
@@ -188,7 +194,8 @@ describe('workspace calibration', () => {
       terminate = vi.fn()
       constructor() { TestWorker.instances.push(this) }
       postMessage(message: { type: string; id: number }) {
-        if (message.type === 'init') queueMicrotask(() => this.onmessage?.({ data: { type: 'ready' } }))
+        if (message.type === 'dispose') queueMicrotask(() => this.onmessage?.({ data: { type: 'disposed' } }))
+        if (message.type === 'init') queueMicrotask(() => this.onmessage?.({ data: { type: 'ready', delegates: { pose: 'CPU', hand: 'CPU' } } }))
         else if (message.type === 'frame') this.frames.push(message.id)
       }
       result(data: object) { this.onmessage?.({ data }) }
@@ -197,15 +204,15 @@ describe('workspace calibration', () => {
     vi.stubGlobal('createImageBitmap', vi.fn().mockResolvedValue({ close: vi.fn() }))
     render(<WorkspacePage />)
     const parallel = screen.getByLabelText('Sử dụng hai Worker CPU (thử nghiệm)')
-    expect(parallel).toBeDisabled()
-    fireEvent.click(screen.getByLabelText('Theo dõi 21 mốc bàn tay'))
+    expect(parallel).toBeEnabled()
+    enableHands()
     fireEvent.click(parallel)
     fireEvent.click(screen.getByRole('button', { name: 'Bật camera' }))
     await waitFor(() => expect(screen.getByRole('button', { name: 'Bắt đầu nhận diện' })).toBeEnabled())
     fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu nhận diện' }))
     await screen.findByRole('button', { name: 'Dừng nhận diện' })
     expect(parallel).toBeDisabled()
-    expect(screen.getByText('CPU · hai Worker')).toBeInTheDocument()
+    expect(screen.getByText(/Pose: CPU.*hai Worker/)).toBeInTheDocument()
     const [poseWorker, handWorker] = TestWorker.instances
     const callback = vi.mocked(startVideoFrameScheduler).mock.lastCall![1]
     clock.mockReturnValue(1200); act(() => callback({ now: 1200, mediaTime: 1, inferenceTimestamp: 1200 }))
@@ -239,13 +246,13 @@ describe('workspace calibration', () => {
     expect(drawn.mock.calls.some(call => call[5] === true)).toBe(true)
     act(() => handWorker.onerror?.({ message: 'Hand failure' }))
     expect(screen.getByText(/Nhận diện bàn tay bị lỗi/)).toBeInTheDocument()
-    expect(screen.getByText('CPU · Worker Pose')).toBeInTheDocument()
+    expect(screen.getByText(/Pose: CPU.*Worker Pose/)).toBeInTheDocument()
     expect(screen.getByText(/Giới hạn tự điều chỉnh Pose .* Hand không khả dụng/)).toBeInTheDocument()
-    expect(handWorker.terminate).toHaveBeenCalledOnce()
+    await waitFor(() => expect(handWorker.terminate).toHaveBeenCalledOnce())
     expect(poseWorker.terminate).not.toHaveBeenCalled()
     vi.mocked(PoseLandmarker.createFromOptions).mockResolvedValueOnce({ close: vi.fn(), detectForVideo: vi.fn(() => ({ landmarks: [] })) } as never)
     act(() => poseWorker.onerror?.({ message: 'Pose failure' }))
-    await waitFor(() => expect(screen.getByText('CPU · luồng chính')).toBeInTheDocument())
+    await waitFor(() => expect(screen.getByText(/Pose: GPU.*luồng chính/)).toBeInTheDocument())
     expect(screen.getByText(/Bàn tay vẫn không khả dụng/)).toBeInTheDocument()
     expect(poseWorker.terminate).toHaveBeenCalledOnce()
     expect(HandLandmarker.createFromOptions).not.toHaveBeenCalled()
@@ -254,15 +261,16 @@ describe('workspace calibration', () => {
   it('cancels both Workers if camera stops while they initialize', async () => {
     class PendingWorker {
       static instances: PendingWorker[] = []
-      onmessage = null; onerror = null; onmessageerror = null
-      postMessage() {}
+      onmessage: ((event: { data: unknown }) => void) | null = null
+      onerror = null; onmessageerror = null
+      postMessage(message: { type: string }) { if (message.type === 'dispose') queueMicrotask(() => this.onmessage?.({ data: { type: 'disposed' } })) }
       terminate = vi.fn()
       constructor() { PendingWorker.instances.push(this) }
     }
     vi.stubGlobal('Worker', PendingWorker)
     vi.stubGlobal('createImageBitmap', vi.fn())
     render(<WorkspacePage />)
-    fireEvent.click(screen.getByLabelText('Theo dõi 21 mốc bàn tay'))
+    enableHands()
     fireEvent.click(screen.getByLabelText('Sử dụng hai Worker CPU (thử nghiệm)'))
     fireEvent.click(screen.getByRole('button', { name: 'Bật camera' }))
     await waitFor(() => expect(screen.getByRole('button', { name: 'Bắt đầu nhận diện' })).toBeEnabled())
@@ -282,34 +290,35 @@ describe('workspace calibration', () => {
       terminate = vi.fn()
       constructor() { HandInitFailsWorker.instances.push(this) }
       postMessage(message: { type: string; role?: string }) {
-        if (message.type === 'init') queueMicrotask(() => this.onmessage?.({ data: message.role === 'hand' ? { type: 'error', message: 'hand unavailable' } : { type: 'ready' } }))
+        if (message.type === 'dispose') queueMicrotask(() => this.onmessage?.({ data: { type: 'disposed' } }))
+        if (message.type === 'init') queueMicrotask(() => this.onmessage?.({ data: message.role === 'hand' ? { type: 'error', message: 'hand unavailable' } : { type: 'ready', delegates: { pose: 'CPU', hand: 'CPU' } } }))
       }
     }
     vi.stubGlobal('Worker', HandInitFailsWorker)
     vi.stubGlobal('createImageBitmap', vi.fn())
     render(<WorkspacePage />)
-    fireEvent.click(screen.getByLabelText('Theo dõi 21 mốc bàn tay'))
+    enableHands()
     fireEvent.click(screen.getByLabelText('Sử dụng hai Worker CPU (thử nghiệm)'))
     fireEvent.click(screen.getByRole('button', { name: 'Bật camera' }))
     await waitFor(() => expect(screen.getByRole('button', { name: 'Bắt đầu nhận diện' })).toBeEnabled())
     fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu nhận diện' }))
     await screen.findByRole('button', { name: 'Dừng nhận diện' })
     expect(screen.getByText(/Nhận diện bàn tay bị lỗi/)).toBeInTheDocument()
-    expect(screen.getByText('CPU · Worker Pose')).toBeInTheDocument()
+    expect(screen.getByText(/Pose: CPU.*Worker Pose/)).toBeInTheDocument()
     expect(HandInitFailsWorker.instances[0].terminate).not.toHaveBeenCalled()
     expect(HandInitFailsWorker.instances[1].terminate).toHaveBeenCalledOnce()
     expect(PoseLandmarker.createFromOptions).not.toHaveBeenCalled()
     fireEvent.click(screen.getByRole('button', { name: 'Dừng nhận diện' }))
-    expect(HandInitFailsWorker.instances[0].terminate).toHaveBeenCalledOnce()
+    await waitFor(() => expect(HandInitFailsWorker.instances[0].terminate).toHaveBeenCalledOnce())
   })
 
   it('restores the saved single Worker preference after trying the two Worker option', async () => {
     localStorage.setItem('rehab.settings', JSON.stringify({ workerTracking: true }))
     render(<WorkspacePage />)
-    const single = screen.getByLabelText('Sử dụng Worker CPU (thử nghiệm)')
+    const single = screen.getByLabelText('Sử dụng Worker GPU (thử nghiệm)')
     const parallel = screen.getByLabelText('Sử dụng hai Worker CPU (thử nghiệm)')
     expect(single).toBeChecked()
-    fireEvent.click(screen.getByLabelText('Theo dõi 21 mốc bàn tay'))
+    enableHands()
     fireEvent.click(parallel)
     expect(single).not.toBeChecked()
     expect(JSON.parse(localStorage.getItem('rehab.settings')!).workerTracking).toBe(true)
@@ -330,12 +339,12 @@ describe('workspace calibration', () => {
     vi.mocked(PoseLandmarker.createFromOptions).mockResolvedValueOnce({ close: vi.fn(), detectForVideo: vi.fn(() => ({ landmarks: [] })) } as never)
     vi.mocked(HandLandmarker.createFromOptions).mockResolvedValueOnce({ close: vi.fn(), detectForVideo: vi.fn(() => ({ landmarks: [] })) } as never)
     render(<WorkspacePage />)
-    fireEvent.click(screen.getByLabelText('Theo dõi 21 mốc bàn tay'))
+    enableHands()
     fireEvent.click(screen.getByLabelText('Sử dụng hai Worker CPU (thử nghiệm)'))
     fireEvent.click(screen.getByRole('button', { name: 'Bật camera' }))
     await waitFor(() => expect(screen.getByRole('button', { name: 'Bắt đầu nhận diện' })).toBeEnabled())
     fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu nhận diện' }))
-    await screen.findByText('CPU · luồng chính')
+    await screen.findByText(/Pose: GPU.*luồng chính/)
     expect(terminate).toHaveBeenCalledOnce()
     expect(screen.getByText(/Worker không khả dụng; đang chuyển sang nhận diện trên luồng chính/)).toBeInTheDocument()
   })
@@ -344,7 +353,9 @@ describe('workspace calibration', () => {
     vi.stubGlobal('Worker', undefined)
     vi.mocked(PoseLandmarker.createFromOptions).mockResolvedValueOnce({ close: vi.fn(), detectForVideo: vi.fn(() => ({ landmarks: [] })) } as never)
     render(<WorkspacePage />)
-    const preference = screen.getByRole('checkbox', { name: 'Sử dụng Worker CPU (thử nghiệm)' })
+    const preference = screen.getByRole('checkbox', { name: 'Sử dụng Worker GPU (thử nghiệm)' })
+    expect(preference).toBeChecked()
+    fireEvent.click(preference)
     expect(preference).not.toBeChecked()
     fireEvent.click(preference)
     await waitFor(() => expect(JSON.parse(localStorage.getItem('rehab.settings')!).workerTracking).toBe(true))
@@ -354,7 +365,7 @@ describe('workspace calibration', () => {
     await screen.findByRole('button', { name: 'Dừng nhận diện' })
     expect(preference).toBeDisabled()
     expect(screen.getByText(/Worker không khả dụng; đang chuyển sang nhận diện trên luồng chính/)).toBeInTheDocument()
-    expect(screen.getByText('CPU · luồng chính')).toBeInTheDocument()
+    expect(screen.getByText(/Pose: GPU.*luồng chính/)).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'Dừng nhận diện' }))
     expect(preference).toBeEnabled()
   })
@@ -363,23 +374,23 @@ describe('workspace calibration', () => {
     localStorage.setItem('rehab.settings', JSON.stringify({ workerTracking: true }))
     const terminate = vi.fn()
     class ReadyWorker {
-      onmessage: ((event: { data: { type: string } }) => void) | null = null
+      onmessage: ((event: { data: unknown }) => void) | null = null
       onerror: ((event: { message: string }) => void) | null = null
-      postMessage() { queueMicrotask(() => this.onmessage?.({ data: { type: 'ready' } })) }
+      postMessage(message: { type: string }) { queueMicrotask(() => this.onmessage?.({ data: message.type === 'dispose' ? { type: 'disposed' } : { type: 'ready', delegates: { pose: 'CPU', hand: 'CPU' } } })) }
       terminate = terminate
     }
     vi.stubGlobal('Worker', ReadyWorker)
     vi.stubGlobal('createImageBitmap', vi.fn())
     render(<WorkspacePage />)
-    expect(screen.getByRole('checkbox', { name: 'Sử dụng Worker CPU (thử nghiệm)' })).toBeChecked()
+    expect(screen.getByRole('checkbox', { name: 'Sử dụng Worker GPU (thử nghiệm)' })).toBeChecked()
     fireEvent.click(screen.getByRole('button', { name: 'Bật camera' }))
     await waitFor(() => expect(screen.getByRole('button', { name: 'Bắt đầu nhận diện' })).toBeEnabled())
     fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu nhận diện' }))
     await screen.findByRole('button', { name: 'Dừng nhận diện' })
-    expect(screen.getByText('CPU · Worker')).toBeInTheDocument()
+    expect(screen.getByText(/Pose: CPU.*Worker CPU/)).toBeInTheDocument()
     expect(PoseLandmarker.createFromOptions).not.toHaveBeenCalled()
     fireEvent.click(screen.getByRole('button', { name: 'Dừng nhận diện' }))
-    expect(terminate).toHaveBeenCalled()
+    await waitFor(() => expect(terminate).toHaveBeenCalled())
   })
 
   it.each([false, true])('clears a previous Hand on a stale Worker failure; cleanup fails: %s', async cleanupFailed => {
@@ -402,15 +413,22 @@ describe('workspace calibration', () => {
       terminate = vi.fn()
       constructor() { TestWorker.instances.push(this) }
       postMessage(message: { type: string; id: number; hand: boolean }) {
-        if (message.type === 'init') queueMicrotask(() => this.onmessage?.({ data: { type: 'ready' } }))
+        if (message.type === 'dispose') queueMicrotask(() => this.onmessage?.({ data: { type: 'disposed' } }))
+        if (message.type === 'init') queueMicrotask(() => this.onmessage?.({ data: { type: 'ready', delegates: { pose: 'CPU', hand: 'CPU' } } }))
         else if (message.type === 'frame') frames.push(message)
       }
-      result(data: object) { this.onmessage?.({ data }) }
+      result(data: Record<string, unknown>) {
+        const frame = frames.find(item => item.id === data.id)
+        if (!frame) throw new Error('Unknown source request')
+        if (data.hands !== null) this.onmessage?.({ data: { ...frame, ...data, type: 'hand_result', handProcessed: !data.handFailed } })
+        this.onmessage?.({ data: { ...frame, ...data, type: 'pose_result', poseProcessed: true } })
+        this.onmessage?.({ data: { ...frame, ...data, type: 'frame_complete', poseProcessed: true, handProcessed: data.hands !== null && !data.handFailed, inferenceMs: 5 } })
+      }
     }
     vi.stubGlobal('Worker', TestWorker)
     vi.stubGlobal('createImageBitmap', vi.fn().mockResolvedValue({ close: vi.fn() }))
     render(<WorkspacePage />)
-    fireEvent.click(screen.getByLabelText('Theo dõi 21 mốc bàn tay'))
+    enableHands()
     fireEvent.click(screen.getByRole('button', { name: 'Bật camera' }))
     await waitFor(() => expect(screen.getByRole('button', { name: 'Bắt đầu nhận diện' })).toBeEnabled())
     fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu nhận diện' }))
@@ -428,7 +446,7 @@ describe('workspace calibration', () => {
     act(() => worker.result({ type: 'result', id: frames[1].id, pose: [], hands: [], handFailed: true, handCleanupFailed: cleanupFailed }))
     expect(screen.getByText(/Nhận diện bàn tay bị lỗi/)).toBeInTheDocument()
     if (cleanupFailed) expect(screen.getByText(/Không thể giải phóng model bàn tay/)).toBeInTheDocument()
-    expect(screen.getByText('CPU · Worker')).toBeInTheDocument()
+    expect(screen.getByText(/Pose: CPU.*Worker CPU/)).toBeInTheDocument()
     expect(worker.terminate).not.toHaveBeenCalled()
     drawn.mockClear(); act(() => draw(2101)); expect(drawn.mock.calls.filter(call => call[5] === true)).toHaveLength(0)
     clock.mockReturnValue(2200); act(() => callback({ now: 2200, mediaTime: 2, inferenceTimestamp: 2200 }))
@@ -443,7 +461,7 @@ describe('workspace calibration', () => {
     expect(PoseLandmarker.createFromOptions).not.toHaveBeenCalled()
     vi.mocked(PoseLandmarker.createFromOptions).mockResolvedValueOnce({ close: vi.fn(), detectForVideo: vi.fn(() => ({ landmarks: [] })) } as never)
     act(() => worker.onerror?.({ message: 'fatal worker failure' }))
-    await waitFor(() => expect(screen.getByText('CPU · luồng chính')).toBeInTheDocument())
+    await waitFor(() => expect(screen.getByText(/Pose: GPU.*luồng chính/)).toBeInTheDocument())
     expect(HandLandmarker.createFromOptions).not.toHaveBeenCalled()
   })
 
@@ -462,19 +480,19 @@ describe('workspace calibration', () => {
       appendLoader(files)
       return { close: vi.fn(), detectForVideo: vi.fn(() => ({ landmarks: [] })) } as never
     })
-    vi.mocked(HandLandmarker.createFromOptions).mockImplementationOnce(async files => {
+    vi.mocked(HandLandmarker.createFromOptions).mockImplementation(async files => {
       appendLoader(files)
       throw new Error('hand unavailable')
     })
     try {
       render(<WorkspacePage />)
-      fireEvent.click(screen.getByLabelText('Theo dõi 21 mốc bàn tay'))
+      enableHands()
       fireEvent.click(screen.getByRole('button', { name: 'Bật camera' }))
       await waitFor(() => expect(screen.getByRole('button', { name: 'Bắt đầu nhận diện' })).toBeEnabled())
       fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu nhận diện' }))
       await screen.findByRole('button', { name: 'Dừng nhận diện' })
       expect(screen.getByText(/Không tải được mô hình bàn tay/)).toBeInTheDocument()
-      expect(loaderUrls).toHaveLength(2)
+      expect(loaderUrls).toHaveLength(3)
       expect(document.querySelectorAll('script[src]')).not.toContainEqual(expect.objectContaining({ src: loaderUrls[0] }))
       expect(document.querySelectorAll('script[src]')).not.toContainEqual(expect.objectContaining({ src: loaderUrls[1] }))
       expect(unrelated.isConnected).toBe(true)
@@ -495,37 +513,39 @@ describe('workspace calibration', () => {
     await screen.findByRole('button', { name: 'Dừng nhận diện' })
     const callback = vi.mocked(startVideoFrameScheduler).mock.lastCall![1]
     clock.mockReturnValue(1200); act(() => callback({ now: 1200, mediaTime: 1, inferenceTimestamp: 1200 }))
-    expect(screen.getByText(/Mốc vai, khuỷu hoặc cổ tay trái chưa đáng tin cậy/)).toBeInTheDocument()
+    expect(screen.getAllByText(/^Mốc vai, khuỷu hoặc cổ tay trái chưa đáng tin cậy/)[0]).toBeInTheDocument()
     pose[15] = { x: 1.1, y: .5, visibility: .9 }
     clock.mockReturnValue(2300); act(() => callback({ now: 2300, mediaTime: 2, inferenceTimestamp: 2300 }))
-    expect(screen.getByText(/Mốc vai, khuỷu hoặc cổ tay trái chưa đáng tin cậy/)).toBeInTheDocument()
+    expect(screen.getAllByText(/^Mốc vai, khuỷu hoặc cổ tay trái chưa đáng tin cậy/)[0]).toBeInTheDocument()
     pose[15] = { x: .5, y: .5, visibility: .9 }
     clock.mockReturnValue(3400); act(() => callback({ now: 3400, mediaTime: 3, inferenceTimestamp: 3400 }))
-    expect(screen.getByText(/Đang theo dõi chi trên trái/)).toBeInTheDocument()
+    expect(screen.getAllByText(/Đang theo dõi chi trên trái/)[0]).toBeInTheDocument()
     fireEvent.change(screen.getByLabelText('Tay ảnh hưởng'), { target: { value: 'right' } })
     pose[16] = { x: Number.NaN, y: .5, visibility: .9 }
     clock.mockReturnValue(4500); act(() => callback({ now: 4500, mediaTime: 4, inferenceTimestamp: 4500 }))
-    expect(screen.getByText(/Mốc vai, khuỷu hoặc cổ tay phải chưa đáng tin cậy/)).toBeInTheDocument()
+    expect(screen.getAllByText(/Mốc vai, khuỷu hoặc cổ tay phải chưa đáng tin cậy/)[0]).toBeInTheDocument()
   })
 
   it('does not report an old hand as current when only Pose keeps updating', async () => {
+    localStorage.setItem('rehab.settings', JSON.stringify({ trackingProfile: 'quality' }))
     const clock = vi.spyOn(performance, 'now').mockReturnValue(100)
     const vision = await import('@mediapipe/tasks-vision')
     const pose = Array.from({ length: 33 }, () => ({ x: .5, y: .5, visibility: .9 }))
     vi.mocked(vision.PoseLandmarker.createFromOptions).mockResolvedValueOnce({ close: vi.fn(), detectForVideo: vi.fn(() => ({ landmarks: [pose] })) } as never)
     vi.mocked(vision.HandLandmarker.createFromOptions).mockResolvedValueOnce({ close: vi.fn(), detectForVideo: vi.fn(() => ({ landmarks: [[{ x: .5, y: .5 }]] })) } as never)
     render(<WorkspacePage />)
-    fireEvent.click(screen.getByLabelText('Theo dõi 21 mốc bàn tay'))
+    enableHands()
     fireEvent.click(screen.getByRole('button', { name: 'Bật camera' }))
     await waitFor(() => expect(screen.getByRole('button', { name: 'Bắt đầu nhận diện' })).toBeEnabled())
     fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu nhận diện' }))
     await screen.findByRole('button', { name: 'Dừng nhận diện' })
     const callback = vi.mocked(startVideoFrameScheduler).mock.lastCall![1]
     clock.mockReturnValue(1200); act(() => callback({ now: 1200, mediaTime: 1, inferenceTimestamp: 1200 }))
-    expect(screen.getByText(/Đang theo dõi chi trên trái · có bàn tay/)).toBeInTheDocument()
-    // A hand request is not due according to scheduler time, while the real clock advances.
-    clock.mockReturnValue(2300); act(() => callback({ now: 1201, mediaTime: 2, inferenceTimestamp: 2300 }))
-    expect(screen.getByText(/Đang theo dõi chi trên trái · chưa thấy bàn tay/)).toBeInTheDocument()
+    expect(screen.getAllByText(/Đang theo dõi chi trên trái · Hand trái:/)[0]).toBeInTheDocument()
+    // Quality schedules Pose before the next Hand slot. A delayed Pose result
+    // must not refresh the Hand from the previous source observation.
+    clock.mockReturnValue(2300); act(() => callback({ now: 1234, mediaTime: 2, inferenceTimestamp: 2300 }))
+    expect(screen.getAllByText(/Đang theo dõi chi trên trái · chưa thấy bàn tay/)[0]).toBeInTheDocument()
   })
 
   it.each([false, true])('keeps Pose running and clears Hand when inference fails; close throws: %s', async closeThrows => {
@@ -544,7 +564,7 @@ describe('workspace calibration', () => {
     vi.mocked(PoseLandmarker.createFromOptions).mockResolvedValueOnce({ close: poseClose, detectForVideo: poseDetect } as never)
     vi.mocked(HandLandmarker.createFromOptions).mockResolvedValueOnce({ close: handClose, detectForVideo: handDetect } as never)
     render(<WorkspacePage />)
-    fireEvent.click(screen.getByLabelText('Theo dõi 21 mốc bàn tay'))
+    enableHands()
     fireEvent.click(screen.getByRole('button', { name: 'Bật camera' }))
     await waitFor(() => expect(screen.getByRole('button', { name: 'Bắt đầu nhận diện' })).toBeEnabled())
     fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu nhận diện' }))
@@ -564,7 +584,7 @@ describe('workspace calibration', () => {
     expect(startVideoFrameScheduler).toHaveBeenCalledTimes(1)
   })
 
-  it('marks results stale after their 700 ms display lifetime without waiting for camera disconnect', async () => {
+  it('marks Pose stale after its 250 ms lifetime without waiting for camera disconnect', async () => {
     const clock = vi.spyOn(performance, 'now').mockReturnValue(100)
     let watchdog: (() => void) | undefined
     vi.spyOn(globalThis, 'setInterval').mockImplementation((handler => { watchdog = handler as () => void; return 123 as unknown as ReturnType<typeof setInterval> }) as typeof setInterval)
@@ -577,11 +597,11 @@ describe('workspace calibration', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu nhận diện' }))
     await screen.findByRole('button', { name: 'Dừng nhận diện' })
     const callback = vi.mocked(startVideoFrameScheduler).mock.lastCall![1]
-    // Inference finishes 600 ms after frame acquisition, so freshness expires shortly afterwards.
-    clock.mockReturnValue(1800); act(() => callback({ now: 1200, mediaTime: 1, inferenceTimestamp: 1200 }))
-    expect(screen.getByText(/Đang theo dõi chi trên trái/)).toBeInTheDocument()
-    clock.mockReturnValue(1901); act(() => watchdog?.())
-    expect(screen.getByText('Không có mốc tư thế mới')).toBeInTheDocument()
+    // Inference finishes 200 ms after acquisition; expiry is based on the source observation.
+    clock.mockReturnValue(1400); act(() => callback({ now: 1200, mediaTime: 1, inferenceTimestamp: 1200 }))
+    expect(screen.getAllByText(/Đang theo dõi chi trên trái/)[0]).toBeInTheDocument()
+    clock.mockReturnValue(1451); act(() => watchdog?.())
+    expect(screen.getAllByText(/Không có mốc tư thế mới/)[0]).toBeInTheDocument()
     clock.mockReturnValue(4301); act(() => watchdog?.())
     expect(screen.getByText('Camera không cung cấp kết quả mới')).toBeInTheDocument()
   })
@@ -599,7 +619,7 @@ describe('workspace calibration', () => {
     vi.mocked(PoseLandmarker.createFromOptions).mockResolvedValueOnce({ close: vi.fn(), detectForVideo: vi.fn(() => ({ landmarks: [] })) } as never)
     vi.mocked(HandLandmarker.createFromOptions).mockResolvedValueOnce({ close: vi.fn(), detectForVideo: vi.fn(() => ({ landmarks: [[{ x: .5, y: .5 }]] })) } as never)
     render(<WorkspacePage />)
-    fireEvent.click(screen.getByLabelText('Theo dõi 21 mốc bàn tay'))
+    enableHands()
     fireEvent.click(screen.getByRole('button', { name: 'Bật camera' }))
     await waitFor(() => expect(screen.getByRole('button', { name: 'Bắt đầu nhận diện' })).toBeEnabled())
     fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu nhận diện' }))
@@ -607,7 +627,7 @@ describe('workspace calibration', () => {
     const callback = vi.mocked(startVideoFrameScheduler).mock.lastCall![1]
     clock.mockReturnValue(1200); act(() => callback({ now: 1200, mediaTime: 1, inferenceTimestamp: 1200 }))
     act(() => draw(1200)); expect(arc).toHaveBeenCalledTimes(1)
-    clock.mockReturnValue(1901); act(() => draw(1901)); expect(arc).toHaveBeenCalledTimes(1)
+    clock.mockReturnValue(1351); act(() => draw(1351)); expect(arc).toHaveBeenCalledTimes(1)
   })
 
   it('keeps demo separate and does not allow saving', async () => {
@@ -655,7 +675,7 @@ describe('workspace calibration', () => {
     })
     expect(screen.getByLabelText('Phiên tập')).toHaveValue('8')
     expect(screen.getAllByRole('status').find(item => item.classList.contains('workspace-message'))).toHaveTextContent(outcome === 'success'
-      ? 'Đã lưu cấu hình hiệu chuẩn đã gửi cho phiên #7.'
+      ? 'Đã lưu xác nhận camera và hiệu chuẩn cho phiên #7.'
       : 'Không xác nhận được lưu hiệu chuẩn cho phiên #7.')
   })
 
@@ -669,12 +689,14 @@ describe('workspace calibration', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Bật camera' }))
     const button = screen.getByRole('button', { name: 'Lưu hiệu chuẩn' })
     await waitFor(() => expect(button).toBeEnabled())
-    // Both DOM clicks run before React applies the disabled attribute.
+    // The request lock prevents a second POST, including while the button remains mounted.
     act(() => { button.click(); button.click() })
     expect(fetchMock).toHaveBeenCalledTimes(1)
-    expect(button).toBeDisabled()
+    fireEvent.click(button)
+    expect(fetchMock).toHaveBeenCalledTimes(1)
     fireEvent.change(screen.getByLabelText('Phiên tập'), { target: { value: '8' } })
-    expect(button).toBeDisabled()
+    fireEvent.click(button)
+    expect(fetchMock).toHaveBeenCalledTimes(1)
     await act(async () => {
       if (outcome === 'success') resolveFetch({ ok: true, json: async () => ({ id: 1 }) })
       else rejectFetch(new Error('network disconnected'))
@@ -701,7 +723,7 @@ describe('workspace calibration', () => {
     await screen.findByRole('option', { name: /Phiên #7/ })
     fireEvent.click(screen.getByRole('button', { name: 'Bật camera' }))
     await waitFor(() => expect(screen.getByRole('button', { name: 'Tắt camera' })).toBeVisible())
-    expect(screen.getByRole('button', { name: 'Lưu hiệu chuẩn' })).toBeDisabled()
+    fireEvent.click(screen.getByRole('button', { name: 'Lưu hiệu chuẩn' }))
     expect(fetchMock).toHaveBeenCalledTimes(1)
     await act(async () => resolveFetch({ ok: true, json: async () => ({ id: 1 }) }))
     expect(screen.getByRole('button', { name: 'Lưu hiệu chuẩn' })).toBeEnabled()
@@ -846,7 +868,14 @@ describe('workspace calibration', () => {
   it('falls back to the main thread when worker initialization is blocked', async () => {
     localStorage.setItem('rehab.workerTracking', 'enabled')
     const terminate = vi.fn()
-    vi.stubGlobal('Worker', class { onmessage = null; onerror = null; terminate = terminate; postMessage() { throw new Error('worker blocked') } })
+    vi.stubGlobal('Worker', class {
+      onmessage: ((event: { data: unknown }) => void) | null = null
+      onerror = null; terminate = terminate
+      postMessage(message: { type: string }) {
+        if (message.type === 'init') throw new Error('worker blocked')
+        if (message.type === 'dispose') queueMicrotask(() => this.onmessage?.({ data: { type: 'disposed' } }))
+      }
+    })
     vi.stubGlobal('createImageBitmap', vi.fn())
     const vision = await import('@mediapipe/tasks-vision')
     vi.mocked(vision.PoseLandmarker.createFromOptions).mockResolvedValueOnce({ close: vi.fn() } as never)
@@ -924,7 +953,7 @@ describe('workspace calibration', () => {
     fireEvent.click(confirm)
     fireEvent.click(confirm); fireEvent.click(screen.getByLabelText('Lật ảnh ngang')); expect(confirm).not.toBeChecked()
     fireEvent.click(screen.getByLabelText('Hiển thị mốc vận động'))
-    fireEvent.click(screen.getByLabelText('Theo dõi 21 mốc bàn tay'))
+    enableHands()
     expect(screen.getByLabelText('Hiển thị mốc vận động')).not.toBeChecked()
     expect(screen.getByLabelText('Theo dõi 21 mốc bàn tay')).toBeChecked()
     fireEvent.click(confirm)

@@ -23,7 +23,7 @@ afterEach(() => { cleanup(); vi.restoreAllMocks(); vi.unstubAllGlobals(); stop.m
 async function openCamera() {
   fireEvent.click(screen.getByRole('button', { name: 'Bật camera' }))
   await screen.findByRole('button', { name: 'Tắt camera' })
-  fireEvent.click(screen.getByLabelText('Tôi đã kiểm tra vị trí và tư thế người bệnh'))
+  fireEvent.click(screen.getByLabelText('Nhân viên đã kiểm tra camera và tư thế người tập'))
 }
 
 it('keeps the same camera and confirmation across workflow views and session status updates', async () => {
@@ -36,12 +36,12 @@ it('keeps the same camera and confirmation across workflow views and session sta
   expect(screen.queryByRole('button', { name: 'Chạy demo' })).not.toBeInTheDocument()
   expect(screen.queryByRole('button', { name: 'Bắt đầu thu dữ liệu' })).not.toBeInTheDocument()
   await openCamera()
-  fireEvent.click(screen.getByRole('button', { name: 'Lưu hiệu chuẩn' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Tiếp theo' }))
   await waitFor(() => expect(workflow.onSetupSaved).toHaveBeenCalledWith(21))
   expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toMatchObject({ session_id: 77, confirmed: true, setup_revision: 7 })
   view.rerender(<WorkspacePage session={{ ...session, status: 'in_progress' }} workflow={{ ...workflow, view: 'game' }}/>)
   view.rerender(<WorkspacePage session={{ ...session, status: 'in_progress' }} workflow={{ ...workflow, view: 'monitor' }}/>)
-  expect(screen.getByLabelText('Tôi đã kiểm tra vị trí và tư thế người bệnh')).toBeChecked()
+  expect(screen.getByLabelText('Nhân viên đã kiểm tra camera và tư thế người tập')).toBeChecked()
   expect(navigator.mediaDevices.getUserMedia).toHaveBeenCalledOnce()
   expect(stop).not.toHaveBeenCalled()
   view.unmount()
@@ -53,11 +53,11 @@ it('invalidates a saved setup when the chair or patient position must be checked
   vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: async () => ({ id: 21, confirmed: true }) }))
   render(<WorkspacePage session={session} workflow={workflow}/>)
   await openCamera()
-  fireEvent.click(screen.getByRole('button', { name: 'Lưu hiệu chuẩn' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Tiếp theo' }))
   await waitFor(() => expect(workflow.onSetupSaved).toHaveBeenCalledOnce())
-  fireEvent.click(screen.getByRole('button', { name: 'Kiểm tra lại ghế và tư thế' }))
+  fireEvent.click(screen.getByLabelText('Nhân viên đã kiểm tra camera và tư thế người tập'))
   await waitFor(() => expect(workflow.onSetupInvalidated).toHaveBeenCalled())
-  expect(screen.getByLabelText('Tôi đã kiểm tra vị trí và tư thế người bệnh')).not.toBeChecked()
+  expect(screen.getByLabelText('Nhân viên đã kiểm tra camera và tư thế người tập')).not.toBeChecked()
 })
 
 it('does not approve a calibration response received after the camera was stopped', async () => {
@@ -67,7 +67,7 @@ it('does not approve a calibration response received after the camera was stoppe
   vi.stubGlobal('fetch', fetchMock)
   render(<WorkspacePage session={session} workflow={workflow}/>)
   await openCamera()
-  fireEvent.click(screen.getByRole('button', { name: 'Lưu hiệu chuẩn' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Tiếp theo' }))
   await waitFor(() => expect(fetchMock).toHaveBeenCalledOnce())
   fireEvent.click(screen.getByRole('button', { name: 'Tắt camera' }))
   await act(async () => finish({ ok: true, json: async () => ({ id: 21, confirmed: true }) }))

@@ -49,7 +49,9 @@ export function startVideoFrameScheduler(
     // Reserve a small amount of time for UI work when inference itself is expensive.
     // This is a frequency cap, not a queue; the newest available frame is selected.
     const interval = Math.max(1000 / Math.max(1, options.maxFps), inferenceCost + Math.min(50, inferenceCost * 0.2))
-    if (now - lastRun < interval) { options.onSkip?.('throttled'); options.onSkippedFrame?.({ now, mediaTime, sourceFrameId: frameId, skippedSourceFrames }); return }
+    // rVFC timestamps have rounding/jitter: exact 30 FPS must not alternate
+    // between accepted and rejected frames because 33.333 < 1000 / 30.
+    if (now - lastRun + 0.5 < interval) { options.onSkip?.('throttled'); options.onSkippedFrame?.({ now, mediaTime, sourceFrameId: frameId, skippedSourceFrames }); return }
     lastRun = now
     lastTimestamp = Math.max(now, lastTimestamp + 0.001)
     const started = performance.now()

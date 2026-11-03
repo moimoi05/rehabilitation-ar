@@ -5,7 +5,9 @@ class FakeWorker {
   onmessage: ((event: MessageEvent) => void) | null = null
   onerror: ((event: ErrorEvent) => void) | null = null
   onmessageerror: ((event: MessageEvent) => void) | null = null
-  postMessage = vi.fn()
+  postMessage = vi.fn((data: { type: string }) => {
+    if (data.type === 'dispose') this.send({ type: 'disposed', cleanupErrors: [] })
+  })
   terminate = vi.fn()
   send(data: unknown) { this.onmessage?.({ data } as MessageEvent) }
 }
@@ -122,6 +124,6 @@ describe('parallel worker tracking', () => {
     const s = setup(vi.fn(() => new Promise<ImageBitmap>(resolve => { finish = resolve })))
     s.poseWorker.send({ type: 'ready' }); s.handWorker.send({ type: 'ready' }); const tracker = await s.pending
     tracker.submitHand(video, 3); tracker.close(); finish(bitmap); await flush()
-    expect(bitmap.close).toHaveBeenCalledOnce(); expect(s.handWorker.postMessage).toHaveBeenCalledTimes(1)
+    expect(bitmap.close).toHaveBeenCalledOnce(); expect(s.handWorker.postMessage).toHaveBeenCalledTimes(2)
   })
 })

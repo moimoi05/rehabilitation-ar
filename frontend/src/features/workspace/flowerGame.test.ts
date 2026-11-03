@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest'
-import { initialRound, stepRound, wristForSide, displayPoint } from './flowerGame'
+import { describe, expect, it, vi } from 'vitest'
+import { initialRound, stepRound, wristForSide, displayPoint, createFlowerRenderer } from './flowerGame'
 
 describe('Chạm hoa phát sáng', () => {
   it('honors the prescribed Flower variant duration without changing the default round', () => {
@@ -68,5 +68,34 @@ describe('Chạm hoa phát sáng', () => {
     expect(finished.finished).toBe(true)
     expect(finished.score).toBe(0)
     expect(finished.targetCount).toBe(1)
+  })
+})
+
+
+describe('flower canvas rendering', () => {
+  const context = () => ({ canvas: { width: 1280, height: 720 }, save: vi.fn(), restore: vi.fn(), setTransform: vi.fn(), clearRect: vi.fn(), beginPath: vi.fn(), arc: vi.fn(), fill: vi.fn(), stroke: vi.fn(), drawImage: vi.fn() })
+  it('reuses glowing artwork, skips unchanged frames and redraws moved or missing cursors', () => {
+    const ctx = context(), artwork = context()
+    const getContext = vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(artwork as unknown as CanvasRenderingContext2D)
+    try {
+      const draw = createFlowerRenderer(ctx as unknown as CanvasRenderingContext2D)
+      const box = { width: 1280, height: 720 }, target = { x: .35, y: .5 }
+      draw(1280, 720, box, target, null)
+      draw(1280, 720, box, { ...target }, null)
+      expect(ctx.clearRect).toHaveBeenCalledTimes(1)
+      expect(artwork.fill).toHaveBeenCalledTimes(7)
+      draw(1280, 720, box, target, { x: .2, y: .4 })
+      expect(ctx.arc).toHaveBeenLastCalledWith(256, 288, 720 * .07 * .32, 0, Math.PI * 2)
+      draw(1280, 720, box, { x: .6, y: .43 }, null)
+      expect(ctx.clearRect).toHaveBeenCalledTimes(3)
+      expect(ctx.stroke).toHaveBeenCalledTimes(1)
+      expect(artwork.fill).toHaveBeenCalledTimes(7)
+      // Responsive/fullscreen display geometry and backing-store changes invalidate artwork.
+      draw(1280, 720, { width: 1000, height: 1000 }, target, null)
+      expect(artwork.fill).toHaveBeenCalledTimes(14)
+      draw(1920, 1080, { width: 1000, height: 1000 }, target, null)
+      expect(artwork.fill).toHaveBeenCalledTimes(21)
+      expect(ctx.setTransform).toHaveBeenLastCalledWith(1.92, 0, 0, 1.08, 0, 0)
+    } finally { getContext.mockRestore() }
   })
 })

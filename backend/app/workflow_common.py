@@ -5,7 +5,7 @@ from datetime import date, datetime, timezone
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from fastapi import HTTPException
-from sqlalchemy import func, or_, select
+from sqlalchemy import func, select
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
 from . import models
@@ -62,15 +62,7 @@ def available_exercises(db, mode, patient_id=None):
     query = select(models.ExerciseCatalog).where(models.ExerciseCatalog.active.is_(True))
     if mode:
         query = query.where(models.ExerciseCatalog.usage_mode.in_((mode, 'both')))
-    if mode == 'training' and patient_id is not None:
-        today = datetime.now(hospital_timezone()).date()
-        prescribed = select(models.ExercisePrescription.exercise_id).where(
-            models.ExercisePrescription.patient_id == patient_id,
-            models.ExercisePrescription.active.is_(True),
-            or_(models.ExercisePrescription.starts_on.is_(None), models.ExercisePrescription.starts_on <= today),
-            or_(models.ExercisePrescription.ends_on.is_(None), models.ExercisePrescription.ends_on >= today))
-        query = query.where(or_(models.ExerciseCatalog.is_default.is_(True), models.ExerciseCatalog.id.in_(prescribed)))
-    return db.scalars(query.order_by(models.ExerciseCatalog.is_default.desc(), models.ExerciseCatalog.id)).all()
+    return db.scalars(query.order_by(models.ExerciseCatalog.id)).all()
 
 
 def ensure_setup(db, session):
@@ -100,12 +92,14 @@ def ensure_session_ready(db, session):
 
 def authorize_exercise(db, session, exercise_id):
     exercise = require(db, models.ExerciseCatalog, exercise_id)
-    if exercise.renderer != 'flower':
+    if exercise.renderer not in ('flower', 'free_drawing'):
         raise HTTPException(409, 'Bài tập chưa có giao diện thực hiện được hỗ trợ.')
+    if exercise.renderer == 'free_drawing' and session.session_type != 'training':
+        raise HTTPException(409, 'Vẽ tự do chỉ dùng trong luyện tập, không dùng để đánh giá.')
     allowed = {item.id for item in available_exercises(db, session.session_type,
         session.patient_id if session.session_type == 'training' else None)}
     if exercise_id not in allowed:
-        raise HTTPException(409, 'Bài tập chưa được chỉ định, hết hạn hoặc không còn hoạt động.')
+        raise HTTPException(409, 'Bài tập không hoạt động hoặc không dùng cho buổi này.')
     if session.session_type == 'assessment' and exercise_id not in selected_exercises(db, session.id):
         raise HTTPException(409, 'Bài tập chưa được chọn trong lần đánh giá này.')
     return exercise

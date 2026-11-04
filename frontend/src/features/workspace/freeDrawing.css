@@ -1,0 +1,35 @@
+.free-drawing-board { position:absolute; inset:0; background:transparent; z-index:2; overflow:hidden; }
+.workspace-image .free-drawing-board canvas { position:absolute; inset:0; width:100%; height:100%; }
+.free-drawing-artwork { pointer-events:none; }
+.free-drawing-cursor { pointer-events:none; }
+.free-drawing-cursor.free-drawing-demo { pointer-events:auto; touch-action:none; cursor:crosshair; }
+.free-drawing-hud { position:absolute; left:14px; right:14px; top:54px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; z-index:5; color:#f4f8ff; pointer-events:none; }
+.free-drawing-hud span { padding:10px 12px; background:#162338; border:1px solid #38506d; border-radius:9px; font-variant-numeric:tabular-nums; }
+.free-drawing-hud button { pointer-events:auto; min-height:42px; background:#203149; color:#fff; border:1px solid #58708b; }
+.free-drawing-hud button.primary { background:#176f95; }
+.free-drawing-hud button:disabled { opacity:.5; }
+.free-drawing-live-state { flex-basis:100%; width:fit-content; padding:5px 9px; border-radius:6px; background:#0b1223e6; line-height:1.5; }
+.workspace-free-drawing .workspace-image .workspace-fullscreen, .workspace-free-drawing .workspace-image .workspace-stage-status { z-index:6; }
+.free-drawing-panel { display:grid; gap:12px; }
+.free-drawing-panel p { line-height:1.6; margin:6px 0; }
+.free-drawing-options { display:flex; gap:14px; align-items:end; flex-wrap:wrap; }
+.free-drawing-options label { display:grid; gap:5px; min-width:130px; }
+.free-drawing-options select { padding:9px; border:1px solid #b7cbd8; border-radius:7px; background:white; max-width:100%; }
+.free-drawing-palette { display:flex; gap:8px; padding:4px 0; }
+.workspace .workspace-info.free-drawing-panel .free-drawing-palette button { width:42px; height:42px; min-width:42px; padding:0; border:2px solid #a3b7c5; border-radius:50%; }
+.free-drawing-palette button[aria-pressed=true] { outline:3px solid #235674; outline-offset:2px; }
+.workspace .workspace-info.free-drawing-panel button.free-drawing-pen { min-height:62px; min-width:220px; font-size:20px; justify-self:start; padding:12px 30px; border-radius:10px; }
+.free-drawing-status { color:#285d75; font-weight:600; }
+.free-drawing-time { padding:10px 14px; border-radius:9px; background:#123d51; border:2px solid #58c4d7; font-size:20px; font-variant-numeric:tabular-nums; }
+.free-drawing-time.is-finished { background:#673849; border-color:#f4a8bb; }
+.free-drawing-modes { display:flex; flex-wrap:wrap; gap:8px; }
+.free-drawing-modes button { min-height:44px; }
+.workspace.workspace-free-drawing .free-drawing-modes button[aria-pressed=true] { background:#176f95; color:white; border-color:#176f95; box-shadow:inset 0 0 0 2px #73d9ee; }
+.free-drawing-selection { display:flex; flex-wrap:wrap; align-items:center; gap:12px; }
+.free-drawing-state { display:flex; flex-wrap:wrap; gap:8px 18px; font-size:13px; line-height:1.6; }
+.free-drawing-grab { min-height:52px; min-width:130px; font-size:18px; }
+.free-drawing-finished { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:120px 24px 24px; text-align:center; background:#0b1223ed; color:#f4f8ff; pointer-events:auto; }
+.free-drawing-finished strong { font-size:clamp(24px,3vw,40px); color:#ffbdce; }
+.free-drawing-finished p { max-width:550px; line-height:1.6; }
+.workspace-image:fullscreen .free-drawing-hud { right:100px; }
+@media(max-width:700px) { .free-drawing-hud { top:50px; left:8px; right:8px; gap:5px; font-size:11px; } .free-drawing-hud button { min-height:36px; padding:7px; font-size:11px; } .free-drawing-options { gap:12px; } }

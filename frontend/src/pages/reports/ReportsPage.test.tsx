@@ -40,3 +40,11 @@ it('áp dụng mã bệnh nhân ngay khi mở báo cáo bằng liên kết trự
  expect(screen.getByLabelText('Mã bệnh nhân')).toHaveValue('BN-001')
  expect(fetchMock).toHaveBeenCalledWith(expect.stringMatching(/reports\/assessments\?research_code=BN-001$/),expect.anything())
 })
+
+it('hiển thị hoạt động vẽ đã lưu mà không biến số nét thành điểm', async () => {
+ const drawingReport = { ...report, session: { ...report.session, session_type: 'training' }, trials: [{ id: 8, exercise_id: 2, exercise_code: 'free_drawing', status: 'completed', results: [{ id: 9, result_json: JSON.stringify({ game_key: 'free_drawing', duration_seconds: 12.5, completed_strokes: 4, active_drawing_seconds: 8 }) }] }] }
+ vi.stubGlobal('fetch',vi.fn(async(url:string)=>({ok:true,json:async()=>url.includes('/exercises')?[]:[drawingReport]})))
+ render(<MemoryRouter initialEntries={['/reports?kind=training']}><ReportsPage/></MemoryRouter>)
+ expect(await screen.findByText('4 nét · 8.0 giây đang vẽ')).toBeInTheDocument()
+ expect(screen.queryByText(/Điểm: 4/)).not.toBeInTheDocument()
+})

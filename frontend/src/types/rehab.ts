@@ -1,4 +1,5 @@
 import type { Patient, Session } from './index'
+import type { SavedGameResult } from '../features/workspace/gameWorkflow'
 
 export type PatientType = 'outpatient' | 'inpatient'
 export type Sex = 'male' | 'female' | 'other' | 'unspecified'
@@ -36,11 +37,7 @@ export interface Trial {
   status: string | null; client_round_id?: string | null; results?: StoredResult[]
 }
 export interface StoredResult { id: number; trial_id: number; round_id: string | null; result_json: string; created_at: string }
-export interface GameResult {
-  id: number; trial_id: number; session_id: number; round_id: string; game_key: string
-  affected_side: 'left' | 'right'; duration_seconds: number; score: number; target_count: number
-  source: string; created_at: string; exercise_id?: number | null; exercise_code?: string; data_valid?: boolean
-}
+export type GameResult = SavedGameResult & { affected_side: 'left' | 'right'; source: string }
 export type QuestionType = 'text' | 'number' | 'date' | 'single_choice' | 'multiple_choice' | 'boolean'
 export interface QuestionnaireQuestion {
   id: number; key: string; label: string; question_type: QuestionType; required: boolean

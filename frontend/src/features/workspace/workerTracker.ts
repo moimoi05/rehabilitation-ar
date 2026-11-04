@@ -102,6 +102,8 @@ type Options = {
   role?: WorkerRole
   preferGpu?: boolean
   handFirst?: boolean
+  /** Optional allowance for cold GPU shader compilation on the first frame only. */
+  initialFrameTimeoutMs?: number
   capture: (video: HTMLVideoElement) => Promise<CaptureOutput>
   onResult?: (result: WorkerResult) => void
   onHandResult?: (result: WorkerHandResult) => void
@@ -273,8 +275,10 @@ export function createWorkerTracker(options: Options): Promise<WorkerTracker> {
         if (closed || busy) return false
         busy = true
         pendingTimestamp = timestamp
-        frameTimeout = setTimeout(() => fail(new Error('Worker inference timed out')), 8000)
         const id = ++sequence
+        const initialBudget = typeof options.initialFrameTimeoutMs === 'number' && Number.isFinite(options.initialFrameTimeoutMs)
+          ? Math.max(8000, Math.min(30000, options.initialFrameTimeoutMs)) : 8000
+        frameTimeout = setTimeout(() => fail(new Error('Worker inference timed out')), id === 1 ? initialBudget : 8000)
         const sourceIdentity = typeof source === 'number' ? { sourceFrameId: source } : source
         const finite = (value: unknown): value is number => typeof value === 'number' && Number.isFinite(value)
         const sourceMediaTimeMs = sourceIdentity?.sourceMediaTimeMs ?? (finite(video.currentTime) ? video.currentTime * 1000 : null)

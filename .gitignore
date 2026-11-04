@@ -19,3 +19,8 @@ rehab-data/
 
 # Isolated experimental runtime process logs
 scratch/rtmpose-runtime/*.log
+
+# Local Free Drawing replay diagnostics; source recordings are never copied to public/.
+reports/free-drawing-replay*.json
+reports/free-drawing-replay*.md
+video_test/*.mp4

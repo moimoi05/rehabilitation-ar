@@ -121,18 +121,32 @@ class CalibrationOut(CalibrationCreate):
 class ExerciseResultCreate(ORMModel):
     session_id: int = Field(gt=0, strict=True)
     round_id: UUID
-    game_key: Literal['glowing_flower']
+    game_key: Literal['glowing_flower', 'free_drawing']
     source: Literal['camera']
     affected_side: Side
     duration_seconds: float = Field(gt=0, le=600, allow_inf_nan=False)
-    score: int = Field(ge=0, le=10000, strict=True)
-    target_count: int = Field(ge=0, le=10000, strict=True)
+    score: int | None = Field(default=None, ge=0, le=10000, strict=True)
+    target_count: int | None = Field(default=None, ge=0, le=10000, strict=True)
+    completed_strokes: int | None = Field(default=None, ge=0, le=10000, strict=True)
+    active_drawing_seconds: float | None = Field(default=None, ge=0, le=600, allow_inf_nan=False)
     trial_id: int | None = Field(default=None, gt=0, strict=True)
 
     @model_validator(mode='after')
     def valid_score(self):
-        if self.score > self.target_count:
-            raise ValueError('Số lần chạm không được vượt số mục tiêu')
+        if self.game_key == 'glowing_flower':
+            if self.score is None or self.target_count is None:
+                raise ValueError('Hái hoa cần số lần chạm và số mục tiêu')
+            if self.score > self.target_count:
+                raise ValueError('Số lần chạm không được vượt số mục tiêu')
+            if self.completed_strokes is not None or self.active_drawing_seconds is not None:
+                raise ValueError('Hái hoa không nhận dữ liệu nét vẽ')
+        else:
+            if self.score is not None or self.target_count is not None:
+                raise ValueError('Vẽ tự do không có điểm hay số mục tiêu')
+            if self.completed_strokes is None:
+                raise ValueError('Vẽ tự do cần số nét đã hoàn tất')
+            if self.active_drawing_seconds is not None and self.active_drawing_seconds > self.duration_seconds:
+                raise ValueError('Thời gian vẽ không được vượt thời lượng hoạt động')
         return self
 
 

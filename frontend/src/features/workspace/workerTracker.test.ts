@@ -13,6 +13,27 @@ class FakeWorker {
 }
 
 describe('worker tracker', () => {
+  it('allows an explicit cold GPU first-frame budget without relaxing later inference deadlines', async () => {
+    vi.useFakeTimers()
+    const worker = new FakeWorker(), onError = vi.fn(), bitmap = { close: vi.fn() } as unknown as ImageBitmap
+    const pending = createWorkerTracker({ worker: worker as unknown as Worker, capture: async () => bitmap, onError, handEnabled: true, moduleUrl: '/vision.mjs', initialFrameTimeoutMs: 30000 })
+    worker.send({ type: 'ready' }); const tracker = await pending
+    try {
+      tracker.submit({} as HTMLVideoElement, 100, true)
+      await Promise.resolve(); await Promise.resolve()
+      vi.advanceTimersByTime(8001)
+      expect(onError).not.toHaveBeenCalled()
+      vi.advanceTimersByTime(3000)
+      worker.send({ type: 'frame_complete', id: 1, handProcessed: true, poseProcessed: true })
+      tracker.submit({} as HTMLVideoElement, 200, true)
+      await Promise.resolve(); await Promise.resolve()
+      vi.advanceTimersByTime(8001)
+      expect(onError).toHaveBeenCalledWith(expect.objectContaining({ message: 'Worker inference timed out' }))
+    } finally {
+      tracker.close(); worker.send({ type: 'disposed', cleanupErrors: [] })
+      await waitForWorkerDisposals(); vi.useRealTimers()
+    }
+  })
   afterEach(async () => {
     // A real Worker acknowledges deliberate close. Do not leave an outstanding
     // drain from one fixture blocking initialization in the next test.

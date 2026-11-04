@@ -1,0 +1,227 @@
+import { describe, expect, it } from 'vitest'
+import { createTrackingDiagnostics } from './trackingDiagnostics'
+
+const hand = (timestamp: number, receivedAt = timestamp + 10, handCount = 1, validHandCount = handCount) => ({ timestamp, receivedAt, handCount, validHandCount, inferenceMs: 12 })
+const drawing = (observationTimestamp: number) => ({ reason: null, selected: true, armed: true, gestureActive: true, penDown: true, observationTimestamp })
+
+describe('optional tracking diagnostics', () => {
+  it('does not report tracking failure while stopped, before start, or in demo', () => {
+    const diagnostics = createTrackingDiagnostics()
+    diagnostics.reset(1000)
+    expect(diagnostics.snapshot(5000, 'GPU')).toMatchObject({ active: false, trackingReason: null, selected: false, drawing: { reason: 'DRAWING_PAUSED', penDown: false } })
+    diagnostics.setActive(true, 5000)
+    diagnostics.recordHand(hand(5010))
+    diagnostics.recordDrawing(drawing(5010))
+    diagnostics.setActive(false, 5030)
+    expect(diagnostics.snapshot(9000, 'GPU')).toMatchObject({ active: false, trackingReason: null, selected: false, drawing: { reason: 'DRAWING_PAUSED', penDown: false } })
+    diagnostics.setActive(true, 9000)
+    expect(diagnostics.snapshot(9010, 'GPU').trackingReason).toBeNull()
+    diagnostics.setActive(true, 9120)
+    expect(diagnostics.snapshot(9160, 'GPU').trackingReason).toBe('WORKER_RESULT_DELAYED')
+    diagnostics.reset(9200)
+    expect(diagnostics.snapshot(9210, 'GPU').active).toBe(true)
+    expect(diagnostics.snapshot(9210, 'GPU').trackingReason).toBeNull()
+  })
+
+  it('measures incoming inference callbacks rather than target or rendering FPS', () => {
+    const diagnostics = createTrackingDiagnostics()
+    diagnostics.reset(1000)
+    diagnostics.setActive(true, 1000)
+    for (let index = 0; index < 10; index++) diagnostics.recordHand(hand(1000 + index * 100))
+    diagnostics.recordPose({ receivedAt: 1010, inferenceMs: 30 })
+    diagnostics.recordPose({ receivedAt: 1210, inferenceMs: 50 })
+    const result = diagnostics.snapshot(1920, 'GPU')
+    expect(result.handFps).toBeCloseTo(9 * 1000 / 910)
+    expect(result.poseFps).toBeCloseTo(1000 / 910)
+    expect(result.handIntervalMs).toEqual({ p50: 100, p95: 100 })
+    expect(result.poseInferenceMs).toEqual({ p50: 30, p95: 50 })
+    expect(result.callbackAgeMs).toBe(10)
+    expect(result.observationAgeMs).toBe(20)
+  })
+
+  it('distinguishes raw missing, invalid, selected-side rejection and delayed callbacks', () => {
+    const diagnostics = createTrackingDiagnostics()
+    diagnostics.reset(1000)
+    diagnostics.setActive(true, 1000)
+    diagnostics.recordHand(hand(1000, 1010, 0))
+    expect(diagnostics.snapshot(1020, 'GPU').trackingReason).toBe('RAW_HAND_MISSING')
+    diagnostics.recordHand(hand(1030, 1040, 1, 0))
+    expect(diagnostics.snapshot(1050, 'GPU').trackingReason).toBe('HAND_INVALID')
+    diagnostics.recordHand(hand(1060, 1070))
+    diagnostics.recordDrawing({ ...drawing(1060), selected: false, reason: 'SIDE_AMBIGUOUS' })
+    expect(diagnostics.snapshot(1080, 'GPU').trackingReason).toBe('SIDE_AMBIGUOUS')
+    expect(diagnostics.snapshot(1300, 'GPU').trackingReason).toBe('WORKER_RESULT_DELAYED')
+    expect(diagnostics.snapshot(1300, 'GPU').longestHandGapMs).toBe(230)
+  })
+
+  it('incoming FPS falls when callbacks stop instead of retaining the last arrival rate', () => {
+    const diagnostics = createTrackingDiagnostics()
+    diagnostics.reset(1000)
+    diagnostics.setActive(true, 1000)
+    for (let index = 0; index < 10; index++) diagnostics.recordHand(hand(1000 + index * 100))
+    expect(diagnostics.snapshot(2000, 'GPU').handFps).toBeCloseTo(9000 / 990)
+    expect(diagnostics.snapshot(3000, 'GPU').handFps).toBeCloseTo(9000 / 1990)
+    expect(diagnostics.snapshot(12000, 'GPU').handFps).toBe(0)
+  })
+
+  it('keeps gesture inactivity separate from valid tracking and counts explicit rejections', () => {
+    const diagnostics = createTrackingDiagnostics()
+    diagnostics.reset(1000)
+    diagnostics.setActive(true, 1000)
+    diagnostics.recordHand(hand(1000))
+    diagnostics.recordDrawing({ ...drawing(1000), penDown: false, gestureActive: false, reason: 'GESTURE_INACTIVE' })
+    diagnostics.recordRender(1000)
+    diagnostics.reject('STALE_HAND', true)
+    const result = diagnostics.snapshot(1050, 'CPU')
+    expect(result.trackingReason).toBeNull()
+    expect(result.drawing.reason).toBe('GESTURE_INACTIVE')
+    expect(result.rejections.STALE_HAND).toBe(1)
+    expect(result.lastRejection).toBe('STALE_HAND')
+    expect(result.delegate).toBe('CPU')
+  })
+
+  it('detects unrendered selected observations without restarting its budget every callback', () => {
+    const diagnostics = createTrackingDiagnostics()
+    diagnostics.reset(1000)
+    diagnostics.setActive(true, 1000)
+    diagnostics.recordHand(hand(1000))
+    diagnostics.recordDrawing(drawing(1000))
+    expect(diagnostics.snapshot(1050, 'GPU').trackingReason).toBeNull()
+    diagnostics.recordHand(hand(1060))
+    diagnostics.recordDrawing(drawing(1060))
+    expect(diagnostics.snapshot(1111, 'GPU').trackingReason).toBe('RENDER_NOT_UPDATED')
+    diagnostics.recordRender(1060)
+    expect(diagnostics.snapshot(1112, 'GPU').trackingReason).toBeNull()
+  })
+
+  it('uses source observation age independently from callback arrival age', () => {
+    const diagnostics = createTrackingDiagnostics()
+    diagnostics.reset(1000)
+    diagnostics.setActive(true, 1000)
+    diagnostics.recordHand(hand(1000, 1200))
+    expect(diagnostics.snapshot(1210, 'GPU').trackingReason).toBe('STALE_HAND')
+    expect(diagnostics.snapshot(1210, 'GPU').callbackAgeMs).toBe(10)
+    expect(diagnostics.snapshot(1210, 'GPU').observationAgeMs).toBe(210)
+  })
+
+  it('measures accepted scheduler callbacks separately from inference and preserves tab visibility', () => {
+    const diagnostics = createTrackingDiagnostics()
+    diagnostics.reset(1000)
+    diagnostics.setActive(true, 1000)
+    for (const timestamp of [1000, 1033, 1066]) diagnostics.recordSource({ timestamp, visibility: 'visible' })
+    diagnostics.recordHand(hand(1000, 1050))
+    const result = diagnostics.snapshot(1076, 'GPU')
+    expect(result.sourceCallbackFps).toBeCloseTo(2000 / 76)
+    expect(result.sourceIntervalMs).toEqual({ p50: 33, p95: 33 })
+    expect(result.sourceCallbackAgeMs).toBe(10)
+    expect(result.sourceSampleCount).toBe(3)
+    expect(result.handFps).toBe(0)
+    expect(result.visibility).toBe('visible')
+    expect(diagnostics.snapshot(1300, 'GPU', 'hidden')).toMatchObject({ visibility: 'hidden', sourceCallbackAgeMs: 234 })
+    diagnostics.recordSource({ timestamp: 2000, visibility: 'hidden' })
+    expect(diagnostics.snapshot(2100, 'GPU')).toMatchObject({ visibility: 'hidden', sourceCallbackAgeMs: 100 })
+  })
+
+  it('separates capture and transfer durations from Hand inference without accepting invalid samples', () => {
+    const diagnostics = createTrackingDiagnostics()
+    diagnostics.reset(1000)
+    diagnostics.recordHand({ ...hand(1000), captureResizeTotalMs: 5, transferAndDispatchMs: 3 })
+    diagnostics.recordHand({ ...hand(1030), captureResizeTotalMs: 15, transferAndDispatchMs: 9 })
+    diagnostics.recordHand({ ...hand(1060), captureResizeTotalMs: -1, transferAndDispatchMs: NaN })
+    expect(diagnostics.snapshot(1080, 'GPU')).toMatchObject({
+      handInferenceMs: { p50: 12, p95: 12 },
+      captureResizeTotalMs: { p50: 5, p95: 15 },
+      transferAndDispatchMs: { p50: 3, p95: 9 },
+    })
+  })
+
+  it('bounds samples and exports only aggregate timing, counters and nonclinical identities', () => {
+    const diagnostics = createTrackingDiagnostics()
+    diagnostics.reset(1)
+    for (let index = 1; index <= 1000; index++) {
+      diagnostics.recordHand({ ...hand(index * 10), requestId: index, frameId: index, captureResizeTotalMs: 10, transferAndDispatchMs: 5 })
+      diagnostics.recordSource({ timestamp: index * 10, visibility: 'visible' })
+    }
+    diagnostics.recordSkip('busy', 20)
+    const result = diagnostics.snapshot(10020, 'GPU')
+    expect(result.handSampleCount).toBeLessThanOrEqual(300)
+    expect(result.sourceSampleCount).toBeLessThanOrEqual(300)
+    expect(result.skipped.busy).toBe(20)
+    expect(result.requestId).toBe(1000)
+    expect(result.frameId).toBe(1000)
+    expect(JSON.stringify(result)).not.toMatch(/landmarks|patient|coordinates|video/)
+    expect(diagnostics.snapshot(21000, 'GPU').handSampleCount).toBe(0)
+    expect(diagnostics.snapshot(21000, 'GPU').sourceSampleCount).toBe(0)
+    diagnostics.reset(22000)
+    expect(diagnostics.snapshot(22000, 'GPU').counts.handCallbacks).toBe(0)
+    expect(diagnostics.snapshot(22000, 'GPU')).toMatchObject({ sourceSampleCount: 0, sourceCallbackAgeMs: null, visibility: 'unknown', captureResizeTotalMs: { p50: null, p95: null } })
+  })
+
+  it('retains cumulative replay evidence after the live window expires without movement coordinates', () => {
+    const diagnostics = createTrackingDiagnostics()
+    diagnostics.reset(1000)
+    diagnostics.setActive(true, 1000)
+    diagnostics.recordSubmit({ timestamp: 1000, hand: true, pose: true })
+    diagnostics.recordHand({ ...hand(1000, 1010), handednessLabels: ['Right'] })
+    diagnostics.recordDrawing({ ...drawing(1000), completedStrokes: 0 }, 1010)
+    diagnostics.recordSubmit({ timestamp: 1100, hand: true })
+    diagnostics.recordHand({ ...hand(1100, 1110, 0), handednessLabels: [] })
+    diagnostics.recordDrawing({ ...drawing(1100), selected: false, gestureActive: null, penDown: false, reason: 'RAW_HAND_MISSING' }, 1110)
+    diagnostics.recordSubmit({ timestamp: 1400, hand: true })
+    diagnostics.recordHand({ ...hand(1400, 1410), handednessLabels: ['Right'] })
+    diagnostics.recordDrawing({ ...drawing(1400), completedStrokes: 1 }, 1410)
+    const report = diagnostics.report(20000, 2)
+    expect(report.counts).toMatchObject({ submittedFrames: 3, handInferenceCalls: 3, handResultsReceived: 3, rawMissingResults: 1, validHandResults: 2, affectedHandSelections: 2, affectedHandSelectionFailures: 0, gestureActivations: 2, penDownEvents: 2, completedStrokes: 2 })
+    expect(report.missingSelectedHand).toMatchObject({ interruptionCount: 1, longestMs: 300, intervals: [{ startMs: 110, durationMs: 300 }] })
+    expect(report.rawMissingHand).toMatchObject({ interruptionCount: 1, longestMs: 300, totalMs: 300, intervals: [{ startMs: 110, durationMs: 300 }] })
+    expect(report.handInferenceMs).toMatchObject({ count: 3, mean: 12, min: 12, max: 12 })
+    expect(report.blockedReasons.RAW_HAND_MISSING).toBe(1)
+    expect(report.blockedDurationMs.RAW_HAND_MISSING).toBe(300)
+    expect(JSON.stringify(report)).not.toMatch(/landmarks|patient|coordinates|"hands"/)
+    expect(diagnostics.snapshot(20000, 'GPU').handSampleCount).toBe(0)
+  })
+
+  it('separates frontend rejection, association changes and canonical diagnostic reasons', () => {
+    const diagnostics = createTrackingDiagnostics()
+    diagnostics.reset(1000); diagnostics.setActive(true, 1000)
+    diagnostics.recordHand({ ...hand(1000), handednessLabels: ['Right'] })
+    diagnostics.recordHand({ ...hand(1100), handednessLabels: ['Left'] })
+    diagnostics.reject('STALE_HAND', true)
+    diagnostics.recordDrawing({ ...drawing(1100), selected: false, penDown: false, reason: 'SIDE_AMBIGUOUS' }, 1110)
+    expect(diagnostics.snapshot(1120, 'GPU').canonicalTrackingReason).toBe('HAND_IDENTITY_AMBIGUOUS')
+    const report = diagnostics.report(1120)
+    expect(report.counts).toMatchObject({ associationChanges: 1, rejectedHandObservations: 1, affectedHandSelectionFailures: 1 })
+    expect(report.rejections.HAND_STALE).toBe(1)
+    expect(report.blockedReasons.HAND_IDENTITY_AMBIGUOUS).toBe(1)
+    diagnostics.reset(2000)
+    expect(diagnostics.report(2000).counts.submittedFrames).toBe(0)
+    expect(diagnostics.report(2000).missingSelectedHand.interruptionCount).toBe(0)
+  })
+  it('does not count display freshness expiry as a discarded Hand callback', () => {
+    const diagnostics = createTrackingDiagnostics()
+    diagnostics.reset(1000)
+    diagnostics.reject('STALE_HAND')
+    expect(diagnostics.report(1200).counts.rejectedHandObservations).toBe(0)
+    expect(diagnostics.report(1200).frontendRejectionReasons).toEqual({})
+    diagnostics.reject('STALE_HAND', true)
+    expect(diagnostics.report(1200).counts.rejectedHandObservations).toBe(1)
+    expect(diagnostics.report(1200).frontendRejectionReasons).toEqual({ HAND_STALE: 1 })
+  })
+
+  it('separates raw absence, invalidity, acquisition and valid-hand association failures', () => {
+    const diagnostics = createTrackingDiagnostics()
+    diagnostics.reset(1000)
+    const reasons = ['RAW_HAND_MISSING', 'HAND_INVALID', 'ACQUIRING', 'SIDE_AMBIGUOUS', 'SIDE_AMBIGUOUS', null]
+    reasons.forEach((reason, index) => {
+      const timestamp = 1000 + index * 100
+      diagnostics.recordHand(hand(timestamp, timestamp + 10, index === 0 ? 0 : 1, index < 2 ? 0 : 1))
+      const value = { ...drawing(timestamp), selected: reason === null, reason }
+      diagnostics.recordDrawing(value, timestamp + 10)
+      diagnostics.recordDrawing(value, timestamp + 15)
+    })
+    expect(diagnostics.report(1600).counts).toMatchObject({
+      rawMissingResults: 1, invalidHandResults: 1, affectedHandSelections: 1,
+      affectedHandSelectionFailures: 2, affectedHandAcquisitionObservations: 1,
+    })
+  })
+})

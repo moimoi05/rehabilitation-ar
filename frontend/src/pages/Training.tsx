@@ -7,7 +7,7 @@ import DurationChart from '../components/DurationChart'
 import { rehabApi } from '../services/rehab'
 import { api } from '../services/api'
 import { statusLabel } from '../types'
-import type { Exercise, PatientReport, RehabSession, SessionReport } from '../types/rehab'
+import type { Exercise, PatientReport, RehabPatient, RehabSession, SessionReport } from '../types/rehab'
 import ClinicalWorkspace from '../features/rehab/ClinicalWorkspace'
 import type { SavedGameResult } from '../features/rehab/ClinicalWorkspace'
 import PatientBanner from '../features/rehab/PatientBanner'
@@ -17,18 +17,30 @@ import { hospitalDate, hospitalDateTime, hospitalDay } from '../features/rehab/h
 
 function TrainingSearch() {
   const navigate = useNavigate()
+  const [patients, setPatients] = useState<RehabPatient[]>([]), [listLoading, setListLoading] = useState(true), [listError, setListError] = useState('')
   const [code, setCode] = useState(''), [error, setError] = useState(''), [busy, setBusy] = useState(false)
   const [outpatientId, setOutpatientId] = useState<number | null>(null)
   const searchRevision = useRef(0)
-  useEffect(() => () => { searchRevision.current++ }, [])
+  const loadPatients = useCallback(async () => {
+    setListLoading(true); setListError('')
+    try { setPatients(await rehabApi.patients({ patient_type: 'inpatient' })) }
+    catch (err) { setListError(err instanceof Error ? err.message : 'Không tải được danh sách bệnh nhân điều trị.') }
+    finally { setListLoading(false) }
+  }, [])
+  useEffect(() => { void loadPatients(); return () => { searchRevision.current++ } }, [loadPatients])
+  const query = code.trim()
+  const filteredPatients = patients.filter(patient => !query || patient.research_code.includes(query))
+  const suggestions = query ? filteredPatients.slice(0, 6) : []
   async function search(event: FormEvent) {
     const request = ++searchRevision.current
-    event.preventDefault(); setBusy(true); setError(''); setOutpatientId(null)
+    event.preventDefault(); setError(''); setOutpatientId(null)
+    const researchCode = code.trim()
+    if (!researchCode) { setError('Vui lòng nhập mã bệnh nhân.'); return }
+    setBusy(true)
     try {
-      const researchCode = code.trim()
-      const patients = await rehabApi.patients({ patient_type: 'inpatient', search: researchCode })
+      const matches = await rehabApi.patients({ patient_type: 'inpatient', search: researchCode })
       if (request !== searchRevision.current) return
-      const patient = patients.find(item => item.research_code === researchCode)
+      const patient = matches.find(item => item.research_code === researchCode)
       if (patient) { navigate(`/training/${patient.id}`); return }
       const visitors = await rehabApi.patients({ patient_type: 'outpatient', search: researchCode })
       if (request !== searchRevision.current) return
@@ -39,8 +51,13 @@ function TrainingSearch() {
     finally { if (request === searchRevision.current) setBusy(false) }
   }
   return <><div className="page-heading"><div><span className="eyebrow">LUYỆN TẬP</span><h1>Tìm bệnh nhân luyện tập</h1><p>Nhập chính xác mã bệnh nhân điều trị (phân biệt chữ hoa/thường) để mở hồ sơ và lịch sử buổi tập.</p></div></div>
-    <section className="panel"><form className="form" onSubmit={event => void search(event)}><label>Mã bệnh nhân<input value={code} onChange={event => { searchRevision.current++; setCode(event.target.value); setError(''); setOutpatientId(null); setBusy(false) }} required maxLength={64} autoComplete="off" placeholder="VD: NC-001" /></label><div className="form-actions"><Button disabled={busy}>{busy ? 'Đang tìm…' : 'Tìm bệnh nhân'}</Button></div></form>
+    <section className="panel"><form className="form" onSubmit={event => void search(event)}><div className="training-search-field"><label htmlFor="training-patient-code">Mã bệnh nhân<input id="training-patient-code" value={code} onChange={event => { searchRevision.current++; setCode(event.target.value); setError(''); setOutpatientId(null); setBusy(false) }} required maxLength={64} autoComplete="off" placeholder="VD: NC-001" /></label>
+        {suggestions.length > 0 && <ul className="training-suggestions" aria-label="Gợi ý bệnh nhân điều trị">{suggestions.map(patient => <li key={patient.id}><Link className="training-suggestion" to={`/training/${patient.id}`}><span><strong>{patient.research_code}</strong><small>{patient.full_name || 'Chưa có họ tên'}</small></span></Link></li>)}</ul>}
+      </div><div className="form-actions"><Button disabled={busy || listLoading}>{busy ? 'Đang tìm…' : 'Tìm bệnh nhân'}</Button></div></form>
       {error && <ErrorState message={error} />}{outpatientId && <Link className="text-link" to={`/assessment/${outpatientId}`}>Đến Đánh giá</Link>}
+    </section>
+    <section className="panel"><div className="panel-heading"><div><h2>Danh sách bệnh nhân điều trị</h2><p>{listLoading ? 'Đang tải danh sách…' : `${filteredPatients.length} bệnh nhân`}</p></div></div>
+      {listLoading ? <Loading /> : listError ? <ErrorState message={listError} retry={() => void loadPatients()} /> : filteredPatients.length === 0 ? <Empty>{query ? 'Không tìm thấy bệnh nhân điều trị phù hợp.' : 'Chưa có bệnh nhân điều trị.'}</Empty> : <div className="table-wrap"><table><thead><tr><th>Mã bệnh nhân</th><th>Họ tên</th><th>Ngày nhập viện</th><th /></tr></thead><tbody>{filteredPatients.map(patient => <tr key={patient.id}><td><Link className="table-primary" to={`/training/${patient.id}`}>{patient.research_code}</Link></td><td>{patient.full_name || 'Chưa có họ tên'}</td><td>{patient.admitted_at ? new Date(patient.admitted_at).toLocaleDateString('vi-VN') : '—'}</td><td><Link className="text-link" to={`/training/${patient.id}`}>Mở hồ sơ</Link></td></tr>)}</tbody></table></div>}
     </section>
   </>
 }
@@ -132,7 +149,7 @@ function TrainingDashboard({ patientId }: { patientId: number }) {
     {unfinished.length > 0 && <section className="panel"><p>Còn {unfinished.length} buổi dang dở: {unfinished.map(item => `#${item.session.id}`).join(', ')}. Kết quả đã lưu vẫn được giữ; các buổi này chưa được đánh dấu hoàn thành.</p>{unfinished.filter(item => item.session.managed_workflow).map(item => <div className="form-actions" key={item.session.id}><Button variant="outline" disabled={busy} onClick={() => setCancelId(item.session.id)}>Đóng buổi dang dở #{item.session.id}</Button></div>)}</section>}
     {stage === 'setup' && <section className="panel"><h2>Thiết lập camera cho buổi tập</h2><p>Điều chỉnh ghế và hình bóng; kiểm tra đầu, vai, thân trước khi tiếp tục.</p>{session?.setup_confirmed && <div className="form-actions"><Button disabled={busy} onClick={() => void setupSaved()}>Tiếp tục</Button></div>}</section>}
     {stage === 'dashboard' && <><TrainingHistory data={data} />
-      <section className="flow-section"><div className="panel-heading"><div><h2>{session ? 'Chọn bài tập tiếp theo' : 'Bài tập của bệnh nhân'}</h2><p>Hái hoa là bài tập mặc định của hệ thống. Các bài khác chỉ hiển thị khi có chỉ định đang hoạt động.</p></div>{session && !session.setup_confirmed && <Button onClick={() => setStage('setup')}>Kiểm tra lại camera</Button>}</div><ExerciseCatalog exercises={data.available_exercises} trials={currentReport?.trials} onPlay={play} disabled={!session?.setup_confirmed || busy} /></section>
+      <section className="flow-section"><div className="panel-heading"><div><h2>{session ? 'Chọn bài tập tiếp theo' : 'Bài tập của bệnh nhân'}</h2><p>Chọn bài tập phù hợp trong danh sách để thực hiện.</p></div>{session && !session.setup_confirmed && <Button onClick={() => setStage('setup')}>Kiểm tra lại camera</Button>}</div><ExerciseCatalog exercises={data.available_exercises} trials={currentReport?.trials} onPlay={play} disabled={!session?.setup_confirmed || busy} /></section>
       {data.transfers.some(item => item.baseline_assessment_session_id !== null) && <section className="panel"><h2>Đánh giá đầu vào</h2><p>Baseline: {data.transfers.filter(item => item.baseline_assessment_session_id !== null).map(item => `#${item.baseline_assessment_session_id}`).join(', ')}</p><Link className="text-link" to={`/reports?patient_id=${patientId}&kind=assessments`}>Xem báo cáo đánh giá đầu vào</Link></section>}
     </>}
     {stage === 'result' && result && <GameResult result={result} exercise={exercise} captures={currentReport?.captures} training busy={busy} onContinue={() => setStage('dashboard')} onReturn={() => setFinishOpen(true)} />}

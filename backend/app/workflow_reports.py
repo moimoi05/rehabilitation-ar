@@ -33,7 +33,7 @@ def legacy_result(result, trial):
     try:
         return schemas.ExerciseResultOut(**values, id=result.id, trial_id=trial.id,
             created_at=result.created_at, exercise_id=trial.exercise_id,
-            exercise_code=trial.exercise_code).model_dump(mode='json')
+            exercise_code=trial.exercise_code).model_dump(mode='json', exclude_none=True)
     except ValidationError:
         # Unknown legacy JSON is exposed verbatim on the trial, never fabricated.
         return None

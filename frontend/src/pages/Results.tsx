@@ -7,16 +7,9 @@ import { api } from '../services/api'
 import { sideLabel, statusLabel, typeLabel } from '../types'
 import type { Side } from '../types'
 import CalibrationDetails from '../components/CalibrationDetails'
+import type { SavedGameResult } from '../features/workspace/gameWorkflow'
 
-interface ExerciseResult {
-  id: number
-  game_key: string
-  affected_side: Side
-  duration_seconds: number
-  score: number
-  target_count: number
-  created_at: string
-}
+type ExerciseResult = SavedGameResult & { affected_side: Side }
 
 const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'
 const load = async () => {
@@ -41,13 +34,13 @@ function GameResults({ sessionId, close }: { sessionId: number; close: () => voi
   return <div className="modal-backdrop" onMouseDown={event => { if (event.target === event.currentTarget) close() }}>
     <div className="modal" role="dialog" aria-modal="true" aria-labelledby="game-results-title">
       <div className="panel-heading">
-        <div><span className="eyebrow">PHIÊN #{sessionId}</span><h2 id="game-results-title">Kết quả trò chơi</h2><p>Chạm hoa phát sáng</p></div>
+        <div><span className="eyebrow">PHIÊN #{sessionId}</span><h2 id="game-results-title">Kết quả trò chơi</h2><p>Hoạt động đã lưu theo từng bài tập</p></div>
         <button className="close" onClick={close} aria-label="Đóng">×</button>
       </div>
       <p className="help">Điểm trò chơi không phải điểm FMA-UE và không phải đánh giá lâm sàng.</p>
       {loading ? <Loading /> : error ? <ErrorState message={error} retry={() => void reload()} /> : !data?.length ? <Empty>Chưa có kết quả trò chơi cho phiên này.</Empty> :
-        <div className="table-wrap"><table><thead><tr><th>Ngày giờ</th><th>Tay tập</th><th>Thời lượng</th><th>Hoa đã chạm / xuất hiện</th></tr></thead>
-          <tbody>{data.map(result => <tr key={result.id}><td>{new Date(result.created_at).toLocaleString('vi-VN')}</td><td>{sideLabel(result.affected_side)}</td><td>{result.duration_seconds} giây</td><td>{result.score} / {result.target_count}</td></tr>)}</tbody></table></div>}
+        <div className="table-wrap"><table><thead><tr><th>Ngày giờ</th><th>Bài tập</th><th>Tay tập</th><th>Thời lượng</th><th>Kết quả hoạt động</th></tr></thead>
+          <tbody>{data.map(result => <tr key={result.id}><td>{new Date(result.created_at).toLocaleString('vi-VN')}</td><td>{result.game_key === 'free_drawing' ? 'Vẽ tự do' : 'Hái hoa'}</td><td>{sideLabel(result.affected_side)}</td><td>{result.duration_seconds} giây</td><td>{result.game_key === 'free_drawing' ? `${result.completed_strokes} nét${result.active_drawing_seconds === undefined ? '' : ` · ${result.active_drawing_seconds.toFixed(1)} giây đang vẽ`}` : `${result.score} / ${result.target_count} hoa`}</td></tr>)}</tbody></table></div>}
     </div>
   </div>
 }

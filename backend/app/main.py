@@ -290,7 +290,7 @@ def existing_round(db: DBSession, data: schemas.ExerciseResultCreate):
     return saved
 
 
-@app.post('/api/exercise-results', response_model=schemas.ExerciseResultOut, status_code=201)
+@app.post('/api/exercise-results', response_model=schemas.ExerciseResultOut, response_model_exclude_none=True, status_code=201)
 def create_exercise_result(data: schemas.ExerciseResultCreate, response: Response, db: DBSession = Depends(get_db)):
     # Serializing by session prevents a completion transition racing the save.
     session = db.scalar(select(models.Session).where(models.Session.id == data.session_id).with_for_update().execution_options(populate_existing=True))
@@ -310,7 +310,10 @@ def create_exercise_result(data: schemas.ExerciseResultCreate, response: Respons
         ensure_session_ready(db, session)
         if trial is None or trial.session_id != session.id or trial.exercise_id is None:
             raise HTTPException(422, 'Cần lượt đã bắt đầu trong đúng buổi hiện tại.')
-        authorize_exercise(db, session, trial.exercise_id)
+        exercise = authorize_exercise(db, session, trial.exercise_id)
+        expected_game = 'free_drawing' if exercise.renderer == 'free_drawing' else 'glowing_flower'
+        if data.game_key != expected_game:
+            raise HTTPException(422, 'Loại kết quả không khớp bài tập của lượt.')
         if trial.status != 'in_progress':
             raise HTTPException(409, 'Lượt đã hoàn tất hoặc bị hủy.')
         if data.affected_side != session.affected_side:
@@ -319,6 +322,8 @@ def create_exercise_result(data: schemas.ExerciseResultCreate, response: Respons
             raise HTTPException(409, 'Mã kết quả không khớp lượt đã bắt đầu.')
     elif data.trial_id is not None and (trial is None or trial.session_id != session.id):
         raise HTTPException(422, 'Lượt không thuộc phiên hiện tại.')
+    if data.game_key == 'free_drawing' and (session.session_type != 'training' or not session.managed_workflow):
+        raise HTTPException(422, 'Vẽ tự do chỉ lưu trong buổi luyện tập đã chuẩn bị.')
     if trial is None:
         from .workflow_common import next_trial_number
         catalog = db.scalar(select(models.ExerciseCatalog).where(models.ExerciseCatalog.code == data.game_key))
@@ -328,7 +333,7 @@ def create_exercise_result(data: schemas.ExerciseResultCreate, response: Respons
         db.add(trial)
         db.flush()
         trial.status, trial.ended_at = 'completed', datetime.now(timezone.utc)
-        payload = {'schema_version': 1, **data.model_dump(mode='json', exclude={'trial_id'})}
+        payload = {'schema_version': 1, **data.model_dump(mode='json', exclude={'trial_id'}, exclude_none=True)}
         result = models.ExerciseResult(trial_id=trial.id, round_id=str(data.round_id), result_json=json.dumps(payload, ensure_ascii=False, allow_nan=False))
         db.add(result)
         db.flush()
@@ -344,7 +349,7 @@ def create_exercise_result(data: schemas.ExerciseResultCreate, response: Respons
         raise
 
 
-@app.get('/api/exercise-results', response_model=list[schemas.ExerciseResultOut])
+@app.get('/api/exercise-results', response_model=list[schemas.ExerciseResultOut], response_model_exclude_none=True)
 def exercise_results(session_id: int = Query(gt=0), db: DBSession = Depends(get_db)):
     require(db, models.Session, session_id)
     results = db.scalars(select(models.ExerciseResult).join(models.Trial).where(

@@ -29,3 +29,9 @@ it('keeps readable historical numbers even when the new trial status was never r
   expect(within(row).getByText('3')).toBeInTheDocument()
   expect(within(row).queryByText('Chưa hoàn tất')).not.toBeInTheDocument()
 })
+
+it('renders saved drawing descriptors separately from clinical or Flower scores', () => {
+  render(<SessionSummary report={report('{"game_key":"free_drawing","duration_seconds":12.5,"completed_strokes":4}')} exercises={[]}/> )
+  expect(screen.getByText('4 nét')).toBeInTheDocument()
+  expect(screen.queryByText('Điểm: 4')).not.toBeInTheDocument()
+})

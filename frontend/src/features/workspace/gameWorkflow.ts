@@ -1,20 +1,23 @@
-export interface SavedGameResult {
+interface SavedGameResultBase {
   id: number
   trial_id: number
   session_id: number
-  game_key: string
   exercise_id?: number | null
   exercise_code?: string | null
   duration_seconds: number
-  score: number
-  target_count: number
   round_id: string
   created_at: string
   data_valid?: boolean
 }
 
+export type SavedGameResult = SavedGameResultBase & (
+  | { game_key: 'glowing_flower'; score: number; target_count: number }
+  | { game_key: 'free_drawing'; completed_strokes: number; active_drawing_seconds?: number }
+)
+
 /** Optional domain adapter; standalone tracking and demo retain their original behavior. */
 export interface FlowerWorkflow {
+  renderer?: 'flower' | 'free_drawing'
   enabled: boolean
   setupReady: boolean
   exerciseId: number | null

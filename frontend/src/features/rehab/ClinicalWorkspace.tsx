@@ -56,12 +56,13 @@ export default function ClinicalWorkspace(props: ClinicalWorkspaceProps) {
     view,
     game: {
       enabled: view === 'game', setupReady, exerciseId: exercise?.id ?? null,
+      renderer: exercise?.renderer === 'free_drawing' ? 'free_drawing' : 'flower',
       exerciseName: exercise?.name, attempt: attemptState.attempt,
       durationSeconds: exercise?.default_duration_seconds,
       createTrial: async roundId => {
         await invalidationQueue.current
         if (invalidationFailed.current) throw new Error('Chưa đồng bộ hiệu chuẩn. Hãy kiểm tra và lưu lại.')
-        if (!exercise || exercise.renderer !== 'flower') throw new Error('Bài tập này chưa có giao diện thực hiện.')
+        if (!exercise || (exercise.renderer !== 'flower' && !(exercise.renderer === 'free_drawing' && exercise.usage_mode === 'training' && session.session_type === 'training'))) throw new Error('Bài tập này chưa có giao diện thực hiện trong phân hệ hiện tại.')
         return (await rehabApi.createTrial(session.id, exercise.id, roundId)).id
       },
       cancelTrial: async trialId => { await rehabApi.cancelTrial(trialId) },

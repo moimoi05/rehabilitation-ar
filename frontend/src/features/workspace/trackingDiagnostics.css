@@ -1,0 +1,8 @@
+.tracking-diagnostics { margin:12px 0; padding:10px 12px; border:1px solid #577087; border-radius:8px; background:#f0f6fb; color:#19364e; font-size:12px; }
+.tracking-diagnostics summary { cursor:pointer; font-weight:700; }
+.tracking-diagnostics p { margin:8px 0; }
+.tracking-diagnostics dl { display:grid; grid-template-columns:minmax(150px,1fr) 2fr; gap:5px 12px; margin:10px 0; }
+.tracking-diagnostics dt { font-weight:600; }
+.tracking-diagnostics dd { margin:0; overflow-wrap:anywhere; font-variant-numeric:tabular-nums; }
+.tracking-diagnostics button { margin:3px 8px 3px 0; }
+@media(max-width:600px) { .tracking-diagnostics dl { grid-template-columns:1fr; } .tracking-diagnostics dd { margin-bottom:6px; } }

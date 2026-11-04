@@ -9,6 +9,7 @@ import type { Position, Round } from './flowerGame'
 import type { FlowerWorkflow, SavedGameResult } from './gameWorkflow'
 
 type Props = {
+  enabled?: boolean
   demo: boolean; streamActive: boolean; tracking: boolean; mirrored: boolean; side: Side
   confirmed: boolean; session: Session | undefined; size: { width: number; height: number }
   pose: RefObject<{ pose: Point[]; hands: Point[][] }>; poseTime: RefObject<number>
@@ -24,7 +25,7 @@ const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'
 const projectionOf = ({ rect, box }: VideoMapping, display: Size) => [rect.x / box.width, rect.y / box.height, rect.width / box.width, rect.height / box.height, display.width / display.height]
 const projectionChanged = (left: number[], right: number[]) => left.some((value, index) => Math.abs(value - right[index]) > 1e-5)
 
-export function useFlowerGame({ demo, streamActive, tracking, mirrored, side, confirmed, session, size, pose, poseTime, mapping, displayBox, workflow }: Props) {
+export function useFlowerGame({ enabled = true, demo, streamActive, tracking, mirrored, side, confirmed, session, size, pose, poseTime, mapping, displayBox, workflow }: Props) {
   const { width: sourceWidth, height: sourceHeight } = size
   const durationMs = workflow?.durationSeconds && Number.isFinite(workflow.durationSeconds) && workflow.durationSeconds > 0 && workflow.durationSeconds <= 600 ? workflow.durationSeconds * 1000 : ROUND_MS
   const [phase, setPhase] = useState<Phase>('idle')
@@ -45,7 +46,7 @@ export function useFlowerGame({ demo, streamActive, tracking, mirrored, side, co
   const saveGeneration = useRef(0)
   const lastGeometryChange = useRef(0)
   const resumeAfterCheck = useRef<{ timestamp: number; requestedAt: number; projection: number[] } | null>(null)
-  const context = `${demo}|${streamActive}|${tracking}|${mirrored}|${side}|${session?.id ?? ''}|${confirmed}|${size.width}|${size.height}|${workflow ? `${workflow.enabled}|${workflow.setupReady}|${workflow.exerciseId}|${workflow.attempt}|${durationMs}` : ''}`
+  const context = `${enabled}|${demo}|${streamActive}|${tracking}|${mirrored}|${side}|${session?.id ?? ''}|${confirmed}|${size.width}|${size.height}|${workflow ? `${workflow.enabled}|${workflow.setupReady}|${workflow.exerciseId}|${workflow.attempt}|${durationMs}` : ''}`
   const previousContext = useRef(context)
   const liveContext = useRef(context)
   liveContext.current = context
@@ -138,7 +139,7 @@ export function useFlowerGame({ demo, streamActive, tracking, mirrored, side, co
     return () => cancelAnimationFrame(frame)
   }, [phase, demo, mirrored, side, sourceWidth, sourceHeight, pose, poseTime, mapping, displayBox, durationMs])
 
-  const canStart = (demo || Boolean(streamActive && tracking && confirmed && session?.status === 'in_progress')) && (!workflow || Boolean(workflow.enabled && workflow.setupReady && workflow.exerciseId))
+  const canStart = enabled && (demo || Boolean(streamActive && tracking && confirmed && session?.status === 'in_progress')) && (!workflow || Boolean(workflow.enabled && workflow.setupReady && workflow.exerciseId))
   const start = async () => {
     if (!canStart || preparingRef.current) return
     if (!demo && typeof crypto.randomUUID !== 'function') { setMessage('Không tạo được mã lượt an toàn. Hãy mở ứng dụng trên localhost hoặc HTTPS.'); return }

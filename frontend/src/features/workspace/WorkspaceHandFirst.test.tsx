@@ -8,6 +8,11 @@ import { drawLandmarks, prepareOverlay } from './drawing'
 import { PoseLandmarker, HandLandmarker } from '@mediapipe/tasks-vision'
 
 const capture = vi.hoisted(() => ({ start: vi.fn(), addFrame: vi.fn(), stop: vi.fn(), abort: vi.fn(), isActive: vi.fn(() => false), state: '', busy: false, stats: null, captureId: null, elapsedMs: 0 }))
+const drawingInput = vi.hoisted(() => ({ onHandObservation: vi.fn(), resetInput: vi.fn(), phase: 'idle', overlay: null, panel: null, hud: null }))
+const diagnostics = vi.hoisted(() => ({ recordHand: vi.fn(), recordPose: vi.fn(), recordSource: vi.fn(), recordSubmit: vi.fn(), recordSkip: vi.fn(), reject: vi.fn(), reset: vi.fn(), setActive: vi.fn() }))
+vi.mock('./trackingDiagnostics', () => ({ createTrackingDiagnostics: () => diagnostics }))
+vi.mock('./TrackingDiagnosticsPanel', () => ({ TrackingDiagnosticsPanel: () => null }))
+vi.mock('./useFreeDrawingGame', () => ({ useFreeDrawingGame: () => drawingInput }))
 vi.mock('../../services/api', () => ({ api: { sessions: async () => [{ id: 7, patient_id: 3, affected_side: 'left', status: 'draft', session_type: 'training' }] } }))
 vi.mock('./workerTracker', () => ({ createWorkerTracker: vi.fn(), waitForWorkerDisposals: vi.fn(async () => {}) }))
 vi.mock('./videoFrameScheduler', () => ({ startVideoFrameScheduler: vi.fn(() => vi.fn()) }))
@@ -31,12 +36,13 @@ describe('Workspace hand-first integration', () => {
   const poseResult = (timestamp = 100) => ({ id: 1, requestId: 1, sourceFrameId: 20, sourceMediaTimeMs: 800, sourcePerformanceMs: timestamp, timestamp, pose, poseWorldLandmarks: [], poseInferenceMs: 12, poseProcessed: true } as WorkerPoseResult)
   const tick = (time: number) => { now = time; act(() => { const draw = animation; animation = null; draw?.(time) }) }
   const start = async () => {
-    render(<WorkspacePage />)
+    const view = render(<WorkspacePage />)
     await screen.findByRole('option', { name: /Phiên #7/ })
     fireEvent.click(screen.getByRole('button', { name: 'Bật camera' }))
     await waitFor(() => expect(screen.getByRole('button', { name: 'Bắt đầu nhận diện' })).toBeEnabled())
     fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu nhận diện' }))
     await screen.findByRole('button', { name: 'Dừng nhận diện' })
+    return view
   }
 
   beforeEach(() => {
@@ -56,6 +62,8 @@ describe('Workspace hand-first integration', () => {
     vi.mocked(startVideoFrameScheduler).mockClear()
     vi.mocked(drawLandmarks).mockClear(); vi.mocked(prepareOverlay).mockClear()
     capture.isActive.mockReturnValue(false); capture.addFrame.mockClear(); capture.start.mockClear()
+    drawingInput.onHandObservation.mockClear(); drawingInput.resetInput.mockClear(); drawingInput.phase = 'idle'
+    Object.values(diagnostics).forEach(mock => mock.mockClear())
     localStorage.clear(); history.replaceState({}, '', '/workspace?sessionId=7')
   })
   afterEach(() => { cleanup(); vi.restoreAllMocks(); vi.unstubAllGlobals() })
@@ -77,6 +85,21 @@ describe('Workspace hand-first integration', () => {
     expect(prepareOverlay).toHaveBeenCalledTimes(2)
   })
 
+  it('delivers raw Hand identity directly to drawing before Pose and rejects stale callbacks', async () => {
+    await start()
+    const result = handResult()
+    act(() => options().onHandResult?.(result))
+    expect(drawingInput.onHandObservation).toHaveBeenCalledOnce()
+    expect(drawingInput.onHandObservation).toHaveBeenCalledWith({
+      hands, handedness: result.handedness, timestamp: 100, frameId: 20,
+    })
+    now = 300
+    act(() => options().onHandResult?.(handResult(110)))
+    expect(drawingInput.onHandObservation).toHaveBeenCalledOnce()
+    fireEvent.click(screen.getByRole('button', { name: 'Dừng nhận diện' }))
+    expect(drawingInput.resetInput).toHaveBeenCalled()
+  })
+
   it('does not clear and redraw an unchanged overlay every display refresh', async () => {
     await start(); tick(100)
     act(() => options().onHandResult?.(handResult()))
@@ -87,6 +110,64 @@ describe('Workspace hand-first integration', () => {
     expect(drawLandmarks).not.toHaveBeenCalled()
   })
 
+  it('lets active Free Drawing own the Hand overlay while retaining Pose and setup landmarks', async () => {
+    history.replaceState({}, '', '/workspace?sessionId=7&game=free_drawing')
+    const view = await start()
+    act(() => { options().onHandResult?.(handResult()); options().onPoseResult?.(poseResult()) })
+    tick(101)
+    expect(vi.mocked(drawLandmarks).mock.calls.some(call => call[5] === true)).toBe(true)
+
+    vi.mocked(drawLandmarks).mockClear(); vi.mocked(prepareOverlay).mockClear()
+    drawingInput.phase = 'playing'; view.rerender(<WorkspacePage />)
+    tick(110)
+    expect(prepareOverlay).toHaveBeenCalledOnce()
+    expect(drawLandmarks).toHaveBeenCalledWith(expect.anything(), 1280, 720, expect.arrayContaining([expect.objectContaining({ x: .4 })]), true, false, mapping.current)
+    expect(vi.mocked(drawLandmarks).mock.calls.some(call => call[5] === true)).toBe(false)
+
+    vi.mocked(drawLandmarks).mockClear(); vi.mocked(prepareOverlay).mockClear()
+    drawingInput.phase = 'finished'; view.rerender(<WorkspacePage />)
+    tick(120)
+    expect(prepareOverlay).toHaveBeenCalledOnce()
+    expect(vi.mocked(drawLandmarks).mock.calls.some(call => call[5] === true)).toBe(true)
+  })
+
+  it('restores generic Hand rendering on game switch without waiting for another result', async () => {
+    history.replaceState({}, '', '/workspace?sessionId=7&game=free_drawing')
+    drawingInput.phase = 'playing'
+    await start()
+    act(() => options().onHandResult?.(handResult()))
+    tick(101)
+    vi.mocked(drawLandmarks).mockClear(); vi.mocked(prepareOverlay).mockClear()
+    fireEvent.change(screen.getByLabelText('Trò chơi thử nghiệm'), { target: { value: 'flower' } })
+    tick(110)
+    expect(prepareOverlay).toHaveBeenCalledOnce()
+    expect(vi.mocked(drawLandmarks).mock.calls.some(call => call[5] === true)).toBe(true)
+  })
+
+  it('diagnoses incoming stale results before filtering and counts Worker backpressure only in debug mode', async () => {
+    history.replaceState({}, '', '/workspace?sessionId=7&trackingDebug=1')
+    await start()
+    act(() => options().onHandResult?.(handResult()))
+    now = 300
+    act(() => options().onHandResult?.(handResult(110)))
+    expect(diagnostics.recordHand).toHaveBeenCalledTimes(2)
+    expect(diagnostics.recordHand).toHaveBeenLastCalledWith(expect.objectContaining({ timestamp: 110, receivedAt: 300, handCount: 1, validHandCount: 1, requestId: 1, frameId: 20, inferenceMs: 8 }))
+    expect(diagnostics.reject).toHaveBeenCalledWith('STALE_HAND', true)
+    expect(drawingInput.onHandObservation).toHaveBeenCalledOnce()
+    tracker.submit.mockReturnValue(false)
+    const callback = vi.mocked(startVideoFrameScheduler).mock.lastCall![1]
+    act(() => callback({ now: 300, inferenceTimestamp: 300, mediaTime: 1, sourceFrameId: 21 }))
+    expect(diagnostics.recordSkip).toHaveBeenCalledWith('busy')
+    expect(diagnostics.recordSource).toHaveBeenCalledWith({ timestamp: 300, visibility: document.visibilityState })
+    expect(diagnostics.recordSubmit).not.toHaveBeenCalled()
+  })
+
+  it('does not collect diagnostic samples during normal gameplay', async () => {
+    await start()
+    act(() => options().onHandResult?.(handResult()))
+    expect(diagnostics.recordHand).not.toHaveBeenCalled()
+  })
+
   it('supplies at least 30 callbacks and keeps Hand/Pose budgets independent with explicit source identity', async () => {
     await start()
     expect(vi.mocked(startVideoFrameScheduler).mock.lastCall![2].maxFps).toBeGreaterThanOrEqual(30)
@@ -95,6 +176,13 @@ describe('Workspace hand-first integration', () => {
     act(() => callback({ now: 134, inferenceTimestamp: 134, mediaTime: .834, sourceFrameId: 21 }))
     expect(tracker.submit.mock.calls[0]).toEqual([expect.any(HTMLVideoElement), 100, true, true, { sourceFrameId: 20, sourceMediaTimeMs: 800, sourcePerformanceMs: 100 }])
     expect(tracker.submit.mock.calls[1]).toEqual([expect.any(HTMLVideoElement), 134, true, false, { sourceFrameId: 21, sourceMediaTimeMs: 834, sourcePerformanceMs: 134 }])
+  })
+
+  it('does not throttle drawing source callbacks twice and allows cold GPU setup on its first frame', async () => {
+    history.replaceState({}, '', '/workspace?sessionId=7&game=free_drawing')
+    await start()
+    expect(vi.mocked(startVideoFrameScheduler).mock.lastCall![2].maxFps).toBe(120)
+    expect(options()).toMatchObject({ initialFrameTimeoutMs: 30000 })
   })
 
   it('waits for old disposal before restart and ignores old session callbacks', async () => {

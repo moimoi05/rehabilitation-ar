@@ -17,6 +17,16 @@ function resultData(result: StoredResult): Record<string, unknown> | null {
 const answerLabel = (value: unknown): string => value === null || value === undefined || value === '' ? 'Chưa trả lời' : typeof value === 'boolean' ? (value ? 'Có' : 'Không') : Array.isArray(value) ? value.join(', ') : String(value)
 const dateLabel = hospitalDateTime
 
+function activitySummary(data: Record<string, unknown> | null): string {
+  if (!data) return 'Dữ liệu cũ chưa có định dạng hiển thị'
+  if (data.game_key === 'free_drawing') {
+    if (typeof data.completed_strokes !== 'number' || !Number.isInteger(data.completed_strokes) || data.completed_strokes < 0) return 'Chưa ghi số nét'
+    const active = typeof data.active_drawing_seconds === 'number' && Number.isFinite(data.active_drawing_seconds) && data.active_drawing_seconds >= 0 ? ` · ${data.active_drawing_seconds.toFixed(1)} giây đang vẽ` : ''
+    return `${data.completed_strokes} nét${active}`
+  }
+  return typeof data.score === 'number' ? `Điểm: ${data.score}${typeof data.target_count === 'number' ? ` / ${data.target_count} mục tiêu` : ''}` : JSON.stringify(data)
+}
+
 export function ReportCard({ report, exercises = [] }: { report: SessionReport; exercises?: Exercise[] }) {
   const { session, patient } = report
   const exerciseName = (code: string, id: number | null) => exercises.find(exercise => exercise.id === id || exercise.code === code)?.name || code
@@ -27,9 +37,9 @@ export function ReportCard({ report, exercises = [] }: { report: SessionReport; 
     {session.session_type === 'assessment' && <details><summary>Câu hỏi và câu trả lời đã lưu</summary>{!report.questionnaires.length ? <Empty>Chưa có câu trả lời lâm sàng cho lần đánh giá này.</Empty> : report.questionnaires.map(submission => <div key={submission.id}><p className="rehab-result-meta">{submission.template_snapshot.name} · Phiên bản {submission.template_snapshot.version} · {submission.completed ? 'Đã hoàn tất' : 'Chưa hoàn tất'}</p><dl>{submission.template_snapshot.questions.map(question => <div className="rehab-question-answer" key={question.key}><dt>{question.group ? `${question.group} · ` : ''}{question.label}</dt><dd>{answerLabel(submission.answers.find(answer => answer.question_key === question.key)?.value)}</dd></div>)}</dl></div>)}</details>}
     <details open={session.session_type === 'training'}><summary>Chi tiết bài tập và từng lượt</summary>{!report.trials.length ? <Empty>Chưa có lượt thực hiện được ghi nhận.</Empty> : <div className="table-wrap"><table><thead><tr><th>Bài tập / Lượt</th><th>Trạng thái</th><th>Thời lượng</th><th>Kết quả</th><th>Tính hợp lệ dữ liệu</th></tr></thead><tbody>{report.trials.map(trial => {
       const saved = (trial.results || []).map(result => ({ result, data: resultData(result) }))
-      return <tr key={trial.id}><td><strong>{exerciseName(trial.exercise_code, trial.exercise_id)}</strong><span className="cell-sub">Lượt {trial.trial_number || trial.id}{trial.started_at ? ` · ${dateLabel(trial.started_at)}` : ''}</span></td><td>{trial.status === 'completed' ? 'Đã hoàn thành' : trial.status === 'cancelled' ? 'Đã hủy' : trial.status ? 'Chưa hoàn thành' : 'Chưa ghi trạng thái'}</td><td>{saved.map(({ result, data }) => <div key={result.id}>{typeof data?.duration_seconds === 'number' ? `${Math.round(data.duration_seconds * 10) / 10} giây` : 'Chưa ghi thời lượng'}</div>)}{!saved.length && 'Chưa có kết quả'}</td><td>{saved.map(({ result, data }) => <div key={result.id}>{typeof data?.score === 'number' ? `Điểm: ${data.score}${typeof data.target_count === 'number' ? ` / ${data.target_count} mục tiêu` : ''}` : data ? JSON.stringify(data) : 'Dữ liệu cũ chưa có định dạng hiển thị'}</div>)}{!saved.length && 'Chưa lưu'}</td><td>{saved.map(({ result, data }) => <div key={result.id}>{data?.data_valid === true ? 'Hợp lệ theo ghi nhận' : data?.data_valid === false ? 'Không hợp lệ' : 'Chưa đánh giá tính hợp lệ'}</div>)}{!saved.length && 'Chưa có dữ liệu'}</td></tr>
+      return <tr key={trial.id}><td><strong>{exerciseName(trial.exercise_code, trial.exercise_id)}</strong><span className="cell-sub">Lượt {trial.trial_number || trial.id}{trial.started_at ? ` · ${dateLabel(trial.started_at)}` : ''}</span></td><td>{trial.status === 'completed' ? 'Đã hoàn thành' : trial.status === 'cancelled' ? 'Đã hủy' : trial.status ? 'Chưa hoàn thành' : 'Chưa ghi trạng thái'}</td><td>{saved.map(({ result, data }) => <div key={result.id}>{typeof data?.duration_seconds === 'number' ? `${Math.round(data.duration_seconds * 10) / 10} giây` : 'Chưa ghi thời lượng'}</div>)}{!saved.length && 'Chưa có kết quả'}</td><td>{saved.map(({ result, data }) => <div key={result.id}>{activitySummary(data)}</div>)}{!saved.length && 'Chưa lưu'}</td><td>{saved.map(({ result, data }) => <div key={result.id}>{data?.data_valid === true ? 'Hợp lệ theo ghi nhận' : data?.data_valid === false ? 'Không hợp lệ' : 'Chưa đánh giá tính hợp lệ'}</div>)}{!saved.length && 'Chưa có dữ liệu'}</td></tr>
     })}</tbody></table></div>}</details>
-    <p className="help rehab-section">Điểm trò chơi không phải điểm FMA-UE. Thời lượng và điểm của từng bài được trình bày riêng.</p>
+    <p className="help rehab-section">Điểm trò chơi không phải điểm FMA-UE. Thời lượng, điểm Hái hoa và số nét Vẽ tự do được trình bày riêng.</p>
     <CaptureArtifacts captures={report.captures || []}/>
   </article>
 }

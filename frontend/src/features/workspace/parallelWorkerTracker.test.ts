@@ -22,6 +22,19 @@ const flush = async () => { await Promise.resolve(); await Promise.resolve(); aw
 const video = {} as HTMLVideoElement
 
 describe('parallel worker tracking', () => {
+  it('preserves shared main-thread observation identity through independently returning models', async () => {
+    const s = setup(); s.poseWorker.send({ type: 'ready' }); s.handWorker.send({ type: 'ready' })
+    const tracker = await s.pending
+    const source = { sourceFrameId: 42, sourceObservationId: 9, sourcePerformanceMs: 120, sourceMediaTimeMs: 450, captureScope: 'capture-a' }
+    tracker.submitPose(video, 120, source); tracker.submitHand(video, 120, source); await flush()
+    expect(s.poseWorker.postMessage).toHaveBeenCalledWith(expect.objectContaining(source), expect.any(Array))
+    s.handWorker.send({ type: 'result', id: 1, pose: [], hands: [], handProcessed: true, poseProcessed: false })
+    s.poseWorker.send({ type: 'result', id: 1, pose: [], hands: null, poseProcessed: true, handProcessed: false })
+    expect(s.onHand).toHaveBeenCalledWith(expect.objectContaining(source))
+    expect(s.onPose).toHaveBeenCalledWith(expect.objectContaining(source))
+    tracker.close()
+  })
+
   it('initializes independent roles and bounds capture separately for each worker', async () => {
     const s = setup(); s.poseWorker.send({ type: 'ready' }); s.handWorker.send({ type: 'ready' })
     const tracker = await s.pending

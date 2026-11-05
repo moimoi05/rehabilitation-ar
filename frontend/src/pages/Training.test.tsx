@@ -99,6 +99,49 @@ it('cho phép đóng buổi dang dở có xác nhận, giữ lịch sử đã l�
   expect(await screen.findByRole('button', { name: 'Bắt đầu buổi tập' })).toBeEnabled()
 })
 
+it('tiếp tục đúng buổi dang dở và thiết lập lại camera trước khi chơi', async () => {
+  const unfinished: SessionReport = { ...report, session: { ...session, id: 31, status: 'in_progress', setup_confirmed: true } }
+  vi.spyOn(rehabApi, 'patientReport').mockResolvedValue({ ...patientReport, training: [unfinished] })
+  vi.spyOn(rehabApi, 'trainingDetail').mockResolvedValue(unfinished)
+  const resume = vi.spyOn(rehabApi, 'resumeTraining').mockResolvedValue({ ...unfinished.session, setup_confirmed: false, setup_revision: 1 })
+  const create = vi.spyOn(rehabApi, 'createTraining')
+  const start = vi.spyOn(rehabApi, 'startTraining').mockResolvedValue({ ...unfinished.session, setup_revision: 1 })
+  show()
+  await userEvent.click(await screen.findByRole('button', { name: 'Tiếp tục buổi dang dở #31' }))
+  expect(resume).toHaveBeenCalledWith(31)
+  expect(await screen.findByTestId('camera-session')).toHaveAttribute('data-session', '31')
+  expect(screen.getByRole('heading', { name: 'Thiết lập camera cho buổi tập' })).toBeInTheDocument()
+  expect(screen.queryByRole('button', { name: 'Thực hiện Hái hoa' })).not.toBeInTheDocument()
+  expect(create).not.toHaveBeenCalled()
+  await userEvent.click(screen.getByRole('button', { name: 'Mô phỏng lưu hiệu chuẩn' }))
+  await waitFor(() => expect(start).toHaveBeenCalledWith(31))
+  expect(await screen.findByRole('button', { name: 'Thực hiện Hái hoa' })).toBeEnabled()
+})
+
+it('không tiếp tục nếu buổi đã kết thúc hoặc thuộc bệnh nhân khác', async () => {
+  const unfinished: SessionReport = { ...report, session: { ...session, id: 31, status: 'in_progress' } }
+  vi.spyOn(rehabApi, 'patientReport').mockResolvedValue({ ...patientReport, training: [unfinished] })
+  vi.spyOn(rehabApi, 'trainingDetail').mockResolvedValue({ ...unfinished, session: { ...unfinished.session, patient_id: 2 } })
+  const resume = vi.spyOn(rehabApi, 'resumeTraining')
+  show()
+  await userEvent.click(await screen.findByRole('button', { name: 'Tiếp tục buổi dang dở #31' }))
+  expect(await screen.findByText(/không còn khả dụng/)).toBeInTheDocument()
+  expect(resume).not.toHaveBeenCalled()
+  expect(screen.queryByTestId('camera-session')).not.toBeInTheDocument()
+})
+
+it('giữ buổi đã tiếp tục nếu tải lại chi tiết thất bại, không gọi lại resume', async () => {
+  const unfinished: SessionReport = { ...report, session: { ...session, id: 31, status: 'in_progress' } }
+  vi.spyOn(rehabApi, 'patientReport').mockResolvedValue({ ...patientReport, training: [unfinished] })
+  vi.spyOn(rehabApi, 'trainingDetail').mockResolvedValueOnce(unfinished).mockRejectedValueOnce(new Error('offline'))
+  const resume = vi.spyOn(rehabApi, 'resumeTraining').mockResolvedValue({ ...unfinished.session, setup_confirmed: false, setup_revision: 1 })
+  show()
+  await userEvent.click(await screen.findByRole('button', { name: 'Tiếp tục buổi dang dở #31' }))
+  expect(await screen.findByText(/Đã tiếp tục buổi tập nhưng chưa tải lại/)).toBeInTheDocument()
+  expect(screen.getByTestId('camera-session')).toHaveAttribute('data-session', '31')
+  expect(resume).toHaveBeenCalledTimes(1)
+})
+
 it('lọc ngày theo ngày bệnh viện tại Bangkok, kể cả kết quả sau nửa đêm địa phương', async () => {
   const overnight: SessionReport = { ...report, session: { ...session, created_at: '2026-10-30T18:30:00Z', status: 'completed' } }
   vi.spyOn(rehabApi, 'patientReport').mockResolvedValue({ ...patientReport, training: [overnight] })

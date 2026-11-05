@@ -17,13 +17,14 @@ export function landmarkRows(
   source: 'pose' | 'hand',
   space: 'normalized_image' | 'world',
   representation: 'raw' | 'display' = 'raw',
-  handedness?: Array<Category | { categoryName?: string; score?: number; index?: number; displayName?: string }>
+  handedness?: Array<Category | { categoryName?: string; score?: number; index?: number; displayName?: string }>,
+  handObservationIndex?: number,
 ): CaptureLandmark[] {
   return points.map((point, index) => {
     const finite = Number.isFinite(point.x) && Number.isFinite(point.y) && typeof point.z === 'number' && Number.isFinite(point.z)
     const inside = space === 'world' || (point.x >= 0 && point.x <= 1 && point.y >= 0 && point.y <= 1)
     const valid = finite && inside
     const zVal = typeof point.z === 'number' && Number.isFinite(point.z) ? point.z : null
-    return { landmark_source: source, landmark_index: index, landmark_name: (source === 'pose' ? poseNames : handNames)[index] || `landmark_${index}`, x: Number.isFinite(point.x) ? point.x : null, y: Number.isFinite(point.y) ? point.y : null, z: zVal, coordinate_space: space, representation, is_valid: valid, ...(valid ? {} : { invalid_reason: finite ? 'outside_image' : 'non_finite' }), ...('visibility' in point && typeof point.visibility === 'number' && Number.isFinite(point.visibility) ? { visibility: point.visibility } : {}), ...('presence' in point && typeof point.presence === 'number' && Number.isFinite(point.presence) ? { presence: point.presence } : {}), ...(handedness?.[0]?.categoryName ? { handedness: handedness[0].categoryName } : {}) }
+    return { landmark_source: source, landmark_index: index, landmark_name: (source === 'pose' ? poseNames : handNames)[index] || `landmark_${index}`, x: Number.isFinite(point.x) ? point.x : null, y: Number.isFinite(point.y) ? point.y : null, z: zVal, coordinate_space: space, representation, is_valid: valid, ...(valid ? {} : { invalid_reason: finite ? 'outside_image' : 'non_finite' }), ...('visibility' in point && typeof point.visibility === 'number' && Number.isFinite(point.visibility) ? { visibility: point.visibility } : {}), ...('presence' in point && typeof point.presence === 'number' && Number.isFinite(point.presence) ? { presence: point.presence } : {}), ...(handedness?.[0]?.categoryName ? { handedness: handedness[0].categoryName } : {}), ...(typeof handedness?.[0]?.score === 'number' && Number.isFinite(handedness[0].score) ? { handedness_score: handedness[0].score } : {}), ...(source === 'hand' && Number.isSafeInteger(handObservationIndex) && handObservationIndex! >= 0 ? { hand_observation_index: handObservationIndex } : {}) }
   })
 }

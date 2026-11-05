@@ -96,3 +96,14 @@ it('không tạo lần đánh giá mới cho bệnh nhân đã điều trị', a
   expect(await screen.findByText(/đã thuộc nhóm điều trị/)).toBeInTheDocument()
   expect(rehabApi.createAssessment).not.toHaveBeenCalled()
 })
+
+it('shows drawing when the catalog permits assessment and selects it through the existing workflow', async () => {
+  const drawing: Exercise = { ...flower, id: 3, code: 'free_drawing', name: 'Vẽ tự do', renderer: 'free_drawing', usage_mode: 'both', is_default: false }
+  vi.mocked(rehabApi.exercises).mockResolvedValue([flower, drawing])
+  show(); await startQuestions()
+  await userEvent.click(await screen.findByRole('button', { name: 'Mô phỏng lưu hiệu chuẩn' }))
+  await userEvent.click(await screen.findByLabelText('Chọn Vẽ tự do'))
+  await userEvent.click(screen.getByRole('button', { name: 'Thực hiện Vẽ tự do' }))
+  expect(await screen.findByRole('button', { name: 'Mô phỏng lưu trò chơi' })).toBeInTheDocument()
+  expect(rehabApi.updateAssessment).toHaveBeenCalledWith(55, { selected_exercise_ids: [1, 3] })
+})

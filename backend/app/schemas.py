@@ -124,16 +124,18 @@ class ExerciseResultCreate(ORMModel):
     game_key: Literal['glowing_flower', 'free_drawing']
     source: Literal['camera']
     affected_side: Side
-    duration_seconds: float = Field(gt=0, le=600, allow_inf_nan=False)
+    duration_seconds: float = Field(gt=0, allow_inf_nan=False)
     score: int | None = Field(default=None, ge=0, le=10000, strict=True)
     target_count: int | None = Field(default=None, ge=0, le=10000, strict=True)
     completed_strokes: int | None = Field(default=None, ge=0, le=10000, strict=True)
-    active_drawing_seconds: float | None = Field(default=None, ge=0, le=600, allow_inf_nan=False)
+    active_drawing_seconds: float | None = Field(default=None, ge=0, allow_inf_nan=False)
     trial_id: int | None = Field(default=None, gt=0, strict=True)
 
     @model_validator(mode='after')
     def valid_score(self):
         if self.game_key == 'glowing_flower':
+            if self.duration_seconds > 600:
+                raise ValueError('Thời lượng Hái hoa không được vượt 600 giây')
             if self.score is None or self.target_count is None:
                 raise ValueError('Hái hoa cần số lần chạm và số mục tiêu')
             if self.score > self.target_count:

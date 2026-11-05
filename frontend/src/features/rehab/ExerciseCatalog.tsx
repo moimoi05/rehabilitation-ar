@@ -4,7 +4,7 @@ import type { Exercise, Trial } from '../../types/rehab'
 
 type Props = { exercises: Exercise[]; trials?: Trial[]; selectedIds?: number[]; onSelectionChange?: (ids: number[]) => void; onPlay: (exercise: Exercise) => void; disabled?: boolean }
 export default function ExerciseCatalog({ exercises, trials = [], selectedIds, onSelectionChange, onPlay, disabled = false }: Props) {
-  const playable = exercises.filter(exercise => exercise.active && (exercise.renderer === 'flower' || (exercise.renderer === 'free_drawing' && exercise.usage_mode === 'training')))
+  const playable = exercises.filter(exercise => exercise.active && (exercise.renderer === 'flower' || exercise.renderer === 'free_drawing'))
   return <div className="exercise-catalog">{playable.length === 0 ? <Empty>Chưa có bài tập đang hoạt động để thực hiện.</Empty> : playable.map(exercise => <article className="panel exercise-card" key={exercise.id}>
     <div className="panel-heading"><h3>{exercise.name}</h3></div>
     <p>{exercise.description}</p><p className="help">{exercise.instructions}</p>

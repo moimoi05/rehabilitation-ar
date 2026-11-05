@@ -21,6 +21,8 @@ class CaptureCreate(StrictModel):
     width: int | None = Field(default=None, ge=1, le=16384)
     height: int | None = Field(default=None, ge=1, le=16384)
     model_config_info: dict = Field(default_factory=dict, alias='model_config')
+    capture_mode: Literal['manual', 'per_trial'] = 'manual'
+    capture_schema_version: Literal[2] = 2
 
     @model_validator(mode='after')
     def check_consent(self):
@@ -34,6 +36,15 @@ class CaptureCreate(StrictModel):
             raise ValueError('Unsupported video MIME type')
         if 'recorder_start' in self.model_config_info:
             raise ValueError('recorder_start is server-managed metadata')
+        if 'tracking_recorder_start' in self.model_config_info:
+            raise ValueError('tracking_recorder_start is server-managed metadata')
+        tracking = self.model_config_info.get('record_tracking_video', False)
+        if type(tracking) is not bool:
+            raise ValueError('record_tracking_video must be a boolean')
+        if tracking and (not self.record_video or not self.record_landmarks):
+            raise ValueError('Tracking video requires consent for video and landmarks')
+        if self.capture_mode == 'per_trial' and (self.trial_id is None or not self.record_landmarks or not self.record_video):
+            raise ValueError('Automatic per-trial capture requires an existing trial, video and landmarks')
         return self
 
 
@@ -63,6 +74,8 @@ class Landmark(StrictModel):
     visibility: float | None = None
     presence: float | None = None
     handedness: str | None = Field(default=None, max_length=32)
+    handedness_score: float | None = Field(default=None, ge=0, le=1)
+    hand_observation_index: int | None = Field(default=None, ge=0, le=100)
     representation: Literal['raw', 'display'] = 'raw'
 
     @model_validator(mode='after')
@@ -76,6 +89,7 @@ class Landmark(StrictModel):
 class Frame(StrictModel):
     frame_id: int = Field(ge=0)
     source_frame_id: int | None = Field(default=None, ge=0)
+    source_observation_id: int | None = Field(default=None, ge=0)
     timestamp_ms: float = Field(ge=0)
     video_media_time_ms: float | None = Field(default=None, ge=0)
     utc_time: datetime | None = None
@@ -83,6 +97,14 @@ class Frame(StrictModel):
     pose_detected: bool | None = None
     hand_detected: bool | None = None
     inference_ms: float | None = Field(default=None, ge=0)
+    pose_inference_performed: bool | None = None
+    hand_inference_performed: bool | None = None
+    pose_inference_ms: float | None = Field(default=None, ge=0)
+    hand_inference_ms: float | None = Field(default=None, ge=0)
+    pose_inference_status: Literal['not_run', 'detected', 'not_detected', 'error', 'missing_result'] | None = None
+    hand_inference_status: Literal['not_run', 'detected', 'not_detected', 'error', 'missing_result'] | None = None
+    pose_error: str | None = Field(default=None, max_length=1000)
+    hand_error: str | None = Field(default=None, max_length=1000)
     skipped_frames: int = Field(default=0, ge=0)
     landmarks: list[Landmark] = Field(default_factory=list, max_length=1000)
 
@@ -90,6 +112,22 @@ class Frame(StrictModel):
     def inference_consistency(self):
         if not self.inference_performed and (self.landmarks or self.pose_detected is not None or self.hand_detected is not None):
             raise ValueError('A frame without inference cannot have detection results')
+        performed = [self.pose_inference_performed, self.hand_inference_performed]
+        if all(value is not None for value in performed) and self.inference_performed != any(performed):
+            raise ValueError('inference_performed must equal Pose OR Hand inference in schema 2')
+        for model in ('pose', 'hand'):
+            ran = getattr(self, f'{model}_inference_performed')
+            status = getattr(self, f'{model}_inference_status')
+            detected = getattr(self, f'{model}_detected')
+            if status is None:
+                continue  # Legacy data cannot tell which model actually ran.
+            if (status == 'not_run' and ran is not False) or (status in ('detected', 'not_detected') and ran is not True):
+                raise ValueError('Per-model inference status and performed flag disagree')
+            expected = True if status == 'detected' else False if status == 'not_detected' else None
+            if detected is not expected:
+                raise ValueError('Per-model detection must distinguish missing/error from no detection')
+            if status != 'detected' and any(point.landmark_source == model for point in self.landmarks):
+                raise ValueError('Landmarks require a detected result from their model')
         return self
 
 class LandmarkBatch(StrictModel):
@@ -105,11 +143,32 @@ class LandmarkBatch(StrictModel):
 class CaptureFinalize(StrictModel):
     expected_batches: int = Field(ge=0, le=1000000)
     expected_video_chunks: int = Field(ge=0, le=1000000)
+    expected_tracking_video_chunks: int = Field(default=0, ge=0, le=1000000)
+    tracking_video_complete: bool = True
     ended_at_utc: datetime
     duration_ms: float = Field(ge=0)
+    game_started_at_ms: float | None = Field(default=None, ge=0)
+    game_ended_at_ms: float | None = Field(default=None, ge=0)
+    termination_reason: str | None = Field(default=None, min_length=1, max_length=256)
+    known_data_gaps: list[str] = Field(default_factory=list, max_length=128)
 
     @model_validator(mode='after')
     def aware_time(self):
         if self.ended_at_utc.utcoffset() is None:
             raise ValueError('ended_at_utc must include a timezone')
+        if any(not gap or len(gap) > 1000 for gap in self.known_data_gaps):
+            raise ValueError('Data gap descriptions must contain 1 to 1000 characters')
+        if self.game_ended_at_ms is not None and (self.game_started_at_ms is None or self.game_ended_at_ms < self.game_started_at_ms or self.game_ended_at_ms > self.duration_ms):
+            raise ValueError('Gameplay times must be ordered within capture duration')
+        return self
+
+
+class CaptureIncomplete(StrictModel):
+    reason: str = Field(min_length=1, max_length=1000)
+    known_data_gaps: list[str] = Field(default_factory=list, max_length=128)
+
+    @model_validator(mode='after')
+    def bounded_gaps(self):
+        if any(not gap or len(gap) > 1000 for gap in self.known_data_gaps):
+            raise ValueError('Data gap descriptions must contain 1 to 1000 characters')
         return self

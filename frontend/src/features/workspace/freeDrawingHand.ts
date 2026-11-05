@@ -9,7 +9,7 @@ export type DrawingObservation = {
 }
 export type HandSelectionReason = 'RAW_HAND_MISSING' | 'HAND_INVALID' | 'SIDE_AMBIGUOUS' | 'ACQUIRING'
 export const DRAWING_POLICY = Object.freeze({
-  maxAgeMs: 150, handednessScore: .75, acquisitionFrames: 3, acquisitionMs: 50,
+  maxAgeMs: 150, continuityGraceMs: 300, handednessScore: .75, acquisitionFrames: 3, acquisitionMs: 50,
   handJump: .25, cursorJump: .23, gestureFrames: 2, maxStrokes: 500, maxPoints: 60000,
   pinchCloseRatio: .28, pinchReleaseRatio: .45,
 })
@@ -34,6 +34,15 @@ export class AffectedHandSelector {
     this.lastSelectedAt = 0; this.lastConfidentAt = 0; this.rejectionReason = reason
   }
   reset() { this.lose(); this.wrist = null; this.others = [] }
+
+  /** Resume only a previously selected, nearby single hand with a confident matching label. */
+  matchesPrevious(observation: DrawingObservation): boolean {
+    if (!this.wrist || observation.hands.length !== 1 || !validHand(observation.hands[0])) return false
+    const label = observation.handedness[0]?.[0]
+    return label?.categoryName === (this.side === 'left' ? 'Left' : 'Right') &&
+      Number.isFinite(label.score) && label.score >= DRAWING_POLICY.handednessScore &&
+      distance(observation.hands[0][0], this.wrist) <= .08
+  }
 
   select(observation: DrawingObservation): Point[] | null {
     this.rejectionReason = 'ACQUIRING'

@@ -94,8 +94,6 @@ def authorize_exercise(db, session, exercise_id):
     exercise = require(db, models.ExerciseCatalog, exercise_id)
     if exercise.renderer not in ('flower', 'free_drawing'):
         raise HTTPException(409, 'Bài tập chưa có giao diện thực hiện được hỗ trợ.')
-    if exercise.renderer == 'free_drawing' and session.session_type != 'training':
-        raise HTTPException(409, 'Vẽ tự do chỉ dùng trong luyện tập, không dùng để đánh giá.')
     allowed = {item.id for item in available_exercises(db, session.session_type,
         session.patient_id if session.session_type == 'training' else None)}
     if exercise_id not in allowed:

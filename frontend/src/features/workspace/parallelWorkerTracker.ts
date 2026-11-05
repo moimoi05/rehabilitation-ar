@@ -1,5 +1,5 @@
 import { createWorkerTracker } from './workerTracker'
-import type { WorkerResult, WorkerTracker } from './workerTracker'
+import type { SourceFrameIdentity, WorkerResult, WorkerTracker } from './workerTracker'
 
 type Options = {
   poseWorker: Worker
@@ -15,8 +15,8 @@ type Options = {
 }
 
 export type ParallelWorkerTracker = {
-  submitPose: (video: HTMLVideoElement, timestamp: number) => boolean
-  submitHand: (video: HTMLVideoElement, timestamp: number) => boolean
+  submitPose: (video: HTMLVideoElement, timestamp: number, source?: SourceFrameIdentity) => boolean
+  submitHand: (video: HTMLVideoElement, timestamp: number, source?: SourceFrameIdentity) => boolean
   close: () => void
   readonly delegates: { pose: 'GPU' | 'CPU' | null; hand: 'GPU' | 'CPU' | null }
   readonly initializationErrors: string[]
@@ -88,8 +88,8 @@ export async function createParallelWorkerTracker(options: Options): Promise<Par
     if (closed) throw startupFailure || new Error('Parallel worker initialization cancelled')
     initialized = true
     return {
-      submitPose: (video, timestamp) => !closed && !!poseTracker?.submit(video, timestamp, false),
-      submitHand: (video, timestamp) => !closed && handAvailable && !!handTracker?.submit(video, timestamp, true),
+      submitPose: (video, timestamp, source) => !closed && !!poseTracker?.submit(video, timestamp, false, true, source),
+      submitHand: (video, timestamp, source) => !closed && handAvailable && !!handTracker?.submit(video, timestamp, true, false, source),
       close,
       get delegates() {
         return {

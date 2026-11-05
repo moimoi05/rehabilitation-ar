@@ -62,7 +62,7 @@ export default function ClinicalWorkspace(props: ClinicalWorkspaceProps) {
       createTrial: async roundId => {
         await invalidationQueue.current
         if (invalidationFailed.current) throw new Error('Chưa đồng bộ hiệu chuẩn. Hãy kiểm tra và lưu lại.')
-        if (!exercise || (exercise.renderer !== 'flower' && !(exercise.renderer === 'free_drawing' && exercise.usage_mode === 'training' && session.session_type === 'training'))) throw new Error('Bài tập này chưa có giao diện thực hiện trong phân hệ hiện tại.')
+        if (!exercise || (exercise.renderer !== 'flower' && !(exercise.renderer === 'free_drawing' && (exercise.usage_mode === 'both' || exercise.usage_mode === session.session_type)))) throw new Error('Bài tập này chưa có giao diện thực hiện trong phân hệ hiện tại.')
         return (await rehabApi.createTrial(session.id, exercise.id, roundId)).id
       },
       cancelTrial: async trialId => { await rehabApi.cancelTrial(trialId) },

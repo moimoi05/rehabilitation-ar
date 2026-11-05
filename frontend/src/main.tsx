@@ -14,6 +14,7 @@ import PatientsAdmin from './pages/admin/PatientsAdmin'
 import PatientProfile from './pages/admin/PatientProfile'
 import QuestionnairesAdmin from './pages/admin/QuestionnairesAdmin'
 import ReportsPage from './pages/reports/ReportsPage'
+import { TrainingSessionDetails, TrainingTrialDetails } from './pages/reports/TrainingDetailsPage'
 import WorkspacePage from './features/workspace/WorkspacePage'
 import TrackingTestLab from './features/workspace/ReplayTestPage'
 import TrackingBenchmarkPage from './features/workspace/TrackingBenchmarkPage'
@@ -23,6 +24,8 @@ const router = createBrowserRouter([{ element: <Layout />, children: [
   { index: true, element: <Dashboard /> },
   { path: 'assessment', element: <Assessment /> }, { path: 'assessment/:patientId', element: <Assessment /> },
   { path: 'training', element: <Training /> }, { path: 'training/:patientId', element: <Training /> },
+  { path: 'reports/training/:sessionId/trials/:trialId', element: <TrainingTrialDetails /> },
+  { path: 'reports/training/:sessionId', element: <TrainingSessionDetails /> },
   { path: 'reports', element: <ReportsPage /> }, { path: 'admin', element: <PatientsAdmin /> },
   { path: 'admin/patients/:patientId', element: <PatientProfileRoute /> },
   { path: 'admin/questionnaires', element: <QuestionnairesAdmin /> },

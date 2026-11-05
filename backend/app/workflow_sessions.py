@@ -1,6 +1,6 @@
 """Assessment and training orchestrate the existing sessions/calibrations/trials."""
 from fastapi import APIRouter, Depends, HTTPException, Query, Response
-from sqlalchemy import delete, select
+from sqlalchemy import delete, func, select
 from sqlalchemy.orm import Session
 
 from . import models, schemas
@@ -157,6 +157,32 @@ def cancel_pending_trials(db, session_id):
         trial.status = 'cancelled'
         trial.ended_at = now()
         audit(db, trial, 'cancel')
+
+
+@router.post('/training-sessions/{session_id}/resume', response_model=schemas.SessionOut)
+def resume_training(session_id: int, db: Session = Depends(get_db)):
+    # Capture creation and trial creation also lock the session row first.
+    entity = locked_session(db, session_id, 'training')
+    if not entity.managed_workflow or entity.status not in ('draft', 'in_progress'):
+        raise HTTPException(409, 'Buổi tập không còn ở trạng thái có thể tiếp tục.')
+    if require(db, models.Patient, entity.patient_id).patient_type != 'inpatient':
+        raise HTTPException(409, 'Chỉ bệnh nhân điều trị được tiếp tục luyện tập.')
+    captures = db.scalars(select(models.CaptureRun).where(
+        models.CaptureRun.session_id == entity.id, models.CaptureRun.status == 'recording'
+    ).with_for_update().execution_options(populate_existing=True)).all()
+    if captures:
+        db_now = db.scalar(select(func.clock_timestamp()))
+        if any(capture.lease_expires_at is None or capture.lease_expires_at > db_now for capture in captures):
+            raise HTTPException(409, 'Buổi này vẫn đang ghi dữ liệu. Hãy kết thúc lượt đang ghi trước khi tiếp tục.')
+        from .captures import LEASE_EXPIRED
+        for capture in captures:
+            capture.status, capture.error_message = 'incomplete', LEASE_EXPIRED
+    cancel_pending_trials(db, entity.id)
+    entity.setup_confirmed = False
+    entity.setup_revision += 1
+    audit(db, entity, 'resume')
+    commit(db)
+    return entity
 
 
 @router.post('/sessions/{session_id}/setup/invalidate', response_model=schemas.SessionOut)

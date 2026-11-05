@@ -60,6 +60,19 @@ it('invalidates a saved setup when the chair or patient position must be checked
   expect(screen.getByLabelText('Nhân viên đã kiểm tra camera và tư thế người tập')).not.toBeChecked()
 })
 
+it('requires explicit research permissions in clinical setup and does not start capture on view changes', async () => {
+  const workflow = config()
+  const fetchMock = vi.fn()
+  vi.stubGlobal('fetch', fetchMock)
+  const view = render(<WorkspacePage session={session} workflow={workflow}/>)
+  expect(screen.getByLabelText('Cho phép thu landmark cho các lượt chơi')).not.toBeChecked()
+  expect(screen.getByLabelText('Cho phép ghi video nguồn cho các lượt chơi')).not.toBeChecked()
+  fireEvent.click(screen.getByLabelText('Cho phép thu landmark cho các lượt chơi'))
+  view.rerender(<WorkspacePage session={session} workflow={{ ...workflow, view: 'game' }}/>)
+  expect(screen.getByText(/Không thu do chưa đủ quyền video và landmark/)).toBeInTheDocument()
+  expect(fetchMock).not.toHaveBeenCalled()
+})
+
 it('does not approve a calibration response received after the camera was stopped', async () => {
   const workflow = config()
   let finish!: (response: unknown) => void

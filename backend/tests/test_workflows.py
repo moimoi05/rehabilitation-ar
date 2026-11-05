@@ -1,15 +1,65 @@
 """Hospital workflows use the existing PostgreSQL graph without replacing history."""
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
+import os
 from uuid import uuid4
 
 import pytest
+from fastapi import HTTPException
 from fastapi.testclient import TestClient
-from sqlalchemy import func, select
+from sqlalchemy import create_engine, func, select, text
+from sqlalchemy.orm import Session
 
 from app import models
 from app.db import get_db
 from app.main import app
 from test_api import client  # shared real PostgreSQL rollback fixture
+
+
+def test_resume_preserves_saved_results_and_capture_data():
+    url = os.getenv('TEST_DATABASE_URL')
+    if not url:
+        pytest.skip('TEST_DATABASE_URL is required for PostgreSQL integration tests')
+    if not url.startswith('postgresql+psycopg://'):
+        pytest.fail('Tests require PostgreSQL')
+    from app.workflow_sessions import resume_training
+    engine = create_engine(url)
+    with engine.connect() as connection:
+        transaction = connection.begin()
+        try:
+            schema = 'resume_test_' + uuid4().hex
+            connection.execute(text(f'CREATE SCHEMA "{schema}"'))
+            connection.execute(text(f'SET LOCAL search_path TO "{schema}"'))
+            models.Base.metadata.create_all(connection)
+            with Session(bind=connection, join_transaction_mode='create_savepoint', expire_on_commit=False) as db:
+                person = models.Patient(research_code='TEST-' + uuid4().hex, affected_side='left',
+                    dominant_hand='right', patient_type='inpatient')
+                db.add(person); db.flush()
+                session = models.Session(patient_id=person.id, affected_side='left', session_type='training',
+                    status='in_progress', managed_workflow=True, setup_confirmed=True, setup_revision=2)
+                db.add(session); db.flush()
+                saved = models.Trial(session_id=session.id, exercise_code='free_drawing', status='completed')
+                pending = models.Trial(session_id=session.id, exercise_code='free_drawing', status='in_progress')
+                db.add_all([saved, pending]); db.flush()
+                result = models.ExerciseResult(trial_id=saved.id, result_json='{"duration_seconds": 4}')
+                capture = models.CaptureRun(id=str(uuid4()), patient_id=person.id, session_id=session.id,
+                    trial_id=pending.id, source_type='webcam', status='recording', record_video=True,
+                    record_landmarks=True, consent_video=True, consent_landmarks=True,
+                    started_at_utc=datetime.now(timezone.utc), start_performance_ms=1,
+                    lease_expires_at=datetime.now(timezone.utc) + timedelta(minutes=2), model_config_info={})
+                db.add_all([result, capture]); db.flush()
+                with pytest.raises(HTTPException) as failure:
+                    resume_training(session.id, db)
+                assert getattr(failure.value, 'status_code', None) == 409
+                assert pending.status == 'in_progress' and capture.status == 'recording'
+                capture.lease_expires_at = datetime.now(timezone.utc) - timedelta(seconds=1)
+                db.flush()
+                resumed = resume_training(session.id, db)
+                assert resumed.id == session.id and not resumed.setup_confirmed and resumed.setup_revision == 3
+                assert pending.status == 'cancelled' and capture.status == 'incomplete'
+                assert db.get(models.ExerciseResult, result.id).result_json == '{"duration_seconds": 4}'
+        finally:
+            transaction.rollback()
+    engine.dispose()
 
 
 def test_workflow_configuration_is_explicit(monkeypatch):

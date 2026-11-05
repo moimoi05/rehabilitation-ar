@@ -274,6 +274,11 @@ describe('Workspace hand-first integration', () => {
     expect(tracker.submit.mock.calls[1]).toEqual([expect.any(HTMLVideoElement), 134, true, false, { sourceFrameId: 21, sourceMediaTimeMs: 834, sourcePerformanceMs: 134, sourceObservationId: 2, captureScope: null }])
   })
 
+  it('allows cold GPU setup before flower gameplay starts', async () => {
+    await start()
+    expect(options()).toMatchObject({ initialFrameTimeoutMs: 30000 })
+  })
+
   it('does not throttle drawing source callbacks twice and allows cold GPU setup on its first frame', async () => {
     history.replaceState({}, '', '/workspace?sessionId=7&game=free_drawing')
     await start()

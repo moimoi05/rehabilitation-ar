@@ -697,7 +697,8 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
         moduleUrl,
         handEnabled,
         preferGpu: true,
-        ...(drawingSelected ? { initialFrameTimeoutMs: 30000 } : {}),
+        // Cold GPU inference can compile shaders before either game has started.
+        initialFrameTimeoutMs: 30000,
         signal: controller.signal,
         capture: element => diagnostics
           ? captureInferenceBitmapWithTimings(element, workerInferenceSize)

@@ -89,6 +89,8 @@ self.onmessage = async ({ data }) => {
         sourceFrameId: data.sourceFrameId ?? null,
         sourceMediaTimeMs: data.sourceMediaTimeMs ?? null,
         sourcePerformanceMs: data.sourcePerformanceMs ?? data.timestamp,
+        ...(data.sourceObservationId !== undefined ? { sourceObservationId: data.sourceObservationId } : {}),
+        ...(data.captureScope !== undefined ? { captureScope: data.captureScope } : {}),
       }
       const started = performance.now()
       const timeOrigin = typeof performance.timeOrigin === 'number' ? performance.timeOrigin : 0
@@ -105,6 +107,7 @@ self.onmessage = async ({ data }) => {
 
       let hands = null, handWorldLandmarks = null, handedness = null, handInferenceMs = null, handProcessed = false
       let handFailed = false, handCleanupFailed = false, handError = null
+      let handAttempted = false, poseAttempted = false
 
       const runHand = () => {
         if (!doHand) return
@@ -112,19 +115,20 @@ self.onmessage = async ({ data }) => {
           handFailed = true; handError = handInitializationError; hands = []
           self.postMessage({
             type: 'hand_result', id: data.id, ...frameIdentity, timestamp: data.timestamp, hands: [],
-            handWorldLandmarks: [], handedness: [], handInferenceMs: 0, handProcessed: false,
+            handWorldLandmarks: [], handedness: [], handInferenceMs: 0, handProcessed: false, handAttempted: false,
             handFailed: true, handError, transferAndDispatchMs, transferMs: transferAndDispatchMs,
             captureResizeTotalMs, captureMs: captureResizeTotalMs,
           })
         } else {
           const beforeHand = performance.now()
           try {
+            handAttempted = true
             const result = hand.detectForVideo(data.bitmap, data.timestamp)
             handInferenceMs = performance.now() - beforeHand; handProcessed = true
             hands = result.landmarks; handWorldLandmarks = result.worldLandmarks ?? []; handedness = result.handedness ?? []
             self.postMessage({
               type: 'hand_result', id: data.id, ...frameIdentity, timestamp: data.timestamp, hands,
-              handWorldLandmarks, handedness, handInferenceMs, handProcessed: true,
+              handWorldLandmarks, handedness, handInferenceMs, handProcessed: true, handAttempted,
               transferAndDispatchMs, transferMs: transferAndDispatchMs,
               captureResizeTotalMs, captureMs: captureResizeTotalMs,
             })
@@ -140,7 +144,7 @@ self.onmessage = async ({ data }) => {
             }
             self.postMessage({
               type: 'hand_result', id: data.id, ...frameIdentity, timestamp: data.timestamp, hands: [],
-              handWorldLandmarks: [], handedness: [], handInferenceMs, handProcessed: false,
+              handWorldLandmarks: [], handedness: [], handInferenceMs, handProcessed: false, handAttempted,
               handFailed: true, handError, transferAndDispatchMs, transferMs: transferAndDispatchMs,
               captureResizeTotalMs, captureMs: captureResizeTotalMs, ...(handCleanupFailed ? { handCleanupFailed: true } : {}),
             })
@@ -157,19 +161,20 @@ self.onmessage = async ({ data }) => {
           poseFailed = true; poseError = poseInferenceError || 'Pose model not available'; poseLandmarks = []
           self.postMessage({
             type: 'pose_result', id: data.id, ...frameIdentity, timestamp: data.timestamp, pose: [],
-            poseWorldLandmarks: [], poseInferenceMs: 0, poseProcessed: false,
+            poseWorldLandmarks: [], poseInferenceMs: 0, poseProcessed: false, poseAttempted: false,
             poseFailed: true, poseError, transferAndDispatchMs, transferMs: transferAndDispatchMs,
             captureResizeTotalMs, captureMs: captureResizeTotalMs,
           })
         } else {
           const beforePose = performance.now()
           try {
+            poseAttempted = true
             const result = pose.detectForVideo(data.bitmap, data.timestamp)
             poseInferenceMs = performance.now() - beforePose; poseProcessed = true
             poseLandmarks = result.landmarks[0] || []; poseWorldLandmarks = result.worldLandmarks?.[0] || []
             self.postMessage({
               type: 'pose_result', id: data.id, ...frameIdentity, timestamp: data.timestamp, pose: poseLandmarks,
-              poseWorldLandmarks, poseInferenceMs, poseProcessed: true,
+              poseWorldLandmarks, poseInferenceMs, poseProcessed: true, poseAttempted,
               transferAndDispatchMs, transferMs: transferAndDispatchMs,
               captureResizeTotalMs, captureMs: captureResizeTotalMs,
             })
@@ -185,7 +190,7 @@ self.onmessage = async ({ data }) => {
             }
             self.postMessage({
               type: 'pose_result', id: data.id, ...frameIdentity, timestamp: data.timestamp, pose: [],
-              poseWorldLandmarks, poseInferenceMs, poseProcessed: false,
+              poseWorldLandmarks, poseInferenceMs, poseProcessed: false, poseAttempted,
               poseFailed: true, poseError, transferAndDispatchMs, transferMs: transferAndDispatchMs,
               captureResizeTotalMs, captureMs: captureResizeTotalMs, ...(poseCleanupFailed ? { poseCleanupFailed: true } : {}),
             })
@@ -211,6 +216,8 @@ self.onmessage = async ({ data }) => {
         inferenceMs: totalInferenceMs,
         poseProcessed,
         handProcessed,
+        poseAttempted,
+        handAttempted,
         poseInferenceMs,
         handInferenceMs,
         transferAndDispatchMs,

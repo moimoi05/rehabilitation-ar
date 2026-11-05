@@ -15,6 +15,13 @@ export type SavedGameResult = SavedGameResultBase & (
   | { game_key: 'free_drawing'; completed_strokes: number; active_drawing_seconds?: number }
 )
 
+/** Per-round adapter; capture failures are reported independently of gameplay. */
+export interface ResearchTrialCapture {
+  prepare: (trialId: number, gameKey: 'glowing_flower' | 'free_drawing', taskSnapshot?: Record<string, unknown>) => Promise<void>
+  started: (timestamp: number) => void
+  stopped: (reason: string, timestamp: number) => void
+}
+
 /** Optional domain adapter; standalone tracking and demo retain their original behavior. */
 export interface FlowerWorkflow {
   renderer?: 'flower' | 'free_drawing'

@@ -229,6 +229,9 @@ describe('workspace calibration', () => {
     act(() => handWorker.result({ type: 'result', id: handWorker.frames[1], pose: [], hands: [] }))
     drawn.mockClear(); act(() => draw(1400))
     expect(drawn.mock.calls.some(call => call[5] === false && call[3].length === 33)).toBe(true)
+    // A brief missing detection keeps only the visual overlay, without renewing it.
+    expect(drawn.mock.calls.some(call => call[5] === true)).toBe(true)
+    clock.mockReturnValue(1451); drawn.mockClear(); act(() => draw(1451))
     expect(drawn.mock.calls.some(call => call[5] === true)).toBe(false)
     // A source reset invalidates both in-flight snapshots, even if they arrive afterward.
     clock.mockReturnValue(1600); act(() => callback({ now: 1600, mediaTime: 1.4, inferenceTimestamp: 1600 }))

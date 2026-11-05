@@ -43,6 +43,7 @@ export const rehabApi = {
   completeAssessment: (id: number) => rehabRequest<RehabSession>(`/api/assessments/${id}/complete`, post()),
   trainingSessions: (params?: { patient_id?: number; status?: string }) => rehabRequest<RehabSession[]>(`/api/training-sessions${query(params)}`),
   trainingDetail: (id: number) => rehabRequest<SessionReport>(`/api/training-sessions/${id}/detail`),
+  resumeTraining: (id: number) => rehabRequest<RehabSession>(`/api/training-sessions/${id}/resume`, post()),
   createTraining: (patientId: number) => rehabRequest<RehabSession>('/api/training-sessions', post({ patient_id: patientId })),
   startTraining: (id: number) => rehabRequest<RehabSession>(`/api/training-sessions/${id}/start`, post()),
   completeTraining: (id: number) => rehabRequest<RehabSession>(`/api/training-sessions/${id}/complete`, post()),

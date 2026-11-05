@@ -322,8 +322,8 @@ def create_exercise_result(data: schemas.ExerciseResultCreate, response: Respons
             raise HTTPException(409, 'Mã kết quả không khớp lượt đã bắt đầu.')
     elif data.trial_id is not None and (trial is None or trial.session_id != session.id):
         raise HTTPException(422, 'Lượt không thuộc phiên hiện tại.')
-    if data.game_key == 'free_drawing' and (session.session_type != 'training' or not session.managed_workflow):
-        raise HTTPException(422, 'Vẽ tự do chỉ lưu trong buổi luyện tập đã chuẩn bị.')
+    if data.game_key == 'free_drawing' and not session.managed_workflow:
+        raise HTTPException(422, 'Vẽ tự do chỉ lưu trong lần đánh giá hoặc buổi tập đã chuẩn bị.')
     if trial is None:
         from .workflow_common import next_trial_number
         catalog = db.scalar(select(models.ExerciseCatalog).where(models.ExerciseCatalog.code == data.game_key))

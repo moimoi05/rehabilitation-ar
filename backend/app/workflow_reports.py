@@ -64,16 +64,16 @@ def build_report(db, session, exercise_id=None):
         models.ClinicalAssessment.session_id == session.id).order_by(models.ClinicalAssessment.id.desc())).all()
     baseline = db.scalar(select(models.PatientTransfer.id).where(
         models.PatientTransfer.baseline_assessment_session_id == session.id).limit(1))
-    captures = db.scalars(select(models.CaptureRun).where(models.CaptureRun.trial_id.in_(
-        [trial.id for trial in trials])).order_by(models.CaptureRun.created_at)).all()
+    capture_fields = ('id', 'trial_id', 'source_type', 'status', 'record_video', 'record_landmarks', 'artifact_summary')
+    captures = db.execute(select(*(getattr(models.CaptureRun, key) for key in capture_fields)).where(
+        models.CaptureRun.trial_id.in_([trial.id for trial in trials])).order_by(models.CaptureRun.created_at)).all()
     return {'session': schemas.SessionOut.model_validate(session),
         'patient': schemas.PatientOut.model_validate(person),
         'questionnaires': [submission_response(db, item) for item in submissions],
         'clinical_assessments': [row_dict(item) for item in clinical],
         'trials': trial_rows, 'results': result_rows, 'duration_seconds': duration,
         'trial_count': len(trials), 'is_baseline': baseline is not None,
-        'captures': [{key: getattr(item, key) for key in ('id', 'trial_id', 'source_type', 'status',
-            'record_video', 'record_landmarks', 'artifact_summary')} for item in captures],
+        'captures': [dict(item._mapping) for item in captures],
         'selected_exercise_ids': selected_exercises(db, session.id)}
 
 

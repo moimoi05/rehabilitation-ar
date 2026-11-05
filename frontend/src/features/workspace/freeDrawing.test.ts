@@ -27,7 +27,7 @@ function acquire(game: DrawingController, start = 100, hands = [hand()], names =
 }
 
 describe('Free Drawing affected-hand input', () => {
-  it('lifts on display expiry but preserves bounded same-hand confirmation for the next fresh result', () => {
+  it('hides stale input and resumes a short gap only with a fresh pointing hand', () => {
     const game = controller('gesture')
     acquire(game, 100, [hand(.35, true)])
     game.update(observation(199, [hand(.36, true)]), 254, mapping, false)
@@ -35,18 +35,49 @@ describe('Free Drawing affected-hand input', () => {
     game.checkFreshness(350)
     expect(game.hand).toBeNull()
     expect(game.cursor).toBeNull()
-    expect(game.strokes[0].endedAt).not.toBeNull()
-    // New frame is 110ms after the previous frame, delivered 55ms later.
+    expect(game.strokes[0].endedAt).toBeNull()
+    expect(game.strokes[0].points).toHaveLength(1)
+    // No point is invented while waiting for a fresh observation.
     game.update(observation(309, [hand(.37, true)]), 364, mapping, false)
     expect(game.hand).not.toBeNull()
     expect(game.phase).toBe('drawing')
-    expect(game.strokes).toHaveLength(2)
-    expect(game.strokes[1].points).toHaveLength(1)
-    // A real source gap must still require acquisition and never transfer to another hand.
+    expect(game.strokes).toHaveLength(1)
+    expect(game.strokes[0].points).toHaveLength(2)
+    // A long gap must still require acquisition and never transfer to another hand.
     game.update(observation(600, [hand(.37, true)]), 655, mapping, false)
     expect(game.hand).toBeNull()
     game.update(observation(710, [hand(.37, true)], ['Right']), 765, mapping, false)
     expect(game.hand).toBeNull()
+  })
+  it('bridges a brief missed detection only when the same hand remains pointing', () => {
+    const game = controller('gesture')
+    acquire(game, 100, [hand(.35, true)])
+    game.update(observation(199, [hand(.36, true)]), 200, mapping, false)
+    game.update(observation(260, [], []), 261, mapping, false)
+    expect(game.cursor).toBeNull()
+    expect(game.strokes[0].points).toHaveLength(1)
+    game.update(observation(320, [hand(.37, true)]), 321, mapping, false)
+    expect(game.strokes).toHaveLength(1)
+    expect(game.strokes[0].points).toHaveLength(2)
+  })
+  it('ends the pending stroke on long absence, wrong hand or released gesture', () => {
+    for (const input of [observation(300, [hand(.36, true)], ['Right']), observation(300, [hand(.36)]),
+      observation(300, [hand(.7, true)]), observation(300, [hand(.36, true), hand(.7, true)], ['Left', 'Right'])]) {
+      const game = controller('gesture')
+      acquire(game, 100, [hand(.35, true)])
+      game.update(observation(199, [hand(.36, true)]), 200, mapping, false)
+      game.update(observation(250, [], []), 251, mapping, false)
+      game.update(input, 301, mapping, false)
+      expect(game.completedStrokeCount).toBe(1)
+      expect(game.strokes[0].points).toHaveLength(1)
+    }
+    const game = controller('gesture')
+    acquire(game, 100, [hand(.35, true)])
+    game.update(observation(199, [hand(.36, true)]), 200, mapping, false)
+    game.update(observation(250, [], []), 251, mapping, false)
+    game.checkFreshness(500)
+    expect(game.completedStrokeCount).toBe(1)
+    expect(game.strokes[0].points).toHaveLength(1)
   })
   it('chooses the affected hand regardless of array order and CSS mirroring', () => {
     for (const side of ['left', 'right'] as const) for (const mirrored of [true, false]) {
@@ -151,20 +182,21 @@ describe('Free Drawing controller', () => {
     expect(game.phase).toBe('ready')
     expect(game.completedStrokeCount).toBe(1)
   })
-  it('starts a separate stroke after explicit hand loss while the index gesture remains held', () => {
+  it('starts a separate stroke after prolonged hand loss while the index gesture remains held', () => {
     const game = controller('gesture')
     acquire(game, 100, [hand(.35, true)])
     game.update(observation(199, [hand(.35, true)]), 200, mapping, false)
     game.update(observation(232, [], []), 233, mapping, false)
+    game.checkFreshness(500)
     expect(game.completedStrokeCount).toBe(1)
     expect(game.hand).toBeNull()
-    acquire(game, 265, [hand(.4, true)])
+    acquire(game, 550, [hand(.4, true)])
     expect(game.strokes).toHaveLength(1)
-    game.update(observation(364, [hand(.4, true)]), 365, mapping, false)
+    game.update(observation(649, [hand(.4, true)]), 650, mapping, false)
     expect(game.phase).toBe('drawing')
     expect(game.strokes).toHaveLength(2)
     expect(game.strokes[1].points).toHaveLength(1)
-    expect(game.strokes[1].startedAt).toBe(364)
+    expect(game.strokes[1].startedAt).toBe(649)
   })
   it('requires distinct fresh source frames to confirm the index gesture', () => {
     const game = controller('gesture')
@@ -286,11 +318,11 @@ describe('Free Drawing controller', () => {
     game.update(observation(298, [hand(.35, true)]), 299, mapping, false)
     game.update(observation(331, [hand(.36, true)]), 332, mapping, false)
     expect(game.strokes).toHaveLength(2)
-    game.checkFreshness(500)
-    acquire(game, 550, [hand(.36, true)])
+    game.checkFreshness(650)
+    acquire(game, 700, [hand(.36, true)])
     expect(game.phase).toBe('ready')
     expect(game.strokes).toHaveLength(2)
-    game.update(observation(649, [hand(.36, true)]), 650, mapping, false)
+    game.update(observation(799, [hand(.36, true)]), 800, mapping, false)
     expect(game.strokes).toHaveLength(3)
     expect(game.strokes[2].points).toHaveLength(1)
   })

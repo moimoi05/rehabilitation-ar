@@ -7,7 +7,7 @@ import { startVideoFrameScheduler } from './videoFrameScheduler'
 import { drawLandmarks, prepareOverlay } from './drawing'
 import { PoseLandmarker, HandLandmarker } from '@mediapipe/tasks-vision'
 
-const capture = vi.hoisted(() => ({ start: vi.fn(), addFrame: vi.fn(), stop: vi.fn(), abort: vi.fn(), isActive: vi.fn(() => false), state: '', busy: false, stats: null, captureId: null, elapsedMs: 0 }))
+const capture = vi.hoisted(() => ({ start: vi.fn(), addFrame: vi.fn(), stop: vi.fn(), abort: vi.fn(), getScope: vi.fn<() => string | null>(() => null), isActive: vi.fn(() => false), state: '', busy: false, stats: null, captureId: null, elapsedMs: 0 }))
 const drawingInput = vi.hoisted(() => ({ onHandObservation: vi.fn(), resetInput: vi.fn(), phase: 'idle', overlay: null, panel: null, hud: null }))
 const diagnostics = vi.hoisted(() => ({ recordHand: vi.fn(), recordPose: vi.fn(), recordSource: vi.fn(), recordSubmit: vi.fn(), recordSkip: vi.fn(), reject: vi.fn(), reset: vi.fn(), setActive: vi.fn() }))
 vi.mock('./trackingDiagnostics', () => ({ createTrackingDiagnostics: () => diagnostics }))
@@ -61,7 +61,7 @@ describe('Workspace hand-first integration', () => {
     vi.mocked(waitForWorkerDisposals).mockReset().mockResolvedValue(undefined)
     vi.mocked(startVideoFrameScheduler).mockClear()
     vi.mocked(drawLandmarks).mockClear(); vi.mocked(prepareOverlay).mockClear()
-    capture.isActive.mockReturnValue(false); capture.addFrame.mockClear(); capture.start.mockClear()
+    capture.isActive.mockReturnValue(false); capture.getScope.mockReturnValue(null); capture.addFrame.mockClear(); capture.start.mockClear()
     drawingInput.onHandObservation.mockClear(); drawingInput.resetInput.mockClear(); drawingInput.phase = 'idle'
     Object.values(diagnostics).forEach(mock => mock.mockClear())
     localStorage.clear(); history.replaceState({}, '', '/workspace?sessionId=7')
@@ -77,12 +77,97 @@ describe('Workspace hand-first integration', () => {
     act(() => options().onPoseResult?.(poseResult()))
     tick(110)
     vi.mocked(drawLandmarks).mockClear(); vi.mocked(prepareOverlay).mockClear()
-    tick(251)
+    tick(351)
     expect(prepareOverlay).toHaveBeenCalledOnce()
     expect(drawLandmarks).toHaveBeenCalledWith(expect.anything(), 1280, 720, expect.arrayContaining([expect.objectContaining({ x: .4 })]), true, false, mapping.current)
     expect(vi.mocked(drawLandmarks).mock.calls.some(call => call[5] === true)).toBe(false)
-    tick(351)
+    tick(461)
     expect(prepareOverlay).toHaveBeenCalledTimes(2)
+  })
+
+  it('keeps a near-expiry result visible across the next inference gap without extending raw freshness', async () => {
+    await start(); tick(100)
+    now = 230
+    act(() => options().onHandResult?.(handResult(100)))
+    tick(231)
+    vi.mocked(drawLandmarks).mockClear()
+    act(() => options().onPoseResult?.(poseResult(230)))
+    tick(270)
+    expect(vi.mocked(drawLandmarks).mock.calls.some(call => call[5] === true)).toBe(true)
+
+    vi.mocked(drawLandmarks).mockClear()
+    fireEvent.click(screen.getByLabelText(/Hiển thị mốc thô/))
+    tick(271)
+    expect(vi.mocked(drawLandmarks).mock.calls.some(call => call[5] === true)).toBe(false)
+  })
+
+  it('bridges a brief missing detection but repeated misses cannot prolong the last visible landmarks', async () => {
+    await start(); tick(100)
+    act(() => { options().onHandResult?.(handResult()); options().onPoseResult?.(poseResult()) })
+    tick(101)
+    now = 140
+    act(() => {
+      options().onHandResult?.({ ...handResult(140), hands: [] })
+      options().onPoseResult?.({ ...poseResult(140), pose: [] })
+    })
+    vi.mocked(drawLandmarks).mockClear()
+    fireEvent.click(screen.getByLabelText(/Hiển thị mốc thô/)); tick(141)
+    expect(drawLandmarks).not.toHaveBeenCalled()
+    fireEvent.click(screen.getByLabelText(/Hiển thị mốc thô/)); tick(142)
+    expect(vi.mocked(drawLandmarks).mock.calls.some(call => call[5] === true)).toBe(true)
+    expect(vi.mocked(drawLandmarks).mock.calls.some(call => call[5] === false)).toBe(true)
+    expect(drawingInput.onHandObservation).toHaveBeenLastCalledWith(expect.objectContaining({ hands: [], timestamp: 140 }))
+
+    now = 340
+    act(() => options().onHandResult?.({ ...handResult(340), hands: [] }))
+    vi.mocked(drawLandmarks).mockClear()
+    tick(351)
+    expect(vi.mocked(drawLandmarks).mock.calls.some(call => call[5] === true)).toBe(false)
+    tick(451)
+    vi.mocked(drawLandmarks).mockClear()
+    fireEvent.click(screen.getByLabelText(/Hiển thị mốc thô/)); tick(452)
+    fireEvent.click(screen.getByLabelText(/Hiển thị mốc thô/)); tick(453)
+    expect(drawLandmarks).not.toHaveBeenCalled()
+  })
+
+  it('can display a slower result without passing its stale Hand observation to the game or accepting very old results', async () => {
+    await start(); tick(100)
+    now = 590
+    act(() => options().onHandResult?.(handResult(100)))
+    tick(591)
+    expect(vi.mocked(drawLandmarks).mock.calls.some(call => call[5] === true)).toBe(true)
+    expect(drawingInput.onHandObservation).not.toHaveBeenCalled()
+    // The source-age cap wins even though the receive-time hold has not elapsed.
+    tick(601)
+    vi.mocked(drawLandmarks).mockClear()
+    fireEvent.click(screen.getByLabelText(/Hiển thị mốc thô/)); tick(602)
+    fireEvent.click(screen.getByLabelText(/Hiển thị mốc thô/)); tick(603)
+    expect(drawLandmarks).not.toHaveBeenCalled()
+    now = 900
+    act(() => options().onHandResult?.(handResult(200)))
+    tick(901)
+    expect(drawLandmarks).not.toHaveBeenCalled()
+    expect(drawingInput.onHandObservation).not.toHaveBeenCalled()
+  })
+
+  it('clears held landmarks immediately when tracking stops or the source restarts', async () => {
+    await start(); tick(100)
+    act(() => options().onHandResult?.(handResult()))
+    tick(101)
+    const scheduler = vi.mocked(startVideoFrameScheduler).mock.lastCall![2]
+    now = 130
+    act(() => scheduler.onReset?.())
+    vi.mocked(drawLandmarks).mockClear(); tick(131)
+    expect(drawLandmarks).not.toHaveBeenCalled()
+    act(() => options().onHandResult?.(handResult(100)))
+    tick(132)
+    expect(drawLandmarks).not.toHaveBeenCalled()
+    act(() => options().onHandResult?.(handResult(132)))
+    tick(133)
+    expect(vi.mocked(drawLandmarks).mock.calls.some(call => call[5] === true)).toBe(true)
+    fireEvent.click(screen.getByRole('button', { name: 'Dừng nhận diện' }))
+    vi.mocked(drawLandmarks).mockClear(); tick(134)
+    expect(drawLandmarks).not.toHaveBeenCalled()
   })
 
   it('delivers raw Hand identity directly to drawing before Pose and rejects stale callbacks', async () => {
@@ -174,8 +259,8 @@ describe('Workspace hand-first integration', () => {
     const callback = vi.mocked(startVideoFrameScheduler).mock.lastCall![1]
     act(() => callback({ now: 100, inferenceTimestamp: 100, mediaTime: .8, sourceFrameId: 20 }))
     act(() => callback({ now: 134, inferenceTimestamp: 134, mediaTime: .834, sourceFrameId: 21 }))
-    expect(tracker.submit.mock.calls[0]).toEqual([expect.any(HTMLVideoElement), 100, true, true, { sourceFrameId: 20, sourceMediaTimeMs: 800, sourcePerformanceMs: 100 }])
-    expect(tracker.submit.mock.calls[1]).toEqual([expect.any(HTMLVideoElement), 134, true, false, { sourceFrameId: 21, sourceMediaTimeMs: 834, sourcePerformanceMs: 134 }])
+    expect(tracker.submit.mock.calls[0]).toEqual([expect.any(HTMLVideoElement), 100, true, true, { sourceFrameId: 20, sourceMediaTimeMs: 800, sourcePerformanceMs: 100, sourceObservationId: 1, captureScope: null }])
+    expect(tracker.submit.mock.calls[1]).toEqual([expect.any(HTMLVideoElement), 134, true, false, { sourceFrameId: 21, sourceMediaTimeMs: 834, sourcePerformanceMs: 134, sourceObservationId: 2, captureScope: null }])
   })
 
   it('does not throttle drawing source callbacks twice and allows cold GPU setup on its first frame', async () => {
@@ -241,6 +326,7 @@ describe('Workspace hand-first integration', () => {
     vi.mocked(HandLandmarker.createFromOptions).mockResolvedValue({ close: vi.fn(), detectForVideo: vi.fn(() => ({ landmarks: hands, worldLandmarks: hands, handedness: [[{ categoryName: 'Left' }]] })) } as never)
     await start()
     capture.isActive.mockReturnValue(true)
+    capture.getScope.mockReturnValue('main-capture')
     const callback = vi.mocked(startVideoFrameScheduler).mock.lastCall![1]
     act(() => callback({ now: 100, inferenceTimestamp: 100, mediaTime: .8, sourceFrameId: 20 }))
     now = 134
@@ -248,5 +334,21 @@ describe('Workspace hand-first integration', () => {
     expect(capture.addFrame).toHaveBeenCalledTimes(2)
     expect(capture.addFrame.mock.calls[1][0]).toMatchObject({ source_frame_id: 21, video_media_time_ms: 834, pose_detected: null, hand_detected: true })
     expect(capture.addFrame.mock.calls[1][0].landmarks.every((row: { landmark_source: string }) => row.landmark_source === 'hand')).toBe(true)
+  })
+
+  it('captures actual worker raw/world results with input identity and rejects callbacks belonging to an old scope', async () => {
+    await start()
+    capture.getScope.mockReturnValue('worker-capture')
+    const callback = vi.mocked(startVideoFrameScheduler).mock.lastCall![1]
+    act(() => callback({ now: 100, inferenceTimestamp: 100, mediaTime: .8, sourceFrameId: 20 }))
+    const source = tracker.submit.mock.calls[0][4]
+    const result = { ...source, timestamp: 100, pose, hands, poseWorldLandmarks: pose, handWorldLandmarks: hands, handedness: handResult().handedness, poseProcessed: true, handProcessed: true, poseInferenceMs: 12, handInferenceMs: 8 }
+    act(() => options().onResult?.({ ...result, captureScope: 'old-capture' }))
+    expect(capture.addFrame).not.toHaveBeenCalled()
+    act(() => options().onResult?.(result))
+    expect(capture.addFrame).toHaveBeenCalledOnce()
+    expect(capture.addFrame.mock.calls[0][0]).toMatchObject({ timestamp: 100, source_frame_id: 20, video_media_time_ms: 800, pose_inference_status: 'detected', hand_inference_status: 'detected' })
+    expect(capture.addFrame.mock.calls[0][1]).toBe('worker-capture')
+    expect(capture.addFrame.mock.calls[0][0].landmarks.filter((row: { coordinate_space: string }) => row.coordinate_space === 'world')).toHaveLength(54)
   })
 })

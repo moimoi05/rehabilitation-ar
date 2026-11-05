@@ -66,6 +66,7 @@ export class DrawingController {
   private lastFrameId: number | undefined
   private geometry = ''
   private pointingFrames = 0
+  private awaitingFreshHand = false
   private pointCount = 0
   private sequence = 0
   private paused = false
@@ -105,6 +106,7 @@ export class DrawingController {
     if (this.phase === 'dragging') this.phase = 'ready'
   }
   private endStroke() {
+    this.awaitingFreshHand = false
     if (this.active) this.active.endedAt = this.active.points.at(-1)?.timestamp ?? this.active.startedAt
     this.active = null
     if (this.phase === 'drawing') this.phase = 'ready'
@@ -118,6 +120,17 @@ export class DrawingController {
     this.phase = this.paused ? 'paused' : 'tracking_lost'
     this.gestureActive = null; this.rejectionReason = this.paused ? 'DRAWING_PAUSED' : reason
   }
+  private canWaitForFreshHand(now: number) {
+    const lastPoint = this.active?.points.at(-1)
+    return this.options.mode === 'gesture' && this.options.interactionMode === 'draw' && !!lastPoint &&
+      now >= lastPoint.timestamp && now - lastPoint.timestamp <= DRAWING_POLICY.continuityGraceMs
+  }
+  private waitForFreshHand(reason: DrawingRejectionReason) {
+    // Keep the stroke open briefly, but never draw, display or reuse a stale point.
+    this.awaitingFreshHand = true; this.cursor = null; this.hand = null
+    this.phase = 'tracking_lost'; this.gestureActive = null; this.rejectionReason = reason
+  }
+
   private liftForCursor(reason: DrawingRejectionReason) {
     this.dropGrab(true); this.hoveredId = null
     this.endStroke(); this.penDown = false; this.pointingFrames = 0
@@ -153,7 +166,11 @@ export class DrawingController {
   checkFreshness(now: number): DrawingUpdate {
     // Expire all usable landmarks immediately. Keep only identity/gesture evidence
     // between consecutive source frames; update() resets it on a real >150ms gap.
-    if (this.phase !== 'finished' && this.lastTimestamp > 0 && now - this.lastTimestamp > DRAWING_POLICY.maxAgeMs) this.lose('STALE_HAND', true)
+    if (this.awaitingFreshHand && !this.canWaitForFreshHand(now)) this.lose('STALE_HAND')
+    else if (this.phase !== 'finished' && this.lastTimestamp > 0 && now - this.lastTimestamp > DRAWING_POLICY.maxAgeMs) {
+      if (this.canWaitForFreshHand(now)) this.waitForFreshHand('STALE_HAND')
+      else this.lose('STALE_HAND', true)
+    }
     return this.result()
   }
   suspend() { if (this.phase !== 'finished') { this.paused = true; this.lose() } }
@@ -205,9 +222,18 @@ export class DrawingController {
     if (this.geometry && geometry !== this.geometry) {
       this.geometry = geometry; this.lose('GEOMETRY_CHANGED'); return this.result()
     }
-    if (gap) this.lose('STALE_HAND')
+    if (this.awaitingFreshHand && !this.canWaitForFreshHand(now)) this.lose('STALE_HAND')
+    if (gap) {
+      if (this.canWaitForFreshHand(now)) this.waitForFreshHand('STALE_HAND')
+      else this.lose('STALE_HAND')
+    }
     this.geometry = geometry
     this.displayScale = drawingViewport(this.logicalSize, mapping.box).width / this.logicalSize.width
+    if (!observation.hands.length && this.canWaitForFreshHand(now)) {
+      this.waitForFreshHand('RAW_HAND_MISSING'); return this.result()
+    }
+    if (this.awaitingFreshHand && !this.selector.matchesPrevious(observation)) this.lose('SIDE_AMBIGUOUS')
+    this.awaitingFreshHand = false
     const selected = this.selector.select(observation)
     if (!selected) {
       // Acquisition frames must accumulate; only actual invalidity resets the selector.

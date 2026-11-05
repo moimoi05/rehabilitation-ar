@@ -57,4 +57,10 @@ describe('capture landmark serialization', () => {
     expect(landmarkRows(extended, 'pose', 'world')[33].landmark_name).toBe('landmark_33')
     expect(landmarkRows([], 'hand', 'world')).toEqual([])
   })
+
+  it('preserves handedness probability and an observation-local hand index without inventing tracking identity', () => {
+    const rows = landmarkRows([point(0.2, 0.3, -0.1)], 'hand', 'normalized_image', 'raw', [handCategory('Left')], 1)
+    expect(rows[0]).toMatchObject({ handedness: 'Left', handedness_score: 0.93, hand_observation_index: 1 })
+    expect(rows[0]).not.toHaveProperty('hand_tracking_id')
+  })
 })

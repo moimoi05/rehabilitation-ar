@@ -4,6 +4,7 @@ import hashlib
 import io
 import json
 import os
+from types import SimpleNamespace
 from uuid import uuid4
 
 import pyarrow as pa
@@ -16,6 +17,29 @@ from sqlalchemy.orm import Session
 from app import models, captures
 from app.db import get_db
 from app.main import app
+
+
+def test_capture_parquet_preview_is_bounded_and_checks_artifact(tmp_path, monkeypatch):
+    identity = uuid4()
+    folder = tmp_path / str(identity)
+    folder.mkdir()
+    pq.write_table(pa.table({'frame_id': list(range(15)), 'pose_detected': [True] * 15}), folder / 'frames.parquet')
+    monkeypatch.setenv('REHAB_DATA_DIR', str(tmp_path))
+    capture = SimpleNamespace(status='complete', artifact_summary={'frames_status': 'complete'})
+    monkeypatch.setattr(captures, 'get_capture', lambda db, capture_id: capture)
+    app.dependency_overrides[get_db] = lambda: None
+    try:
+        with TestClient(app) as client:
+            response = client.get(f'/api/captures/{identity}/preview/frames')
+            assert response.status_code == 200
+            assert response.json() == {'columns': ['frame_id', 'pose_detected'],
+                'rows': [{'frame_id': i, 'pose_detected': True} for i in range(10)], 'total_rows': 15}
+            assert client.get(f'/api/captures/{identity}/preview/landmarks').status_code == 404
+            assert client.get(f'/api/captures/{identity}/preview/video').status_code == 404
+            capture.status = 'recording'
+            assert client.get(f'/api/captures/{identity}/preview/frames').status_code == 404
+    finally:
+        app.dependency_overrides.pop(get_db, None)
 
 
 @pytest.fixture
@@ -96,6 +120,67 @@ def put_chunk(client, capture_id, index, data, digest=None, content_type='video/
                       headers={'Content-Type': content_type, 'X-Chunk-SHA256': digest or hashlib.sha256(data).hexdigest()})
 
 
+@pytest.mark.parametrize('tracking_chunks,gaps,expected_status,corrupt,tracking_complete', [
+    (1, [], 'complete', False, True), (0, ['tracking recorder failed'], 'incomplete', False, False),
+    (1, [], 'incomplete', True, True), (0, [], 'incomplete', False, True),
+    (1, ['tracking recorder failed'], 'incomplete', False, False), (1, [], 'incomplete', False, False),
+])
+def test_tracking_video_finalization_and_source_preservation(tmp_path, monkeypatch, tracking_chunks, gaps, expected_status, corrupt, tracking_complete):
+    """Exercise the artifact flow using temporary files and no real database."""
+    from datetime import datetime, timezone
+    identity = str(uuid4())
+    capture = models.CaptureRun(id=identity, patient_id=1, session_id=2, trial_id=3,
+        source_type='pre_recorded_video', capture_mode='manual', capture_schema_version=2,
+        status='recording', record_video=True, record_landmarks=True, consent_video=True,
+        consent_landmarks=True, video_mime_type='video/mp4', model_config_info={'record_tracking_video': True},
+        started_at_utc=datetime(2026, 1, 1, tzinfo=timezone.utc), start_performance_ms=100,
+        lease_expires_at=None)
+    class DB:
+        def commit(self): pass
+        def add(self, _entity): pass
+    monkeypatch.setenv('REHAB_DATA_DIR', str(tmp_path))
+    monkeypatch.setattr(captures, 'get_capture', lambda db, capture_id, lock=False: capture)
+    app.dependency_overrides[get_db] = lambda: DB()
+    try:
+        with TestClient(app) as client:
+            url = f'/api/captures/{identity}'
+            assert client.post(f'{url}/landmark-batches', json=frame_batch()).status_code == 200
+            assert put_chunk(client, identity, 0, b'original').status_code == 200
+            if tracking_chunks:
+                start = {'start_performance_ms': 120, 'started_at_utc': '2026-01-01T00:00:00.020Z', 'mime_type': 'video/mp4'}
+                assert client.post(f'{url}/tracking-recorder-start', json=start).status_code == 200
+                assert client.post(f'{url}/tracking-recorder-start', json=start).status_code == 200
+                chunk = b'annotated'
+                headers = {'Content-Type': 'video/mp4', 'X-Chunk-SHA256': hashlib.sha256(chunk).hexdigest()}
+                assert client.put(f'{url}/tracking-video-chunks/0', content=chunk, headers=headers).status_code == 200
+                assert client.put(f'{url}/tracking-video-chunks/0', content=chunk, headers=headers).json()['stored'] is False
+                if corrupt:
+                    (tmp_path / identity / 'staging' / 'tracking_chunks' / '0.chunk').write_bytes(b'tampered')
+            payload = {'expected_batches': 1, 'expected_video_chunks': 1, 'expected_tracking_video_chunks': tracking_chunks,
+                'tracking_video_complete': tracking_complete, 'ended_at_utc': '2026-01-01T00:00:01Z', 'duration_ms': 1000, 'known_data_gaps': gaps}
+            response = client.post(f'{url}/finalize', json=payload)
+            expect_error = corrupt or not tracking_chunks and not gaps and tracking_complete
+            assert response.status_code == (409 if expect_error else 200), response.text
+            summary = capture.artifact_summary
+            assert capture.status == expected_status
+            assert client.get(f'{url}/artifacts/video').content == b'original'
+            assert client.get(f'{url}/artifacts/frames').status_code == 200
+            assert client.get(f'{url}/artifacts/landmarks').status_code == 200
+            if tracking_chunks and not corrupt:
+                assert client.get(f'{url}/artifacts/tracking_video').content == b'annotated'
+                assert summary['tracking_video_sha256'] == hashlib.sha256(b'annotated').hexdigest()
+                assert summary['tracking_video_status'] == ('complete' if tracking_complete else 'incomplete')
+            else:
+                assert summary['tracking_video_status'] == 'failed'
+                assert client.get(f'{url}/artifacts/tracking_video').status_code == 404
+            manifest = client.get(f'{url}/artifacts/manifest').json()
+            assert next(item for item in manifest['artifacts'] if item['kind'] == 'tracking_video')['status'] == summary['tracking_video_status']
+            if not expect_error:
+                assert client.post(f'{url}/finalize', json=payload).status_code == 200
+    finally:
+        app.dependency_overrides.pop(get_db, None)
+
+
 def finalize(client, capture_id, chunks=2, batches=1):
     return client.post(f'/api/captures/{capture_id}/finalize', json={
         'expected_batches': batches, 'expected_video_chunks': chunks,
@@ -112,6 +197,50 @@ def test_capture_checks_relationships_and_consent(capture_context):
     listed = client.get(f'/api/sessions/{first[1]}/captures').json()
     assert [row['id'] for row in listed] == [result['id']]
     assert client.get(f'/api/sessions/{other[1]}/captures').json() == []
+
+
+def test_auto_capture_is_idempotent_only_within_automatic_trial_scope(capture_context):
+    client, _, first, _ = capture_context
+    db = next(app.dependency_overrides[get_db]())
+    trial = db.get(models.Trial, first[2])
+    trial.exercise_code, trial.status = 'glowing_flower', 'in_progress'
+    db.flush()
+    payload = {**create_payload(first), 'capture_mode': 'per_trial', 'capture_schema_version': 2}
+    one = client.post('/api/captures', json=payload)
+    two = client.post('/api/captures', json=payload)
+    assert one.status_code == two.status_code == 201
+    assert one.json()['id'] == two.json()['id']
+    assert one.json()['capture_mode'] == 'per_trial'
+    assert one.json()['model_config_info']['affected_side'] == 'left'
+    assert create_capture(client, first)['id'] != one.json()['id']
+    assert client.post(f"/api/captures/{one.json()['id']}/landmark-batches", json=frame_batch()).status_code == 422
+    assert client.post('/api/captures', json={**payload, 'start_performance_ms': 999}).status_code == 409
+    assert client.post(f"/api/captures/{one.json()['id']}/incomplete", json={'reason': 'recorder lost tail', 'known_data_gaps': ['tail unavailable']}).status_code == 200
+    assert client.post('/api/captures', json=payload).json()['status'] == 'incomplete'
+    assert put_chunk(client, one.json()['id'], 0, b'late').status_code == 409
+
+
+def test_phase1_manifest_checksums_and_known_gaps_never_complete(capture_context):
+    client, root, first, _ = capture_context
+    identity = create_capture(client, first)['id']
+    assert client.post(f'/api/captures/{identity}/landmark-batches', json=frame_batch()).status_code == 200
+    assert put_chunk(client, identity, 0, b'video').status_code == 200
+    payload = dict(expected_batches=1, expected_video_chunks=1,
+        ended_at_utc='2026-01-01T00:00:01Z', duration_ms=1000,
+        game_started_at_ms=10, game_ended_at_ms=900, termination_reason='cancelled',
+        known_data_gaps=['queue full at observation 10'])
+    response = client.post(f'/api/captures/{identity}/finalize', json=payload)
+    assert response.status_code == 200, response.text
+    assert response.json()['status'] == 'incomplete'
+    manifest = json.loads((root / identity / 'manifest.json').read_text(encoding='utf-8'))
+    assert manifest['status'] == 'incomplete'
+    assert manifest['game_ended_at_ms'] == 900
+    assert manifest['known_data_gaps'] == payload['known_data_gaps']
+    for artifact in manifest['artifacts']:
+        data = (root / identity / artifact['name']).read_bytes()
+        assert len(data) == artifact['size_bytes']
+        assert hashlib.sha256(data).hexdigest() == artifact['sha256']
+    assert manifest['synchronization']['encoded_pts_mapping'] == 'unavailable'
 
 
 def test_capture_integrity_missing_retry_finalize_and_exports(capture_context):

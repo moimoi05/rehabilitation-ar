@@ -5,7 +5,7 @@ import type { Side } from './drawing'
 import { DrawingController } from './freeDrawing'
 import type { DrawingObservation, DrawingRejectionReason, DrawingSegment } from './freeDrawing'
 import { drawDrawingOverlay, drawingViewport, redrawDrawing, renderDrawingSegment } from './freeDrawingRenderer'
-import type { FlowerWorkflow, SavedGameResult } from './gameWorkflow'
+import type { FlowerWorkflow, ResearchTrialCapture, SavedGameResult } from './gameWorkflow'
 import type { Size, VideoMapping } from './videoGeometry'
 import type { TrackingDiagnostics } from './trackingDiagnostics'
 import './freeDrawing.css'
@@ -15,6 +15,7 @@ type Props = {
   side: Side; confirmed: boolean; session: Session | undefined; size: Size
   mapping: RefObject<VideoMapping | null>; displayBox: RefObject<Size | null>; workflow?: FlowerWorkflow
   diagnostics?: TrackingDiagnostics; developmentReplay?: boolean
+  researchCapture?: ResearchTrialCapture
 }
 type Phase = 'idle' | 'playing' | 'finished'
 type SaveState = 'idle' | 'saving' | 'saved' | 'failed'
@@ -40,8 +41,16 @@ export function useFreeDrawingGame(props: Props) {
   const latest = useRef(props); latest.current = props
   const phaseRef = useRef(phase); phaseRef.current = phase
   const trial = useRef<number | null>(null), roundId = useRef(''), generation = useRef(0)
+  const startEpoch = useRef(0), mounted = useRef(true)
   const trialOwner = useRef<FlowerWorkflow | undefined>(undefined)
+  const researchRound = useRef<{ owner: ResearchTrialCapture; stopped: boolean } | null>(null)
+  const stopResearch = (reason: string, capture = researchRound.current) => {
+    if (!capture || capture.stopped) return
+    capture.stopped = true; capture.owner.stopped(reason, performance.now())
+  }
   const preparingRef = useRef(false), saving = useRef(false), saved = useRef(false)
+  const savedResult = useRef<SavedGameResult | null>(null)
+  const saveOnFinish = useRef<() => void>(() => {})
   const startedAt = useRef(0), elapsedMs = useRef(0), observed = useRef(false)
   const pendingStart = useRef<{ context: string; roundId: string } | null>(null)
   const frozenPayload = useRef<string | null>(null), overlayDirty = useRef(true)
@@ -50,9 +59,18 @@ export function useFreeDrawingGame(props: Props) {
   const previousSourceSize = useRef(`${size.width}|${size.height}`)
   const context = `${enabled}|${demo}|${streamActive}|${tracking}|${mirrored}|${side}|${confirmed}|${session?.id}|${workflow?.enabled}|${workflow?.setupReady}|${workflow?.exerciseId}|${workflow?.attempt}|${props.developmentReplay}`
   const liveContext = useRef(context); liveContext.current = context
+  const cleanupStaleTrial = async (owner: FlowerWorkflow, id: number, epoch: number) => {
+    try { await owner.cancelTrial?.(id) }
+    catch {
+      const warning = 'Chưa xác nhận hủy lượt trước. Hãy kiểm tra trạng thái lượt trong Báo cáo.'
+      if (mounted.current && epoch === startEpoch.current) setMessage(warning)
+      else console.warn(warning)
+    }
+    // An old response must never invalidate a newer round's shared camera setup.
+    if (mounted.current && epoch === startEpoch.current) owner.onRoundAbandoned?.()
+  }
   const previousContext = useRef(context)
   const replay = Boolean(import.meta.env.DEV && props.developmentReplay && !workflow && !session && !demo)
-  const durationMs = replay ? Infinity : Math.min(600, Math.max(1, workflow?.durationSeconds || 120)) * 1000
 
   const reportDrawing = () => latest.current.diagnostics?.recordDrawing({ ...controller.current.diagnostics, completedStrokes: controller.current.completedStrokeCount })
   const refreshSummary = () => {
@@ -76,33 +94,38 @@ export function useFreeDrawingGame(props: Props) {
     overlayDirty.current = true
   }
   const resetInput = () => { controller.current.resetInput(); geometryCutoff.current = performance.now(); pointerId.current = null; overlayDirty.current = true; reportDrawing() }
-  const stop = () => {
+  const finish = (reason: string) => {
     if (phaseRef.current !== 'playing') return
-    elapsedMs.current = Math.min(durationMs, Math.max(0, performance.now() - startedAt.current))
+    stopResearch(reason)
+    elapsedMs.current = Math.max(0, performance.now() - startedAt.current)
     controller.current.finish(); phaseRef.current = 'finished'; setPhase('finished'); reportDrawing(); refreshSummary(); overlayDirty.current = true
     setClearPending(false); setVerifyHandPending(false)
+    saveOnFinish.current()
   }
-  const isPlaying = () => {
-    if (phaseRef.current === 'playing' && performance.now() - startedAt.current >= durationMs) stop()
-    return phaseRef.current === 'playing'
-  }
+  const stop = () => finish('stopped')
+  const isPlaying = () => phaseRef.current === 'playing'
 
   useEffect(() => {
     if (previousContext.current === context) return
+    stopResearch('context_changed')
     previousContext.current = context; generation.current += 1
     preparingRef.current = false; setPreparing(false); pendingStart.current = null
+    if (saved.current && savedResult.current && workflow && session?.id === savedResult.current.session_id &&
+        workflow.exerciseId === trialOwner.current?.exerciseId && workflow.attempt === trialOwner.current?.attempt) return
     controller.current.suspend(); overlayDirty.current = true; reportDrawing()
     if (phaseRef.current !== 'idle') {
       if (trial.current && !saved.current) trialOwner.current?.onRoundAbandoned?.()
-      phaseRef.current = 'idle'; setPhase('idle'); trial.current = null; roundId.current = ''; frozenPayload.current = null
-      setMessage('Điều kiện buổi tập hoặc camera đã thay đổi. Lượt chưa được xác nhận lưu; hãy kiểm tra lại trước khi bắt đầu.')
+      phaseRef.current = 'idle'; setPhase('idle'); trial.current = null; roundId.current = ''; frozenPayload.current = null; savedResult.current = null
+      setMessage(saved.current ? 'Kết quả lượt trước đã lưu. Xem lại trong Báo cáo.' : 'Điều kiện buổi tập hoặc camera đã thay đổi. Lượt chưa được xác nhận lưu; hãy kiểm tra lại trước khi bắt đầu.')
       setSaveState('idle')
     }
   }, [context])
-  useEffect(() => () => {
+  useEffect(() => { mounted.current = true; return () => {
+    mounted.current = false
+    stopResearch('unmounted')
     generation.current += 1; controller.current.finish()
     if (trial.current && !saved.current) trialOwner.current?.onRoundAbandoned?.()
-  }, [])
+  } }, [])
   useEffect(() => {
     const sourceSize = `${size.width}|${size.height}`
     if (previousSourceSize.current !== sourceSize) { previousSourceSize.current = sourceSize; resetInput() }
@@ -141,15 +164,14 @@ export function useFreeDrawingGame(props: Props) {
         }
       }
       if (phaseRef.current === 'playing') {
-        elapsedMs.current = Math.min(durationMs, Math.max(0, now - startedAt.current))
-        if (elapsedMs.current >= durationMs) stop()
+        elapsedMs.current = Math.max(0, now - startedAt.current)
       }
       if (now - lastPublish >= 250 && phaseRef.current === 'playing') { lastPublish = now; refreshSummary() }
       frame = requestAnimationFrame(tick)
     }
     frame = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(frame)
-  }, [enabled, demo, mirrored, size.width, size.height, durationMs])
+  }, [enabled, demo, mirrored, size.width, size.height])
 
   const onHandObservation = (observation: DrawingObservation) => {
     const current = latest.current
@@ -174,20 +196,37 @@ export function useFreeDrawingGame(props: Props) {
     if (!canStart || phaseRef.current !== 'idle' || preparingRef.current || saving.current) return
     if (!demo && typeof crypto.randomUUID !== 'function') { setMessage('Không tạo được mã lượt. Hãy mở ứng dụng trên localhost hoặc HTTPS.'); return }
     const startContext = context, request = ++generation.current
+    const epoch = ++startEpoch.current
     const id = demo ? '' : pendingStart.current?.context === context ? pendingStart.current.roundId : crypto.randomUUID()
     let persistedTrial: number | null = null
+    researchRound.current = null
     if (workflow && !demo) {
       preparingRef.current = true; setPreparing(true); setMessage(''); pendingStart.current = { context, roundId: id }
       try {
         persistedTrial = await workflow.createTrial(id)
-        if (request !== generation.current || liveContext.current !== startContext) { workflow.onRoundAbandoned?.(); return }
-      } catch (error) { if (request === generation.current) setMessage(error instanceof Error ? error.message : 'Không tạo được lượt. Hãy thử lại.'); return }
+        if (request !== generation.current || liveContext.current !== startContext) { await cleanupStaleTrial(workflow, persistedTrial, epoch); return }
+        if (props.researchCapture) {
+          const capture = { owner: props.researchCapture, stopped: false }
+          researchRound.current = capture
+          await props.researchCapture.prepare(persistedTrial, 'free_drawing', {
+            mode, interaction_mode: interactionMode, cursor_source: interactionMode === 'draw' && mode === 'gesture' ? 'index' : cursorSource,
+            pen_color: color, pen_width: width, logical_canvas: { width: 1000, height: 1000 * size.height / size.width },
+            configuration_scope: 'game_start_snapshot', changes_during_game_recorded: false,
+          })
+          if (request !== generation.current || liveContext.current !== startContext) { stopResearch('context_changed', capture); await cleanupStaleTrial(workflow, persistedTrial, epoch); return }
+        }
+      } catch (error) {
+        if (persistedTrial && (request !== generation.current || liveContext.current !== startContext)) { await cleanupStaleTrial(workflow, persistedTrial, epoch); return }
+        if (request === generation.current) { stopResearch('preparation_failed'); setMessage(error instanceof Error ? error.message : 'Không tạo được lượt. Hãy thử lại.') }
+        return
+      }
       finally { if (request === generation.current) { preparingRef.current = false; setPreparing(false) } }
     }
     logicalSize.current = { width: 1000, height: 1000 * size.height / size.width }
     controller.current = new DrawingController({ side, mode, interactionMode, cursorSource: interactionMode === 'draw' && mode === 'gesture' ? 'index' : cursorSource, color, width, logicalSize: logicalSize.current })
     trial.current = persistedTrial; trialOwner.current = workflow; roundId.current = id; pendingStart.current = null; frozenPayload.current = null
-    startedAt.current = performance.now(); elapsedMs.current = 0; observed.current = false; saved.current = false; geometryCutoff.current = startedAt.current
+    startedAt.current = performance.now(); elapsedMs.current = 0; observed.current = false; saved.current = false; savedResult.current = null; geometryCutoff.current = startedAt.current
+    if (persistedTrial && researchRound.current && !researchRound.current.stopped) researchRound.current.owner.started(startedAt.current)
     setSaveState('idle'); setMessage(''); setClearPending(false); setVerifyHandPending(false); phaseRef.current = 'playing'; setPhase('playing'); rebuild(); reportDrawing(); refreshSummary()
   }
   const configure = (change: Parameters<DrawingController['configure']>[0]) => { controller.current.configure(change); rebuild(); reportDrawing(); refreshSummary() }
@@ -201,7 +240,7 @@ export function useFreeDrawingGame(props: Props) {
   const togglePen = () => { if (!isPlaying() || inputBlocked.current) return; controller.current.checkFreshness(performance.now()); controller.current.setPenDown(!controller.current.penDown); overlayDirty.current = true; reportDrawing(); refreshSummary() }
   const undo = () => { controller.current.undo(); rebuild(); reportDrawing(); refreshSummary() }
   const clear = () => { controller.current.clear(); controller.current.resume(); rebuild(); reportDrawing(); refreshSummary(); setClearPending(false) }
-  const reset = () => { controller.current.reset(); phaseRef.current = 'idle'; setPhase('idle'); elapsedMs.current = 0; observed.current = false; setSaveState('idle'); setMessage(''); rebuild(); reportDrawing(); refreshSummary() }
+  const reset = () => { stopResearch('cancelled'); controller.current.reset(); phaseRef.current = 'idle'; setPhase('idle'); elapsedMs.current = 0; observed.current = false; setSaveState('idle'); setMessage(''); rebuild(); reportDrawing(); refreshSummary() }
   const cancelEmpty = async () => {
     if (!workflow?.cancelTrial || !trial.current || observed.current || saving.current) return
     const request = ++generation.current; saving.current = true; setSaveState('saving')
@@ -210,7 +249,7 @@ export function useFreeDrawingGame(props: Props) {
     finally { saving.current = false }
   }
   const save = async () => {
-    if (demo || !workflow || !trial.current || session?.session_type !== 'training' || !roundId.current || phaseRef.current !== 'finished' || !observed.current || elapsedMs.current <= 0 || saving.current || saved.current) return
+    if (demo || !workflow || !trial.current || !session || !roundId.current || phaseRef.current !== 'finished' || !observed.current || elapsedMs.current <= 0 || saving.current || saved.current) return
     if (!frozenPayload.current) frozenPayload.current = JSON.stringify({ session_id: session.id, round_id: roundId.current, game_key: 'free_drawing', affected_side: side, duration_seconds: elapsedMs.current / 1000, completed_strokes: controller.current.completedStrokeCount, active_drawing_seconds: Math.min(elapsedMs.current, controller.current.activeDrawingMs) / 1000, source: 'camera', ...(trial.current ? { trial_id: trial.current } : {}) })
     const request = ++generation.current; saving.current = true; setSaveState('saving'); setMessage('')
     try {
@@ -218,9 +257,16 @@ export function useFreeDrawingGame(props: Props) {
       if (!response.ok) throw new Error('Save failed')
       const result: SavedGameResult = await response.json()
       if (request !== generation.current) return
-      saved.current = true; setSaveState('saved'); setMessage('Đã lưu hoạt động vẽ vào buổi tập.'); workflow?.onResultSaved(result)
+      saved.current = true; savedResult.current = result; setSaveState('saved'); setMessage('Đã lưu hoạt động vẽ vào buổi tập.')
     } catch { if (request === generation.current) { setSaveState('failed'); setMessage('Chưa xác nhận được kết quả lưu. Thử lại sẽ dùng đúng mã lượt và dữ liệu cũ.') } }
     finally { saving.current = false }
+  }
+  saveOnFinish.current = () => { void save() }
+  const showResult = () => {
+    const result = savedResult.current
+    if (!result || !workflow) return
+    savedResult.current = null
+    workflow.onResultSaved(result)
   }
   const exportPNG = () => {
     const canvas = document.createElement('canvas'); canvas.width = Math.round(logicalSize.current.width); canvas.height = Math.round(logicalSize.current.height)
@@ -252,7 +298,6 @@ export function useFreeDrawingGame(props: Props) {
   const penDisabled = inputBlocked.current || (!summary.penDown && (!summary.selected || !summary.cursorAvailable || summary.status !== 'ready'))
   const grabbing = summary.status === 'dragging'
   const grabDisabled = inputBlocked.current || phase !== 'playing' || (!grabbing && (!summary.cursorAvailable || summary.selectedStrokeId === null || !demo && !summary.selected))
-  const remainingSeconds = Math.max(0, Math.ceil((durationMs - summary.elapsedMs) / 1000))
   const trackingStatus = summary.selected
     ? `Đã nhận tay ${side === 'left' ? 'trái' : 'phải'} bên tập${!summary.cursorAvailable ? ' · Đưa điểm điều khiển vào bảng vẽ' : ''}`
     : summary.reason === 'RAW_HAND_MISSING' ? 'Mất tracking · Chưa nhận diện được bàn tay'
@@ -270,10 +315,10 @@ export function useFreeDrawingGame(props: Props) {
   const overlay = enabled ? <div className="free-drawing-board">
     <canvas ref={artwork} width={size.width} height={size.height} className="free-drawing-artwork" aria-label="Tranh vẽ tự do" />
     <canvas ref={overlayCanvas} width={size.width} height={size.height} className={`free-drawing-cursor${demo ? ' free-drawing-demo' : ''}`} aria-label={demo ? 'Vùng vẽ demo bằng chuột hoặc chạm' : 'Con trỏ và bàn tay bên tập'} onPointerDown={event => { if (!demo) return; pointerId.current = event.pointerId; event.currentTarget.setPointerCapture?.(event.pointerId); onPointer(event, true) }} onPointerMove={event => onPointer(event, pointerId.current === event.pointerId)} onPointerUp={endPointer} onPointerCancel={endPointer} onLostPointerCapture={endPointer} />
-    {phase === 'finished' && <div className="free-drawing-finished" aria-label="Bài vẽ đã kết thúc"><strong>Bài vẽ đã kết thúc</strong><p>Không thể vẽ hoặc di chuyển nét sau khi kết thúc lượt.</p><p>{workflow ? 'Xác nhận lưu kết quả bên dưới để tiếp tục theo buổi tập.' : 'Xuất PNG hoặc chọn Vẽ lượt mới để bắt đầu lại.'}</p></div>}
+    {phase === 'finished' && <div className="free-drawing-finished" aria-label="Bài vẽ đã kết thúc"><strong>Bài vẽ đã kết thúc</strong><p>Không thể vẽ hoặc di chuyển nét sau khi kết thúc lượt.</p><p>{workflow ? 'Kết quả được lưu tự động khi lượt có dữ liệu.' : 'Xuất PNG hoặc chọn Vẽ lượt mới để bắt đầu lại.'}</p></div>}
   </div> : null
   const hud = enabled ? <div className="free-drawing-hud" role="group" aria-label="Điều khiển bài vẽ">
-    <strong className={`free-drawing-time${phase === 'finished' ? ' is-finished' : ''}`}>{phase === 'finished' ? 'Bài vẽ đã kết thúc' : replay ? 'Replay · Không giới hạn giờ' : `Còn ${remainingSeconds}s`}</strong>
+    <strong className={`free-drawing-time${phase === 'finished' ? ' is-finished' : ''}`}>{phase === 'finished' ? 'Bài vẽ đã kết thúc' : replay ? 'Replay · Không giới hạn giờ' : 'Không giới hạn giờ'}</strong>
     <span>{Math.floor(summary.elapsedMs / 1000)}s · {summary.strokes} nét</span>
     {phase === 'idle' && <button className="primary" disabled={!canStart || locked} onClick={() => void start()}>{preparing ? 'Đang chuẩn bị…' : 'Bắt đầu vẽ'}</button>}
     {phase === 'playing' && modeControls(true)}
@@ -303,7 +348,7 @@ export function useFreeDrawingGame(props: Props) {
     {clearPending && <div role="group" aria-label="Xác nhận xóa tranh"><p>Xóa tất cả nét vẽ trong tranh hiện tại?</p><button onClick={clear}>Xác nhận xóa</button><button onClick={() => { controller.current.resume(); setClearPending(false) }}>Giữ lại</button></div>}
     {controller.current.limitReached && <p role="status">Tranh đã đạt giới hạn nét / điểm. Hãy xuất PNG và kết thúc bài vẽ.</p>}
     {phase === 'finished' && <><p>Đã kết thúc: {summary.strokes} nét hoàn tất · {(summary.elapsedMs / 1000).toFixed(1)} giây hoạt động. PNG chỉ chứa nét vẽ, không chứa hình camera.</p>
-      <div className="workspace-controls">{!demo && workflow && <button className="primary" onClick={() => void save()} disabled={!summary.observed || summary.elapsedMs <= 0 || saveState === 'saving' || saveState === 'saved'}>{saveState === 'saving' ? 'Đang lưu…' : saveState === 'saved' ? 'Đã lưu kết quả' : saveState === 'failed' ? 'Thử lưu lại' : 'Xác nhận lưu kết quả'}</button>}{!workflow && !replay && <button onClick={reset} disabled={saveState === 'saving'}>Vẽ lượt mới</button>}{workflow?.cancelTrial && !summary.observed && <button onClick={() => void cancelEmpty()} disabled={saveState === 'saving'}>Hủy lượt chưa có dữ liệu</button>}</div>
+      <div className="workspace-controls">{!demo && workflow && saveState === 'failed' && summary.observed && summary.elapsedMs > 0 && <button className="primary" onClick={() => void save()}>Thử lưu lại</button>}{!demo && workflow && saveState === 'saving' && <span>Đang lưu kết quả…</span>}{!demo && workflow && saveState === 'saved' && <button className="primary" onClick={showResult}>Xem kết quả</button>}{!workflow && !replay && <button onClick={reset} disabled={saveState === 'saving'}>Vẽ lượt mới</button>}{workflow?.cancelTrial && !summary.observed && <button onClick={() => void cancelEmpty()} disabled={saveState === 'saving'}>Hủy lượt chưa có dữ liệu</button>}</div>
       {demo ? <p>DEMO — kết quả này không được lưu.</p> : !workflow && <p>Chế độ thử độc lập chỉ xuất PNG. Mở bài Vẽ tự do trong buổi luyện tập để lưu kết quả hoạt động.</p>}</>}
     {message && <p role="status">{message}</p>}
   </div> : null

@@ -44,7 +44,7 @@ describe('Target Architecture: Hand-first GPU Worker and Optimization', () => {
     const bitmap = { close: vi.fn() }
 
     await scope.onmessage!({
-      data: { type: 'frame', id: 42, bitmap, timestamp: 1000, hand: true, pose: true },
+      data: { type: 'frame', id: 42, bitmap, timestamp: 1000, hand: true, pose: true, sourceObservationId: 7, captureScope: 'trial-capture-a', sourcePerformanceMs: 999, sourceMediaTimeMs: 240, sourceFrameId: 11 },
     })
 
     // Assert message sequence
@@ -60,6 +60,8 @@ describe('Target Architecture: Hand-first GPU Worker and Optimization', () => {
     const completeMsg = messages.find(m => m.type === 'frame_complete')
     expect(completeMsg).toBeDefined()
     expect(completeMsg?.id).toBe(42)
+    for (const message of messages) expect(message).toMatchObject({ sourceObservationId: 7, captureScope: 'trial-capture-a', sourcePerformanceMs: 999, sourceMediaTimeMs: 240, sourceFrameId: 11 })
+    expect(completeMsg).toMatchObject({ poseAttempted: true, handAttempted: true })
 
     expect(bitmap.close).toHaveBeenCalledOnce()
   })

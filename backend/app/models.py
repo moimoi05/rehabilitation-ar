@@ -1,5 +1,5 @@
 from datetime import date, datetime
-from sqlalchemy import Boolean, CheckConstraint, Date, DateTime, Float, ForeignKey, Integer, JSON, String, Text, UniqueConstraint, func, text
+from sqlalchemy import Boolean, CheckConstraint, Date, DateTime, Float, ForeignKey, Index, Integer, JSON, String, Text, UniqueConstraint, func, text
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 class Base(DeclarativeBase):
@@ -135,6 +135,8 @@ class CaptureRun(Timestamped, Base):
     session_id: Mapped[int] = mapped_column(ForeignKey('sessions.id', ondelete='RESTRICT'), index=True)
     trial_id: Mapped[int] = mapped_column(ForeignKey('trials.id', ondelete='RESTRICT'), index=True)
     source_type: Mapped[str] = mapped_column(String(32))
+    capture_mode: Mapped[str] = mapped_column(String(16), default='manual', server_default=text("'manual'"))
+    capture_schema_version: Mapped[int] = mapped_column(Integer, default=2, server_default=text('1'))
     status: Mapped[str] = mapped_column(String(20), default='recording', index=True)
     record_landmarks: Mapped[bool] = mapped_column(Boolean)
     record_video: Mapped[bool] = mapped_column(Boolean)
@@ -151,7 +153,9 @@ class CaptureRun(Timestamped, Base):
     model_config_info: Mapped[dict] = mapped_column(JSON)
     artifact_summary: Mapped[dict | None] = mapped_column(JSON)
     error_message: Mapped[str | None] = mapped_column(Text)
-    __table_args__ = (CheckConstraint("source_type IN ('webcam','pre_recorded_video')"), CheckConstraint("status IN ('recording','complete','incomplete','aborted')"))
+    __table_args__ = (CheckConstraint("source_type IN ('webcam','pre_recorded_video')"), CheckConstraint("status IN ('recording','complete','incomplete','aborted')"),
+        CheckConstraint("capture_mode IN ('manual','per_trial')", name='ck_capture_mode'),
+        Index('uq_capture_auto_trial', 'trial_id', unique=True, postgresql_where=text("capture_mode = 'per_trial'")))
 
 
 class PatientTransfer(Timestamped, Base):

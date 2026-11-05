@@ -12,9 +12,13 @@ MAX_BATCH_BYTES = 5 * 1024 * 1024
 MAX_CHUNK_BYTES = 16 * 1024 * 1024
 FRAME_SCHEMA = pa.schema([
     ('capture_id', pa.string()), ('patient_id', pa.int64()), ('session_id', pa.int64()), ('trial_id', pa.int64()),
-    ('frame_id', pa.int64()), ('source_frame_id', pa.int64()), ('timestamp_ms', pa.float64()),
+    ('frame_id', pa.int64()), ('source_frame_id', pa.int64()), ('source_observation_id', pa.int64()), ('timestamp_ms', pa.float64()),
     ('video_media_time_ms', pa.float64()), ('utc_time', pa.string()), ('inference_performed', pa.bool_()),
     ('pose_detected', pa.bool_()), ('hand_detected', pa.bool_()), ('inference_ms', pa.float64()), ('skipped_frames', pa.int64()),
+    ('pose_inference_performed', pa.bool_()), ('hand_inference_performed', pa.bool_()),
+    ('pose_inference_ms', pa.float64()), ('hand_inference_ms', pa.float64()),
+    ('pose_inference_status', pa.string()), ('hand_inference_status', pa.string()),
+    ('pose_error', pa.string()), ('hand_error', pa.string()),
 ])
 LANDMARK_SCHEMA = pa.schema([
     ('capture_id', pa.string()), ('patient_id', pa.int64()), ('session_id', pa.int64()), ('trial_id', pa.int64()),
@@ -22,7 +26,7 @@ LANDMARK_SCHEMA = pa.schema([
     ('landmark_source', pa.string()), ('landmark_index', pa.int64()), ('landmark_name', pa.string()),
     ('x', pa.float64()), ('y', pa.float64()), ('z', pa.float64()), ('coordinate_space', pa.string()),
     ('is_valid', pa.bool_()), ('invalid_reason', pa.string()), ('visibility', pa.float64()), ('presence', pa.float64()),
-    ('handedness', pa.string()), ('representation', pa.string()),
+    ('handedness', pa.string()), ('handedness_score', pa.float64()), ('hand_observation_index', pa.int64()), ('representation', pa.string()),
 ])
 
 def root_path():
@@ -72,6 +76,8 @@ def sha256_file(path):
 def convert_landmarks(folder, paths, capture_id, patient_id, session_id, trial_id):
     base = dict(capture_id=str(capture_id), patient_id=patient_id, session_id=session_id, trial_id=trial_id)
     frame_count = landmark_count = valid_count = inferred_count = skipped_count = 0
+    model_status_counts = {'pose': {}, 'hand': {}}
+    missing_result_summary = {}
     last_id, last_time = -1, -1.0
     frame_file, landmark_file = folder / 'frames.parquet.tmp', folder / 'landmarks.parquet.tmp'
     with pq.ParquetWriter(frame_file, FRAME_SCHEMA) as frame_writer, pq.ParquetWriter(landmark_file, LANDMARK_SCHEMA) as landmark_writer:
@@ -85,6 +91,16 @@ def convert_landmarks(folder, paths, capture_id, patient_id, session_id, trial_i
                 frame_count += 1
                 inferred_count += int(frame['inference_performed'])
                 skipped_count += frame.get('skipped_frames', 0)
+                for model in ('pose', 'hand'):
+                    status = frame.get(f'{model}_inference_status')
+                    if status is not None:
+                        counts = model_status_counts[model]
+                        counts[status] = counts.get(status, 0) + 1
+                    if status == 'missing_result':
+                        prior = missing_result_summary.get(model)
+                        missing_result_summary[model] = dict(count=(prior['count'] if prior else 0) + 1,
+                            first_timestamp_ms=prior['first_timestamp_ms'] if prior else frame['timestamp_ms'],
+                            last_timestamp_ms=frame['timestamp_ms'])
                 frames.append({**base, **{k: v for k, v in frame.items() if k != 'landmarks'}})
                 for point in frame['landmarks']:
                     landmark_count += 1
@@ -98,6 +114,7 @@ def convert_landmarks(folder, paths, capture_id, patient_id, session_id, trial_i
     os.replace(frame_file, folder / 'frames.parquet')
     os.replace(landmark_file, folder / 'landmarks.parquet')
     frame_file, landmark_file = folder / 'frames.parquet', folder / 'landmarks.parquet'
-    return dict(frame_count=frame_count, inferred_count=inferred_count, skipped_count=skipped_count,
+    return dict(frame_count=frame_count, inferred_count=inferred_count, skipped_count=skipped_count, last_timestamp_ms=last_time if frame_count else None,
+                model_status_counts=model_status_counts, missing_result_summary=missing_result_summary,
                 landmark_count=landmark_count, valid_count=valid_count, invalid_count=landmark_count-valid_count,
                 frames_sha256=sha256_file(frame_file), landmarks_sha256=sha256_file(landmark_file))

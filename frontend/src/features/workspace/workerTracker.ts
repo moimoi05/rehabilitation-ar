@@ -7,12 +7,16 @@ export type SourceFrameIdentity = {
   sourceFrameId?: number | null
   sourceMediaTimeMs?: number | null
   sourcePerformanceMs?: number
+  sourceObservationId?: number | null
+  captureScope?: string | null
 }
 export type WorkerFrameIdentity = {
   requestId: number
   sourceFrameId: number | null
   sourceMediaTimeMs: number | null
   sourcePerformanceMs: number
+  sourceObservationId?: number | null
+  captureScope?: string | null
 }
 
 export type WorkerResult = Partial<WorkerFrameIdentity> & {
@@ -30,6 +34,10 @@ export type WorkerResult = Partial<WorkerFrameIdentity> & {
   poseCleanupFailed?: boolean
   poseProcessed?: boolean
   handProcessed?: boolean
+  poseAttempted?: boolean
+  handAttempted?: boolean
+  poseResultReceived?: boolean
+  handResultReceived?: boolean
   poseInferenceMs?: number | null
   handInferenceMs?: number | null
   poseWorldLandmarks?: WorkerLandmark[]
@@ -45,6 +53,7 @@ export type WorkerHandResult = WorkerFrameIdentity & {
   handedness: WorkerCategory[][] | null
   handInferenceMs: number | null
   handProcessed: boolean
+  handAttempted?: boolean
   transferAndDispatchMs?: number | null
   transferMs?: number | null
   captureResizeTotalMs?: number | null
@@ -61,6 +70,7 @@ export type WorkerPoseResult = WorkerFrameIdentity & {
   poseWorldLandmarks: WorkerLandmark[] | null
   poseInferenceMs: number | null
   poseProcessed: boolean
+  poseAttempted?: boolean
   transferAndDispatchMs?: number | null
   transferMs?: number | null
   captureResizeTotalMs?: number | null
@@ -76,6 +86,8 @@ export type WorkerFrameComplete = WorkerFrameIdentity & {
   inferenceMs: number
   poseProcessed: boolean
   handProcessed: boolean
+  poseAttempted?: boolean
+  handAttempted?: boolean
   poseInferenceMs: number | null
   handInferenceMs: number | null
   transferAndDispatchMs?: number | null
@@ -287,6 +299,8 @@ export function createWorkerTracker(options: Options): Promise<WorkerTracker> {
           sourceFrameId: Number.isSafeInteger(sourceIdentity?.sourceFrameId) ? sourceIdentity!.sourceFrameId! : null,
           sourceMediaTimeMs: finite(sourceMediaTimeMs) ? sourceMediaTimeMs : null,
           sourcePerformanceMs: finite(sourceIdentity?.sourcePerformanceMs) ? sourceIdentity.sourcePerformanceMs : timestamp,
+          ...(sourceIdentity?.sourceObservationId !== undefined ? { sourceObservationId: sourceIdentity.sourceObservationId } : {}),
+          ...(sourceIdentity?.captureScope !== undefined ? { captureScope: sourceIdentity.captureScope } : {}),
         }
         identity = submittedIdentity
         latestHandForSequence = null
@@ -360,7 +374,7 @@ export function createWorkerTracker(options: Options): Promise<WorkerTracker> {
 
       const requestId = data.requestId ?? data.id
       if (!ready || !busy || !identity || requestId !== sequence || (data.id !== undefined && data.id !== requestId)) return
-      if (['sourceFrameId', 'sourceMediaTimeMs', 'sourcePerformanceMs'].some(key => data[key] !== undefined && data[key] !== identity![key as keyof WorkerFrameIdentity])) return
+      if (['sourceFrameId', 'sourceMediaTimeMs', 'sourcePerformanceMs', 'sourceObservationId', 'captureScope'].some(key => data[key] !== undefined && data[key] !== identity![key as keyof WorkerFrameIdentity])) return
 
       // Hand result delivered immediately to the main thread
       if (data.type === 'hand_result') {
@@ -380,6 +394,7 @@ export function createWorkerTracker(options: Options): Promise<WorkerTracker> {
           handedness: data.handedness ?? null,
           handInferenceMs: typeof data.handInferenceMs === 'number' && Number.isFinite(data.handInferenceMs) ? data.handInferenceMs : null,
           handProcessed: data.handProcessed === true,
+          ...(typeof data.handAttempted === 'boolean' ? { handAttempted: data.handAttempted } : {}),
           transferAndDispatchMs: transferVal,
           transferMs: transferVal,
           captureResizeTotalMs: captureVal,
@@ -409,6 +424,7 @@ export function createWorkerTracker(options: Options): Promise<WorkerTracker> {
           poseWorldLandmarks: data.poseWorldLandmarks ?? null,
           poseInferenceMs: typeof data.poseInferenceMs === 'number' && Number.isFinite(data.poseInferenceMs) ? data.poseInferenceMs : null,
           poseProcessed: data.poseProcessed === true,
+          ...(typeof data.poseAttempted === 'boolean' ? { poseAttempted: data.poseAttempted } : {}),
           transferAndDispatchMs: transferVal,
           transferMs: transferVal,
           captureResizeTotalMs: captureVal,
@@ -452,6 +468,8 @@ export function createWorkerTracker(options: Options): Promise<WorkerTracker> {
           inferenceMs: inferenceMs ?? 0,
           poseProcessed: data.poseProcessed === true,
           handProcessed: data.handProcessed === true,
+          ...(typeof data.poseAttempted === 'boolean' ? { poseAttempted: data.poseAttempted } : {}),
+          ...(typeof data.handAttempted === 'boolean' ? { handAttempted: data.handAttempted } : {}),
           poseInferenceMs: latency(data.poseInferenceMs),
           handInferenceMs: latency(data.handInferenceMs),
           transferAndDispatchMs: transferVal,
@@ -478,11 +496,15 @@ export function createWorkerTracker(options: Options): Promise<WorkerTracker> {
         const observations = hasObservations ? {
           poseProcessed: typeof data.poseProcessed === 'boolean' ? data.poseProcessed : completedPose?.poseProcessed ?? false,
           handProcessed: typeof data.handProcessed === 'boolean' ? data.handProcessed : completedHand?.handProcessed ?? false,
+          ...(typeof data.poseAttempted === 'boolean' ? { poseAttempted: data.poseAttempted } : {}),
+          ...(typeof data.handAttempted === 'boolean' ? { handAttempted: data.handAttempted } : {}),
           poseInferenceMs: latency(data.poseInferenceMs ?? completedPose?.poseInferenceMs),
           handInferenceMs: latency(data.handInferenceMs ?? completedHand?.handInferenceMs),
           poseWorldLandmarks: aggregatedPoseWorld,
           handWorldLandmarks: aggregatedHandWorld,
           handedness: aggregatedHandedness,
+          poseResultReceived: data.pose !== undefined || completedPose !== null,
+          handResultReceived: data.hands !== undefined || completedHand !== null,
         } : {}
 
         options.onResult?.({

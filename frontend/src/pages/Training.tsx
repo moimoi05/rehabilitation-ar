@@ -101,6 +101,23 @@ function TrainingDashboard({ patientId }: { patientId: number }) {
     catch (err) { setError(err instanceof Error ? err.message : 'Không tạo được buổi tập.') }
     finally { setBusy(false) }
   }
+  async function resume(sessionId: number) {
+    if (session || busy) return
+    setBusy(true); setError('')
+    try {
+      const detail = await rehabApi.trainingDetail(sessionId)
+      const old = detail.session
+      if (old.id !== sessionId || old.patient_id !== patientId || old.session_type !== 'training' || !old.managed_workflow || !['draft', 'in_progress'].includes(old.status)) throw new Error('Buổi tập không còn khả dụng hoặc không thuộc bệnh nhân này. Hãy tải lại hồ sơ.')
+      const resumed = await rehabApi.resumeTraining(sessionId)
+      if (resumed.id !== sessionId || resumed.patient_id !== patientId || !['draft', 'in_progress'].includes(resumed.status) || resumed.setup_confirmed) throw new Error('Không xác nhận được buổi tập đã sẵn sàng. Hãy tải lại hồ sơ.')
+      setSession(resumed); setCurrentReport(null); setResult(null); setExercise(null); setStage('setup')
+      try {
+        const updated = await rehabApi.trainingDetail(sessionId)
+        if (updated.session.id === sessionId && updated.session.patient_id === patientId) setCurrentReport(updated)
+      } catch { setError('Đã tiếp tục buổi tập nhưng chưa tải lại được các lượt; hãy kiểm tra kết nối.') }
+    } catch (err) { setError(err instanceof Error ? err.message : 'Chưa tiếp tục được buổi tập.') }
+    finally { setBusy(false) }
+  }
   async function setupSaved() {
     if (!session) return
     const revision = ++setupRevision.current
@@ -146,14 +163,14 @@ function TrainingDashboard({ patientId }: { patientId: number }) {
   const unfinished = data.training.filter(item => ['draft', 'in_progress'].includes(item.session.status) && item.session.id !== session?.id)
   return <><div className="page-heading"><div><span className="eyebrow">LUYỆN TẬP</span><h1>Buổi luyện tập</h1><p>{session ? `Buổi #${session.id} · ${statusLabel[session.status]}` : 'Kiểm tra lịch sử và bài tập trước khi bắt đầu.'}</p></div>{session ? <Button variant="outline" disabled={busy || stage === 'game'} onClick={() => setFinishOpen(true)}>Kết thúc buổi tập</Button> : <Button disabled={busy || unfinished.some(item => item.session.managed_workflow)} onClick={() => void begin()}>Bắt đầu buổi tập</Button>}</div>
     <PatientBanner patient={data.patient} />{error && <ErrorState message={error} retry={() => void load()} />}
-    {unfinished.length > 0 && <section className="panel"><p>Còn {unfinished.length} buổi dang dở: {unfinished.map(item => `#${item.session.id}`).join(', ')}. Kết quả đã lưu vẫn được giữ; các buổi này chưa được đánh dấu hoàn thành.</p>{unfinished.filter(item => item.session.managed_workflow).map(item => <div className="form-actions" key={item.session.id}><Button variant="outline" disabled={busy} onClick={() => setCancelId(item.session.id)}>Đóng buổi dang dở #{item.session.id}</Button></div>)}</section>}
+    {unfinished.length > 0 && <section className="panel"><p>Còn {unfinished.length} buổi dang dở: {unfinished.map(item => `#${item.session.id}`).join(', ')}. Kết quả đã lưu vẫn được giữ; các buổi này chưa được đánh dấu hoàn thành.</p>{unfinished.filter(item => item.session.managed_workflow).map(item => <div className="form-actions" key={item.session.id}><Button disabled={busy || !!session} onClick={() => void resume(item.session.id)}>Tiếp tục buổi dang dở #{item.session.id}</Button><Button variant="outline" disabled={busy || !!session} onClick={() => setCancelId(item.session.id)}>Đóng buổi dang dở #{item.session.id}</Button></div>)}<p className="help">Khi tiếp tục, lượt đang chơi chưa hoàn tất sẽ được hủy; kết quả đã lưu vẫn được giữ. Cần kiểm tra và xác nhận lại camera.</p></section>}
     {stage === 'setup' && <section className="panel"><h2>Thiết lập camera cho buổi tập</h2><p>Điều chỉnh ghế và hình bóng; kiểm tra đầu, vai, thân trước khi tiếp tục.</p>{session?.setup_confirmed && <div className="form-actions"><Button disabled={busy} onClick={() => void setupSaved()}>Tiếp tục</Button></div>}</section>}
     {stage === 'dashboard' && <><TrainingHistory data={data} />
       <section className="flow-section"><div className="panel-heading"><div><h2>{session ? 'Chọn bài tập tiếp theo' : 'Bài tập của bệnh nhân'}</h2><p>Chọn bài tập phù hợp trong danh sách để thực hiện.</p></div>{session && !session.setup_confirmed && <Button onClick={() => setStage('setup')}>Kiểm tra lại camera</Button>}</div><ExerciseCatalog exercises={data.available_exercises} trials={currentReport?.trials} onPlay={play} disabled={!session?.setup_confirmed || busy} /></section>
       {data.transfers.some(item => item.baseline_assessment_session_id !== null) && <section className="panel"><h2>Đánh giá đầu vào</h2><p>Baseline: {data.transfers.filter(item => item.baseline_assessment_session_id !== null).map(item => `#${item.baseline_assessment_session_id}`).join(', ')}</p><Link className="text-link" to={`/reports?patient_id=${patientId}&kind=assessments`}>Xem báo cáo đánh giá đầu vào</Link></section>}
     </>}
     {stage === 'result' && result && <GameResult result={result} exercise={exercise} captures={currentReport?.captures} training busy={busy} onContinue={() => setStage('dashboard')} onReturn={() => setFinishOpen(true)} />}
-    {stage === 'game' && <div className="notice">{exercise?.name} · Buổi #{session?.id}. Hoàn thành và xác nhận lưu kết quả trước khi tiếp tục.</div>}
+    {stage === 'game' && <div className="notice">{exercise?.name} · Buổi #{session?.id}. Kết quả sẽ tự lưu khi kết thúc lượt chơi.</div>}
     {session && <ClinicalWorkspace session={session} exercise={exercise} view={stage === 'setup' ? 'setup' : stage === 'game' ? 'game' : 'monitor'} onSetupSaved={() => void setupSaved()} onSetupInvalidated={setupInvalidated} onResultSaved={savedResult => void saved(savedResult)} />}
     {finishOpen && <div className="modal-backdrop"><section className="modal" role="dialog" aria-modal="true" aria-labelledby="finish-training-title"><h2 id="finish-training-title">Kết thúc buổi luyện tập?</h2><p>Các kết quả đã lưu được giữ lại. Xác nhận để ghi thời điểm kết thúc và giải phóng camera.</p><div className="form-actions"><Button variant="outline" disabled={busy} onClick={() => setFinishOpen(false)}>Hủy</Button><Button disabled={busy} onClick={() => void finish()}>{busy ? 'Đang kết thúc…' : 'Xác nhận kết thúc'}</Button></div></section></div>}
     {cancelId && <div className="modal-backdrop"><section className="modal" role="dialog" aria-modal="true" aria-labelledby="cancel-training-title"><h2 id="cancel-training-title">Đóng buổi dang dở #{cancelId}?</h2><p>Buổi này sẽ được đánh dấu đã hủy. Các kết quả đã lưu và lịch sử vẫn được giữ; lượt chưa xong không được ghi thành kết quả.</p><div className="form-actions"><Button variant="outline" disabled={busy} onClick={() => setCancelId(null)}>Hủy</Button><Button disabled={busy} onClick={() => void cancelUnfinished()}>Xác nhận đóng buổi dang dở</Button></div></section></div>}

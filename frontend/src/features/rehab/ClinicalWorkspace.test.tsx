@@ -64,3 +64,10 @@ it('does not start drawing as an assessment even with a mismatched catalog item'
   await expect(observed.at(-1)!.workflow!.game.createTrial('assessment-round')).rejects.toThrow()
   expect(rehabApi.createTrial).not.toHaveBeenCalled()
 })
+
+it('allows drawing in assessment when the catalog explicitly permits both workflows', async () => {
+  vi.mocked(rehabApi.createTrial).mockResolvedValue({ id: 18 } as Awaited<ReturnType<typeof rehabApi.createTrial>>)
+  render(<ClinicalWorkspace session={{ ...session, session_type: 'assessment' }} exercise={{ ...drawing, usage_mode: 'both' }} view="game" {...callbacks}/>)
+  await expect(observed.at(-1)!.workflow!.game.createTrial('assessment-round')).resolves.toBe(18)
+  expect(rehabApi.createTrial).toHaveBeenCalledWith(7, 2, 'assessment-round')
+})

@@ -1,6 +1,24 @@
 import { expect, it, vi } from 'vitest'
 import { createTrialResearchCapture } from './trialResearchCapture'
 
+it('forwards telemetry only to the round that owns the active capture', async () => {
+  let scope = 'first'
+  const event = vi.fn(), sample = vi.fn()
+  const port = { getScope: () => scope, gameStarted: vi.fn(), stop: vi.fn(async () => {}), event, sample }
+  const lifecycle = createTrialResearchCapture(port, { prepare: async () => 'first', beforeStop: vi.fn(), unavailable: vi.fn() })
+  await lifecycle.prepare(42, 'free_drawing')
+  lifecycle.event?.('GAME_STARTED', {}, { timestamp: 100 })
+  lifecycle.sample?.('drawing_stroke_point', { x: 1 }, { timestamp: 110, sourceObservationId: 9 })
+  expect(event).toHaveBeenCalledWith('first', 'GAME_STARTED', {}, { timestamp: 100 })
+  expect(sample).toHaveBeenCalledOnce()
+  scope = 'second'
+  lifecycle.event?.('UNDO', {}, { timestamp: 120 })
+  lifecycle.sample?.('drawing_stroke_point', { x: 2 }, { timestamp: 130 })
+  lifecycle.stopped('cancelled', 140)
+  expect(event).toHaveBeenCalledOnce(); expect(sample).toHaveBeenCalledOnce()
+  expect(port.stop).not.toHaveBeenCalled()
+})
+
 it('continues gameplay when research cannot start and reports the capture failure', async () => {
   const failure = vi.fn(), stop = vi.fn()
   const lifecycle = createTrialResearchCapture({ getScope: () => null, gameStarted: vi.fn(), stop }, {

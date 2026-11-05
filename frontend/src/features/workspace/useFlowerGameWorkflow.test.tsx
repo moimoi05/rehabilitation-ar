@@ -17,6 +17,8 @@ function tick(time: number) {
 }
 const workflow = (changes: Partial<FlowerWorkflow> = {}): FlowerWorkflow => ({ enabled: true, setupReady: true, exerciseId: 2, exerciseName: 'Hái hoa · Luyện tầm với', attempt: 1, createTrial: vi.fn().mockResolvedValue(19), onResultSaved: vi.fn(), ...changes })
 beforeEach(() => {
+  poseTime.current = 100
+  pose.current.pose = Array.from({ length: 17 }, () => ({ x: .35, y: .5, visibility: 1 }))
   vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => { frame = cb; return 1 })
   vi.stubGlobal('cancelAnimationFrame', vi.fn())
   vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(null)
@@ -164,6 +166,7 @@ it.each([
 })
 
 it('marks capture end when the prescribed flower duration completes', async () => {
+  vi.spyOn(performance, 'now').mockReturnValue(100)
   const researchCapture = { prepare: vi.fn().mockResolvedValue(undefined), started: vi.fn(), stopped: vi.fn() }
   const config = workflow({ durationSeconds: .1 })
   const saved = { id: 11, trial_id: 19, session_id: 7, round_id: '00000000-0000-4000-8000-000000000001', game_key: 'glowing_flower', duration_seconds: .1, score: 1, target_count: 2, created_at: '' }
@@ -172,9 +175,41 @@ it('marks capture end when the prescribed flower duration completes', async () =
   render(<Harness workflow={config} researchCapture={researchCapture}/>)
   fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu trò chơi' }))
   await screen.findByRole('button', { name: 'Dừng' })
+  await act(async () => {})
   tick(100); tick(250)
   expect(researchCapture.stopped).toHaveBeenCalledWith('completed', 250)
   await waitFor(() => expect(config.onResultSaved).toHaveBeenCalledWith(saved))
   expect(fetchMock).toHaveBeenCalledOnce()
   expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toMatchObject({ trial_id: 19, round_id: saved.round_id })
+})
+
+it('records only accepted touches and observations on its original owner, including tracking loss', async () => {
+  vi.spyOn(performance, 'now').mockReturnValue(100)
+  const first = { prepare: vi.fn().mockResolvedValue(undefined), started: vi.fn(), stopped: vi.fn(), event: vi.fn(), sample: vi.fn() }
+  const next = { ...first, event: vi.fn(), sample: vi.fn() }
+  const config = workflow()
+  const view = render(<Harness workflow={config} researchCapture={first}/>)
+  fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu trò chơi' }))
+  await screen.findByRole('button', { name: 'Dừng' })
+  view.rerender(<Harness workflow={config} researchCapture={next}/>)
+  tick(100); tick(200); tick(250)
+  expect(first.event.mock.calls.filter(([type]) => type === 'TARGET_TOUCHED')).toHaveLength(1)
+  expect(first.sample).toHaveBeenCalledOnce()
+  expect(first.sample.mock.calls[0][2]).toMatchObject({ timestamp: 100, sourceTimestamp: 100 })
+  tick(400); tick(450)
+  expect(first.event.mock.calls.filter(([type]) => type === 'TRACKING_LOST')).toHaveLength(1)
+  expect(first.event.mock.calls.filter(([type]) => type === 'TARGET_TOUCHED')).toHaveLength(1)
+  poseTime.current = 500; pose.current.pose[15] = { x: .6, y: .43, visibility: 1 }
+  tick(500)
+  expect(first.event.mock.calls.filter(([type]) => type === 'TRACKING_RECOVERED')).toHaveLength(1)
+  expect(first.event.mock.calls.filter(([type]) => type === 'TARGET_TOUCHED')).toHaveLength(2)
+  expect(first.event.mock.calls.filter(([type]) => type === 'TARGET_RELEASE_GATE_CLEARED')).toHaveLength(1)
+  expect(next.event).not.toHaveBeenCalled()
+  expect(next.sample).not.toHaveBeenCalled()
+  const staleFrame = frame
+  view.rerender(<Harness workflow={{ ...config, attempt: 2 }} researchCapture={next}/>)
+  const count = first.event.mock.calls.length
+  act(() => staleFrame(600))
+  expect(first.event).toHaveBeenCalledTimes(count)
+  expect(next.event).not.toHaveBeenCalled()
 })

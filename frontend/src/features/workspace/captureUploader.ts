@@ -1,5 +1,6 @@
 import { durableCaptureQueue, MemoryCaptureQueueStore } from './captureQueueStore'
 import { acquireCaptureOwnership } from './captureOwnership'
+import type { GameEvent, InteractionSample } from './gameResearch'
 import type { CaptureFinalizePayload, CaptureQueuePart, CaptureQueueState, CaptureQueueStore } from './captureQueueStore'
 export type { CaptureQueueState, CaptureQueueStore } from './captureQueueStore'
 
@@ -18,15 +19,22 @@ export class FinalizeOutcomeUnknown extends Error {
 }
 export async function captureRequest(path: string, body?: unknown, blob?: Blob): Promise<unknown> {
   const headers: Record<string, string> = {}
+  const json = blob ? undefined : JSON.stringify(body)
   if (blob) {
     const digest = await crypto.subtle.digest('SHA-256', await blob.arrayBuffer())
     headers['X-Chunk-SHA256'] = Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('')
     headers['Content-Type'] = blob.type || 'application/octet-stream'
-  } else headers['Content-Type'] = 'application/json'
+  } else {
+    headers['Content-Type'] = 'application/json'
+    if (path.endsWith('/game-batches') && json !== undefined) {
+      const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(json))
+      headers['X-Chunk-SHA256'] = Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('')
+    }
+  }
   const controller = new AbortController()
   const timeout = setTimeout(() => controller.abort(), 15000)
   let response: Response
-  try { response = await fetch(`${base}${path}`, { method: blob ? 'PUT' : 'POST', headers, body: blob || JSON.stringify(body), signal: controller.signal }) }
+  try { response = await fetch(`${base}${path}`, { method: blob ? 'PUT' : 'POST', headers, body: blob || json, signal: controller.signal }) }
   finally { clearTimeout(timeout) }
   if (!response.ok) { let detail = `HTTP ${response.status}`; try { const json = await response.json(); if (typeof json.detail === 'string') detail = json.detail } catch { /* preserve HTTP status */ }; throw new CaptureHttpError(detail, response.status) }
   return response.json()
@@ -35,6 +43,7 @@ export async function captureRequest(path: string, body?: unknown, blob?: Blob):
 export type CaptureUploaderOptions = {
   durable?: boolean; store?: CaptureQueueStore; maxBytes?: number; maxParts?: number; maxVolatileBytes?: number
   retryDelaysMs?: number[]; recoverExisting?: boolean
+  gameData?: boolean
 }
 export type FinalizeMetadata = Pick<CaptureFinalizePayload, 'game_started_at_ms' | 'game_ended_at_ms' | 'termination_reason' | 'known_data_gaps' | 'tracking_video_complete'> & { ended_at_utc?: string }
 const retryable = (error: unknown) => !(error instanceof CaptureHttpError) || error.status === 408 || error.status === 429 || error.status >= 500
@@ -43,6 +52,8 @@ const asError = (error: unknown) => error instanceof Error ? error : new Error('
 /** Persist before sending. Network failures suspend uploads, never collection or gameplay. */
 export class CaptureUploader {
   private buffer: CaptureFrame[] = []
+  private events: GameEvent[] = []
+  private samples: InteractionSample[] = []
   private ingress: Promise<void> = Promise.resolve()
   private pump: Promise<void> | null = null
   private ready: Promise<void> | null = null
@@ -56,7 +67,7 @@ export class CaptureUploader {
   private stats: CaptureStats = { frames: 0, landmarks: 0, uploadedBatches: 0, pending: 0, videoBytes: 0, videoChunks: 0, error: '' }
   constructor(private id: string, private send: Send, private report: (stats: CaptureStats) => void, private options: CaptureUploaderOptions = {}) {
     this.store = options.store || (options.durable ? durableCaptureQueue : new MemoryCaptureQueueStore())
-    this.state = { captureId: id, sequence: 0, batches: 0, chunks: 0, frames: 0, landmarks: 0, videoBytes: 0, createdAt: new Date().toISOString(), knownDataGaps: [] }
+    this.state = { captureId: id, sequence: 0, batches: 0, chunks: 0, ...(options.gameData ? { gameData: true } : {}), frames: 0, landmarks: 0, videoBytes: 0, createdAt: new Date().toISOString(), knownDataGaps: [] }
   }
   private update(update: Partial<CaptureStats>) { this.stats = { ...this.stats, ...update }; this.report({ ...this.stats }) }
   prepare() {
@@ -90,19 +101,20 @@ export class CaptureUploader {
       this.markIncomplete(`Không thể lưu trạng thái lỗi video tracking: ${asError(error).message}`)
     })
   }
-  private enqueue(kind: CaptureQueuePart['kind'], bytes: number, value: { frames?: CaptureFrame[]; blob?: Blob; path?: string; body?: unknown }) {
+  private enqueue(kind: CaptureQueuePart['kind'], bytes: number, value: { frames?: CaptureFrame[]; events?: GameEvent[]; samples?: InteractionSample[]; blob?: Blob; path?: string; body?: unknown }) {
     if (this.interrupted) return
     if (bytes + this.volatileBytes > (this.options.maxVolatileBytes ?? 8 * 1024 * 1024)) { this.markIncomplete('Bộ đệm ghi local vượt giới hạn; có phần dữ liệu chưa được lưu.'); return }
     this.volatileBytes += bytes
     this.ingress = this.ingress.then(async () => {
       await this.prepare()
-      const batches = this.state.batches, chunks = this.state.chunks, trackingChunks = this.state.trackingChunks || 0
+      const batches = this.state.batches, chunks = this.state.chunks, trackingChunks = this.state.trackingChunks || 0, gameBatches = this.state.gameBatches || 0
       const next = { ...this.state, sequence: this.state.sequence + 1, batches: batches + Number(kind === 'batch'), chunks: chunks + Number(kind === 'video'), trackingChunks: trackingChunks + Number(kind === 'tracking_video'), frames: this.state.frames + (value.frames?.length || 0), landmarks: this.state.landmarks + (value.frames?.reduce((sum, frame) => sum + frame.landmarks.length, 0) || 0), videoBytes: this.state.videoBytes + (kind === 'video' ? value.blob?.size || 0 : 0), knownDataGaps: [...this.knownDataGaps] }
-      const path = kind === 'batch' ? `/api/captures/${this.id}/landmark-batches` : kind === 'video' ? `/api/captures/${this.id}/video-chunks/${chunks}` : kind === 'tracking_video' ? `/api/captures/${this.id}/tracking-video-chunks/${trackingChunks}` : value.path!
-      const body = kind === 'batch' ? { batch_index: batches, frames: value.frames } : value.body
+      const withGame = kind === 'game' ? { ...next, gameBatches: gameBatches + 1, gameData: true } : next
+      const path = kind === 'game' ? `/api/captures/${this.id}/game-batches` : kind === 'batch' ? `/api/captures/${this.id}/landmark-batches` : kind === 'video' ? `/api/captures/${this.id}/video-chunks/${chunks}` : kind === 'tracking_video' ? `/api/captures/${this.id}/tracking-video-chunks/${trackingChunks}` : value.path!
+      const body = kind === 'game' ? { batch_index: gameBatches, events: value.events, samples: value.samples } : kind === 'batch' ? { batch_index: batches, frames: value.frames } : value.body
       const part: CaptureQueuePart = { key: `${this.id}:${this.state.sequence}`, captureId: this.id, sequence: this.state.sequence, kind, path, bytes, ...(body === undefined ? {} : { body }), ...(value.blob ? { blob: value.blob } : {}) }
-      await this.store.putPart(part, next, { maxBytes: this.options.maxBytes ?? 128 * 1024 * 1024, maxParts: this.options.maxParts ?? 512 })
-      this.state = next
+      await this.store.putPart(part, withGame, { maxBytes: this.options.maxBytes ?? 128 * 1024 * 1024, maxParts: this.options.maxParts ?? 512 })
+      this.state = withGame
       this.update({ pending: this.stats.pending + 1, pendingBytes: (this.stats.pendingBytes || 0) + bytes })
     }).catch(error => { this.markIncomplete(asError(error).message) }).finally(() => { this.volatileBytes -= bytes })
     void this.ingress.then(() => this.kick())
@@ -139,11 +151,28 @@ export class CaptureUploader {
     if (this.buffer.length >= 15) this.flush()
   }
   flush() {
-    if (!this.buffer.length || this.interrupted) return
-    const frames = this.buffer; this.buffer = []
-    // Detach from caller-owned objects once; every retry sends the same payload.
-    const immutableFrames = JSON.parse(JSON.stringify(frames)) as CaptureFrame[]
-    this.enqueue('batch', new TextEncoder().encode(JSON.stringify(immutableFrames)).byteLength, { frames: immutableFrames })
+    if (this.interrupted) return
+    if (this.buffer.length) {
+      const frames = this.buffer; this.buffer = []
+      // Detach from caller-owned objects once; every retry sends the same payload.
+      const immutableFrames = JSON.parse(JSON.stringify(frames)) as CaptureFrame[]
+      this.enqueue('batch', new TextEncoder().encode(JSON.stringify(immutableFrames)).byteLength, { frames: immutableFrames })
+    }
+    if (this.events.length || this.samples.length) {
+      const batch = JSON.stringify({ events: this.events, samples: this.samples })
+      this.events = []; this.samples = []
+      this.enqueue('game', new TextEncoder().encode(batch).byteLength, JSON.parse(batch))
+    }
+  }
+  addGameEvent(event: GameEvent) {
+    if (this.interrupted || this.stopped) return
+    this.events = [...this.events, event]
+    if (this.events.length >= 50) this.flush()
+  }
+  addInteractionSample(sample: InteractionSample) {
+    if (this.interrupted || this.stopped) return
+    this.samples = [...this.samples, sample]
+    if (this.samples.length >= 120) this.flush()
   }
   addVideoChunk(blob: Blob) {
     if (!blob.size || this.interrupted || this.stopped) return
@@ -172,7 +201,7 @@ export class CaptureUploader {
     const ended_at_utc = new Date().toISOString()
     this.flush(); this.stopped = true; await this.ingress; await this.prepare()
     const gaps = [...new Set([...this.knownDataGaps, ...(extra.known_data_gaps || [])])]
-    const payload: CaptureFinalizePayload = this.state.stopped || { expected_batches: this.state.batches, expected_video_chunks: this.state.chunks, ...(this.state.trackingChunks ? { expected_tracking_video_chunks: this.state.trackingChunks } : {}), ended_at_utc, duration_ms: duration, ...extra, ...(gaps.length ? { known_data_gaps: gaps } : {}) }
+    const payload: CaptureFinalizePayload = this.state.stopped || { expected_batches: this.state.batches, expected_video_chunks: this.state.chunks, ...(this.state.trackingChunks ? { expected_tracking_video_chunks: this.state.trackingChunks } : {}), ...(this.state.gameData ? { expected_game_batches: this.state.gameBatches || 0, game_data_complete: !this.interrupted } : {}), ended_at_utc, duration_ms: duration, ...extra, ...(gaps.length ? { known_data_gaps: gaps } : {}) }
     this.state = { ...this.state, knownDataGaps: gaps, stopped: payload }
     await this.store.saveState(this.state)
     await this.drain()

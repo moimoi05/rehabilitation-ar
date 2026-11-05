@@ -66,7 +66,7 @@ it('requires explicit research permissions in clinical setup and does not start 
   vi.stubGlobal('fetch', fetchMock)
   const view = render(<WorkspacePage session={session} workflow={workflow}/>)
   expect(screen.getByLabelText('Cho phép thu landmark cho các lượt chơi')).not.toBeChecked()
-  expect(screen.getByLabelText('Cho phép ghi video nguồn cho các lượt chơi')).not.toBeChecked()
+  expect(screen.getByLabelText('Cho phép ghi video nguồn và video có lớp tracking cho các lượt chơi')).not.toBeChecked()
   fireEvent.click(screen.getByLabelText('Cho phép thu landmark cho các lượt chơi'))
   view.rerender(<WorkspacePage session={session} workflow={{ ...workflow, view: 'game' }}/>)
   expect(screen.getByText(/Không thu do chưa đủ quyền video và landmark/)).toBeInTheDocument()

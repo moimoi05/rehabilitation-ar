@@ -3,6 +3,7 @@ import { validHand } from './handObservation'
 
 export type DrawingObservation = {
   timestamp: number
+  sourceObservationId?: number | null
   frameId?: number
   hands: Point[][]
   handedness: { categoryName: string; score: number }[][]

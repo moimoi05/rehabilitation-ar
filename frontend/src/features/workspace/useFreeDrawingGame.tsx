@@ -6,6 +6,7 @@ import { DrawingController } from './freeDrawing'
 import type { DrawingObservation, DrawingRejectionReason, DrawingSegment } from './freeDrawing'
 import { drawDrawingOverlay, drawingViewport, redrawDrawing, renderDrawingSegment } from './freeDrawingRenderer'
 import type { FlowerWorkflow, ResearchTrialCapture, SavedGameResult } from './gameWorkflow'
+import type { GameResearchSink } from './gameResearch'
 import type { Size, VideoMapping } from './videoGeometry'
 import type { TrackingDiagnostics } from './trackingDiagnostics'
 import './freeDrawing.css'
@@ -43,10 +44,19 @@ export function useFreeDrawingGame(props: Props) {
   const trial = useRef<number | null>(null), roundId = useRef(''), generation = useRef(0)
   const startEpoch = useRef(0), mounted = useRef(true)
   const trialOwner = useRef<FlowerWorkflow | undefined>(undefined)
-  const researchRound = useRef<{ owner: ResearchTrialCapture; stopped: boolean } | null>(null)
+  const researchRound = useRef<{ owner: ResearchTrialCapture; stopped: boolean; started: boolean } | null>(null)
   const stopResearch = (reason: string, capture = researchRound.current) => {
     if (!capture || capture.stopped) return
-    capture.stopped = true; capture.owner.stopped(reason, performance.now())
+    const now = performance.now()
+    if (capture.started && capture === researchRound.current) {
+      const completed = reason === 'stopped' || reason === 'completed'
+      controller.current.finish(now, completed ? 'exercise_finished' : reason, !completed)
+      capture.owner.event?.(completed ? 'GAME_COMPLETED' : 'GAME_CANCELLED', {
+        reason, completed_strokes: controller.current.completedStrokeCount,
+        active_drawing_ms: controller.current.activeDrawingMs, elapsed_ms: Math.max(0, now - startedAt.current),
+      }, { timestamp: now })
+    }
+    capture.stopped = true; capture.owner.stopped(reason, now)
   }
   const preparingRef = useRef(false), saving = useRef(false), saved = useRef(false)
   const savedResult = useRef<SavedGameResult | null>(null)
@@ -93,7 +103,11 @@ export function useFreeDrawingGame(props: Props) {
     if (ctx && segment) renderDrawingSegment(ctx, segment, logicalSize.current, display())
     overlayDirty.current = true
   }
-  const resetInput = () => { controller.current.resetInput(); geometryCutoff.current = performance.now(); pointerId.current = null; overlayDirty.current = true; reportDrawing() }
+  const resetInput = (reason: 'tracking_lost' | 'geometry_changed' = 'tracking_lost') => {
+    const now = performance.now()
+    controller.current.resetInput(now, reason, reason === 'geometry_changed' ? { mapping: mapping.current, mirrored, display_box: display() } : undefined)
+    geometryCutoff.current = now; pointerId.current = null; overlayDirty.current = true; reportDrawing()
+  }
   const finish = (reason: string) => {
     if (phaseRef.current !== 'playing') return
     stopResearch(reason)
@@ -128,7 +142,7 @@ export function useFreeDrawingGame(props: Props) {
   } }, [])
   useEffect(() => {
     const sourceSize = `${size.width}|${size.height}`
-    if (previousSourceSize.current !== sourceSize) { previousSourceSize.current = sourceSize; resetInput() }
+    if (previousSourceSize.current !== sourceSize) { previousSourceSize.current = sourceSize; resetInput('geometry_changed') }
     rebuild()
   }, [enabled, size.width, size.height])
 
@@ -147,7 +161,7 @@ export function useFreeDrawingGame(props: Props) {
       const geometry = mapping.current
       const geometryKey = geometry ? `${boxKey}|${geometry.rect.x}|${geometry.rect.y}|${geometry.rect.width}|${geometry.rect.height}` : ''
       if (previousGeometry && geometryKey !== previousGeometry && phaseRef.current === 'playing') {
-        current.resetInput(); geometryCutoff.current = now; overlayDirty.current = true; reportDrawing()
+        current.resetInput(now, 'geometry_changed', { mapping: geometry, mirrored, display_box: box }); geometryCutoff.current = now; overlayDirty.current = true; reportDrawing()
       }
       previousGeometry = geometryKey
       if (boxKey !== previousBox) { previousBox = boxKey; rebuild() }
@@ -206,12 +220,12 @@ export function useFreeDrawingGame(props: Props) {
         persistedTrial = await workflow.createTrial(id)
         if (request !== generation.current || liveContext.current !== startContext) { await cleanupStaleTrial(workflow, persistedTrial, epoch); return }
         if (props.researchCapture) {
-          const capture = { owner: props.researchCapture, stopped: false }
+          const capture = { owner: props.researchCapture, stopped: false, started: false }
           researchRound.current = capture
           await props.researchCapture.prepare(persistedTrial, 'free_drawing', {
             mode, interaction_mode: interactionMode, cursor_source: interactionMode === 'draw' && mode === 'gesture' ? 'index' : cursorSource,
             pen_color: color, pen_width: width, logical_canvas: { width: 1000, height: 1000 * size.height / size.width },
-            configuration_scope: 'game_start_snapshot', changes_during_game_recorded: false,
+            configuration_scope: 'game_start_snapshot', changes_during_game_recorded: true,
           })
           if (request !== generation.current || liveContext.current !== startContext) { stopResearch('context_changed', capture); await cleanupStaleTrial(workflow, persistedTrial, epoch); return }
         }
@@ -223,10 +237,20 @@ export function useFreeDrawingGame(props: Props) {
       finally { if (request === generation.current) { preparingRef.current = false; setPreparing(false) } }
     }
     logicalSize.current = { width: 1000, height: 1000 * size.height / size.width }
-    controller.current = new DrawingController({ side, mode, interactionMode, cursorSource: interactionMode === 'draw' && mode === 'gesture' ? 'index' : cursorSource, color, width, logicalSize: logicalSize.current })
+    const capture = persistedTrial ? researchRound.current : null
+    const research: GameResearchSink | undefined = capture ? {
+      event: (...args) => { if (!capture.stopped && capture === researchRound.current) capture.owner.event?.(...args) },
+      sample: (...args) => { if (!capture.stopped && capture === researchRound.current) capture.owner.sample?.(...args) },
+    } : undefined
+    controller.current = new DrawingController({ side, mode, interactionMode, cursorSource: interactionMode === 'draw' && mode === 'gesture' ? 'index' : cursorSource, color, width, logicalSize: logicalSize.current, research })
     trial.current = persistedTrial; trialOwner.current = workflow; roundId.current = id; pendingStart.current = null; frozenPayload.current = null
     startedAt.current = performance.now(); elapsedMs.current = 0; observed.current = false; saved.current = false; savedResult.current = null; geometryCutoff.current = startedAt.current
-    if (persistedTrial && researchRound.current && !researchRound.current.stopped) researchRound.current.owner.started(startedAt.current)
+    if (capture && !capture.stopped) {
+      capture.owner.started(startedAt.current); capture.started = true
+      research?.event('GAME_STARTED', { tracking_usable: false, drawing_mode: mode, interaction_mode: interactionMode,
+        cursor_source: interactionMode === 'draw' && mode === 'gesture' ? 'index' : cursorSource,
+        width: logicalSize.current.width, height: logicalSize.current.height, coordinate_space: 'logical_canvas_px' }, { timestamp: startedAt.current })
+    }
     setSaveState('idle'); setMessage(''); setClearPending(false); setVerifyHandPending(false); phaseRef.current = 'playing'; setPhase('playing'); rebuild(); reportDrawing(); refreshSummary()
   }
   const configure = (change: Parameters<DrawingController['configure']>[0]) => { controller.current.configure(change); rebuild(); reportDrawing(); refreshSummary() }
@@ -352,7 +376,7 @@ export function useFreeDrawingGame(props: Props) {
       {demo ? <p>DEMO — kết quả này không được lưu.</p> : !workflow && <p>Chế độ thử độc lập chỉ xuất PNG. Mở bài Vẽ tự do trong buổi luyện tập để lưu kết quả hoạt động.</p>}</>}
     {message && <p role="status">{message}</p>}
   </div> : null
-  return { overlay, panel, hud, onHandObservation, resetInput, start, stop, phase,
+  return { overlay, panel, hud, onHandObservation, resetInput, start, stop, phase, cancelResearch: stopResearch,
     resetReplay: () => { if (replay) reset() },
     getCompletedStrokes: () => controller.current.completedStrokeCount }
 }

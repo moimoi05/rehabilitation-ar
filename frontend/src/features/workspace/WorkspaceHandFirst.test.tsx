@@ -185,6 +185,17 @@ describe('Workspace hand-first integration', () => {
     expect(drawingInput.resetInput).toHaveBeenCalled()
   })
 
+  it('passes the captured observation identity separately from the video frame ID', async () => {
+    await start()
+    capture.getScope.mockReturnValue('trial-capture')
+    act(() => options().onHandResult?.({ ...handResult(), sourceObservationId: 77, captureScope: 'trial-capture' }))
+    expect(drawingInput.onHandObservation).toHaveBeenLastCalledWith(expect.objectContaining({ frameId: 20, sourceObservationId: 77 }))
+    now = 120
+    act(() => options().onHandResult?.({ ...handResult(120), sourceObservationId: 78, captureScope: 'previous-capture' }))
+    expect(drawingInput.onHandObservation.mock.lastCall?.[0]).not.toHaveProperty('sourceObservationId')
+    capture.getScope.mockReturnValue(null)
+  })
+
   it('does not clear and redraw an unchanged overlay every display refresh', async () => {
     await start(); tick(100)
     act(() => options().onHandResult?.(handResult()))

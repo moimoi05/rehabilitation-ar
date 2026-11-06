@@ -555,3 +555,122 @@ describe('Free Drawing geometry', () => {
     expect(drawingViewport({ width: 1000, height: 562.5 }, { width: 800, height: 800 })).toEqual({ x: 0, y: 175, width: 800, height: 450 })
   })
 })
+
+describe('Free Drawing research transitions', () => {
+  const research = () => {
+    const events: { type: string; payload: Record<string, unknown>; context: { timestamp: number; sourceObservationId?: number | null } }[] = []
+    const samples: typeof events = []
+    return { events, samples, sink: {
+      event: (type: string, payload: Record<string, unknown>, context: { timestamp: number; sourceObservationId?: number | null }) => events.push({ type, payload, context }),
+      sample: (type: string, payload: Record<string, unknown>, context: { timestamp: number; sourceObservationId?: number | null }) => samples.push({ type, payload, context }),
+    } }
+  }
+  it('records accepted processed points once and keeps history after undo and clear', () => {
+    const log = research(), game = new DrawingController({ side: 'left', mode: 'assisted', cursorSource: 'index', research: log.sink })
+    acquire(game)
+    game.setPenDown(true, 180)
+    game.update({ ...observation(199, [hand(.36)]), sourceObservationId: 301 }, 200, mapping, false)
+    game.update({ ...observation(232, [hand(.37)]), sourceObservationId: 302 }, 233, mapping, false)
+    game.update(observation(232, [hand(.37)]), 234, mapping, false)
+    game.setPenDown(false, 250)
+    expect(log.events.filter(event => event.type === 'STROKE_STARTED')).toHaveLength(1)
+    expect(log.events.find(event => event.type === 'PEN_DOWN')?.context.timestamp).toBe(180)
+    expect(log.samples.map(sample => sample.context.sourceObservationId)).toEqual([301, 302])
+    expect(log.samples[1].payload.x).toBeCloseTo(game.strokes[0].points[1].x)
+    const original = log.samples.map(sample => ({ ...sample.payload }))
+    game.undo(260)
+    expect(game.strokes).toHaveLength(0)
+    expect(log.events.find(event => event.type === 'UNDO')?.payload).toMatchObject({ stroke_id: 1, operation: 'add' })
+    game.setPenDown(true, 270)
+    game.update(observation(280, [hand(.38)]), 281, mapping, false)
+    game.clear(290)
+    expect(log.events.find(event => event.type === 'CLEAR_CANVAS')?.payload.stroke_ids).toEqual([2])
+    expect(log.samples.slice(0, 2).map(sample => sample.payload)).toEqual(original)
+  })
+  it('leaves source observation unknown when only a video frame identity is available', () => {
+    const log = research(), game = new DrawingController({ side: 'left', mode: 'assisted', cursorSource: 'index', research: log.sink })
+    acquire(game); game.setPenDown(true, 180)
+    game.update(observation(199, [hand(.36)]), 200, mapping, false)
+    expect(log.samples[0].context.sourceObservationId).toBeNull()
+    expect(log.samples[0].context.timestamp).toBe(199)
+  })
+  it('marks a lost Hand interruption separately from a user pen lift', () => {
+    const log = research(), game = new DrawingController({ side: 'left', mode: 'assisted', cursorSource: 'index', research: log.sink })
+    acquire(game); game.setPenDown(true, 180)
+    game.update(observation(199, [hand(.36)]), 200, mapping, false)
+    game.update(observation(232, [], []), 233, mapping, false)
+    game.update(observation(265, [], []), 266, mapping, false)
+    expect(log.events.filter(event => event.type === 'TRACKING_LOST')).toHaveLength(1)
+    expect(log.events.find(event => event.type === 'STROKE_COMPLETED')?.payload).toMatchObject({ stroke_id: 1, interrupted: true, reason: 'tracking_lost' })
+    expect(log.events.find(event => event.type === 'PEN_UP')?.payload.reason).toBe('tracking_lost')
+  })
+  it('records explicit tracking resets honestly and renews usability after pause and geometry reset', () => {
+    const log = research(), game = new DrawingController({ side: 'left', mode: 'assisted', cursorSource: 'index', research: log.sink })
+    acquire(game); game.setPenDown(true, 180)
+    game.update(observation(199), 200, mapping, false)
+    game.resetInput(210, 'tracking_lost')
+    expect(log.events.find(event => event.type === 'PEN_UP')?.payload.reason).toBe('tracking_lost')
+    expect(log.events.filter(event => event.type === 'GEOMETRY_CHANGED')).toHaveLength(0)
+    acquire(game, 230)
+    game.suspend(310); game.resume(320)
+    acquire(game, 330)
+    const changed = { ...mapping, rect: { ...mapping.rect, x: -10 } }
+    game.resetInput(410, 'geometry_changed', { mapping: changed, mirrored: true, display_box: changed.box })
+    expect(log.events.find(event => event.type === 'GEOMETRY_CHANGED')?.payload).toMatchObject({ mapping: changed, mirrored: true, display_box: changed.box })
+    acquire(game, 430)
+    expect(log.events.filter(event => event.type === 'TRACKING_RECOVERED')).toHaveLength(4)
+    expect(log.events.filter(event => event.type === 'TRACKING_LOST')).toHaveLength(1)
+  })
+  it('replays grab, changed offsets and release without editing original stroke samples', () => {
+    const log = research(), game = new DrawingController({ side: 'left', mode: 'assisted', cursorSource: 'index', research: log.sink })
+    game.updatePointer({ x: 300, y: 200 }, 100, true)
+    game.updatePointer({ x: 330, y: 200 }, 130, true)
+    game.updatePointer({ x: 330, y: 200 }, 140, false)
+    const originalPoints = game.strokes[0].points.map(point => ({ ...point }))
+    game.configure({ interactionMode: 'move' }, 145)
+    game.updatePointer({ x: 320, y: 200 }, 150, false)
+    expect(game.grabStroke(151)).toBe(true)
+    game.updatePointer({ x: 350, y: 220 }, 180, false)
+    game.updatePointer({ x: 350, y: 220 }, 210, false)
+    game.releaseStroke(215)
+    const grabbed = log.events.find(event => event.type === 'STROKE_GRABBED')!
+    expect(log.samples.filter(sample => sample.type === 'drawing_drag_point')).toHaveLength(1)
+    expect(log.events.find(event => event.type === 'STROKE_RELEASED')?.payload).toMatchObject({ drag_id: grabbed.payload.drag_id, stroke_id: 1, interrupted: false, offset_x: 30, offset_y: 20 })
+    expect(game.strokes[0].points).toEqual(originalPoints)
+  })
+  it('records interrupted dragging with the last real offset and no successful release', () => {
+    const log = research(), game = new DrawingController({ side: 'left', mode: 'assisted', cursorSource: 'index', research: log.sink })
+    game.updatePointer({ x: 300, y: 200 }, 100, true)
+    game.updatePointer({ x: 330, y: 200 }, 130, false)
+    game.configure({ interactionMode: 'move' }, 145)
+    game.updatePointer({ x: 300, y: 200 }, 150, false)
+    expect(game.grabStroke(151)).toBe(true)
+    game.updatePointer({ x: 350, y: 220 }, 180, false)
+    game.checkFreshness(400)
+    expect(log.events.find(event => event.type === 'DRAG_INTERRUPTED')?.payload).toMatchObject({ stroke_id: 1, reason: 'tracking_lost', interrupted: true, offset_x: 50, offset_y: 20 })
+    expect(log.events.filter(event => event.type === 'STROKE_RELEASED')).toHaveLength(0)
+  })
+  it.each(['stroke', 'drag'] as const)('records source reset as an interruption of the active %s', mode => {
+    const log = research(), game = new DrawingController({ side: 'left', mode: 'assisted', cursorSource: 'index', research: log.sink })
+    game.updatePointer({ x: 300, y: 200 }, 100, true)
+    if (mode === 'drag') {
+      game.updatePointer({ x: 300, y: 200 }, 130, false)
+      game.configure({ interactionMode: 'move' }, 140)
+      game.updatePointer({ x: 300, y: 200 }, 150, false)
+      game.grabStroke(151)
+      game.updatePointer({ x: 350, y: 220 }, 180, false)
+    }
+    game.finish(210, 'source_reset', true)
+    const ended = log.events.find(event => event.type === (mode === 'stroke' ? 'STROKE_COMPLETED' : 'DRAG_INTERRUPTED'))
+    expect(ended?.payload).toMatchObject({ reason: 'source_reset', interrupted: true })
+    if (mode === 'stroke') expect(log.events.find(event => event.type === 'PEN_UP')?.payload.reason).toBe('source_reset')
+    else expect(log.events.filter(event => event.type === 'STROKE_RELEASED')).toHaveLength(0)
+    expect(game.phase).toBe('finished')
+  })
+  it('isolates failing research callbacks from gameplay', () => {
+    const fail = () => { throw new Error('queue unavailable') }
+    const game = new DrawingController({ side: 'left', mode: 'assisted', cursorSource: 'index', research: { event: fail, sample: fail } })
+    expect(() => game.updatePointer({ x: 300, y: 200 }, 100, true)).not.toThrow()
+    expect(game.strokes[0].points).toHaveLength(1)
+  })
+})

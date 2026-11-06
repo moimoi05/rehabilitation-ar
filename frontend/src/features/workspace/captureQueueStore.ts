@@ -2,14 +2,15 @@
 export type CaptureFinalizePayload = {
   expected_batches: number; expected_video_chunks: number; ended_at_utc: string; duration_ms: number
   expected_tracking_video_chunks?: number; tracking_video_complete?: boolean
+  expected_game_batches?: number; game_data_complete?: boolean
   game_started_at_ms?: number; game_ended_at_ms?: number; termination_reason?: string; known_data_gaps?: string[]
 }
 export type CaptureQueueState = {
-  captureId: string; sequence: number; batches: number; chunks: number; trackingChunks?: number; frames: number; landmarks: number; videoBytes: number
+  captureId: string; sequence: number; batches: number; chunks: number; trackingChunks?: number; gameBatches?: number; gameData?: boolean; frames: number; landmarks: number; videoBytes: number
   createdAt: string; knownDataGaps: string[]; stopped?: CaptureFinalizePayload
 }
 export type CaptureQueuePart = {
-  key: string; captureId: string; sequence: number; kind: 'batch' | 'video' | 'tracking_video' | 'metadata'; path: string
+  key: string; captureId: string; sequence: number; kind: 'batch' | 'game' | 'video' | 'tracking_video' | 'metadata'; path: string
   bytes: number; body?: unknown; blob?: Blob
 }
 export type CaptureQueueLimits = { maxBytes: number; maxParts: number }

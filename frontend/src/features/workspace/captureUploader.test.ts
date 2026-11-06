@@ -3,6 +3,27 @@ import { acquireCaptureOwnership } from './captureOwnership'
 vi.mock('./captureOwnership', () => ({ acquireCaptureOwnership: vi.fn(async () => vi.fn()) }))
 beforeEach(() => vi.mocked(acquireCaptureOwnership).mockReset().mockResolvedValue(vi.fn()))
 import { CaptureHttpError, CaptureUploader, pendingCaptureUploads, recoverCaptureUpload } from './captureUploader'
+import { createGameResearchSink } from './gameResearch'
+
+it('persists bounded game batches and retries identical IDs before finalizing counts', async () => {
+  const store = new MemoryCaptureQueueStore()
+  let offline = true
+  const send = vi.fn(async (path: string, _body?: unknown) => { if (offline && path.endsWith('/game-batches')) throw new TypeError('offline'); return { status: 'complete' } })
+  const uploader = new CaptureUploader('game', send, () => {}, { store, retryDelaysMs: [] })
+  const sink = createGameResearchSink({ captureId: 'game', trialId: 1, gameKey: 'free_drawing', start: 0, event: row => uploader.addGameEvent(row), sample: row => uploader.addInteractionSample(row) })
+  sink.event('STROKE_STARTED', { stroke_id: 1 }, { timestamp: 10 })
+  sink.sample('drawing_stroke_point', { stroke_id: 1, x: 3, y: 4 }, { timestamp: 11 })
+  uploader.flush()
+  await expect(uploader.drain()).rejects.toThrow('offline')
+  const first = send.mock.calls[0][1]
+  sink.event('STROKE_COMPLETED', { stroke_id: 1 }, { timestamp: 20 })
+  uploader.flush(); offline = false
+  await uploader.resume(); await uploader.finish(25)
+  expect(send.mock.calls[1][1]).toEqual(first)
+  const batches = send.mock.calls.filter(call => call[0].endsWith('/game-batches'))
+  expect(batches.map(call => (call[1] as { batch_index: number }).batch_index)).toEqual([0, 0, 1])
+  expect(send.mock.calls.at(-1)?.[1]).toMatchObject({ expected_game_batches: 2, game_data_complete: true })
+})
 import { MemoryCaptureQueueStore } from './captureQueueStore'
 
 describe('CaptureUploader', () => {

@@ -1,3 +1,5 @@
+import type { GameResearchSink } from './gameResearch'
+
 interface SavedGameResultBase {
   id: number
   trial_id: number
@@ -16,7 +18,7 @@ export type SavedGameResult = SavedGameResultBase & (
 )
 
 /** Per-round adapter; capture failures are reported independently of gameplay. */
-export interface ResearchTrialCapture {
+export interface ResearchTrialCapture extends Partial<GameResearchSink> {
   prepare: (trialId: number, gameKey: 'glowing_flower' | 'free_drawing', taskSnapshot?: Record<string, unknown>) => Promise<void>
   started: (timestamp: number) => void
   stopped: (reason: string, timestamp: number) => void

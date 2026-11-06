@@ -66,3 +66,36 @@ it('allows a partial tracking video only when the server reports an available fi
   expect(screen.queryByLabelText('Video có tracking chưa hoàn chỉnh của lượt 14')).not.toBeInTheDocument()
   expect(screen.queryByLabelText('Video có tracking chưa hoàn chỉnh của lượt 15')).not.toBeInTheDocument()
 })
+
+it('shows measured trial metrics and explicit unavailable values with verified Phase 2 links', () => {
+  render(<CaptureArtifacts captures={[{
+    id: 'phase-two', trial_id: 16, status: 'complete', source_type: 'webcam', record_video: false, record_landmarks: true,
+    artifact_summary: {
+      events_status: 'complete', interaction_samples_status: 'complete', game_metrics_status: 'complete',
+      game_metrics: {
+        completed_target_count: { metric_name: 'completed_target_count', value: 2, unit: 'count', algorithm_version: 'test-v1', sample_count: 2, quality_status: 'valid', unavailable_reason: null },
+        mean_time_to_touch_ms: { metric_name: 'mean_time_to_touch_ms', value: null, unit: 'ms', algorithm_version: 'test-v1', sample_count: 0, quality_status: 'unavailable', unavailable_reason: 'insufficient_samples' },
+        total_path_length: { metric_name: 'total_path_length', value: 120, unit: 'display_px', algorithm_version: 'test-v1', sample_count: 3, quality_status: 'partial', unavailable_reason: null },
+      },
+    },
+  }]}/> )
+  expect(screen.getByText('Số hoa hoàn thành: 2')).toBeInTheDocument()
+  expect(screen.getByText('Thời gian chạm trung bình: Không đủ dữ liệu')).toBeInTheDocument()
+  expect(screen.getByText('Quãng đường di chuyển: 120 display_px (dữ liệu một phần)')).toBeInTheDocument()
+  expect(screen.getByRole('link', { name: 'Tải sự kiện game' })).toHaveAttribute('href', expect.stringContaining('/api/captures/phase-two/artifacts/events'))
+  expect(screen.getByRole('link', { name: 'Tải quỹ đạo tương tác' })).toHaveAttribute('href', expect.stringContaining('/artifacts/interaction_samples'))
+  expect(screen.getByRole('link', { name: 'Tải chỉ số game' })).toHaveAttribute('href', expect.stringContaining('/artifacts/game_metrics'))
+})
+
+it('does not present unverified game metrics or Phase 2 download links', () => {
+  render(<CaptureArtifacts captures={[{
+    id: 'phase-two-failed', trial_id: 17, status: 'incomplete', source_type: 'webcam', record_video: false, record_landmarks: true,
+    artifact_summary: { events_status: 'failed', interaction_samples_status: 'pending', game_metrics_status: 'failed', game_metrics: {
+      completed_stroke_count: { metric_name: 'completed_stroke_count', value: 0, unit: 'count', algorithm_version: 'test-v1', sample_count: 0, quality_status: 'valid', unavailable_reason: null },
+    } },
+  }]}/> )
+  expect(screen.queryByText(/Số nét hoàn thành/)).not.toBeInTheDocument()
+  expect(screen.queryByRole('link', { name: 'Tải sự kiện game' })).not.toBeInTheDocument()
+  expect(screen.queryByRole('link', { name: 'Tải chỉ số game' })).not.toBeInTheDocument()
+  expect(screen.getByText(/events failed.*interaction samples pending.*game metrics failed/)).toBeInTheDocument()
+})

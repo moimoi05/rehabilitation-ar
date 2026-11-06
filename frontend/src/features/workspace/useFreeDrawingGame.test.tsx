@@ -17,7 +17,7 @@ function Harness({ config, tracking = true, demo = false, developmentReplay = fa
     const hand = Array.from({ length: 21 }, () => ({ x: cursorX, y: .5, z: 0 }))
     hand[9] = { x: cursorX, y: .4, z: 0 }
     game.onHandObservation({ timestamp: clockNow, frameId: clockNow, hands: [hand], handedness: [[{ categoryName: 'Left', score: .98 }]] })
-  }}>Observation</button><button onClick={game.resetReplay}>Reset replay</button></>
+  }}>Observation</button><button onClick={game.resetReplay}>Reset replay</button><button onClick={() => game.cancelResearch('source_reset')}>Reset source</button></>
 }
 beforeEach(() => {
   clockNow = 100
@@ -49,6 +49,51 @@ it('waits for research readiness and stops its original capture at the actual ga
   view.unmount()
   expect(researchCapture.stopped).toHaveBeenCalledOnce()
   expect(nextOwner.stopped).not.toHaveBeenCalled()
+})
+
+it('keeps telemetry on its captured round and rejects observations from before the next trial', async () => {
+  vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false }))
+  const owner = () => ({ prepare: vi.fn().mockResolvedValue(undefined), started: vi.fn(), stopped: vi.fn(), event: vi.fn(), sample: vi.fn() })
+  const first = owner(), next = owner(), config = workflow()
+  const view = render(<Harness config={config} researchCapture={first}/>)
+  fireEvent.change(screen.getByRole('combobox', { name: 'Chế độ vẽ' }), { target: { value: 'assisted' } })
+  fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu vẽ' }))
+  await screen.findByRole('button', { name: 'Kết thúc bài vẽ' })
+  for (const time of [100, 133, 166]) { clockNow = time; fireEvent.click(screen.getByRole('button', { name: 'Observation' })) }
+  clockNow = 180; fireEvent.click(screen.getByRole('button', { name: 'Hạ bút', exact: true }))
+  clockNow = 199; fireEvent.click(screen.getByRole('button', { name: 'Observation' }))
+  view.rerender(<Harness config={config} researchCapture={next}/>)
+  clockNow = 232; fireEvent.click(screen.getByRole('button', { name: 'Observation' }))
+  clockNow = 250; fireEvent.click(screen.getByRole('button', { name: 'Kết thúc bài vẽ' }))
+  expect(first.event.mock.calls.map(call => call[0])).toEqual(expect.arrayContaining(['GAME_STARTED', 'PEN_DOWN', 'STROKE_STARTED', 'STROKE_COMPLETED', 'PEN_UP', 'GAME_COMPLETED']))
+  expect(first.sample).toHaveBeenCalledTimes(2)
+  expect(next.event).not.toHaveBeenCalled(); expect(next.sample).not.toHaveBeenCalled()
+  await screen.findByRole('button', { name: 'Thử lưu lại' })
+  clockNow = 1000
+  view.rerender(<Harness config={{ ...config, attempt: 2 }} researchCapture={next}/>)
+  fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu vẽ' }))
+  await screen.findByRole('button', { name: 'Kết thúc bài vẽ' })
+  const update = vi.spyOn(DrawingController.prototype, 'update')
+  clockNow = 232; fireEvent.click(screen.getByRole('button', { name: 'Observation' }))
+  expect(update).not.toHaveBeenCalled()
+  expect(next.sample).not.toHaveBeenCalled()
+})
+
+it('closes the active stroke as source-reset interruption before cancelling its capture', async () => {
+  const event = vi.fn(), stopped = vi.fn()
+  const researchCapture = { prepare: vi.fn().mockResolvedValue(undefined), started: vi.fn(), stopped, event, sample: vi.fn() }
+  render(<Harness config={workflow()} researchCapture={researchCapture}/>)
+  fireEvent.change(screen.getByRole('combobox', { name: 'Chế độ vẽ' }), { target: { value: 'assisted' } })
+  fireEvent.click(screen.getByRole('button', { name: 'Bắt đầu vẽ' }))
+  await screen.findByRole('button', { name: 'Kết thúc bài vẽ' })
+  for (const time of [100, 133, 166]) { clockNow = time; fireEvent.click(screen.getByRole('button', { name: 'Observation' })) }
+  clockNow = 180; fireEvent.click(screen.getByRole('button', { name: 'Hạ bút', exact: true }))
+  clockNow = 199; fireEvent.click(screen.getByRole('button', { name: 'Observation' }))
+  clockNow = 210; fireEvent.click(screen.getByRole('button', { name: 'Reset source' }))
+  expect(event).toHaveBeenCalledWith('STROKE_COMPLETED', expect.objectContaining({ reason: 'source_reset', interrupted: true }), { timestamp: 210 })
+  expect(event).toHaveBeenCalledWith('PEN_UP', expect.objectContaining({ reason: 'source_reset' }), { timestamp: 210 })
+  expect(event.mock.calls.at(-1)?.[0]).toBe('GAME_CANCELLED')
+  expect(stopped).toHaveBeenCalledWith('source_reset', 210)
 })
 
 it('never starts research for standalone or demo drawing', () => {

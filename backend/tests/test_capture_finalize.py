@@ -43,7 +43,7 @@ def test_arrow_conversion_failure_marks_capture_incomplete_and_retains_batch(tmp
     capture = SimpleNamespace(id=str(capture_id), patient_id=1, session_id=2, trial_id=3,
                               started_at_utc=datetime(2026, 1, 1, tzinfo=timezone.utc),
                               status='recording', source_type='pre_recorded_video', record_landmarks=True, record_video=False,
-                              lease_expires_at=None)
+                              lease_expires_at=None, model_config_info={})
     db = SimpleNamespace(commit=lambda: None)
     monkeypatch.setattr(captures, 'get_capture', lambda *args: capture)
     monkeypatch.setattr(captures, 'capture_path', lambda _: tmp_path)

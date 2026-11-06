@@ -17,7 +17,7 @@ import { LandmarkSmoother, POSE_SMOOTHING_POLICY } from './landmarkSmoothing'
 import { getTrackingProfile, resolveCameraResolution } from './trackingProfiles'
 import type { TrackingProfileName } from './trackingProfiles'
 import { createWorkerTracker, waitForWorkerDisposals } from './workerTracker'
-import type { WorkerHandResult, WorkerPoseResult, WorkerTracker } from './workerTracker'
+import type { SourceFrameIdentity, WorkerHandResult, WorkerPoseResult, WorkerTracker } from './workerTracker'
 import { captureInferenceBitmap, captureInferenceBitmapWithTimings, computeInferenceDimensions } from './inferenceResolution'
 import { createParallelWorkerTracker } from './parallelWorkerTracker'
 import type { ParallelWorkerTracker } from './parallelWorkerTracker'
@@ -97,6 +97,7 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
   const captureRef = useRef(capture)
   captureRef.current = capture
   const observations = useRef(new CaptureObservationCollector((frame, scope) => captureRef.current.addFrame(frame, scope)))
+  const gameCaptureCancellation = useRef<((reason: string) => void) | undefined>(undefined)
   const finishCapture = useCallback((reason: string) => {
     observations.current.flush()
     captureRef.current.abort(reason)
@@ -165,6 +166,7 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
   const displayTimes = useRef<{ pose: DisplayTime | null; hand: DisplayTime | null }>({ pose: null, hand: null })
   const smoother = useRef(new LandmarkSmoother())
   const poseTime = useRef(0)
+  const poseObservationId = useRef<number | null>(null)
   const handTime = useRef(0)
   const handSides = useRef({ left: 0, right: 0 })
   const affectedSide = useRef(ghost.affected_side)
@@ -182,14 +184,14 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
       const sourceWidth = actualDimension(videoRef.current?.videoWidth) ?? actualDimension(actual?.width)
       const sourceHeight = actualDimension(videoRef.current?.videoHeight) ?? actualDimension(actual?.height)
       const scaled = activeEngine === 'worker' && sourceWidth && sourceHeight ? computeInferenceDimensions(sourceWidth, sourceHeight, workerInferenceSize) : null
-      const created = await capture.start({ patientId: selectedSession.patient_id, sessionId: selectedSession.id, trialId, stream: streamRef.current, width: actualCameraSize?.width, height: actualCameraSize?.height, recordLandmarks: true, recordVideo: true, consentLandmarks: landmarkConsent, consentVideo: videoConsent, autoCapture: true, createTrackingVideo: onError => {
+      const created = await capture.start({ patientId: selectedSession.patient_id, sessionId: selectedSession.id, trialId, gameKey, beforeAbort: reason => gameCaptureCancellation.current?.(reason), stream: streamRef.current, width: actualCameraSize?.width, height: actualCameraSize?.height, recordLandmarks: true, recordVideo: true, consentLandmarks: landmarkConsent, consentVideo: videoConsent, autoCapture: true, createTrackingVideo: onError => {
         if (!videoRef.current) throw new Error('Camera chưa sẵn sàng để ghi video tracking.')
         return createTrackingVideo(videoRef.current, settings.mirrored, () => {
           const now = performance.now(), visible = displayPoints.current
           return { pose: freshDisplay(displayTimes.current.pose, now, poseDisplayHoldMs) ? visible.pose : [], hands: freshDisplay(displayTimes.current.hand, now, handDisplayHoldMs) ? visible.hands : [] }
         }, onError)
       }, modelConfig: {
-        game_key: gameKey, task_version: 1, capture_schema_version: 2, affected_side: ghost.affected_side,
+        game_key: gameKey, task_version: 1, capture_schema_version: 3, affected_side: ghost.affected_side,
         capture_configuration: { data: 'both', landmark_frequency: 'actual', scope: 'per_trial', upload_failure: 'continue' },
         consent: { landmarks: landmarkConsent, video: videoConsent, snapshot_at_utc: new Date().toISOString(), scope: 'current_session' },
         calibration_id: calibrationId.current, setup_revision: (selectedSession as Session & { setup_revision?: number }).setup_revision ?? null,
@@ -209,11 +211,12 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
       return created?.id ?? null
     },
   })
-  const flowerGame = useFlowerGame({ enabled: !drawingSelected, demo, streamActive, tracking, mirrored: settings.mirrored, side: ghost.affected_side, confirmed: ghost.confirmed, session: selectedSession, size, pose: points, poseTime, mapping: videoMapping, displayBox, workflow: workflow?.game, researchCapture })
+  const flowerGame = useFlowerGame({ enabled: !drawingSelected, demo, streamActive, tracking, mirrored: settings.mirrored, side: ghost.affected_side, confirmed: ghost.confirmed, session: selectedSession, size, pose: points, poseTime, poseObservationId, mapping: videoMapping, displayBox, workflow: workflow?.game, researchCapture })
   const drawingGame = useFreeDrawingGame({ enabled: drawingSelected, demo: demo && !workflow, streamActive, tracking: tracking && selectedHandModel === 'mediapipe', mirrored: settings.mirrored, side: ghost.affected_side, confirmed: ghost.confirmed, session: selectedSession, size, mapping: videoMapping, displayBox, workflow: workflow?.game, researchCapture, diagnostics: diagnostics ?? undefined, developmentReplay: replay })
   const drawingInput = useRef(drawingGame)
   drawingInput.current = drawingGame
   const game = drawingSelected ? drawingGame : flowerGame
+  gameCaptureCancellation.current = game.cancelResearch
   const drawingOwnsHandOverlay = drawingSelected && drawingGame.phase === 'playing'
 
   useEffect(() => {
@@ -361,7 +364,7 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
       return handActive ? `${poseStatus} · ${handFresh ? `Hand trái: ${leftFresh ? 'mới' : 'thiếu/không hợp lệ'} | phải: ${rightFresh ? 'mới' : 'thiếu/không hợp lệ'}` : 'chưa thấy bàn tay'}` : poseStatus
     }
     const acceptable = (timestamp: number, lastTimestamp: number, maxAgeMs: number) => requestId === generation.current && Number.isFinite(timestamp) && timestamp >= sourceEpoch && timestamp > lastTimestamp && freshLandmarks(timestamp, performance.now(), maxAgeMs)
-    const acceptPose = (rawPose: Point[], timestamp: number, inferenceMs?: number | null) => {
+    const acceptPose = (rawPose: Point[], timestamp: number, inferenceMs?: number | null, source?: SourceFrameIdentity) => {
       diagnostics?.recordPose({ receivedAt: performance.now(), inferenceMs })
       if (!acceptable(timestamp, lastPoseTimestamp, displayMaxSourceAgeMs)) return
       lastPoseTimestamp = timestamp
@@ -369,6 +372,7 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
       const rawFresh = freshLandmarks(timestamp, now, poseMaxAgeMs)
       points.current = { ...points.current, pose: rawFresh ? rawPose : [] }
       poseTime.current = rawFresh && rawPose.length ? timestamp : 0
+      poseObservationId.current = rawFresh && rawPose.length && source?.captureScope === captureRef.current.getScope() ? source?.sourceObservationId ?? null : null
       if (rawPose.some(point => usableTrackingPoint(point))) {
         displayPoints.current = { ...displayPoints.current, pose: selectedPoseModel === 'rtmpose' ? rawPose : smoother.current.filter('pose', rawPose, timestamp, POSE_SMOOTHING_POLICY) }
         displayTimes.current = { ...displayTimes.current, pose: { source: timestamp, received: now } }
@@ -379,7 +383,7 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
         publishStatus(currentStatus(now))
       }
     }
-    const acceptHand = (hands: Point[][], timestamp: number, handedness: DrawingObservation['handedness'] = [], frameId?: number | null, details?: { inferenceMs?: number | null; requestId?: number; captureResizeTotalMs?: number | null; transferAndDispatchMs?: number | null }) => {
+    const acceptHand = (hands: Point[][], timestamp: number, handedness: DrawingObservation['handedness'] = [], frameId?: number | null, details?: { inferenceMs?: number | null; requestId?: number; captureResizeTotalMs?: number | null; transferAndDispatchMs?: number | null }, source?: SourceFrameIdentity) => {
       if (!handActive) return
       const receivedAt = performance.now()
       if (diagnostics) diagnostics.recordHand({ timestamp, receivedAt, handCount: hands.length, validHandCount: hands.filter(validHand).length, frameId, handednessLabels: handedness.flatMap(labels => labels[0]?.categoryName ? [labels[0].categoryName] : []), ...details })
@@ -397,7 +401,7 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
         displayPoints.current = { ...displayPoints.current, hands: visibleHands }
         displayTimes.current = { ...displayTimes.current, hand: { source: timestamp, received: receivedAt } }
       }
-      if (rawFresh) drawingInput.current.onHandObservation({ hands, handedness, timestamp, ...(frameId != null ? { frameId } : {}) })
+      if (rawFresh) drawingInput.current.onHandObservation({ hands, handedness, timestamp, ...(frameId != null ? { frameId } : {}), ...(source?.captureScope === captureRef.current.getScope() && source?.sourceObservationId != null ? { sourceObservationId: source.sourceObservationId } : {}) })
       else diagnostics?.reject('STALE_HAND', true)
       publishStatus(currentStatus(performance.now()))
     }
@@ -505,8 +509,8 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
                   : 'Nhận diện bàn tay bị lỗi; theo dõi tư thế vẫn hoạt động. Dừng và khởi động lại nhận diện để thử lại bàn tay.')
               }
             }
-            if (poseResult) acceptPose(raw, timestamp)
-            if (hands !== null) acceptHand(hands, timestamp, handResult?.handedness ?? [], sourceFrameId)
+            if (poseResult) acceptPose(raw, timestamp, undefined, source)
+            if (hands !== null) acceptHand(hands, timestamp, handResult?.handedness ?? [], sourceFrameId, undefined, source)
             observations.current.mainResult({ ...source, timestamp, pose: raw, hands: handResult?.landmarks ?? null, poseProcessed: !!poseResult, handProcessed: !!handResult, handFailed: !!handError, handError, poseWorldLandmarks: poseResult?.worldLandmarks?.[0] ?? [], handWorldLandmarks: handResult?.worldLandmarks ?? null, handedness: handResult?.handedness ?? null, poseInferenceMs, handInferenceMs })
             return true
           } catch (error) { observations.current.mainResult({ ...source, timestamp, pose: [], hands: null, poseFailed: doPose, poseError: modelErrorMessage(error), poseProcessed: false, handProcessed: false }); stopTracking(); setModelErrors(previous => [...previous, modelErrorMessage(error)]); setMessage('Nhận diện bị lỗi. Có thể tiếp tục hiệu chuẩn thủ công; thử khởi động lại nhận diện.'); return false }
@@ -654,8 +658,8 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
         const moduleUrl = new URL('../../../node_modules/@mediapipe/tasks-vision/vision_bundle.mjs', import.meta.url).href
         ownedByCoordinator = true
         const tracker = await createParallelWorkerTracker({ poseWorker: poseThread, handWorker: handThread, moduleUrl, signal: controller.signal, capture: element => createImageBitmap(element), preferGpu: true,
-          onPose: result => { if (requestId !== generation.current) return; observations.current.workerResult(result, 'pose'); budget?.recordResult('pose', { timestamp: result.timestamp, receivedAt: performance.now(), inferenceMs: result.inferenceMs }); acceptPose(result.pose, result.timestamp) },
-          onHand: result => { if (requestId !== generation.current) return; observations.current.workerResult(result, 'hand'); if (result.handFailed) disableHand(); else { if (handActive) budget?.recordResult('hand', { timestamp: result.timestamp, receivedAt: performance.now(), inferenceMs: result.inferenceMs }); handSides.current = handFreshness(result.hands ?? [], result.handedness ?? [], result.timestamp); acceptHand(result.hands ?? [], result.timestamp, result.handedness ?? [], result.sourceFrameId) } },
+          onPose: result => { if (requestId !== generation.current) return; observations.current.workerResult(result, 'pose'); budget?.recordResult('pose', { timestamp: result.timestamp, receivedAt: performance.now(), inferenceMs: result.inferenceMs }); acceptPose(result.pose, result.timestamp, undefined, result) },
+          onHand: result => { if (requestId !== generation.current) return; observations.current.workerResult(result, 'hand'); if (result.handFailed) disableHand(); else { if (handActive) budget?.recordResult('hand', { timestamp: result.timestamp, receivedAt: performance.now(), inferenceMs: result.inferenceMs }); handSides.current = handFreshness(result.hands ?? [], result.handedness ?? [], result.timestamp); acceptHand(result.hands ?? [], result.timestamp, result.handedness ?? [], result.sourceFrameId, undefined, result) } },
           onPoseError: fallback, onHandError: disableHand,
         })
         if (requestId !== generation.current) { tracker.close(); return }
@@ -693,7 +697,8 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
         moduleUrl,
         handEnabled,
         preferGpu: true,
-        ...(drawingSelected ? { initialFrameTimeoutMs: 30000 } : {}),
+        // Cold GPU inference can compile shaders before either game has started.
+        initialFrameTimeoutMs: 30000,
         signal: controller.signal,
         capture: element => diagnostics
           ? captureInferenceBitmapWithTimings(element, workerInferenceSize)
@@ -717,7 +722,7 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
           }
           if (result.handProcessed) {
             handSides.current = handFreshness(result.hands, result.handedness ?? [], result.timestamp)
-            acceptHand(result.hands, result.timestamp, result.handedness ?? [], result.sourceFrameId, { inferenceMs: result.handInferenceMs, requestId: result.requestId, captureResizeTotalMs: result.captureResizeTotalMs, transferAndDispatchMs: result.transferAndDispatchMs })
+            acceptHand(result.hands, result.timestamp, result.handedness ?? [], result.sourceFrameId, { inferenceMs: result.handInferenceMs, requestId: result.requestId, captureResizeTotalMs: result.captureResizeTotalMs, transferAndDispatchMs: result.transferAndDispatchMs }, result)
           }
         },
         onPoseResult: (result: WorkerPoseResult) => {
@@ -731,7 +736,7 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
             publishStatus(currentStatus(performance.now()))
             if (!handActive) stopTracking()
           } else if (result.poseProcessed && poseActive) {
-            acceptPose(result.pose, result.timestamp, result.poseInferenceMs)
+            acceptPose(result.pose, result.timestamp, result.poseInferenceMs, result)
           }
         },
         onError: error => {

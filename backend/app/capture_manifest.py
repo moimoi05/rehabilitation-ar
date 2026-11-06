@@ -10,21 +10,27 @@ def write_manifest(folder, capture, summary, status, error=None):
     config = getattr(capture, 'model_config_info', None) or {}
     mime = getattr(capture, 'video_mime_type', None)
     extension = {'video/webm': 'webm', 'video/mp4': 'mp4', 'video/ogg': 'ogv'}.get((mime or '').split(';')[0], 'unavailable')
+    game_artifacts = (
+        ('events', 'events.parquet', True),
+        ('interaction_samples', 'interaction_samples.parquet', True),
+        ('game_metrics', 'game_metrics.json', True),
+    ) if getattr(capture, 'capture_schema_version', 1) == 3 else ()
     for kind, name, requested in (
         ('frames', 'frames.parquet', capture.record_landmarks),
         ('landmarks', 'landmarks.parquet', capture.record_landmarks),
         ('video', summary.get('video_file') or f'video.{extension}' if capture.record_video else None, capture.record_video),
         ('tracking_video', summary.get('tracking_video_file') or f'tracking_video.{extension}' if config.get('record_tracking_video') else None, config.get('record_tracking_video', False)),
-    ):
+    ) + game_artifacts:
         path = folder / name if name else None
         artifact_status = summary.get(f'{kind}_status')
         present = artifact_status in ('complete', 'incomplete') and path is not None and path.is_file()
         artifacts.append(dict(kind=kind, name=name, required=requested,
-            mime_type=mime if kind in ('video', 'tracking_video') else 'application/vnd.apache.parquet',
+            mime_type=mime if kind in ('video', 'tracking_video') else 'application/json' if kind == 'game_metrics' else 'application/vnd.apache.parquet',
             status=artifact_status if present else summary.get(f'{kind}_status', 'missing' if requested else 'not_requested'),
             size_bytes=path.stat().st_size if present else None,
             sha256=sha256_file(path) if present else None,
-            record_count=summary.get('frame_count' if kind == 'frames' else 'landmark_count') if kind in ('frames', 'landmarks') else None,
+            record_count=summary.get({'frames': 'frame_count', 'landmarks': 'landmark_count',
+                'events': 'event_count', 'interaction_samples': 'interaction_sample_count'}.get(kind)),
             **({'rendering': 'realtime_tracking_overlay'} if kind == 'tracking_video' else {})))
     manifest = dict(capture_id=capture.id, patient_id=capture.patient_id,
         session_id=capture.session_id, trial_id=capture.trial_id,
@@ -43,6 +49,8 @@ def write_manifest(folder, capture, summary, status, error=None):
         consent=dict(video=getattr(capture, 'consent_video', None), landmarks=getattr(capture, 'consent_landmarks', None)),
         configuration=config, artifacts=artifacts,
         synchronization=dict(method='main_thread_source_observation_monotonic_minus_capture_t0',
+            game_event_method='interaction_performance_now_minus_capture_t0' if game_artifacts else None,
+            game_source_method='source_observation_performance_ms_minus_capture_t0' if game_artifacts else None,
             recorder_start=config.get('recorder_start'), tracking_recorder_start=config.get('tracking_recorder_start'), encoded_pts_mapping='unavailable',
             accuracy='approximate_unmeasured',
             limitations=['Source media time is not encoded MediaRecorder PTS.',

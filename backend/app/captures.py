@@ -3,6 +3,7 @@ import csv
 import hashlib
 import io
 import json
+import logging
 import os
 from datetime import datetime, timedelta, timezone
 from uuid import UUID, uuid4
@@ -15,8 +16,9 @@ from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 from . import models
 from .db import get_db
-from .capture_schemas import CaptureCreate, CaptureFinalize, CaptureIncomplete, LandmarkBatch, RecorderStart
+from .capture_schemas import CaptureCreate, CaptureFinalize, CaptureIncomplete, GameBatch, LandmarkBatch, RecorderStart
 from .capture_storage import MAX_BATCH_BYTES, MAX_CHUNK_BYTES, capture_path, convert_landmarks, enough_space, put_idempotent, sha256_file
+from .capture_game_storage import convert_game_data, write_game_metrics
 from .capture_manifest import write_manifest
 
 router = APIRouter(prefix='/api')
@@ -241,6 +243,39 @@ async def upload_batch(capture_id: UUID, request: Request, db: Session = Depends
     return {'batch_index': batch.batch_index, 'stored': created, 'frame_count': len(batch.frames)}
 
 
+@router.post('/captures/{capture_id}/game-batches', dependencies=[Depends(local_only)])
+async def upload_game_batch(capture_id: UUID, request: Request, db: Session = Depends(get_db)):
+    data = await bounded_body(request, MAX_BATCH_BYTES)
+    digest = request.headers.get('x-chunk-sha256', '').lower()
+    if hashlib.sha256(data).hexdigest() != digest:
+        raise HTTPException(422, 'Game batch checksum mismatch')
+    try:
+        batch = GameBatch.model_validate_json(data)
+    except ValidationError as exc:
+        raise HTTPException(422, 'Invalid game batch') from exc
+    capture = get_capture(db, capture_id, True)
+    ensure_recording(capture, db)
+    if capture.capture_schema_version != 3:
+        raise HTTPException(409, 'Game artifacts require capture schema 3')
+    game_key = (capture.model_config_info or {}).get('exercise_code')
+    if any(record.capture_id != str(capture_id) or record.trial_id != capture.trial_id
+            or record.game_key != game_key for record in [*batch.events, *batch.samples]):
+        raise HTTPException(422, 'Game record does not match capture, trial and game')
+    path = capture_path(capture_id) / 'staging' / 'game_batches' / f'{batch.batch_index}.json'
+    try:
+        canonical = batch.model_dump_json().encode('utf-8')
+        enough_space(path.parent, len(canonical))
+        created = put_idempotent(path, canonical)
+        put_idempotent(path.with_suffix('.sha256'), hashlib.sha256(canonical).hexdigest().encode('ascii'))
+    except ValueError as exc:
+        raise HTTPException(409, str(exc)) from exc
+    except OSError as exc:
+        raise HTTPException(507, 'Unable to store game batch') from exc
+    db.commit()
+    return {'batch_index': batch.batch_index, 'stored': created,
+        'event_count': len(batch.events), 'sample_count': len(batch.samples)}
+
+
 async def upload_video_chunk(capture_id: UUID, index: int, request: Request, db: Session, tracking: bool):
     if index < 0 or index > 1000000:
         raise HTTPException(422, 'Invalid chunk index')
@@ -369,20 +404,26 @@ def finalize_locked(capture, capture_id, data, db, recovery):
         ensure_recording(capture, db, allow_terminal=True)
     folder = capture_path(capture_id)
     tracking_requested = (capture.model_config_info or {}).get('record_tracking_video', False)
+    game_requested = getattr(capture, 'capture_schema_version', 1) == 3
     gaps = list(dict.fromkeys([*previous.get('known_data_gaps', []), *data.known_data_gaps]))
     if tracking_requested and not data.tracking_video_complete:
         gaps = list(dict.fromkeys([*gaps, 'Tracking video recorder did not finish cleanly']))
+    if game_requested and not data.game_data_complete:
+        gaps = list(dict.fromkeys([*gaps, 'Game interaction capture did not finish cleanly']))
     if previous.get('terminal_incomplete') and not gaps:
         gaps = [capture.error_message or 'Capture was interrupted']
     summary = {'schema_version': getattr(capture, 'capture_schema_version', 1), 'batch_count': data.expected_batches,
                'video_chunk_count': data.expected_video_chunks,
                'tracking_video_chunk_count': data.expected_tracking_video_chunks,
+               'game_batch_count': data.expected_game_batches,
                'game_started_at_ms': data.game_started_at_ms, 'game_ended_at_ms': data.game_ended_at_ms,
                'termination_reason': data.termination_reason, 'known_data_gaps': gaps,
                'frames_status': 'pending' if capture.record_landmarks else 'not_requested',
                'landmarks_status': 'pending' if capture.record_landmarks else 'not_requested',
                'video_status': 'pending' if capture.record_video else 'not_requested',
-               'tracking_video_status': 'pending' if tracking_requested else 'not_requested'}
+               'tracking_video_status': 'pending' if tracking_requested else 'not_requested',
+               **{f'{kind}_status': 'pending' if game_requested else 'not_requested'
+                  for kind in ('events', 'interaction_samples', 'game_metrics')}}
     stage = 'validation'
     try:
         if data.ended_at_utc < capture.started_at_utc:
@@ -393,6 +434,8 @@ def finalize_locked(capture, capture_id, data, db, recovery):
             raise ValueError('Required artifact parts are missing')
         if not tracking_requested and data.expected_tracking_video_chunks:
             raise ValueError('Tracking video not selected')
+        if not game_requested and data.expected_game_batches:
+            raise ValueError('Game artifacts not selected by capture schema')
         batches = expected_files(folder / 'staging' / 'batches', 'json', data.expected_batches)
         chunks = expected_files(folder / 'staging' / 'chunks', 'chunk', data.expected_video_chunks)
         if capture.record_landmarks:
@@ -425,6 +468,27 @@ def finalize_locked(capture, capture_id, data, db, recovery):
                 tracking_video = assemble_video(folder, tracking_chunks, f'tracking_video.{extension}')
                 summary.update(tracking_video_status='complete' if data.tracking_video_complete else 'incomplete', tracking_video_file=tracking_video.name,
                     tracking_video_size_bytes=tracking_video.stat().st_size, tracking_video_sha256=sha256_file(tracking_video))
+        if game_requested:
+            stage = 'game_data'
+            if not data.expected_game_batches:
+                raise ValueError('Required game batches are missing')
+            game_batches = expected_files(folder / 'staging' / 'game_batches', 'json', data.expected_game_batches)
+            game_key = (capture.model_config_info or {}).get('exercise_code')
+            summary.update(convert_game_data(folder, game_batches, capture.id, capture.patient_id,
+                capture.session_id, capture.trial_id, game_key, data.duration_ms,
+                require_complete=data.game_data_complete and not gaps))
+            if not summary['event_count']:
+                raise ValueError('Required game events are missing')
+            if not data.game_data_complete:
+                summary.update(events_status='incomplete', interaction_samples_status='incomplete')
+            stage = 'game_metrics'
+            try:
+                summary.update(write_game_metrics(folder, capture, summary))
+            except Exception as exc:
+                logging.getLogger(__name__).exception('Game metrics generation failed for capture %s', capture.id)
+                raise ValueError('Game metrics generation failed; source artifacts retained') from exc
+            if gaps:
+                summary['game_metrics_status'] = 'incomplete'
         capture.ended_at_utc = data.ended_at_utc
         capture.duration_ms = data.duration_ms
         capture.status = 'incomplete' if gaps else 'complete'
@@ -447,6 +511,10 @@ def finalize_locked(capture, capture_id, data, db, recovery):
             summary['video_status'] = 'failed'
         elif stage == 'tracking_video':
             summary['tracking_video_status'] = 'failed'
+        elif stage == 'game_data':
+            summary.update(events_status='failed', interaction_samples_status='failed')
+        elif stage == 'game_metrics':
+            summary['game_metrics_status'] = 'failed'
         elif stage == 'manifest':
             summary['manifest_status'] = 'failed'
         # Keep the expiry marker so a failed recovery cannot revive old uploads.
@@ -493,16 +561,16 @@ def abort(capture_id: UUID, db: Session = Depends(get_db)):
 @router.get('/captures/{capture_id}/artifacts/{kind}', dependencies=[Depends(local_only)])
 def download(capture_id: UUID, kind: str, db: Session = Depends(get_db)):
     capture = get_capture(db, capture_id)
-    if capture.status not in ('complete', 'incomplete') or kind not in ('video', 'tracking_video', 'frames', 'landmarks', 'manifest'):
+    if capture.status not in ('complete', 'incomplete') or kind not in ('video', 'tracking_video', 'frames', 'landmarks', 'manifest', 'events', 'interaction_samples', 'game_metrics'):
         raise HTTPException(404, 'Artifact unavailable')
     summary = capture.artifact_summary or {}
     artifact_status = summary.get(f'{kind}_status')
-    if artifact_status != 'complete' and not (kind == 'tracking_video' and artifact_status == 'incomplete'):
+    if artifact_status != 'complete' and not (kind in ('tracking_video', 'events', 'interaction_samples', 'game_metrics') and artifact_status == 'incomplete'):
         raise HTTPException(404, 'Artifact unavailable')
-    name = summary.get(f'{kind}_file') if kind in ('video', 'tracking_video') else 'manifest.json' if kind == 'manifest' else f'{kind}.parquet'
+    name = summary.get(f'{kind}_file') if kind in ('video', 'tracking_video') else f'{kind}.json' if kind in ('manifest', 'game_metrics') else f'{kind}.parquet'
     if not name or not (capture_path(capture_id) / name).is_file():
         raise HTTPException(404, 'Artifact unavailable')
-    return FileResponse(capture_path(capture_id) / name, filename=name, media_type=capture.video_mime_type if kind in ('video', 'tracking_video') else 'application/json' if kind == 'manifest' else 'application/octet-stream')
+    return FileResponse(capture_path(capture_id) / name, filename=name, media_type=capture.video_mime_type if kind in ('video', 'tracking_video') else 'application/json' if kind in ('manifest', 'game_metrics') else 'application/octet-stream')
 
 
 @router.get('/captures/{capture_id}/preview/{kind}', dependencies=[Depends(local_only)])

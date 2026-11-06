@@ -7,12 +7,14 @@ import type { Size, VideoMapping } from './videoGeometry'
 import { createFlowerRenderer, displayPoint, initialRound, ROUND_MS, stepRound, targetForScore, targetRadius, wristForSide } from './flowerGame'
 import type { Position, Round } from './flowerGame'
 import type { FlowerWorkflow, ResearchTrialCapture, SavedGameResult } from './gameWorkflow'
+import { FlowerResearchRecorder } from './flowerResearch'
 
 type Props = {
   enabled?: boolean
   demo: boolean; streamActive: boolean; tracking: boolean; mirrored: boolean; side: Side
   confirmed: boolean; session: Session | undefined; size: { width: number; height: number }
   pose: RefObject<{ pose: Point[]; hands: Point[][] }>; poseTime: RefObject<number>
+  poseObservationId?: RefObject<number | null>
   mapping?: RefObject<VideoMapping | null>
   displayBox?: RefObject<Size | null>
   workflow?: FlowerWorkflow
@@ -26,7 +28,7 @@ const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8001'
 const projectionOf = ({ rect, box }: VideoMapping, display: Size) => [rect.x / box.width, rect.y / box.height, rect.width / box.width, rect.height / box.height, display.width / display.height]
 const projectionChanged = (left: number[], right: number[]) => left.some((value, index) => Math.abs(value - right[index]) > 1e-5)
 
-export function useFlowerGame({ enabled = true, demo, streamActive, tracking, mirrored, side, confirmed, session, size, pose, poseTime, mapping, displayBox, workflow, researchCapture }: Props) {
+export function useFlowerGame({ enabled = true, demo, streamActive, tracking, mirrored, side, confirmed, session, size, pose, poseTime, poseObservationId, mapping, displayBox, workflow, researchCapture }: Props) {
   const { width: sourceWidth, height: sourceHeight } = size
   const durationMs = workflow?.durationSeconds && Number.isFinite(workflow.durationSeconds) && workflow.durationSeconds > 0 && workflow.durationSeconds <= 600 ? workflow.durationSeconds * 1000 : ROUND_MS
   const [phase, setPhase] = useState<Phase>('idle')
@@ -39,10 +41,12 @@ export function useFlowerGame({ enabled = true, demo, streamActive, tracking, mi
   const [trialId, setTrialId] = useState<number | null>(null)
   const [preparing, setPreparing] = useState(false)
   const preparingRef = useRef(false)
-  const researchRound = useRef<{ owner: ResearchTrialCapture; stopped: boolean } | null>(null)
+  const researchRound = useRef<{ owner: ResearchTrialCapture; stopped: boolean; recorder: FlowerResearchRecorder } | null>(null)
   const stopResearch = (reason: string, capture = researchRound.current) => {
     if (!capture || capture.stopped) return
-    capture.stopped = true; capture.owner.stopped(reason, performance.now())
+    const timestamp = performance.now()
+    capture.recorder.stop(reason, current.current, timestamp)
+    capture.stopped = true; capture.owner.stopped(reason, timestamp)
   }
   const pendingStart = useRef<{ context: string; roundId: string } | null>(null)
   const current = useRef(round)
@@ -87,11 +91,14 @@ export function useFlowerGame({ enabled = true, demo, streamActive, tracking, mi
 
   useEffect(() => {
     if (phase !== 'playing') return
+    const recorder = researchRound.current?.recorder, roundContext = context
+    let live = true
     let frame = 0, lastTime = 0, lastUpdate = 0
     const ctx = canvas.current?.getContext('2d')
     const draw = ctx ? createFlowerRenderer(ctx) : null
     let previousProjection: number[] | null = null, geometryLock = false, anchor: Position | null = null, anchorTime = 0, projectionCutoff = 0
     const tick = (now: number) => {
+      if (!live || liveContext.current !== roundContext) return
       const clockNow = performance.now()
       const geometry = !demo ? mapping?.current : null
       const region = geometry ? visibleVideoRegion(geometry) : undefined
@@ -99,6 +106,7 @@ export function useFlowerGame({ enabled = true, demo, streamActive, tracking, mi
       const age = clockNow - poseTime.current
       const rawWrist = poseTime.current && age >= 0 && age <= poseMaxAgeMs ? wristForSide(pose.current?.pose || [], side) : null
       let approvedResume = false
+      let geometryChanged = false
       if (geometryLock && (!geometry || !rawWrist)) {
         anchor = null; anchorTime = 0
         if (resumeAfterCheck.current) { resumeAfterCheck.current = null; setResumePending(false) }
@@ -109,6 +117,7 @@ export function useFlowerGame({ enabled = true, demo, streamActive, tracking, mi
         const changed = previousProjection && projectionChanged(projection, previousProjection)
         previousProjection = projection
         if (changed) {
+          geometryChanged = true
           if (resumeAfterCheck.current) { resumeAfterCheck.current = null; setResumePending(false) }
           projectionCutoff = clockNow; lastGeometryChange.current = clockNow; anchor = null; anchorTime = 0
           if (!geometryLock) { geometryLock = true; setGeometryPaused(true) }
@@ -146,7 +155,9 @@ export function useFlowerGame({ enabled = true, demo, streamActive, tracking, mi
         : ((!mapping || geometry) ? displayPoint(rawWrist, mirrored, geometry ?? undefined) : null)
       const delta = lastTime ? Math.max(0, now - lastTime) : 0
       lastTime = now
-      current.current = stepRound(current.current, geometryLock ? null : pointer, delta, display.width, display.height, region, durationMs)
+      const before = current.current
+      current.current = stepRound(before, geometryLock ? null : pointer, delta, display.width, display.height, region, durationMs)
+      recorder?.tick(before, current.current, { timestamp: clockNow, sourceTimestamp: poseTime.current, sourceObservationId: poseObservationId?.current, pointer, display, geometry, geometryPaused: geometryLock || Boolean(mapping && !geometry), geometryChanged, freshnessMs: age })
       draw?.(sourceWidth, sourceHeight, display, current.current.target, pointer)
       if (now - lastUpdate >= 150 || current.current.finished) {
         setRound(current.current); lastUpdate = now
@@ -155,8 +166,8 @@ export function useFlowerGame({ enabled = true, demo, streamActive, tracking, mi
       frame = requestAnimationFrame(tick)
     }
     frame = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(frame)
-  }, [phase, demo, mirrored, side, sourceWidth, sourceHeight, pose, poseTime, mapping, displayBox, durationMs])
+    return () => { live = false; cancelAnimationFrame(frame) }
+  }, [phase, demo, mirrored, side, sourceWidth, sourceHeight, pose, poseTime, poseObservationId, mapping, displayBox, durationMs])
 
   const canStart = enabled && (demo || Boolean(streamActive && tracking && confirmed && session?.status === 'in_progress')) && (!workflow || Boolean(workflow.enabled && workflow.setupReady && workflow.exerciseId))
   const start = async () => {
@@ -174,7 +185,7 @@ export function useFlowerGame({ enabled = true, demo, streamActive, tracking, mi
         persistedTrial = await workflow.createTrial(id)
         if (request !== saveGeneration.current || liveContext.current !== context) { await cleanupStaleTrial(workflow, persistedTrial, epoch); return }
         if (researchCapture) {
-          const capture = { owner: researchCapture, stopped: false }
+          const capture = { owner: researchCapture, stopped: false, recorder: new FlowerResearchRecorder(researchCapture, side, mirrored) }
           researchRound.current = capture
           await researchCapture.prepare(persistedTrial, 'glowing_flower')
           if (request !== saveGeneration.current || liveContext.current !== context) { stopResearch('context_changed', capture); await cleanupStaleTrial(workflow, persistedTrial, epoch); return }
@@ -189,7 +200,13 @@ export function useFlowerGame({ enabled = true, demo, streamActive, tracking, mi
     }
     current.current = initialRound(!demo && mapping?.current ? visibleVideoRegion(mapping.current) : undefined); setRound(current.current); demoPointer.current = null; resumeAfterCheck.current = null; lastGeometryChange.current = 0; setResumePending(false); setGeometryPaused(false)
     pendingStart.current = null; setTrialId(persistedTrial); setRoundId(id); setSaveState('idle'); setMessage('')
-    if (persistedTrial && researchRound.current && !researchRound.current.stopped) researchRound.current.owner.started(performance.now())
+    if (persistedTrial && researchRound.current && !researchRound.current.stopped) {
+      const timestamp = performance.now(), geometry = mapping?.current, display = displayBox?.current ?? size
+      const fresh = poseTime.current > 0 && timestamp >= poseTime.current && timestamp - poseTime.current <= poseMaxAgeMs
+      const pointer = fresh && (!mapping || geometry) ? displayPoint(wristForSide(pose.current.pose, side), mirrored, geometry ?? undefined) : null
+      researchRound.current.owner.started(timestamp)
+      researchRound.current.recorder.start(current.current, timestamp, display, geometry, pointer !== null)
+    }
     setPhase('playing')
   }
   const stop = () => { stopResearch('stopped'); setRound(current.current); setPhase('finished') }
@@ -257,5 +274,5 @@ export function useFlowerGame({ enabled = true, demo, streamActive, tracking, mi
     {message && <p role="status">{message}</p>}
     {workflow?.cancelTrial && phase === 'finished' && round.elapsedMs <= 0 && <button onClick={() => void cancelEmptyRound()} disabled={saveState === 'saving'}>{saveState === 'saving' ? 'Đang hủy lượt…' : 'Hủy lượt chưa có dữ liệu'}</button>}
   </div>
-  return { overlay, hud, panel }
+  return { overlay, hud, panel, cancelResearch: stopResearch }
 }

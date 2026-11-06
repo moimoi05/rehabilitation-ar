@@ -62,10 +62,19 @@ export interface SessionReport {
   duration_seconds: number; trial_count: number; is_baseline: boolean; selected_exercise_ids: number[]
   captures?: CaptureSummary[]
 }
+export interface ResearchGameMetric {
+  metric_name: string; value: number | string | boolean | null; unit: string
+  algorithm_version: string; sample_count: number; quality_status: string; unavailable_reason: string | null
+}
 export interface CaptureSummary {
   id: string; trial_id: number; source_type: string; status: string
   record_video: boolean; record_landmarks: boolean
-  artifact_summary: { video_status?: string; video_file?: string; tracking_video_status?: string; tracking_video_file?: string; tracking_video_sha256?: string; tracking_video_size_bytes?: number; frames_status?: string; landmarks_status?: string; manifest_status?: string } | null
+  artifact_summary: {
+    video_status?: string; video_file?: string; tracking_video_status?: string; tracking_video_file?: string
+    tracking_video_sha256?: string; tracking_video_size_bytes?: number; frames_status?: string; landmarks_status?: string; manifest_status?: string
+    events_status?: string; interaction_samples_status?: string; game_metrics_status?: string
+    game_metrics?: Record<string, ResearchGameMetric>
+  } | null
 }
 export interface PatientReport {
   patient: RehabPatient; transfers: PatientTransfer[]; assessments: SessionReport[]; training: SessionReport[]

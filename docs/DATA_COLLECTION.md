@@ -12,7 +12,58 @@ Khi nhấn bắt đầu, game tạo/lấy trial bằng `round_id` hiện có, r�
 
 Mỗi lượt giữ đúng callback sở hữu capture của lượt đó, kể cả khi React render lại. Khi hết giờ, nhân viên dừng, điều kiện camera thay đổi hoặc component đóng, ứng dụng ghi mốc kết thúc gameplay và ngừng nhận observation mới, dừng recorder, nhận chunk cuối rồi flush/finalize. Upload có thể hoàn tất sau gameplay; thời điểm upload không phải thời điểm kết thúc vận động. Kết quả game có dữ liệu được gửi lưu tự động khi kết thúc lượt; nếu chưa xác nhận được lưu, nhân viên có thể thử lại với cùng mã lượt. Trial `cancelled` có thể có dữ liệu đã thu toàn vẹn; trial `completed` có thể có capture `incomplete`.
 
-Capture mới dùng `capture_schema_version=2`. Metadata PostgreSQL và `manifest.json` lưu các ID, nguồn, quyền sử dụng, cấu hình nhiệm vụ, hiệu chuẩn/setup revision, ảnh hưởng bên, model/delegate, kích thước camera và MIME thực tế nếu biết. Phiên bản ứng dụng/commit hoặc thông tin chưa đo được có thể null; không suy ra FPS thực tế từ cấu hình danh nghĩa. Bản ghi cũ giữ schema và ý nghĩa lịch sử, không được tự bổ sung trạng thái Pose/Hand không thể xác định.
+Capture của Phase 1 dùng `capture_schema_version=2`; Phase 2 bên dưới dùng schema 3 cho auto-capture mới. Metadata PostgreSQL và `manifest.json` lưu các ID, nguồn, quyền sử dụng, cấu hình nhiệm vụ, hiệu chuẩn/setup revision, ảnh hưởng bên, model/delegate, kích thước camera và MIME thực tế nếu biết. Phiên bản ứng dụng/commit hoặc thông tin chưa đo được có thể null; không suy ra FPS thực tế từ cấu hình danh nghĩa. Bản ghi cũ giữ schema và ý nghĩa lịch sử, không được tự bổ sung trạng thái Pose/Hand không thể xác định.
+
+## Phase 2: sự kiện và quỹ đạo tương tác
+
+Auto-capture schema 3 của `glowing_flower` và `free_drawing` mở rộng đúng uploader, queue, lease và thư mục UUID của Phase 1. Không tạo thêm camera, model hoặc inference; không thay đổi đồng ý thu video/landmark, luật chơi, điểm số hay việc lưu kết quả game. Capture thủ công và capture schema 1/2 lịch sử không bắt buộc có artifact Phase 2; việc thiếu chúng ở dữ liệu cũ không phải lỗi.
+
+Ba artifact mới nằm cạnh video và Parquet Phase 1:
+
+```text
+REHAB_DATA_DIR/{capture_id}/
+  events.parquet
+  interaction_samples.parquet
+  game_metrics.json
+  manifest.json
+```
+
+`events.parquet` chứa chuyển trạng thái, `interaction_samples.parquet` chứa điểm game thực sự sử dụng; không nhân bản cả bộ landmark và không phát event mỗi render. `game_metrics.json` được backend tính từ hai Parquet đã đọc và xác minh, gồm metrics trial, target/stroke/drag, phiên bản thuật toán, tham số và checksum source artifact. PostgreSQL chỉ giữ metadata, trạng thái, đường dẫn/checksum và bản tóm tắt metrics trial trong `artifact_summary.game_metrics`; không lưu một hàng DB cho từng điểm.
+
+**Hái hoa:** ghi `GAME_STARTED`, `TARGET_SPAWNED`, `TARGET_TOUCHED`, `TARGET_RELEASE_GATE_CLEARED`, `TRACKING_LOST`, `TRACKING_RECOVERED`, `GEOMETRY_PAUSED`, `GEOMETRY_RESUMED` và đúng một trạng thái kết thúc `GAME_COMPLETED`/`GAME_STOPPED`/`GAME_CANCELLED`. Event chỉ phát khi chuyển trạng thái tương ứng thực sự xảy ra; không có cơ chế giữ hoa. Mỗi lần tăng điểm khớp một `TARGET_TOUCHED`; target có ID `target-N` ổn định theo thứ tự xuất hiện. `flower_cursor` chỉ lưu khi có observation Pose mới, kể cả thông tin không usable; RAF lặp lại observation cũ không tạo điểm mới. Payload lưu target, bên tay, freshness, mapping và kích thước vùng. Tọa độ cursor/target được chuẩn hóa theo vùng hiển thị (`display_normalized`), bán kính là CSS px; phải nhân x/y với width/height trước khi tính khoảng cách px.
+
+**Vẽ tự do:** ghi `GAME_STARTED`, `TOOL_CHANGED`, `PEN_DOWN`, `PEN_UP`, `STROKE_STARTED`, `STROKE_COMPLETED`, `STROKE_GRABBED`, `STROKE_RELEASED`, `DRAG_INTERRUPTED`, `UNDO`, `CLEAR_CANVAS`, `TRACKING_LOST`, `TRACKING_RECOVERED`, `GAME_PAUSED`, `GAME_RESUMED`, `GAME_COMPLETED`, `GAME_CANCELLED` theo chuyển trạng thái thực tế. Điểm được controller chấp nhận ghi thành `drawing_stroke_point`; kéo nét ghi thành `drawing_drag_point` riêng. Điểm đã qua xử lý game có `representation=game_processed`, không phải raw Hand. Undo/Clear được ghi trước khi xóa nét, nên lịch sử nét đã xóa vẫn nằm trong artifact. Di chuyển không sửa điểm gốc; tái dựng bằng offset riêng của thao tác kéo. Nguyên nhân kết thúc nét/kéo phân biệt `user_action`, `gesture_inactive`, `tracking_lost`, `geometry_changed`, `mode_changed`, `exercise_finished` và lý do khác có trong payload. Không coi pinch là điều khiển của game.
+
+Event dùng thời điểm game xử lý hoặc UI tương tác; sample dùng thời điểm observation được chấp nhận. Cả hai trừ cùng `start_performance_ms=t0` của capture. `source_timestamp_ms` giữ riêng thời điểm observation khi khác thời điểm xử lý; `source_observation_id` chỉ gắn khi biết đúng nguồn. `frame_id` hiện để null, không lấy frame gần nhất. Có thể nối observation ID với `frames.parquet` và `landmarks.parquet` trong cùng capture; ID không khớp 1:1 với frame video mã hóa và không chứng minh đồng bộ pixel chính xác. Callback của lượt cũ giữ owner/scope riêng, không ghi sang lượt mới.
+
+`POST /api/captures/{capture_id}/game-batches` nhận `{batch_index, events, samples}`; header `X-Chunk-SHA256` xác thực byte JSON request, sau đó backend lưu JSON chuẩn hóa và checksum staging riêng. Event/sample có ID ổn định `{capture_id}:event:{sequence}` và `{capture_id}:sample:{sequence}`, mỗi stream bắt đầu từ 0; retry dùng nguyên payload/index. Frontend flush khi có 50 events, 120 samples hoặc timer 1 giây; server giới hạn 5 MiB/request, 256 events/512 samples mỗi batch. Batch được lưu bền vững bằng IndexedDB và gửi cùng hàng đợi Phase 1, không gọi backend cho mỗi event. Queue dùng chung giới hạn tạm 8 MiB RAM, 128 MiB IndexedDB và 512 parts. Backend giữ `staging/game_batches/{index}.json` và `.sha256`; finalize cần `expected_game_batches` và trạng thái `game_data_complete`, kiểm tra đủ index, checksum, capture/trial/game, sequence liên tục, timestamp và schema/count Parquet, tối đa 2.000.000 rows event+sample. Metrics lỗi vẫn giữ video, raw landmarks, sự kiện và staging đã có; schema 3 chỉ complete khi mọi artifact bắt buộc đã xác minh và không có gap đã biết.
+
+Lỗi mạng chỉ tạm dừng gửi, game và luồng lưu kết quả tiếp tục. Hết RAM/quota/giới hạn queue phải được báo incomplete, giữ phần chưa được xác nhận; không xóa phần cũ để báo complete. Metrics không đo được có `value=null` và lý do, không gán 0. Theo dõi mất tracking và thay đổi geometry để tách đoạn quỹ đạo; không cộng quãng đường/vận tốc xuyên khoảng mất dữ liệu hoặc trộn kích thước/hệ tọa độ. Công thức, đơn vị, quality và các metric chưa triển khai nằm trong [từ điển dữ liệu Phase 2](DATA_DICTIONARY.md#phase-2-game-events-interaction-samples-và-metrics).
+
+Truy xuất theo bệnh nhân → session → trial bằng báo cáo hiện có, `GET /api/sessions/{session_id}/captures` hoặc `GET /api/trials/{trial_id}/captures`, rồi lấy metadata `GET /api/captures/{capture_id}`. Tải ba artifact qua `/api/captures/{capture_id}/artifacts/events`, `/interaction_samples`, `/game_metrics`; chỉ download khi trạng thái artifact tương ứng complete. Báo cáo từng lượt hiển thị chỉ số được xác minh; giá trị thiếu được ghi “Không đủ dữ liệu”, không đổi thành 0. CSV video-manifest lịch sử không đổi cột.
+
+Ví dụ đọc lại cục bộ sau khi tải artifact, không tải dữ liệu lên dịch vụ ngoài:
+
+```python
+import json
+from pathlib import Path
+import pyarrow.parquet as pq
+
+folder = Path(r"D:\private-research\capture-uuid")
+def rows(name):
+    with pq.ParquetFile(folder / name) as parquet:
+        for batch in parquet.iter_batches(batch_size=512):
+            for row in batch.to_pylist():
+                yield {**row, "payload": json.loads(row["payload_json"])}
+
+events = rows("events.parquet")
+samples = rows("interaction_samples.parquet")
+# Hai iterator giữ thứ tự sequence riêng đã được finalize kiểm tra.
+# Đọc events để tạo index đối tượng, rồi đọc samples theo target/stroke/drag ID.
+metrics = json.loads((folder / "game_metrics.json").read_text(encoding="utf-8"))
+```
+
+Để tái dựng, tạo target/nét từ event start/spawn; ghép điểm theo target/stroke/drag ID, giữ nguyên thứ tự timestamp/sequence và snapshot geometry. Áp dụng offset drag tại thời điểm tương ứng, rồi áp dụng Undo/Clear theo event; không chỉ đọc nét còn lại cuối trial. Đối chiếu checksum, schema và các quality flags trước phân tích. Quỹ đạo 2D hiển thị/bảng vẽ không phải phép đo 3D đã kiểm chứng; time-to-touch không phải reaction time thần kinh-vận động. Chưa có AI cá nhân hóa, chẩn đoán, tự chấm FMA-UE hoặc đánh giá hồi phục từ số nét/điểm game. Bằng chứng automated fixture/artifact phải được phân biệt với smoke clinical/replay và webcam thật; không coi code hoặc mock là bằng chứng gameplay ngoài thực tế.
 
 ## Nguồn và đồng ý
 
@@ -30,7 +81,7 @@ Bệnh nhân, phiên và lượt tập liên kết dữ liệu qua `patient_id`,
 
 Một frame được quan sát nhưng không suy luận khác với frame đã suy luận mà không có detection. Theo dõi `inference_performed`, trạng thái phát hiện và số frame bỏ qua. Không suy ra landmark từ frame khác để lấp khoảng trống. Nếu replay bị seek hoặc phát lại, cần kết thúc hoặc reset trạng thái model và bắt đầu capture mới để không ghép các mốc thời gian sai.
 
-Với auto-capture schema 2, main thread gán `source_observation_id`, thời điểm nguồn và scope capture trước khi gửi inference. Worker giữ nguyên các giá trị này; parallel ghép Pose/Hand theo đúng ID, scope và timestamp đầu vào, không theo thứ tự callback. Bộ ghép tối đa 120 observation chờ, hết hạn sau 2.000 ms khi có observation tiếp theo hoặc flush. Khi game kết thúc, có thể chờ tối đa 2.000 ms cho inference đã gửi thuộc đúng scope và thời điểm gameplay trước khi finalize; không nhận frame nguồn mới sau mốc dừng. Kết quả thiếu được ghi `missing_result`, không lấy landmark cũ bù vào. Callback từ scope cũ không được ghi vào lượt mới. Không đổi lịch inference, smoothing hay delegate để thu dữ liệu.
+Với auto-capture schema 2/3, main thread gán `source_observation_id`, thời điểm nguồn và scope capture trước khi gửi inference. Worker giữ nguyên các giá trị này; parallel ghép Pose/Hand theo đúng ID, scope và timestamp đầu vào, không theo thứ tự callback. Bộ ghép tối đa 120 observation chờ, hết hạn sau 2.000 ms khi có observation tiếp theo hoặc flush. Khi game kết thúc, có thể chờ tối đa 2.000 ms cho inference đã gửi thuộc đúng scope và thời điểm gameplay trước khi finalize; không nhận frame nguồn mới sau mốc dừng. Kết quả thiếu được ghi `missing_result`, không lấy landmark cũ bù vào. Callback từ scope cũ không được ghi vào lượt mới. Không đổi lịch inference, smoothing hay delegate để thu dữ liệu.
 
 Mốc chung là `t0=performance.now()` trên main thread lúc bắt đầu capture; `timestamp_ms=source_observation_time_ms-t0`. UTC chỉ dùng đối chiếu hệ thống. `game_started_at_ms` và `game_ended_at_ms` là thời gian tương đối với cùng `t0`; `model_config_info.recorder_start` lưu riêng sự kiện recorder. `video_media_time_ms` là media time nguồn, **không phải PTS trong file MediaRecorder**. Manifest ghi `encoded_pts_mapping=unavailable`, `accuracy=approximate_unmeasured`: ID observation không tương ứng 1:1 với frame video đã mã hóa và chưa đo sai số đồng bộ.
 
@@ -68,7 +119,7 @@ Mỗi thư mục UUID có `manifest.json` mô tả ID/schema/nguồn, cấu hìn
 
 Kiểm tra một capture trên DB thử riêng: đọc lại `frames.parquet`/`landmarks.parquet` bằng `pyarrow.parquet.read_table`, đối chiếu schema, ID, số dòng, thứ tự thời gian, raw/world, Pose/Hand và các trạng thái thiếu; không chỉ xem HTTP 200. Tính `hashlib.sha256(path.read_bytes()).hexdigest()` cho từng file và đối chiếu manifest cùng `artifact_summary`; đọc video bằng OpenCV hoặc công cụ sẵn có, kiểm tra có frame giải mã được. Replay inference, camera giả có MediaRecorder và webcam thật phải được ghi là ba loại bằng chứng khác nhau. API `/docs` mô tả request/response thực tế; endpoint hiện chưa có xác thực/phân quyền cho dữ liệu bệnh nhân thật.
 
-Phase 1 không sinh `events.parquet`, chuỗi sự kiện trò chơi, trajectory riêng, reaction time, góc khớp, velocity/smoothness, công cụ gán nhãn hay AI chỉ định bài. Các mục đó thuộc phạm vi phát triển sau.
+Capture Phase 1 lịch sử không sinh `events.parquet` hoặc trajectory riêng; các artifact này chỉ bắt đầu ở schema 3 của Phase 2. Reaction time, góc khớp, smoothness và AI chỉ định bài chưa được cung cấp khi chưa có thuật toán/kiểm chứng phù hợp.
 
 ## Phạm vi bảo mật và vận hành
 
@@ -111,7 +162,7 @@ Cả bốn capture có trạng thái artifact complete. Verifier đọc lại Pa
 
 Trong lượt Vẽ tự do Luyện tập, trình kiểm thử làm lỗi mạng upload: game vẫn chạy, IndexedDB thực giữ 6 phần/637.375 byte sau ba lần gửi lỗi; nối lại rồi finalize xong, hàng đợi về 0 phần/0 byte. Browser xác nhận Web Locks khả dụng và có khóa capture đang được giữ; contention/recovery giữa các tab được kiểm tra bằng test có mục tiêu.
 
-**Giới hạn bằng chứng:** cả bốn lượt smoke chưa lưu kết quả game qua UI; giao diện không cho lưu trong điều kiện đầu vào/thời gian đáp ứng của lần thử, nên trình kiểm thử hủy trial thay vì tạo kết quả giả. Capture của đoạn đã thu vẫn được giữ và xác minh. Lưu kết quả game được kiểm tra bằng unit/integration riêng, chưa có bằng chứng smoke thành công cho toàn bộ chuỗi chơi → lưu kết quả → tiếp tục cùng session. Chưa kiểm thử webcam thật, GPU headless thành công hoặc đo sai số đồng bộ encoded PTS. Capture complete chỉ nói về artifact đã khai báo, không chứng minh chất lượng tracking/lâm sàng. Phase 2 vẫn ngoài phạm vi.
+**Giới hạn bằng chứng Phase 1 lịch sử:** cả bốn lượt smoke chưa lưu kết quả game qua UI; giao diện không cho lưu trong điều kiện đầu vào/thời gian đáp ứng của lần thử, nên trình kiểm thử hủy trial thay vì tạo kết quả giả. Capture của đoạn đã thu vẫn được giữ và xác minh. Lưu kết quả game được kiểm tra bằng unit/integration riêng, chưa có bằng chứng smoke thành công cho toàn bộ chuỗi chơi → lưu kết quả → tiếp tục cùng session. Chưa kiểm thử webcam thật, GPU headless thành công hoặc đo sai số đồng bộ encoded PTS. Capture complete chỉ nói về artifact đã khai báo, không chứng minh chất lượng tracking/lâm sàng. Các bằng chứng ngày 04-11 này không kiểm tra artifact Phase 2.
 
 Artifact và bằng chứng máy cục bộ nằm ngoài Git ở `%TEMP%/rehab-phase1-smoke/data/{capture_id}/` và các tệp `report.json`, `artifact-verification.json`, `video-decoding.json` cùng thư mục. Không đưa video, landmark hoặc browser profile vào repository.
 
@@ -167,3 +218,76 @@ frontend/src/features/workspace/WorkspaceWorkflow.test.tsx
 frontend/src/pages/Assessment.test.tsx
 frontend/src/types/rehab.ts
 ```
+
+## Bằng chứng Phase 2 — 05-11-2026
+
+Nhánh `feat/research-capture-phase2`, base/HEAD `f2756d2a7eecea99a0c75ba6da46bb65025bf764`; Phase 1 đã có trong nhánh nền. Các thay đổi Phase 2 còn trong working tree, không commit, push, merge hoặc deploy. Không cần migration mới; schema 3 dùng cột version và JSON metadata sẵn có, dữ liệu schema 2 được kiểm tra tương thích bằng test riêng.
+
+Các kiểm tra có mục tiêu đã xác minh:
+
+- Backend: 48 test capture/API/storage/finalize PASS trên PostgreSQL riêng `127.0.0.1:55432`, DB `rehab_phase2_tests`; không dùng DB ứng dụng để ghi fixture.
+- Metrics: 8 test PASS, gồm đọc lại Parquet và JSON metrics thực tế, đối chiếu SHA-256, metric thiếu mẫu trả null, trajectory có gap và geometry thay đổi. Đây là fixture xác định, không phải bằng chứng đo chuyển động thật.
+- Frontend: 206/206 test PASS trong 12 file instrumentation/workflow/uploader/capture/report; [kết quả JSON cục bộ](C:/Users/nnam05/AppData/Local/Temp/phase2-final-tests.json). `npm run build` PASS. Còn cảnh báo bundle lớn và MediaPipe được import cả tĩnh/động; không dùng build làm bằng chứng tracking/FPS thực tế.
+- API test tại cổng `58001`: `/api/health` trả `status=ok`, `database=connected`.
+
+Các target frontend có thể chạy lại từ `frontend/` bằng lệnh sau; không chạy full suite/coverage hoặc tạo E2E mới:
+
+```powershell
+npm test -- --run src/components/CaptureArtifacts.test.tsx src/features/workspace/captureUploader.test.ts src/features/workspace/flowerResearch.test.ts src/features/workspace/freeDrawing.test.ts src/features/workspace/gameResearch.test.ts src/features/workspace/trialResearchCapture.test.ts src/features/workspace/useFlowerGame.test.tsx src/features/workspace/useFlowerGameWorkflow.test.tsx src/features/workspace/useFreeDrawingGame.test.tsx src/features/workspace/useResearchCapture.test.tsx src/features/workspace/WorkspaceHandFirst.test.tsx src/features/workspace/WorkspaceWorkflow.test.tsx
+npm run build
+```
+
+Backend chạy từ `backend/`, với `TEST_DATABASE_URL` trong môi trường tiến trình con trỏ đúng DB test riêng ở cổng `55432` (không trỏ DB ứng dụng). Bốn file capture dưới đây cho 48 PASS; metrics chạy riêng cho 8 PASS:
+
+```powershell
+.venv/Scripts/python.exe -m pytest tests/test_capture_game_storage.py tests/test_capture_storage.py tests/test_capture_finalize.py tests/test_capture_api.py -q
+.venv/Scripts/python.exe -m pytest tests/test_game_metrics.py -q
+```
+
+Phạm vi file Phase 2, gồm các test có mục tiêu đi kèm từng nhóm:
+
+| Nhóm | File/module thay đổi |
+| --- | --- |
+| Capture/backend và toàn vẹn artifact | `backend/app/capture_schemas.py`, `capture_manifest.py`, `captures.py`; mới `capture_game_storage.py`; `backend/tests/test_capture_api.py`, `test_capture_finalize.py`, mới `test_capture_game_storage.py`. |
+| Tính metrics | Mới `backend/app/game_metrics.py`, `backend/tests/test_game_metrics.py`. |
+| Clock, owner/scope và uploader | `frontend/src/features/workspace/gameWorkflow.ts`, `gameResearch.ts` mới, `trialResearchCapture.ts`, `useResearchCapture.ts`, `captureUploader.ts`, `captureQueueStore.ts`, `WorkspacePage.tsx` và test liên quan. |
+| Hái hoa | `frontend/src/features/workspace/useFlowerGame.tsx`, `flowerResearch.ts` mới và test; không đổi thuật toán scoring trong `flowerGame.ts`. |
+| Vẽ tự do | `frontend/src/features/workspace/freeDrawing.ts`, `freeDrawingHand.ts`, `useFreeDrawingGame.tsx` và test. |
+| Báo cáo | `frontend/src/components/CaptureArtifacts.tsx` và test, `frontend/src/features/workspace/CaptureArtifactStatus.tsx`, `frontend/src/types/rehab.ts`. |
+| Tài liệu | `docs/DATA_COLLECTION.md`, `docs/DATA_DICTIONARY.md`; không có migration mới. |
+
+Các mục untracked có sẵn `.codegraph/`, `codegraph.json`, `ketqua/`, `video-game-mau/` không bị xóa hoặc đưa vào phạm vi tính năng. `.codegraph/` được sync theo yêu cầu; dữ liệu có sẵn trong `ketqua/` và `video-game-mau/` được bảo toàn.
+
+Artifact fixture backend được giữ ngoài Git trong thư mục cục bộ `C:\Users\nnam05\AppData\Local\Temp\rehab-phase2-backend-final-ca5f9ac964054a93b96890a56841a52d\`:
+
+| Fixture / thư mục tương đối | Events / samples | Nội dung đã đọc lại |
+| --- | ---: | --- |
+| Hái hoa — `test_phase2_upload_retry_final0/26f79d75-1560-485c-b361-aa3462e3b34a/` | 4 / 2 | Events, cursor samples, metrics, manifest và checksum; retry không tạo thêm hàng. [Manifest cục bộ](C:/Users/nnam05/AppData/Local/Temp/rehab-phase2-backend-final-ca5f9ac964054a93b96890a56841a52d/test_phase2_upload_retry_final0/26f79d75-1560-485c-b361-aa3462e3b34a/manifest.json). |
+| Vẽ tự do — `test_phase2_drawing_deleted_st0/6237fc3d-47ed-46e4-9c81-d526ff9e13e1/` | 8 / 4 | Điểm nét gốc, drag offset, Undo/Clear, metrics, manifest và checksum; lịch sử còn sau khi xóa canvas. [Manifest cục bộ](C:/Users/nnam05/AppData/Local/Temp/rehab-phase2-backend-final-ca5f9ac964054a93b96890a56841a52d/test_phase2_drawing_deleted_st0/6237fc3d-47ed-46e4-9c81-d526ff9e13e1/manifest.json). |
+
+Hai fixture có `video.mp4` 47 byte tổng hợp cho kiểm thử luồng lưu trữ, **không phải video container hợp lệ**. Các test này chứng minh artifact game/Parquet/JSON và checksum đã ghi/đọc được; không chứng minh video giải mã được, gameplay ngoài thực tế, webcam, GPU hay hiệu năng.
+
+**Smoke clinical hai lượt: NOT VERIFIED.** Đã mở route Luyện tập thực `/training/1`, dùng dữ liệu giả lập và nguồn MP4 chỉ đọc `video_test/WIN_20261103_22_45_01_Pro.mp4` qua `HTMLVideoElement.captureStream()`/camera shim trong Chrome headless. Video nguồn 72.603.513 byte, SHA-256 `08aab59258af231aaaab7df84c3e6d7b9dd145a98eaa3de64491dd7b8ad9e881`, không chỉnh sửa hoặc gửi lên dịch vụ ngoài. Dashboard tải dữ liệu API, tạo session số 1 qua UI và phát được stream camera từ video, nhưng Worker báo `Worker inference timed out` và `Worker disposal timed out; model cleanup was not acknowledged`. Thử Edge headless bổ sung không giữ được kết nối browser; không thay delegate, FPS hoặc pipeline để ép qua bước này.
+
+DB smoke riêng `rehab_phase2_smoke` còn một session `draft`, setup chưa xác nhận, **0 trial, 0 game result, 0 capture**. Chưa thực hiện được hoàn thành game → lưu game result → xem kết quả → tiếp tục game khác trong cùng session; không tạo kết quả giả và không tính smoke PASS. Bằng chứng: [clinical-smoke.json](C:/Users/nnam05/AppData/Local/Temp/rehab-phase2-smoke-f74b43f032ed40d6a829a5ed3a984d50/clinical-smoke.json) và [setup.png](C:/Users/nnam05/AppData/Local/Temp/rehab-phase2-smoke-f74b43f032ed40d6a829a5ed3a984d50/setup.png). Đây không phải webcam thật hoặc đo hiệu năng.
+
+Các dịch vụ do lượt kiểm tra này khởi tạo đã được dừng, gồm PostgreSQL test cổng `55432`; PostgreSQL có sẵn của người dùng cổng `5432` giữ nguyên. Chưa có bằng chứng định lượng về ảnh hưởng FPS/độ trễ gameplay, đồng bộ encoded PTS hoặc độ chính xác lâm sàng. AI cá nhân hóa, onset/reaction/smoothness cần thuật toán được kiểm chứng và các phân tích AI khác vẫn là phần việc sau Phase 2.
+
+## Worker timeout diagnosis — 06-11-2026
+
+Investigated on `feat/research-capture-phase2`, HEAD `3f05d92ad4de1d4959e4df0c4f62515a13b3030e`. Existing untracked files were preserved. CodeGraph traced `WorkspacePage.startTracking → createWorkerTracker.submit → tracking-worker.detectForVideo → fail/dispose`; no game/metrics/model/delegate/FPS change.
+
+A temporary, dependency-free CDP reproduction reused the existing replay server and the actual `createWorkerTracker`, Worker and MediaPipe models. It decoded the original MP4 locally, paused a real frame, and submitted that frame with diagnostic identities; it did not create clinical trials/results/captures. Scripts and logs are outside Git in Windows Temp. The source video was read only.
+
+- [Default GPU and separate CPU run](C:/Users/nnam05/AppData/Local/Temp/rehab-worker-diagnostic-GmHDn0/report.json): Chrome 156.0.8078.80 headless, Intel Iris Xe / ANGLE D3D11, WebGL enabled. Both GPU models initialized successfully. The 8-second first-frame deadline fired before inference returned; disposal then missed its 1.5-second acknowledgement deadline. CPU returned three real Pose/Hand results, preserving observation IDs 701–703 and capture scope, and acknowledged disposal in 26 ms. Pose had 33 points; Hand returned empty detections on this frame. CPU success is not GPU success.
+- [Hardware GPU with the existing 30-second first-frame option](C:/Users/nnam05/AppData/Local/Temp/rehab-worker-diagnostic-nB1q6E/report.json): Hand 17,368 ms + Pose 10,790 ms; both returned ID 701, frame completed, explicit disposal acknowledged in 58 ms with no cleanup errors. This rules out failed initialization and an inherently unavailable headless GPU for this run.
+- [Repeat hardware GPU partial log](C:/Users/nnam05/AppData/Local/Temp/rehab-worker-diagnostic-gctsQi/report.json): first frame 29,962 ms, subsequent frames about 156 ms and 99 ms, IDs 701–703 preserved. This log is partial (`done:false`); it is not additional completed-cleanup evidence. The cold frame is very close to the 30-second ceiling, so startup reliability on this environment remains uncertain.
+- [SwiftShader diagnostic](C:/Users/nnam05/AppData/Local/Temp/rehab-worker-diagnostic-iWVdhp/report.json): separate software graphics run also exceeded the default 8-second deadline; Hand returned after about 9 seconds. This is not hardware GPU PASS.
+
+Root cause of the observed failure chain: successful initialization followed by slow cold GPU inference exceeding the application's first-frame deadline. `fail()` requests disposal while synchronous model inference still occupies the Worker; the disposal acknowledgement timeout is a consequence, not evidence of cleanup racing gameplay. Shader compilation is a plausible explanation for the cold/warm difference, but was not independently profiled. Headless versus display/driver causality was not isolated.
+
+Minimal fix: `WorkspacePage.tsx` now supplies the already-supported 30-second first-frame allowance for setup before both games, rather than only Free Drawing. Later-frame timeout, cleanup barrier, model selection, GPU preference and FPS remain unchanged. `WorkspaceHandFirst.test.tsx` adds a regression assertion for default flower setup; it failed before the change (missing timeout option). No Worker refactor or timeout removal.
+
+Clinical two-game completion remains **NOT VERIFIED**. The small GPU reproduction proves inference and acknowledged cleanup can succeed, while unit/integration tests cover old callbacks, capture scopes and disposal sequencing. It does not prove sustained webcam/gameplay performance or two clinical captures. A bounded clinical rerun is possible, but the narrow 30-second cold-start margin is not a reliability guarantee; do not mark the clinical smoke PASS from these diagnostic frames.
+
+Validation for this diagnosis: targeted Worker/capture tests 105/105 PASS (6 files), then after the fix targeted Workspace/both-game integration tests 98/98 PASS (7 files; overlapping Workspace tests, 183 distinct tests across 12 files). `npm run build` PASS; existing mixed MediaPipe import and bundle-size warnings remain. Source video SHA-256 remains `08aab59258af231aaaab7df84c3e6d7b9dd145a98eaa3de64491dd7b8ad9e881`. No commit, push, merge, deployment or database mutation was performed. Diagnostic browser/server processes are stopped. Overall end-to-end status: **NOT RESOLVED** pending a reliable clinical two-game run; the first-frame configuration inconsistency has been corrected.

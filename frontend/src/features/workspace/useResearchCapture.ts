@@ -3,9 +3,11 @@ import { CaptureUploader, captureRequest, FinalizeOutcomeUnknown } from './captu
 import type { CaptureFrame, CaptureStats } from './captureUploader'
 import { acquireCaptureOwnership } from './captureOwnership'
 import type { TrackingVideo } from './trackingVideo'
+import { createGameResearchSink } from './gameResearch'
+import type { GameResearchSink, ResearchContext } from './gameResearch'
 
 type CaptureResponse = { id: string; trial_id: number; status: string; reused?: boolean }
-export type ResearchCaptureOptions = { patientId: number; sessionId: number; trialId?: number; stream: MediaStream; width?: number; height?: number; recordLandmarks: boolean; recordVideo: boolean; consentLandmarks: boolean; consentVideo: boolean; modelConfig: object; autoCapture?: boolean; sourceType?: 'webcam' | 'replay'; createTrackingVideo?: (onError: () => void) => TrackingVideo }
+export type ResearchCaptureOptions = { patientId: number; sessionId: number; trialId?: number; gameKey?: 'glowing_flower' | 'free_drawing'; beforeAbort?: (reason: string, timestamp: number) => void; stream: MediaStream; width?: number; height?: number; recordLandmarks: boolean; recordVideo: boolean; consentLandmarks: boolean; consentVideo: boolean; modelConfig: object; autoCapture?: boolean; sourceType?: 'webcam' | 'replay'; createTrackingVideo?: (onError: () => void) => TrackingVideo }
 type InputFrame = Omit<CaptureFrame, 'frame_id' | 'timestamp_ms' | 'utc_time'> & { timestamp: number }
 type Active = {
   id: string; trialId: number; start: number; uploader: CaptureUploader; recorder: MediaRecorder | null; trackingRecorder?: MediaRecorder; trackingVideo?: TrackingVideo
@@ -14,6 +16,8 @@ type Active = {
   heartbeatPromise: Promise<void> | null; heartbeatError: Error | null; stopped: boolean; finalizing: boolean
   gameStarted?: number; gameEnded?: number; stopPromise?: Promise<void>; knownGaps: string[]
   reportedError?: string; releaseOwnership?: () => void; trackingVideoFailed?: boolean
+  gameResearch?: GameResearchSink
+  gameTerminal?: boolean; beforeAbort?: ResearchCaptureOptions['beforeAbort']
 }
 
 function clearTimers(capture: Active) { if (capture.timer !== null) clearInterval(capture.timer); if (capture.heartbeatTimer !== null) clearInterval(capture.heartbeatTimer) }
@@ -91,7 +95,7 @@ export function useResearchCapture() {
       let capture: Active | null = null
       let releaseOwnership: (() => void) | undefined
       try {
-        created = await captureRequest('/api/captures', { patient_id: options.patientId, session_id: options.sessionId, ...(options.trialId ? { trial_id: options.trialId } : { exercise_code: 'camera_capture' }), ...(options.autoCapture ? { capture_mode: 'per_trial', capture_schema_version: 2 } : {}), source_type: options.sourceType || 'webcam', record_landmarks: options.recordLandmarks, record_video: options.recordVideo, consent_landmarks: options.consentLandmarks, consent_video: options.consentVideo, started_at_utc: utc(start), start_performance_ms: start, video_mime_type: recorder?.mimeType || mime, width: options.width, height: options.height, model_config: { ...options.modelConfig, ...(options.createTrackingVideo ? { record_tracking_video: true } : {}) } }) as CaptureResponse
+        created = await captureRequest('/api/captures', { patient_id: options.patientId, session_id: options.sessionId, ...(options.trialId ? { trial_id: options.trialId } : { exercise_code: 'camera_capture' }), ...(options.autoCapture ? { capture_mode: 'per_trial', capture_schema_version: options.gameKey ? 3 : 2 } : {}), source_type: options.sourceType || 'webcam', record_landmarks: options.recordLandmarks, record_video: options.recordVideo, consent_landmarks: options.consentLandmarks, consent_video: options.consentVideo, started_at_utc: utc(start), start_performance_ms: start, video_mime_type: recorder?.mimeType || mime, width: options.width, height: options.height, model_config: { ...options.modelConfig, ...(options.gameKey ? { game_key: options.gameKey } : {}), ...(options.createTrackingVideo ? { record_tracking_video: true } : {}) } }) as CaptureResponse
         if (requestGeneration !== generation.current) {
           if (!options.autoCapture || (!created.reused && created.status === 'recording')) void captureRequest(`/api/captures/${created.id}/${options.autoCapture ? 'incomplete' : 'abort'}`, { reason: cancellation.reason || 'Tracking stopped before capture creation completed' }).catch(() => {})
           return null
@@ -127,9 +131,14 @@ export function useResearchCapture() {
             void captureRequest(`/api/captures/${capture.id}/abort`, { reason: 'Upload failed' }).catch(() => {})
           }
           setStats(next); setState(`Capture không hoàn chỉnh: ${next.error}`)
-        }, { durable: Boolean(options.autoCapture) })
+        }, { durable: Boolean(options.autoCapture), gameData: Boolean(options.autoCapture && options.gameKey) })
         capture = { id: created.id, trialId: created.trial_id, start, uploader, recorder, autoCapture: Boolean(options.autoCapture), accepting: !options.autoCapture, acceptingLate: false, recordLandmarks: options.recordLandmarks, frames: 0, latestStats: null, timer: null, heartbeatTimer: null, heartbeatPromise: null, heartbeatError: null, stopped: false, finalizing: false, knownGaps: [], releaseOwnership }
         const current = capture
+        current.beforeAbort = options.beforeAbort
+        if (options.autoCapture && options.gameKey) current.gameResearch = createGameResearchSink({
+          captureId: current.id, trialId: current.trialId, gameKey: options.gameKey, start,
+          event: row => uploader.addGameEvent(row), sample: row => uploader.addInteractionSample(row), gap: reason => uploader.noteGap(reason),
+        })
         active.current = current
         if (options.autoCapture) await uploader.prepare()
         await renewLease(current.id)
@@ -217,6 +226,20 @@ export function useResearchCapture() {
     capture.uploader.addFrame({ ...data, frame_id: capture.frames++, timestamp_ms: timestamp - capture.start, utc_time: utc(timestamp) })
   }, [])
 
+  const event = useCallback((scope: string, type: string, payload: Record<string, unknown>, context: ResearchContext) => {
+    const capture = active.current
+    if (capture?.id === scope && !capture.stopped && capture.accepting && capture.gameStarted !== undefined && context.timestamp >= capture.start + capture.gameStarted) {
+      // Cached input from setup was never recorded in this trial's frames artifact.
+      const recordedSource = context.sourceTimestamp === undefined || context.sourceTimestamp >= capture.start + capture.gameStarted
+      capture.gameResearch?.event(type, payload, recordedSource ? context : { ...context, sourceObservationId: null })
+      if (['GAME_COMPLETED', 'GAME_STOPPED', 'GAME_CANCELLED'].includes(type)) capture.gameTerminal = true
+    }
+  }, [])
+  const sample = useCallback((scope: string, type: string, payload: Record<string, unknown>, context: ResearchContext) => {
+    const capture = active.current
+    if (capture?.id === scope && !capture.stopped && capture.accepting && capture.gameStarted !== undefined && context.timestamp >= capture.start + capture.gameStarted) capture.gameResearch?.sample(type, payload, context)
+  }, [])
+
   const stop = useCallback(async (reason = 'completed', endedTimestamp = performance.now(), settle?: () => Promise<void>) => {
     const capture = active.current
     if (!capture) return
@@ -272,7 +295,20 @@ export function useResearchCapture() {
     pendingStart.current = null; pendingCancellation.current = null; pendingTrial.current = undefined
     const capture = active.current
     if (!capture || capture.stopped) { if (wasPending) { setState('Capture bị gián đoạn trong khi tạo.'); setBusy(false) }; return }
-    if (capture.autoCapture) { void stop(reason); return }
+    if (capture.autoCapture) {
+      const timestamp = performance.now()
+      // The game closes any open stroke/drag while its capture scope still exists.
+      try { capture.beforeAbort?.(reason, timestamp) }
+      catch { capture.uploader.noteGap('Game did not close cleanly before capture interruption.') }
+      if (!capture.stopped) {
+        if (capture.gameStarted !== undefined && !capture.gameTerminal) {
+          capture.gameResearch?.event('GAME_CANCELLED', { reason, termination_source: 'capture_abort' }, { timestamp })
+          capture.gameTerminal = true
+        }
+        void stop(reason, timestamp)
+      }
+      return
+    }
     capture.stopped = true; clearTimers(capture)
     if (capture.recorder?.state !== 'inactive') capture.recorder?.stop()
     active.current = null; setState('Capture bị gián đoạn; dữ liệu staging được giữ lại.')
@@ -288,5 +324,5 @@ export function useResearchCapture() {
     window.addEventListener('online', online)
     return () => { window.removeEventListener('beforeunload', warn); window.removeEventListener('online', online); abort() }
   }, [abort])
-  return { start, addFrame, stop, abort, gameStarted, getScope, state, stats, captureId, trialId, busy, elapsedMs, isActive: () => !!active.current || !!pendingStart.current || finishing.current.size > 0 }
+  return { start, addFrame, event, sample, stop, abort, gameStarted, getScope, state, stats, captureId, trialId, busy, elapsedMs, isActive: () => !!active.current || !!pendingStart.current || finishing.current.size > 0 }
 }

@@ -18,6 +18,58 @@ beforeEach(() => { vi.mocked(captureRequest).mockReset().mockResolvedValue({}); 
 afterEach(() => { cleanup(); vi.restoreAllMocks(); vi.unstubAllGlobals(); vi.useRealTimers() })
 
 describe('research capture lifecycle', () => {
+  it('writes a cancellation terminal before freeing its scope and does not duplicate an existing terminal', async () => {
+    let now = 1000
+    vi.spyOn(performance, 'now').mockImplementation(() => now)
+    vi.spyOn(CaptureUploader.prototype, 'prepare').mockResolvedValue()
+    vi.spyOn(CaptureUploader.prototype, 'finish').mockResolvedValue({ status: 'complete' })
+    const event = vi.spyOn(CaptureUploader.prototype, 'addGameEvent').mockImplementation(() => {})
+    vi.mocked(captureRequest).mockImplementation(async path => path === '/api/captures' ? { id: 'cancel', trial_id: 8, status: 'recording' } : {})
+    const { result } = renderHook(() => useResearchCapture())
+    const beforeAbort = vi.fn(() => result.current.event('cancel', 'GAME_CANCELLED', { reason: 'camera_stopped' }, { timestamp: now }))
+    await act(async () => { await result.current.start({ ...options, autoCapture: true, gameKey: 'free_drawing', trialId: 8, beforeAbort }) })
+    act(() => result.current.gameStarted(1100))
+    now = 1200
+    act(() => result.current.abort('camera_stopped'))
+    expect(beforeAbort).toHaveBeenCalledWith('camera_stopped', 1200)
+    expect(event).toHaveBeenCalledOnce()
+    expect(event).toHaveBeenLastCalledWith(expect.objectContaining({ event_type: 'GAME_CANCELLED', timestamp_ms: 200 }))
+    await waitFor(() => expect(result.current.isActive()).toBe(false))
+    now = 2000
+    await act(async () => { await result.current.start({ ...options, autoCapture: true, gameKey: 'free_drawing', trialId: 8 }) })
+    act(() => result.current.gameStarted(2100))
+    now = 2200
+    act(() => result.current.abort('source_reset'))
+    expect(event).toHaveBeenCalledTimes(2)
+    expect(event).toHaveBeenLastCalledWith(expect.objectContaining({ event_type: 'GAME_CANCELLED', payload: { reason: 'source_reset', termination_source: 'capture_abort' } }))
+    await waitFor(() => expect(result.current.isActive()).toBe(false))
+  })
+  it('binds game telemetry to schema 3 capture clock and ignores an old capture scope', async () => {
+    let now = 1000
+    vi.spyOn(performance, 'now').mockImplementation(() => now)
+    vi.spyOn(CaptureUploader.prototype, 'prepare').mockResolvedValue()
+    vi.spyOn(CaptureUploader.prototype, 'finish').mockResolvedValue({ status: 'complete' })
+    const event = vi.spyOn(CaptureUploader.prototype, 'addGameEvent').mockImplementation(() => {})
+    const sample = vi.spyOn(CaptureUploader.prototype, 'addInteractionSample').mockImplementation(() => {})
+    vi.mocked(captureRequest).mockImplementation(async path => path === '/api/captures' ? { id: now === 1000 ? 'first' : 'second', trial_id: now === 1000 ? 8 : 9, status: 'recording' } : {})
+    const { result } = renderHook(() => useResearchCapture())
+    await act(async () => { await result.current.start({ ...options, autoCapture: true, gameKey: 'free_drawing', trialId: 8 }) })
+    act(() => result.current.gameStarted(1100))
+    act(() => {
+      result.current.event('first', 'STROKE_STARTED', { stroke_id: 1 }, { timestamp: 1200, sourceTimestamp: 1150, sourceObservationId: 55 })
+      result.current.sample('first', 'drawing_stroke_point', { x: 3, y: 4 }, { timestamp: 1150, sourceObservationId: 55 })
+    })
+    expect(captureRequest).toHaveBeenCalledWith('/api/captures', expect.objectContaining({ capture_schema_version: 3 }))
+    expect(event).toHaveBeenCalledWith(expect.objectContaining({ timestamp_ms: 200, source_timestamp_ms: 150, source_observation_id: 55, frame_id: null }))
+    expect(sample).toHaveBeenCalledWith(expect.objectContaining({ timestamp_ms: 150, trial_id: 8 }))
+    await act(async () => { await result.current.stop('completed', 1300) })
+    now = 2000
+    await act(async () => { await result.current.start({ ...options, autoCapture: true, gameKey: 'glowing_flower', trialId: 9 }) })
+    act(() => result.current.gameStarted(2100))
+    act(() => result.current.event('first', 'UNDO', {}, { timestamp: 2200 }))
+    expect(event).toHaveBeenCalledOnce()
+    await act(async () => { await result.current.stop('completed', 2300) })
+  })
   it('records and stops both source and tracking streams before finalization', async () => {
     class Recorder extends EventTarget {
       static isTypeSupported = () => true

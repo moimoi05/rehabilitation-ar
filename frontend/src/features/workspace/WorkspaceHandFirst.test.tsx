@@ -185,6 +185,17 @@ describe('Workspace hand-first integration', () => {
     expect(drawingInput.resetInput).toHaveBeenCalled()
   })
 
+  it('passes the captured observation identity separately from the video frame ID', async () => {
+    await start()
+    capture.getScope.mockReturnValue('trial-capture')
+    act(() => options().onHandResult?.({ ...handResult(), sourceObservationId: 77, captureScope: 'trial-capture' }))
+    expect(drawingInput.onHandObservation).toHaveBeenLastCalledWith(expect.objectContaining({ frameId: 20, sourceObservationId: 77 }))
+    now = 120
+    act(() => options().onHandResult?.({ ...handResult(120), sourceObservationId: 78, captureScope: 'previous-capture' }))
+    expect(drawingInput.onHandObservation.mock.lastCall?.[0]).not.toHaveProperty('sourceObservationId')
+    capture.getScope.mockReturnValue(null)
+  })
+
   it('does not clear and redraw an unchanged overlay every display refresh', async () => {
     await start(); tick(100)
     act(() => options().onHandResult?.(handResult()))
@@ -261,6 +272,11 @@ describe('Workspace hand-first integration', () => {
     act(() => callback({ now: 134, inferenceTimestamp: 134, mediaTime: .834, sourceFrameId: 21 }))
     expect(tracker.submit.mock.calls[0]).toEqual([expect.any(HTMLVideoElement), 100, true, true, { sourceFrameId: 20, sourceMediaTimeMs: 800, sourcePerformanceMs: 100, sourceObservationId: 1, captureScope: null }])
     expect(tracker.submit.mock.calls[1]).toEqual([expect.any(HTMLVideoElement), 134, true, false, { sourceFrameId: 21, sourceMediaTimeMs: 834, sourcePerformanceMs: 134, sourceObservationId: 2, captureScope: null }])
+  })
+
+  it('allows cold GPU setup before flower gameplay starts', async () => {
+    await start()
+    expect(options()).toMatchObject({ initialFrameTimeoutMs: 30000 })
   })
 
   it('does not throttle drawing source callbacks twice and allows cold GPU setup on its first frame', async () => {

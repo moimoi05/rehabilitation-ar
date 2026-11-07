@@ -1,5 +1,11 @@
 # Thu thập dữ liệu nghiên cứu
 
+## Đánh giá chất lượng capture (Phase 3.1)
+
+`GET /api/captures/{capture_id}/quality` tạo báo cáo JSON khi được gọi từ localhost. Capture đang ghi trả HTTP 409; capture không tồn tại trả 404. Báo cáo đọc metadata và artifact hiện có, không ghi file báo cáo, thay đổi capture, hay tự loại trial. `complete` của artifact là trạng thái lưu trữ, không chứng minh tracking ổn định hoặc dữ liệu phù hợp mọi mục đích nghiên cứu.
+
+Báo cáo phân biệt tính toàn vẹn artifact, phát hiện Pose/Hand, chất lượng tọa độ, thời gian nội bộ, tương tác, metrics và khả năng sử dụng theo từng mục đích. Video được kiểm tra giải mã khi có công cụ cục bộ phù hợp; nếu không thì là `not_assessed`. Không suy ra đồng bộ chính xác với video từ thời gian ghi nội bộ; encoded PTS chưa có ánh xạ được xác minh. Các cảnh báo và bằng chứng cần được nhà nghiên cứu xem xét trước khi sử dụng.
+
 Tài liệu này mô tả luồng thử nghiệm trong môi trường phát triển. Dùng dữ liệu giả danh, chỉ trên máy tin cậy và mạng localhost: ứng dụng chưa có xác thực và phân quyền để bảo vệ dữ liệu nghiên cứu thực tế. Video, landmark và metadata đều có thể chứa thông tin nhạy cảm; không đưa chúng vào Git, `frontend/public`, dịch vụ công khai hoặc log.
 
 ## Phase 1: tự động thu theo lượt chơi

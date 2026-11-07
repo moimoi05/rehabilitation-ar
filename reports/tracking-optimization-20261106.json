@@ -1,0 +1,2329 @@
+{
+  "head": "f2756d2a7eecea99a0c75ba6da46bb65025bf764",
+  "branch": "optimize-gpu",
+  "drawingBaseline": {
+    "sourcePath": "D:\\rehabilitation\\rehabilitation-ar\\video_test\\WIN_20261106_21_35_32_Pro.mp4",
+    "sourceMetadata": {
+      "frameRate": 29.655163252836005,
+      "frameCount": 1786,
+      "videoTrackDurationSeconds": 60.2256,
+      "width": 1920,
+      "height": 1080,
+      "codecFourcc": "h264"
+    },
+    "playbackRate": 1,
+    "affectedSide": "right",
+    "browser": "Edg/156.0.4314.58",
+    "gpu": {
+      "devices": [
+        {
+          "vendorId": 32902,
+          "deviceId": 42912,
+          "subSysId": 76552276,
+          "revision": 4,
+          "vendorString": "",
+          "deviceString": "Intel(R) Iris(R) Xe Graphics",
+          "driverVendor": "Intel",
+          "driverVersion": "31.0.101.3962"
+        },
+        {
+          "vendorId": 5140,
+          "deviceId": 140,
+          "subSysId": 0,
+          "revision": 0,
+          "vendorString": "",
+          "deviceString": "Microsoft Basic Render Driver",
+          "driverVendor": "",
+          "driverVersion": "10.0.26100.9711"
+        }
+      ],
+      "auxAttributes": {
+        "amdSwitchable": false,
+        "bgra8OverlaySupport": "SCALING",
+        "canSupportThreadedTextureMailbox": false,
+        "directComposition": true,
+        "directMLFeatureLevel": "Not supported",
+        "directRenderingVersion": "",
+        "displayType": "ANGLE_D3D11",
+        "dx12FeatureLevel": "Not supported",
+        "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_copy_texture_3d GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_size GL_ANGLE_multiview_multisample GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_provoking_vertex GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_robust_client_memory GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_texture_usage GL_ANGLE_translated_shader_source GL_APPLE_clip_distance GL_ARM_rgba8 GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_compressed_texture GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_EGL_image_external_wrap_modes GL_EXT_base_instance GL_EXT_blend_func_extended GL_EXT_blend_minmax GL_EXT_clip_control GL_EXT_clip_cull_distance GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_conservative_depth GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_read_format_bgra GL_EXT_render_snorm GL_EXT_robustness GL_EXT_sRGB GL_EXT_shader_texture_lod GL_EXT_texture_border_clamp GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_norm16 GL_EXT_texture_rg GL_EXT_texture_storage GL_EXT_texture_type_2_10_10_10_REV GL_EXT_unpack_subimage GL_KHR_debug GL_KHR_parallel_shader_compile GL_KHR_robustness GL_NV_EGL_stream_consumer_external GL_NV_fence GL_NV_framebuffer_blit GL_NV_pack_subimage GL_NV_pixel_buffer_object GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_image_external GL_OES_EGL_image_external_essl3 GL_OES_depth24 GL_OES_depth32 GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_border_clamp GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_texture_storage_multisample_2d_array GL_OES_vertex_array_object GL_OVR_multiview GL_OVR_multiview2 ",
+        "glImplementationParts": "(gl=egl-angle,angle=d3d11)",
+        "glRenderer": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x0000A7A0) Direct3D11 vs_5_0 ps_5_0, D3D11-31.0.101.3962)",
+        "glResetNotificationStrategy": 33362,
+        "glVendor": "Google Inc. (Intel)",
+        "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.48499 git hash: 05a891fa2b4b)",
+        "glWsExtensions": "EGL_EXT_create_context_robustness EGL_ANGLE_d3d_share_handle_client_buffer EGL_ANGLE_d3d_texture_client_buffer EGL_ANGLE_surface_d3d_texture_2d_share_handle EGL_ANGLE_query_surface_pointer EGL_ANGLE_window_fixed_size EGL_ANGLE_keyed_mutex EGL_ANGLE_surface_orientation EGL_ANGLE_direct_composition EGL_NV_post_sub_buffer EGL_KHR_create_context EGL_KHR_image EGL_KHR_image_base EGL_KHR_gl_texture_2D_image EGL_KHR_gl_texture_cubemap_image EGL_KHR_gl_renderbuffer_image EGL_KHR_get_all_proc_addresses EGL_KHR_stream EGL_KHR_stream_consumer_gltexture EGL_NV_stream_consumer_gltexture_yuv EGL_ANGLE_stream_producer_d3d_texture EGL_ANGLE_create_context_webgl_compatibility EGL_CHROMIUM_create_context_bind_generates_resource EGL_CHROMIUM_sync_control EGL_EXT_pixel_format_float EGL_KHR_surfaceless_context EGL_ANGLE_display_texture_share_group EGL_ANGLE_display_semaphore_share_group EGL_ANGLE_create_context_client_arrays EGL_ANGLE_program_cache_control EGL_ANGLE_robust_resource_initialization EGL_ANGLE_create_context_extensions_enabled EGL_ANDROID_blob_cache EGL_ANDROID_recordable EGL_ANGLE_image_d3d11_texture EGL_ANGLE_create_context_backwards_compatible EGL_KHR_no_config_context EGL_KHR_create_context_no_error EGL_KHR_reusable_sync EGL_ANGLE_memory_usage_report ",
+        "glWsVendor": "Google Inc. (Intel)",
+        "glWsVersion": "1.5 (ANGLE 2.1.48499 git hash: 05a891fa2b4b)",
+        "inProcessGpu": false,
+        "initializationTime": 0.187581,
+        "isAsan": false,
+        "isClangCoverage": false,
+        "jpegDecodeAcceleratorSupported": false,
+        "maxMsaaSamples": "16",
+        "nv12OverlaySupport": "SCALING",
+        "optimus": false,
+        "p010OverlaySupport": "SOFTWARE",
+        "passthroughCmdDecoder": true,
+        "pixelShaderVersion": "5.0",
+        "playreadyHardwareDrmSupport": false,
+        "processCrashCount": 0,
+        "rgb10a2OverlaySupport": "SCALING",
+        "sandboxed": true,
+        "skiaBackendType": "GaneshGL",
+        "subpixelFontRendering": true,
+        "supportsD3dSharedImages": true,
+        "supportsDirectML": false,
+        "supportsDx12": false,
+        "supportsOverlays": true,
+        "supportsVulkan": false,
+        "targetCpuBits": 64,
+        "vertexShaderVersion": "5.0",
+        "visibilityCallbackCallCount": 0,
+        "vulkanVersion": "Not supported",
+        "yuy2OverlaySupport": "SCALING"
+      },
+      "featureStatus": {
+        "2d_canvas": "enabled",
+        "direct_rendering_display_compositor": "disabled_off_ok",
+        "gpu_compositing": "enabled",
+        "multiple_raster_threads": "enabled_on",
+        "opengl": "enabled_on",
+        "rasterization": "enabled",
+        "raw_draw": "disabled_off_ok",
+        "skia_graphite": "disabled_off",
+        "trees_in_viz": "disabled_off",
+        "video_decode": "enabled",
+        "video_encode": "enabled",
+        "webgl": "enabled",
+        "webgpu": "enabled",
+        "webnn": "disabled_off"
+      },
+      "driverBugWorkarounds": [
+        "d3d12_encode_packed_format_dpb_sizing",
+        "disable_d3d12_av1_multi_ref_encoding",
+        "disable_d3d12_h264_encoder_non_reference_frames",
+        "disable_d3d12_hevc_encoding",
+        "disable_direct_composition_sw_video_overlays",
+        "disable_hevc_hmft_cbr_encoding",
+        "disable_ms_video_super_resolution",
+        "disable_video_overlay_if_moving",
+        "disable_vp9_hmft_temporal_encoding",
+        "disable_vp_auto_hdr",
+        "enable_bgra8_overlays_with_yuv_overlay_support",
+        "enable_webgl_timer_query_extensions",
+        "exit_on_context_lost",
+        "force_dcomp_triple_buffer_video_swap_chain",
+        "force_rgb10a2_overlay_support",
+        "limit_d3d12_av1_profile_to_main",
+        "max_msaa_sample_count_4",
+        "msaa_is_slow",
+        "no_downscaled_overlay_promotion",
+        "supports_two_yuv_hardware_overlays",
+        "use_first_valid_ref_for_av1_invalid_ref",
+        "disabled_extension_GL_KHR_blend_equation_advanced",
+        "disabled_extension_GL_KHR_blend_equation_advanced_coherent"
+      ],
+      "videoDecoding": [],
+      "videoEncoding": []
+    },
+    "outcome": "finished",
+    "runs": [
+      {
+        "run": 1,
+        "sourcePath": "D:\\rehabilitation\\rehabilitation-ar\\video_test\\WIN_20261106_21_35_32_Pro.mp4",
+        "outcome": "finished",
+        "video": {
+          "durationSeconds": 60.252854,
+          "width": 1920,
+          "height": 1080,
+          "playbackRate": 1,
+          "processedUntilSeconds": 60.252854
+        },
+        "delegate": {
+          "pose": "GPU",
+          "hand": "GPU"
+        },
+        "engine": "worker",
+        "inputResolution": {
+          "width": 1280,
+          "height": 720
+        },
+        "trackingErrors": [],
+        "configuration": {
+          "tasksVision": "0.10.35",
+          "handCount": 2,
+          "minHandDetectionConfidence": 0.5,
+          "minHandPresenceConfidence": 0.5,
+          "minTrackingConfidence": 0.5,
+          "maxHandAgeMs": 150,
+          "side": "right",
+          "mirrored": true
+        },
+        "diagnostics": {
+          "durationMs": 65037.5,
+          "counts": {
+            "submittedFrames": 483,
+            "submittedHandFrames": 483,
+            "handInferenceCalls": 483,
+            "handResultsReceived": 483,
+            "rawMissingResults": 35,
+            "validHandResults": 448,
+            "invalidHandResults": 0,
+            "rejectedHandObservations": 2,
+            "affectedHandSelections": 232,
+            "affectedHandSelectionFailures": 119,
+            "affectedHandAcquisitionObservations": 95,
+            "associationChanges": 98,
+            "gestureActivations": 16,
+            "penDownEvents": 10,
+            "completedStrokes": 10
+          },
+          "handResultFps": 8.60855712009833,
+          "handInferenceMs": {
+            "count": 483,
+            "mean": 71.18240165631393,
+            "min": 16.299999999813735,
+            "max": 8970,
+            "p50UpperBound": 50,
+            "p95UpperBound": 100
+          },
+          "handArrivalIntervalMs": {
+            "count": 482,
+            "mean": 115.76659751037344,
+            "min": 48.200000000186265,
+            "max": 6058.299999999814,
+            "p50UpperBound": 100,
+            "p95UpperBound": 200
+          },
+          "handObservationAgeMs": {
+            "count": 483,
+            "mean": 80.80103519686992,
+            "min": 17.700000000280852,
+            "max": 8974.700000000186,
+            "p50UpperBound": 66,
+            "p95UpperBound": 125
+          },
+          "captureResizeTotalMs": {
+            "count": 483,
+            "mean": 0.6565217391325558,
+            "min": 0.39999999990686774,
+            "max": 2.7999999998137355,
+            "p50UpperBound": 1,
+            "p95UpperBound": 2
+          },
+          "transferAndDispatchMs": {
+            "count": 483,
+            "mean": 0.2185265835274327,
+            "min": 0,
+            "max": 29.000244140625,
+            "p50UpperBound": 1,
+            "p95UpperBound": 1
+          },
+          "missingSelectedHand": {
+            "interruptionCount": 90,
+            "longestMs": 15448.100000000093,
+            "totalMs": 45565.399999998976,
+            "ongoingMs": 1434.7999999998137,
+            "intervals": [
+              {
+                "startMs": 15516.80000000028,
+                "durationMs": 467
+              },
+              {
+                "startMs": 16161.100000000093,
+                "durationMs": 31.899999999906868
+              },
+              {
+                "startMs": 16287.700000000186,
+                "durationMs": 59
+              },
+              {
+                "startMs": 16405.5,
+                "durationMs": 33.700000000186265
+              },
+              {
+                "startMs": 16805.5,
+                "durationMs": 29.40000000037253
+              },
+              {
+                "startMs": 16905.5,
+                "durationMs": 32.8000000002794
+              },
+              {
+                "startMs": 16983.100000000093,
+                "durationMs": 284.8000000002794
+              },
+              {
+                "startMs": 17361,
+                "durationMs": 28.200000000186265
+              },
+              {
+                "startMs": 17472.200000000186,
+                "durationMs": 27.899999999906868
+              },
+              {
+                "startMs": 17572.30000000028,
+                "durationMs": 31.699999999720603
+              },
+              {
+                "startMs": 17650.200000000186,
+                "durationMs": 54.10000000009313
+              },
+              {
+                "startMs": 17783.200000000186,
+                "durationMs": 48.89999999990687
+              },
+              {
+                "startMs": 17916.80000000028,
+                "durationMs": 28.199999999720603
+              },
+              {
+                "startMs": 18035,
+                "durationMs": 1.7000000001862645
+              },
+              {
+                "startMs": 18094.5,
+                "durationMs": 37
+              },
+              {
+                "startMs": 18318.200000000186,
+                "durationMs": 82.79999999981374
+              },
+              {
+                "startMs": 18516,
+                "durationMs": 4047.8000000002794
+              },
+              {
+                "startMs": 22655.80000000028,
+                "durationMs": 7625.699999999721
+              },
+              {
+                "startMs": 30394.200000000186,
+                "durationMs": 16.100000000093132
+              },
+              {
+                "startMs": 30594.200000000186,
+                "durationMs": 18
+              },
+              {
+                "startMs": 30872.5,
+                "durationMs": 42.60000000009313
+              },
+              {
+                "startMs": 31021.30000000028,
+                "durationMs": 41.10000000009313
+              },
+              {
+                "startMs": 31105.400000000373,
+                "durationMs": 37.09999999962747
+              },
+              {
+                "startMs": 31338.600000000093,
+                "durationMs": 22.800000000279397
+              },
+              {
+                "startMs": 31539.30000000028,
+                "durationMs": 29.799999999813735
+              },
+              {
+                "startMs": 31661.100000000093,
+                "durationMs": 40.3000000002794
+              },
+              {
+                "startMs": 31783.100000000093,
+                "durationMs": 14.899999999906868
+              },
+              {
+                "startMs": 31872.400000000373,
+                "durationMs": 70.6999999997206
+              },
+              {
+                "startMs": 32018.80000000028,
+                "durationMs": 435.39999999990687
+              },
+              {
+                "startMs": 33595.10000000009,
+                "durationMs": 233.5
+              },
+              {
+                "startMs": 34009.90000000037,
+                "durationMs": 243.79999999981374
+              },
+              {
+                "startMs": 34539,
+                "durationMs": 41.5
+              },
+              {
+                "startMs": 34666.30000000028,
+                "durationMs": 410.60000000009313
+              },
+              {
+                "startMs": 35283.60000000009,
+                "durationMs": 110.3000000002794
+              },
+              {
+                "startMs": 35455.30000000028,
+                "durationMs": 286.29999999981374
+              },
+              {
+                "startMs": 36095.200000000186,
+                "durationMs": 73.70000000018626
+              },
+              {
+                "startMs": 36205.40000000037,
+                "durationMs": 56.09999999962747
+              },
+              {
+                "startMs": 36528.200000000186,
+                "durationMs": 31.100000000093132
+              },
+              {
+                "startMs": 36750.80000000028,
+                "durationMs": 36.39999999990687
+              },
+              {
+                "startMs": 36829.5,
+                "durationMs": 343.3000000002794
+              },
+              {
+                "startMs": 37471.80000000028,
+                "durationMs": 19.199999999720603
+              },
+              {
+                "startMs": 37583.10000000009,
+                "durationMs": 0.8999999999068677
+              },
+              {
+                "startMs": 37957.700000000186,
+                "durationMs": 54.60000000009313
+              },
+              {
+                "startMs": 38071.40000000037,
+                "durationMs": 269.6999999997206
+              },
+              {
+                "startMs": 38757,
+                "durationMs": 41.700000000186265
+              },
+              {
+                "startMs": 38871.80000000028,
+                "durationMs": 14.799999999813735
+              },
+              {
+                "startMs": 39238.700000000186,
+                "durationMs": 27.799999999813735
+              },
+              {
+                "startMs": 39338.80000000028,
+                "durationMs": 58.5
+              },
+              {
+                "startMs": 39482.90000000037,
+                "durationMs": 17.199999999720603
+              },
+              {
+                "startMs": 40019.80000000028,
+                "durationMs": 49.6999999997206
+              },
+              {
+                "startMs": 40127.700000000186,
+                "durationMs": 85.70000000018626
+              },
+              {
+                "startMs": 40261.40000000037,
+                "durationMs": 315
+              },
+              {
+                "startMs": 40616.30000000028,
+                "durationMs": 45.299999999813735
+              },
+              {
+                "startMs": 40831.10000000009,
+                "durationMs": 1350
+              },
+              {
+                "startMs": 43449.5,
+                "durationMs": 14.400000000372529
+              },
+              {
+                "startMs": 44683.200000000186,
+                "durationMs": 39.5
+              },
+              {
+                "startMs": 44795.40000000037,
+                "durationMs": 66.09999999962747
+              },
+              {
+                "startMs": 44927.200000000186,
+                "durationMs": 17.200000000186265
+              },
+              {
+                "startMs": 45060.60000000009,
+                "durationMs": 21.600000000093132
+              },
+              {
+                "startMs": 45151.200000000186,
+                "durationMs": 392.79999999981374
+              },
+              {
+                "startMs": 45864.10000000009,
+                "durationMs": 553.2000000001863
+              },
+              {
+                "startMs": 46493.90000000037,
+                "durationMs": 14.5
+              },
+              {
+                "startMs": 46573.700000000186,
+                "durationMs": 652.6000000000931
+              },
+              {
+                "startMs": 47529.80000000028,
+                "durationMs": 675.6999999997206
+              },
+              {
+                "startMs": 49016.80000000028,
+                "durationMs": 525.1000000000931
+              },
+              {
+                "startMs": 50971.80000000028,
+                "durationMs": 33.5
+              },
+              {
+                "startMs": 51082.90000000037,
+                "durationMs": 282.29999999981374
+              },
+              {
+                "startMs": 51571.90000000037,
+                "durationMs": 15.099999999627471
+              },
+              {
+                "startMs": 52285.90000000037,
+                "durationMs": 1.7999999998137355
+              },
+              {
+                "startMs": 52379.40000000037,
+                "durationMs": 877.1999999997206
+              },
+              {
+                "startMs": 53274.80000000028,
+                "durationMs": 529.7999999998137
+              },
+              {
+                "startMs": 53905.10000000009,
+                "durationMs": 403.5
+              },
+              {
+                "startMs": 54405,
+                "durationMs": 14
+              },
+              {
+                "startMs": 54716,
+                "durationMs": 35.200000000186265
+              },
+              {
+                "startMs": 55149.40000000037,
+                "durationMs": 16.5
+              },
+              {
+                "startMs": 55237,
+                "durationMs": 1552.9000000003725
+              },
+              {
+                "startMs": 56993.90000000037,
+                "durationMs": 285.79999999981374
+              },
+              {
+                "startMs": 57350.700000000186,
+                "durationMs": 281.10000000009313
+              },
+              {
+                "startMs": 57983.80000000028,
+                "durationMs": 202
+              },
+              {
+                "startMs": 58461,
+                "durationMs": 448.90000000037253
+              },
+              {
+                "startMs": 59195.40000000037,
+                "durationMs": 554.2999999998137
+              },
+              {
+                "startMs": 60105.700000000186,
+                "durationMs": 39.200000000186265
+              },
+              {
+                "startMs": 60188.30000000028,
+                "durationMs": 270.79999999981374
+              },
+              {
+                "startMs": 60643.5,
+                "durationMs": 495.10000000009313
+              },
+              {
+                "startMs": 61549.30000000028,
+                "durationMs": 295.5
+              },
+              {
+                "startMs": 61893.80000000028,
+                "durationMs": 55.10000000009313
+              },
+              {
+                "startMs": 62044.200000000186,
+                "durationMs": 115
+              },
+              {
+                "startMs": 62196.200000000186,
+                "durationMs": 723.5
+              },
+              {
+                "startMs": 62985.10000000009,
+                "durationMs": 243.60000000009313
+              }
+            ],
+            "retainedIntervalLimit": 100
+          },
+          "rawMissingHand": {
+            "interruptionCount": 13,
+            "longestMs": 1235,
+            "totalMs": 3366.8000000012107,
+            "ongoingMs": 1235,
+            "intervals": [
+              {
+                "startMs": 15105,
+                "durationMs": 133.20000000018626
+              },
+              {
+                "startMs": 19747.600000000093,
+                "durationMs": 101.70000000018626
+              },
+              {
+                "startMs": 29415.5,
+                "durationMs": 134.90000000037253
+              },
+              {
+                "startMs": 40831,
+                "durationMs": 266.10000000009313
+              },
+              {
+                "startMs": 41523.700000000186,
+                "durationMs": 265.89999999990687
+              },
+              {
+                "startMs": 45864.10000000009,
+                "durationMs": 286
+              },
+              {
+                "startMs": 46573.700000000186,
+                "durationMs": 273
+              },
+              {
+                "startMs": 47570.80000000028,
+                "durationMs": 153.60000000009313
+              },
+              {
+                "startMs": 47845.5,
+                "durationMs": 85.70000000018626
+              },
+              {
+                "startMs": 52800.5,
+                "durationMs": 131.5
+              },
+              {
+                "startMs": 62358.10000000009,
+                "durationMs": 194.70000000018626
+              },
+              {
+                "startMs": 63602.5,
+                "durationMs": 105.5
+              }
+            ],
+            "retainedIntervalLimit": 100
+          },
+          "blockedReasons": {
+            "AFFECTED_HAND_NOT_SELECTED": 96,
+            "RAW_HAND_MISSING": 35,
+            "HAND_STALE": 216,
+            "GESTURE_NOT_RECOGNIZED": 205,
+            "HAND_IDENTITY_AMBIGUOUS": 119,
+            "EXERCISE_FINISHED": 1
+          },
+          "blockedDurationMs": {
+            "AFFECTED_HAND_NOT_SELECTED": 20136.40000000177,
+            "RAW_HAND_MISSING": 2818.0000000004657,
+            "HAND_STALE": 10068.699999996927,
+            "GESTURE_NOT_RECOGNIZED": 17037,
+            "HAND_IDENTITY_AMBIGUOUS": 10066.999999999534,
+            "PEN_DOWN": 2435.1000000010245,
+            "EXERCISE_FINISHED": 0.39999999990686774
+          },
+          "rejections": {
+            "HAND_STALE": 218,
+            "RAW_HAND_MISSING": 35,
+            "AFFECTED_HAND_NOT_SELECTED": 95,
+            "GESTURE_NOT_RECOGNIZED": 205,
+            "HAND_IDENTITY_AMBIGUOUS": 119
+          },
+          "frontendRejectionReasons": {
+            "HAND_STALE": 2
+          },
+          "timingPercentiles": "Fixed-bin upper bounds; mean, min, max and counts include every callback."
+        },
+        "exercise": {
+          "phase": "finished",
+          "prescribed": false,
+          "timed": false
+        },
+        "limitations": [
+          "Recorded video at normal speed; not live-camera latency.",
+          "No clinical data saved. No raw landmarks exported.",
+          "Drag/release is validated separately by controller tests."
+        ],
+        "drawStats": {
+          "rafs": 4433,
+          "elapsed": 64857.69999999981,
+          "poseCount": 481,
+          "posesFound": 481,
+          "poseMs": 19091.500000001863,
+          "poseAge": 58325.90000008725,
+          "handAge": 39154.70000009125,
+          "handCount": 483,
+          "total": 1786,
+          "drops": 227
+        },
+        "resourceSamples": [
+          {
+            "seconds": 8.068276,
+            "now": 1793978283801,
+            "cpu": 40.78125,
+            "ram": 1299501056
+          },
+          {
+            "seconds": 52.09815,
+            "now": 1793978328871,
+            "cpu": 130.765625,
+            "ram": 1751269376
+          }
+        ]
+      }
+    ],
+    "limitations": [
+      "Prerecorded replay at normal speed measures this browser pipeline; it does not prove live-camera latency or robustness.",
+      "Grab/release functionality requires controller tests when the recording lacks the complete interaction."
+    ]
+  },
+  "drawingAfterGPU": {
+    "sourcePath": "D:\\rehabilitation\\rehabilitation-ar\\video_test\\WIN_20261106_21_35_32_Pro.mp4",
+    "sourceMetadata": {
+      "frameRate": 29.655163252836005,
+      "frameCount": 1786,
+      "videoTrackDurationSeconds": 60.2256,
+      "width": 1920,
+      "height": 1080,
+      "codecFourcc": "h264"
+    },
+    "playbackRate": 1,
+    "affectedSide": "right",
+    "browser": "Edg/156.0.4314.58",
+    "gpu": {
+      "devices": [
+        {
+          "vendorId": 32902,
+          "deviceId": 42912,
+          "subSysId": 76552276,
+          "revision": 4,
+          "vendorString": "",
+          "deviceString": "Intel(R) Iris(R) Xe Graphics",
+          "driverVendor": "Intel",
+          "driverVersion": "31.0.101.3962"
+        },
+        {
+          "vendorId": 5140,
+          "deviceId": 140,
+          "subSysId": 0,
+          "revision": 0,
+          "vendorString": "",
+          "deviceString": "Microsoft Basic Render Driver",
+          "driverVendor": "",
+          "driverVersion": "10.0.26100.9711"
+        }
+      ],
+      "auxAttributes": {
+        "amdSwitchable": false,
+        "bgra8OverlaySupport": "SCALING",
+        "canSupportThreadedTextureMailbox": false,
+        "directComposition": true,
+        "directMLFeatureLevel": "Not supported",
+        "directRenderingVersion": "",
+        "displayType": "ANGLE_D3D11",
+        "dx12FeatureLevel": "Not supported",
+        "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_copy_texture_3d GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_size GL_ANGLE_multiview_multisample GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_provoking_vertex GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_robust_client_memory GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_texture_usage GL_ANGLE_translated_shader_source GL_APPLE_clip_distance GL_ARM_rgba8 GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_compressed_texture GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_EGL_image_external_wrap_modes GL_EXT_base_instance GL_EXT_blend_func_extended GL_EXT_blend_minmax GL_EXT_clip_control GL_EXT_clip_cull_distance GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_conservative_depth GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_read_format_bgra GL_EXT_render_snorm GL_EXT_robustness GL_EXT_sRGB GL_EXT_shader_texture_lod GL_EXT_texture_border_clamp GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_norm16 GL_EXT_texture_rg GL_EXT_texture_storage GL_EXT_texture_type_2_10_10_10_REV GL_EXT_unpack_subimage GL_KHR_debug GL_KHR_parallel_shader_compile GL_KHR_robustness GL_NV_EGL_stream_consumer_external GL_NV_fence GL_NV_framebuffer_blit GL_NV_pack_subimage GL_NV_pixel_buffer_object GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_image_external GL_OES_EGL_image_external_essl3 GL_OES_depth24 GL_OES_depth32 GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_border_clamp GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_texture_storage_multisample_2d_array GL_OES_vertex_array_object GL_OVR_multiview GL_OVR_multiview2 ",
+        "glImplementationParts": "(gl=egl-angle,angle=d3d11)",
+        "glRenderer": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x0000A7A0) Direct3D11 vs_5_0 ps_5_0, D3D11-31.0.101.3962)",
+        "glResetNotificationStrategy": 33362,
+        "glVendor": "Google Inc. (Intel)",
+        "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.48499 git hash: 05a891fa2b4b)",
+        "glWsExtensions": "EGL_EXT_create_context_robustness EGL_ANGLE_d3d_share_handle_client_buffer EGL_ANGLE_d3d_texture_client_buffer EGL_ANGLE_surface_d3d_texture_2d_share_handle EGL_ANGLE_query_surface_pointer EGL_ANGLE_window_fixed_size EGL_ANGLE_keyed_mutex EGL_ANGLE_surface_orientation EGL_ANGLE_direct_composition EGL_NV_post_sub_buffer EGL_KHR_create_context EGL_KHR_image EGL_KHR_image_base EGL_KHR_gl_texture_2D_image EGL_KHR_gl_texture_cubemap_image EGL_KHR_gl_renderbuffer_image EGL_KHR_get_all_proc_addresses EGL_KHR_stream EGL_KHR_stream_consumer_gltexture EGL_NV_stream_consumer_gltexture_yuv EGL_ANGLE_stream_producer_d3d_texture EGL_ANGLE_create_context_webgl_compatibility EGL_CHROMIUM_create_context_bind_generates_resource EGL_CHROMIUM_sync_control EGL_EXT_pixel_format_float EGL_KHR_surfaceless_context EGL_ANGLE_display_texture_share_group EGL_ANGLE_display_semaphore_share_group EGL_ANGLE_create_context_client_arrays EGL_ANGLE_program_cache_control EGL_ANGLE_robust_resource_initialization EGL_ANGLE_create_context_extensions_enabled EGL_ANDROID_blob_cache EGL_ANDROID_recordable EGL_ANGLE_image_d3d11_texture EGL_ANGLE_create_context_backwards_compatible EGL_KHR_no_config_context EGL_KHR_create_context_no_error EGL_KHR_reusable_sync EGL_ANGLE_memory_usage_report ",
+        "glWsVendor": "Google Inc. (Intel)",
+        "glWsVersion": "1.5 (ANGLE 2.1.48499 git hash: 05a891fa2b4b)",
+        "inProcessGpu": false,
+        "initializationTime": 0.165674,
+        "isAsan": false,
+        "isClangCoverage": false,
+        "jpegDecodeAcceleratorSupported": false,
+        "maxMsaaSamples": "16",
+        "nv12OverlaySupport": "SCALING",
+        "optimus": false,
+        "p010OverlaySupport": "SOFTWARE",
+        "passthroughCmdDecoder": true,
+        "pixelShaderVersion": "5.0",
+        "playreadyHardwareDrmSupport": false,
+        "processCrashCount": 0,
+        "rgb10a2OverlaySupport": "SCALING",
+        "sandboxed": true,
+        "skiaBackendType": "GaneshGL",
+        "subpixelFontRendering": true,
+        "supportsD3dSharedImages": true,
+        "supportsDirectML": false,
+        "supportsDx12": false,
+        "supportsOverlays": true,
+        "supportsVulkan": false,
+        "targetCpuBits": 64,
+        "vertexShaderVersion": "5.0",
+        "visibilityCallbackCallCount": 0,
+        "vulkanVersion": "Not supported",
+        "yuy2OverlaySupport": "SCALING"
+      },
+      "featureStatus": {
+        "2d_canvas": "enabled",
+        "direct_rendering_display_compositor": "disabled_off_ok",
+        "gpu_compositing": "enabled",
+        "multiple_raster_threads": "enabled_on",
+        "opengl": "enabled_on",
+        "rasterization": "enabled",
+        "raw_draw": "disabled_off_ok",
+        "skia_graphite": "disabled_off",
+        "trees_in_viz": "disabled_off",
+        "video_decode": "enabled",
+        "video_encode": "enabled",
+        "webgl": "enabled",
+        "webgpu": "enabled",
+        "webnn": "disabled_off"
+      },
+      "driverBugWorkarounds": [
+        "d3d12_encode_packed_format_dpb_sizing",
+        "disable_d3d12_av1_multi_ref_encoding",
+        "disable_d3d12_h264_encoder_non_reference_frames",
+        "disable_d3d12_hevc_encoding",
+        "disable_direct_composition_sw_video_overlays",
+        "disable_hevc_hmft_cbr_encoding",
+        "disable_ms_video_super_resolution",
+        "disable_video_overlay_if_moving",
+        "disable_vp9_hmft_temporal_encoding",
+        "disable_vp_auto_hdr",
+        "enable_bgra8_overlays_with_yuv_overlay_support",
+        "enable_webgl_timer_query_extensions",
+        "exit_on_context_lost",
+        "force_dcomp_triple_buffer_video_swap_chain",
+        "force_rgb10a2_overlay_support",
+        "limit_d3d12_av1_profile_to_main",
+        "max_msaa_sample_count_4",
+        "msaa_is_slow",
+        "no_downscaled_overlay_promotion",
+        "supports_two_yuv_hardware_overlays",
+        "use_first_valid_ref_for_av1_invalid_ref",
+        "disabled_extension_GL_KHR_blend_equation_advanced",
+        "disabled_extension_GL_KHR_blend_equation_advanced_coherent"
+      ],
+      "videoDecoding": [],
+      "videoEncoding": []
+    },
+    "outcome": "finished",
+    "runs": [
+      {
+        "run": 1,
+        "sourcePath": "D:\\rehabilitation\\rehabilitation-ar\\video_test\\WIN_20261106_21_35_32_Pro.mp4",
+        "outcome": "finished",
+        "video": {
+          "durationSeconds": 60.252854,
+          "width": 1920,
+          "height": 1080,
+          "playbackRate": 1,
+          "processedUntilSeconds": 60.252854
+        },
+        "delegate": {
+          "pose": "GPU",
+          "hand": "GPU"
+        },
+        "engine": "worker",
+        "inputResolution": {
+          "width": 1280,
+          "height": 720
+        },
+        "trackingErrors": [],
+        "configuration": {
+          "tasksVision": "0.10.35",
+          "handCount": 2,
+          "minHandDetectionConfidence": 0.5,
+          "minHandPresenceConfidence": 0.5,
+          "minTrackingConfidence": 0.5,
+          "maxHandAgeMs": 150,
+          "side": "right",
+          "mirrored": true
+        },
+        "diagnostics": {
+          "durationMs": 65762.5,
+          "counts": {
+            "submittedFrames": 500,
+            "submittedHandFrames": 500,
+            "handInferenceCalls": 500,
+            "handResultsReceived": 500,
+            "rawMissingResults": 29,
+            "validHandResults": 471,
+            "invalidHandResults": 0,
+            "rejectedHandObservations": 6,
+            "affectedHandSelections": 258,
+            "affectedHandSelectionFailures": 113,
+            "affectedHandAcquisitionObservations": 94,
+            "associationChanges": 105,
+            "gestureActivations": 12,
+            "penDownEvents": 6,
+            "completedStrokes": 6
+          },
+          "handResultFps": 8.85602831089454,
+          "handInferenceMs": {
+            "count": 500,
+            "mean": 69.1687999999933,
+            "min": 18.299999999813735,
+            "max": 9340.5,
+            "p50UpperBound": 50,
+            "p95UpperBound": 100
+          },
+          "handArrivalIntervalMs": {
+            "count": 499,
+            "mean": 112.55250501002041,
+            "min": 51.89999999990687,
+            "max": 5429.899999999907,
+            "p50UpperBound": 100,
+            "p95UpperBound": 200
+          },
+          "handObservationAgeMs": {
+            "count": 500,
+            "mean": 78.64360000000167,
+            "min": 19.899999999819556,
+            "max": 9345,
+            "p50UpperBound": 66,
+            "p95UpperBound": 125
+          },
+          "captureResizeTotalMs": {
+            "count": 500,
+            "mean": 0.6616000000061467,
+            "min": 0.2999999998137355,
+            "max": 2.5,
+            "p50UpperBound": 1,
+            "p95UpperBound": 2
+          },
+          "transferAndDispatchMs": {
+            "count": 500,
+            "mean": 0.1434951171875,
+            "min": 0,
+            "max": 2.39990234375,
+            "p50UpperBound": 1,
+            "p95UpperBound": 1
+          },
+          "missingSelectedHand": {
+            "interruptionCount": 86,
+            "longestMs": 15484.5,
+            "totalMs": 43761.00000000093,
+            "ongoingMs": 1690.8999999999069,
+            "intervals": [
+              {
+                "startMs": 16027.80000000028,
+                "durationMs": 36.6999999997206
+              },
+              {
+                "startMs": 16160.600000000093,
+                "durationMs": 546.2000000001863
+              },
+              {
+                "startMs": 16920,
+                "durationMs": 0.900000000372529
+              },
+              {
+                "startMs": 17016.100000000093,
+                "durationMs": 27.200000000186265
+              },
+              {
+                "startMs": 17195.200000000186,
+                "durationMs": 29.700000000186265
+              },
+              {
+                "startMs": 17916.400000000373,
+                "durationMs": 66.5
+              },
+              {
+                "startMs": 18057.700000000186,
+                "durationMs": 43.60000000009313
+              },
+              {
+                "startMs": 18171.900000000373,
+                "durationMs": 39.39999999990687
+              },
+              {
+                "startMs": 18827.400000000373,
+                "durationMs": 31.299999999813735
+              },
+              {
+                "startMs": 18938.5,
+                "durationMs": 35.3000000002794
+              },
+              {
+                "startMs": 19016,
+                "durationMs": 55.8000000002794
+              },
+              {
+                "startMs": 19310.5,
+                "durationMs": 511.60000000009313
+              },
+              {
+                "startMs": 20126.400000000373,
+                "durationMs": 3174.1999999997206
+              },
+              {
+                "startMs": 23370.600000000093,
+                "durationMs": 7359.300000000279
+              },
+              {
+                "startMs": 30805.80000000028,
+                "durationMs": 75.39999999990687
+              },
+              {
+                "startMs": 30938.30000000028,
+                "durationMs": 318.89999999990687
+              },
+              {
+                "startMs": 32071.5,
+                "durationMs": 15.300000000279397
+              },
+              {
+                "startMs": 32560.100000000093,
+                "durationMs": 58.200000000186265
+              },
+              {
+                "startMs": 32666.80000000028,
+                "durationMs": 330
+              },
+              {
+                "startMs": 33194.10000000009,
+                "durationMs": 39.10000000009313
+              },
+              {
+                "startMs": 33297,
+                "durationMs": 28.100000000093132
+              },
+              {
+                "startMs": 33382.90000000037,
+                "durationMs": 30.199999999720603
+              },
+              {
+                "startMs": 34982.80000000028,
+                "durationMs": 21.600000000093132
+              },
+              {
+                "startMs": 35082.60000000009,
+                "durationMs": 21.399999999906868
+              },
+              {
+                "startMs": 35182.90000000037,
+                "durationMs": 57.799999999813735
+              },
+              {
+                "startMs": 35351.700000000186,
+                "durationMs": 90.70000000018626
+              },
+              {
+                "startMs": 35456.60000000009,
+                "durationMs": 214.89999999990687
+              },
+              {
+                "startMs": 36177.10000000009,
+                "durationMs": 58.10000000009313
+              },
+              {
+                "startMs": 36284.40000000037,
+                "durationMs": 256.29999999981374
+              },
+              {
+                "startMs": 37271.5,
+                "durationMs": 15.700000000186265
+              },
+              {
+                "startMs": 38215.90000000037,
+                "durationMs": 17.799999999813735
+              },
+              {
+                "startMs": 39905.10000000009,
+                "durationMs": 39.10000000009313
+              },
+              {
+                "startMs": 40006.90000000037,
+                "durationMs": 218.1999999997206
+              },
+              {
+                "startMs": 41295,
+                "durationMs": 46.700000000186265
+              },
+              {
+                "startMs": 41386.90000000037,
+                "durationMs": 1633.6999999997206
+              },
+              {
+                "startMs": 43846.200000000186,
+                "durationMs": 2.1000000000931323
+              },
+              {
+                "startMs": 43916.10000000009,
+                "durationMs": 38.5
+              },
+              {
+                "startMs": 44049.30000000028,
+                "durationMs": 50
+              },
+              {
+                "startMs": 44182.5,
+                "durationMs": 90.60000000009313
+              },
+              {
+                "startMs": 44372.10000000009,
+                "durationMs": 29.899999999906868
+              },
+              {
+                "startMs": 44471.5,
+                "durationMs": 27.90000000037253
+              },
+              {
+                "startMs": 44593.5,
+                "durationMs": 63
+              },
+              {
+                "startMs": 44738.90000000037,
+                "durationMs": 281.1999999997206
+              },
+              {
+                "startMs": 45127,
+                "durationMs": 13.700000000186265
+              },
+              {
+                "startMs": 45238,
+                "durationMs": 14.100000000093132
+              },
+              {
+                "startMs": 45338.200000000186,
+                "durationMs": 24.799999999813735
+              },
+              {
+                "startMs": 45458.700000000186,
+                "durationMs": 284.89999999990687
+              },
+              {
+                "startMs": 45849.10000000009,
+                "durationMs": 14.600000000093132
+              },
+              {
+                "startMs": 46038,
+                "durationMs": 17.800000000279397
+              },
+              {
+                "startMs": 46327.10000000009,
+                "durationMs": 29.899999999906868
+              },
+              {
+                "startMs": 46438.40000000037,
+                "durationMs": 63.299999999813735
+              },
+              {
+                "startMs": 46548,
+                "durationMs": 515.7000000001863
+              },
+              {
+                "startMs": 47316.10000000009,
+                "durationMs": 704.5
+              },
+              {
+                "startMs": 48295.5,
+                "durationMs": 724.4000000003725
+              },
+              {
+                "startMs": 49127.60000000009,
+                "durationMs": 47.8000000002794
+              },
+              {
+                "startMs": 49245.30000000028,
+                "durationMs": 304.29999999981374
+              },
+              {
+                "startMs": 49749.200000000186,
+                "durationMs": 650.3999999999069
+              },
+              {
+                "startMs": 50760.10000000009,
+                "durationMs": 12
+              },
+              {
+                "startMs": 51218.30000000028,
+                "durationMs": 272.39999999990687
+              },
+              {
+                "startMs": 51780.5,
+                "durationMs": 1.1000000000931323
+              },
+              {
+                "startMs": 51857.10000000009,
+                "durationMs": 417.89999999990687
+              },
+              {
+                "startMs": 52338,
+                "durationMs": 45.200000000186265
+              },
+              {
+                "startMs": 52571.200000000186,
+                "durationMs": 13.399999999906868
+              },
+              {
+                "startMs": 52760.200000000186,
+                "durationMs": 13.799999999813735
+              },
+              {
+                "startMs": 52949.10000000009,
+                "durationMs": 29.800000000279397
+              },
+              {
+                "startMs": 53060.30000000028,
+                "durationMs": 36.89999999990687
+              },
+              {
+                "startMs": 53193.5,
+                "durationMs": 35.200000000186265
+              },
+              {
+                "startMs": 53315.90000000037,
+                "durationMs": 58.09999999962747
+              },
+              {
+                "startMs": 53460.60000000009,
+                "durationMs": 438.39999999990687
+              },
+              {
+                "startMs": 54682.5,
+                "durationMs": 408.10000000009313
+              },
+              {
+                "startMs": 55153.30000000028,
+                "durationMs": 210.39999999990687
+              },
+              {
+                "startMs": 55482.90000000037,
+                "durationMs": 23.399999999906868
+              },
+              {
+                "startMs": 55586.200000000186,
+                "durationMs": 34.5
+              },
+              {
+                "startMs": 55694.40000000037,
+                "durationMs": 228.79999999981374
+              },
+              {
+                "startMs": 55995.5,
+                "durationMs": 766.5
+              },
+              {
+                "startMs": 56943.700000000186,
+                "durationMs": 857.1000000000931
+              },
+              {
+                "startMs": 58071.30000000028,
+                "durationMs": 308.89999999990687
+              },
+              {
+                "startMs": 58481.40000000037,
+                "durationMs": 289.79999999981374
+              },
+              {
+                "startMs": 58829.30000000028,
+                "durationMs": 281.1999999997206
+              },
+              {
+                "startMs": 59227.30000000028,
+                "durationMs": 315
+              },
+              {
+                "startMs": 59758.10000000009,
+                "durationMs": 718.8000000002794
+              },
+              {
+                "startMs": 62196.700000000186,
+                "durationMs": 349.10000000009313
+              },
+              {
+                "startMs": 63027.90000000037,
+                "durationMs": 67.39999999990687
+              },
+              {
+                "startMs": 63140.80000000028,
+                "durationMs": 353.60000000009313
+              },
+              {
+                "startMs": 63560.90000000037,
+                "durationMs": 460.5
+              }
+            ],
+            "retainedIntervalLimit": 100
+          },
+          "rawMissingHand": {
+            "interruptionCount": 10,
+            "longestMs": 1227.6999999997206,
+            "totalMs": 2594.2000000001863,
+            "ongoingMs": 1227.6999999997206,
+            "intervals": [
+              {
+                "startMs": 14846.600000000093,
+                "durationMs": 99.20000000018626
+              },
+              {
+                "startMs": 30212.100000000093,
+                "durationMs": 86.20000000018626
+              },
+              {
+                "startMs": 41525.10000000009,
+                "durationMs": 251.5
+              },
+              {
+                "startMs": 42312.5,
+                "durationMs": 229.3000000002794
+              },
+              {
+                "startMs": 46628.60000000009,
+                "durationMs": 207.60000000009313
+              },
+              {
+                "startMs": 47316.10000000009,
+                "durationMs": 101.89999999990687
+              },
+              {
+                "startMs": 48295.40000000037,
+                "durationMs": 123.89999999990687
+              },
+              {
+                "startMs": 53602.200000000186,
+                "durationMs": 95.89999999990687
+              },
+              {
+                "startMs": 64274.200000000186,
+                "durationMs": 171
+              }
+            ],
+            "retainedIntervalLimit": 100
+          },
+          "blockedReasons": {
+            "AFFECTED_HAND_NOT_SELECTED": 95,
+            "RAW_HAND_MISSING": 29,
+            "HAND_IDENTITY_AMBIGUOUS": 113,
+            "HAND_STALE": 188,
+            "GESTURE_NOT_RECOGNIZED": 223,
+            "EXERCISE_FINISHED": 1
+          },
+          "blockedDurationMs": {
+            "AFFECTED_HAND_NOT_SELECTED": 20136.900000000373,
+            "RAW_HAND_MISSING": 2373.9000000003725,
+            "HAND_IDENTITY_AMBIGUOUS": 9220.099999999627,
+            "HAND_STALE": 9539.700000000652,
+            "GESTURE_NOT_RECOGNIZED": 18958.999999999534,
+            "PEN_DOWN": 3042.4999999995343,
+            "EXERCISE_FINISHED": 0.2999999998137355
+          },
+          "rejections": {
+            "HAND_STALE": 194,
+            "RAW_HAND_MISSING": 29,
+            "HAND_IDENTITY_AMBIGUOUS": 113,
+            "AFFECTED_HAND_NOT_SELECTED": 94,
+            "GESTURE_NOT_RECOGNIZED": 223
+          },
+          "frontendRejectionReasons": {
+            "HAND_STALE": 6
+          },
+          "timingPercentiles": "Fixed-bin upper bounds; mean, min, max and counts include every callback."
+        },
+        "exercise": {
+          "phase": "finished",
+          "prescribed": false,
+          "timed": false
+        },
+        "limitations": [
+          "Recorded video at normal speed; not live-camera latency.",
+          "No clinical data saved. No raw landmarks exported.",
+          "Drag/release is validated separately by controller tests."
+        ],
+        "drawStats": {
+          "rafs": 4492,
+          "elapsed": 65590.1,
+          "poseCount": 498,
+          "posesFound": 498,
+          "poseMs": 18858.899999998976,
+          "poseAge": 58565.20000000371,
+          "handAge": 39460.600000001104,
+          "handCount": 500,
+          "total": 1786,
+          "drops": 200
+        },
+        "resourceSamples": [
+          {
+            "seconds": 8.097355,
+            "now": 1793978996308,
+            "cpu": 38.9375,
+            "ram": 1338400768
+          },
+          {
+            "seconds": 52.09545,
+            "now": 1793979040883,
+            "cpu": 123.03125,
+            "ram": 1725325312
+          }
+        ]
+      }
+    ],
+    "limitations": [
+      "Prerecorded replay at normal speed measures this browser pipeline; it does not prove live-camera latency or robustness.",
+      "Grab/release functionality requires controller tests when the recording lacks the complete interaction."
+    ]
+  },
+  "drawingAfterCPU": {
+    "sourcePath": "D:\\rehabilitation\\rehabilitation-ar\\video_test\\WIN_20261106_21_35_32_Pro.mp4",
+    "sourceMetadata": {
+      "frameRate": 29.655163252836005,
+      "frameCount": 1786,
+      "videoTrackDurationSeconds": 60.2256,
+      "width": 1920,
+      "height": 1080,
+      "codecFourcc": "h264"
+    },
+    "playbackRate": 1,
+    "affectedSide": "right",
+    "browser": "Edg/156.0.4314.58",
+    "gpu": {
+      "devices": [
+        {
+          "vendorId": 32902,
+          "deviceId": 42912,
+          "subSysId": 76552276,
+          "revision": 4,
+          "vendorString": "",
+          "deviceString": "Intel(R) Iris(R) Xe Graphics",
+          "driverVendor": "Intel",
+          "driverVersion": "31.0.101.3962"
+        },
+        {
+          "vendorId": 5140,
+          "deviceId": 140,
+          "subSysId": 0,
+          "revision": 0,
+          "vendorString": "",
+          "deviceString": "Microsoft Basic Render Driver",
+          "driverVendor": "",
+          "driverVersion": "10.0.26100.9711"
+        }
+      ],
+      "auxAttributes": {
+        "amdSwitchable": false,
+        "bgra8OverlaySupport": "SCALING",
+        "canSupportThreadedTextureMailbox": false,
+        "directComposition": true,
+        "directMLFeatureLevel": "Not supported",
+        "directRenderingVersion": "",
+        "displayType": "ANGLE_D3D11",
+        "dx12FeatureLevel": "Not supported",
+        "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_copy_texture_3d GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_size GL_ANGLE_multiview_multisample GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_provoking_vertex GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_robust_client_memory GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_texture_usage GL_ANGLE_translated_shader_source GL_APPLE_clip_distance GL_ARM_rgba8 GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_compressed_texture GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_EGL_image_external_wrap_modes GL_EXT_base_instance GL_EXT_blend_func_extended GL_EXT_blend_minmax GL_EXT_clip_control GL_EXT_clip_cull_distance GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_conservative_depth GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_read_format_bgra GL_EXT_render_snorm GL_EXT_robustness GL_EXT_sRGB GL_EXT_shader_texture_lod GL_EXT_texture_border_clamp GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_norm16 GL_EXT_texture_rg GL_EXT_texture_storage GL_EXT_texture_type_2_10_10_10_REV GL_EXT_unpack_subimage GL_KHR_debug GL_KHR_parallel_shader_compile GL_KHR_robustness GL_NV_EGL_stream_consumer_external GL_NV_fence GL_NV_framebuffer_blit GL_NV_pack_subimage GL_NV_pixel_buffer_object GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_image_external GL_OES_EGL_image_external_essl3 GL_OES_depth24 GL_OES_depth32 GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_border_clamp GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_texture_storage_multisample_2d_array GL_OES_vertex_array_object GL_OVR_multiview GL_OVR_multiview2 ",
+        "glImplementationParts": "(gl=egl-angle,angle=d3d11)",
+        "glRenderer": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x0000A7A0) Direct3D11 vs_5_0 ps_5_0, D3D11-31.0.101.3962)",
+        "glResetNotificationStrategy": 33362,
+        "glVendor": "Google Inc. (Intel)",
+        "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.48499 git hash: 05a891fa2b4b)",
+        "glWsExtensions": "EGL_EXT_create_context_robustness EGL_ANGLE_d3d_share_handle_client_buffer EGL_ANGLE_d3d_texture_client_buffer EGL_ANGLE_surface_d3d_texture_2d_share_handle EGL_ANGLE_query_surface_pointer EGL_ANGLE_window_fixed_size EGL_ANGLE_keyed_mutex EGL_ANGLE_surface_orientation EGL_ANGLE_direct_composition EGL_NV_post_sub_buffer EGL_KHR_create_context EGL_KHR_image EGL_KHR_image_base EGL_KHR_gl_texture_2D_image EGL_KHR_gl_texture_cubemap_image EGL_KHR_gl_renderbuffer_image EGL_KHR_get_all_proc_addresses EGL_KHR_stream EGL_KHR_stream_consumer_gltexture EGL_NV_stream_consumer_gltexture_yuv EGL_ANGLE_stream_producer_d3d_texture EGL_ANGLE_create_context_webgl_compatibility EGL_CHROMIUM_create_context_bind_generates_resource EGL_CHROMIUM_sync_control EGL_EXT_pixel_format_float EGL_KHR_surfaceless_context EGL_ANGLE_display_texture_share_group EGL_ANGLE_display_semaphore_share_group EGL_ANGLE_create_context_client_arrays EGL_ANGLE_program_cache_control EGL_ANGLE_robust_resource_initialization EGL_ANGLE_create_context_extensions_enabled EGL_ANDROID_blob_cache EGL_ANDROID_recordable EGL_ANGLE_image_d3d11_texture EGL_ANGLE_create_context_backwards_compatible EGL_KHR_no_config_context EGL_KHR_create_context_no_error EGL_KHR_reusable_sync EGL_ANGLE_memory_usage_report ",
+        "glWsVendor": "Google Inc. (Intel)",
+        "glWsVersion": "1.5 (ANGLE 2.1.48499 git hash: 05a891fa2b4b)",
+        "inProcessGpu": false,
+        "initializationTime": 0.166115,
+        "isAsan": false,
+        "isClangCoverage": false,
+        "jpegDecodeAcceleratorSupported": false,
+        "maxMsaaSamples": "16",
+        "nv12OverlaySupport": "SCALING",
+        "optimus": false,
+        "p010OverlaySupport": "SOFTWARE",
+        "passthroughCmdDecoder": true,
+        "pixelShaderVersion": "5.0",
+        "playreadyHardwareDrmSupport": false,
+        "processCrashCount": 0,
+        "rgb10a2OverlaySupport": "SCALING",
+        "sandboxed": true,
+        "skiaBackendType": "GaneshGL",
+        "subpixelFontRendering": true,
+        "supportsD3dSharedImages": true,
+        "supportsDirectML": false,
+        "supportsDx12": false,
+        "supportsOverlays": true,
+        "supportsVulkan": false,
+        "targetCpuBits": 64,
+        "vertexShaderVersion": "5.0",
+        "visibilityCallbackCallCount": 0,
+        "vulkanVersion": "Not supported",
+        "yuy2OverlaySupport": "SCALING"
+      },
+      "featureStatus": {
+        "2d_canvas": "enabled",
+        "direct_rendering_display_compositor": "disabled_off_ok",
+        "gpu_compositing": "enabled",
+        "multiple_raster_threads": "enabled_on",
+        "opengl": "enabled_on",
+        "rasterization": "enabled",
+        "raw_draw": "disabled_off_ok",
+        "skia_graphite": "disabled_off",
+        "trees_in_viz": "disabled_off",
+        "video_decode": "enabled",
+        "video_encode": "enabled",
+        "webgl": "enabled",
+        "webgpu": "enabled",
+        "webnn": "disabled_off"
+      },
+      "driverBugWorkarounds": [
+        "d3d12_encode_packed_format_dpb_sizing",
+        "disable_d3d12_av1_multi_ref_encoding",
+        "disable_d3d12_h264_encoder_non_reference_frames",
+        "disable_d3d12_hevc_encoding",
+        "disable_direct_composition_sw_video_overlays",
+        "disable_hevc_hmft_cbr_encoding",
+        "disable_ms_video_super_resolution",
+        "disable_video_overlay_if_moving",
+        "disable_vp9_hmft_temporal_encoding",
+        "disable_vp_auto_hdr",
+        "enable_bgra8_overlays_with_yuv_overlay_support",
+        "enable_webgl_timer_query_extensions",
+        "exit_on_context_lost",
+        "force_dcomp_triple_buffer_video_swap_chain",
+        "force_rgb10a2_overlay_support",
+        "limit_d3d12_av1_profile_to_main",
+        "max_msaa_sample_count_4",
+        "msaa_is_slow",
+        "no_downscaled_overlay_promotion",
+        "supports_two_yuv_hardware_overlays",
+        "use_first_valid_ref_for_av1_invalid_ref",
+        "disabled_extension_GL_KHR_blend_equation_advanced",
+        "disabled_extension_GL_KHR_blend_equation_advanced_coherent"
+      ],
+      "videoDecoding": [],
+      "videoEncoding": []
+    },
+    "outcome": "finished",
+    "runs": [
+      {
+        "run": 1,
+        "sourcePath": "D:\\rehabilitation\\rehabilitation-ar\\video_test\\WIN_20261106_21_35_32_Pro.mp4",
+        "outcome": "finished",
+        "video": {
+          "durationSeconds": 60.252854,
+          "width": 1920,
+          "height": 1080,
+          "playbackRate": 1,
+          "processedUntilSeconds": 60.252854
+        },
+        "delegate": {
+          "pose": "CPU",
+          "hand": "CPU"
+        },
+        "engine": "worker",
+        "inputResolution": {
+          "width": 1280,
+          "height": 720
+        },
+        "trackingErrors": [
+          "Pose GPU: Replay intentionally denied worker GPU context",
+          "Hand GPU: Replay intentionally denied worker GPU context"
+        ],
+        "configuration": {
+          "tasksVision": "0.10.35",
+          "handCount": 2,
+          "minHandDetectionConfidence": 0.5,
+          "minHandPresenceConfidence": 0.5,
+          "minTrackingConfidence": 0.5,
+          "maxHandAgeMs": 150,
+          "side": "right",
+          "mirrored": true
+        },
+        "diagnostics": {
+          "durationMs": 60466.10000000009,
+          "counts": {
+            "submittedFrames": 200,
+            "submittedHandFrames": 200,
+            "handInferenceCalls": 200,
+            "handResultsReceived": 200,
+            "rawMissingResults": 18,
+            "validHandResults": 182,
+            "invalidHandResults": 0,
+            "rejectedHandObservations": 154,
+            "affectedHandSelections": 0,
+            "affectedHandSelectionFailures": 8,
+            "affectedHandAcquisitionObservations": 31,
+            "associationChanges": 63,
+            "gestureActivations": 0,
+            "penDownEvents": 0,
+            "completedStrokes": 0
+          },
+          "handResultFps": 3.318381163601194,
+          "handInferenceMs": {
+            "count": 200,
+            "mean": 197.6169999999902,
+            "min": 123.10000000009313,
+            "max": 422.39999999990687,
+            "p50UpperBound": 200,
+            "p95UpperBound": 422.39999999990687
+          },
+          "handArrivalIntervalMs": {
+            "count": 199,
+            "mean": 300.7316582914554,
+            "min": 171.40000000037253,
+            "max": 563.5999999996275,
+            "p50UpperBound": 333,
+            "p95UpperBound": 500
+          },
+          "handObservationAgeMs": {
+            "count": 200,
+            "mean": 207.11649999990604,
+            "min": 126.49999999990541,
+            "max": 427.10000000009313,
+            "p50UpperBound": 250,
+            "p95UpperBound": 427.10000000009313
+          },
+          "captureResizeTotalMs": {
+            "count": 200,
+            "mean": 0.7319999999832362,
+            "min": 0.39999999990686774,
+            "max": 2.1000000000931323,
+            "p50UpperBound": 1,
+            "p95UpperBound": 2
+          },
+          "transferAndDispatchMs": {
+            "count": 200,
+            "mean": 0.272010498046875,
+            "min": 0,
+            "max": 1.199951171875,
+            "p50UpperBound": 1,
+            "p95UpperBound": 1
+          },
+          "missingSelectedHand": {
+            "interruptionCount": 0,
+            "longestMs": 60466.10000000009,
+            "totalMs": 60466.10000000009,
+            "ongoingMs": 60466.10000000009,
+            "intervals": [],
+            "retainedIntervalLimit": 100
+          },
+          "rawMissingHand": {
+            "interruptionCount": 14,
+            "longestMs": 1229.4000000003725,
+            "totalMs": 5845.800000000745,
+            "ongoingMs": 1229.4000000003725,
+            "intervals": [
+              {
+                "startMs": 1255.1999999997206,
+                "durationMs": 301.8000000002794
+              },
+              {
+                "startMs": 4083,
+                "durationMs": 352.6999999997206
+              },
+              {
+                "startMs": 4924.699999999721,
+                "durationMs": 297.5
+              },
+              {
+                "startMs": 5444.699999999721,
+                "durationMs": 280.10000000009313
+              },
+              {
+                "startMs": 13606.799999999814,
+                "durationMs": 289.39999999990687
+              },
+              {
+                "startMs": 25045.799999999814,
+                "durationMs": 356.60000000009313
+              },
+              {
+                "startMs": 36344,
+                "durationMs": 383.1999999997206
+              },
+              {
+                "startMs": 41652,
+                "durationMs": 441.89999999990687
+              },
+              {
+                "startMs": 42332.69999999972,
+                "durationMs": 420.40000000037253
+              },
+              {
+                "startMs": 43152.69999999972,
+                "durationMs": 319.5
+              },
+              {
+                "startMs": 44972.19999999972,
+                "durationMs": 272.90000000037253
+              },
+              {
+                "startMs": 48620.5,
+                "durationMs": 458.79999999981374
+              },
+              {
+                "startMs": 49644.89999999991,
+                "durationMs": 441.60000000009313
+              }
+            ],
+            "retainedIntervalLimit": 100
+          },
+          "blockedReasons": {
+            "AFFECTED_HAND_NOT_SELECTED": 31,
+            "HAND_STALE": 46,
+            "RAW_HAND_MISSING": 7,
+            "HAND_IDENTITY_AMBIGUOUS": 8,
+            "EXERCISE_FINISHED": 1
+          },
+          "blockedDurationMs": {
+            "AFFECTED_HAND_NOT_SELECTED": 952.5999999986961,
+            "HAND_STALE": 58090.60000000009,
+            "RAW_HAND_MISSING": 210.70000000065193,
+            "HAND_IDENTITY_AMBIGUOUS": 221.40000000037253,
+            "EXERCISE_FINISHED": 0.20000000018626451
+          },
+          "rejections": {
+            "HAND_STALE": 200,
+            "AFFECTED_HAND_NOT_SELECTED": 31,
+            "RAW_HAND_MISSING": 7,
+            "HAND_IDENTITY_AMBIGUOUS": 8
+          },
+          "frontendRejectionReasons": {
+            "HAND_STALE": 154
+          },
+          "timingPercentiles": "Fixed-bin upper bounds; mean, min, max and counts include every callback."
+        },
+        "exercise": {
+          "phase": "finished",
+          "prescribed": false,
+          "timed": false
+        },
+        "limitations": [
+          "Recorded video at normal speed; not live-camera latency.",
+          "No clinical data saved. No raw landmarks exported.",
+          "Drag/release is validated separately by controller tests."
+        ],
+        "drawStats": {
+          "rafs": 5113,
+          "elapsed": 60289,
+          "poseCount": 199,
+          "posesFound": 199,
+          "poseMs": 15666.69999999972,
+          "poseAge": 56959.69999998679,
+          "handAge": 41305.59999998204,
+          "handCount": 199,
+          "total": 1786,
+          "drops": 0
+        },
+        "resourceSamples": [
+          {
+            "seconds": 8.261064,
+            "now": 1793979081853,
+            "cpu": 29.5,
+            "ram": 1359192064
+          },
+          {
+            "seconds": 52.006918,
+            "now": 1793979125488,
+            "cpu": 98.34375,
+            "ram": 1281581056
+          }
+        ]
+      }
+    ],
+    "limitations": [
+      "Prerecorded replay at normal speed measures this browser pipeline; it does not prove live-camera latency or robustness.",
+      "Grab/release functionality requires controller tests when the recording lacks the complete interaction."
+    ]
+  },
+  "flowerBaseline": {
+    "run": 1,
+    "sourcePath": "D:\\rehabilitation\\rehabilitation-ar\\video_test\\WIN_20261106_21_35_32_Pro.mp4",
+    "outcome": "error",
+    "error": "Pipeline tracking đã ngừng khi video còn đang chạy.",
+    "video": {
+      "durationSeconds": 60.252854,
+      "width": 1920,
+      "height": 1080,
+      "playbackRate": 1,
+      "processedUntilSeconds": 4.04
+    },
+    "delegate": {
+      "pose": "GPU",
+      "hand": "GPU"
+    },
+    "engine": "worker",
+    "inputResolution": {
+      "width": 1280,
+      "height": 720
+    },
+    "trackingErrors": [
+      "Worker runtime: Worker inference timed out"
+    ],
+    "configuration": {
+      "tasksVision": "0.10.35",
+      "handCount": 2,
+      "minHandDetectionConfidence": 0.5,
+      "minHandPresenceConfidence": 0.5,
+      "minTrackingConfidence": 0.5,
+      "maxHandAgeMs": 150,
+      "side": "right",
+      "mirrored": true
+    },
+    "diagnostics": {
+      "durationMs": 8127,
+      "counts": {
+        "submittedFrames": 1,
+        "submittedHandFrames": 1,
+        "handInferenceCalls": 0,
+        "handResultsReceived": 0,
+        "rawMissingResults": 0,
+        "validHandResults": 0,
+        "invalidHandResults": 0,
+        "rejectedHandObservations": 0,
+        "affectedHandSelections": 0,
+        "affectedHandSelectionFailures": 0,
+        "affectedHandAcquisitionObservations": 0,
+        "associationChanges": 0,
+        "gestureActivations": 0,
+        "penDownEvents": 0,
+        "completedStrokes": 0
+      },
+      "handResultFps": 0,
+      "handInferenceMs": {
+        "count": 0,
+        "mean": null,
+        "min": null,
+        "max": null,
+        "p50UpperBound": null,
+        "p95UpperBound": null
+      },
+      "handArrivalIntervalMs": {
+        "count": 0,
+        "mean": null,
+        "min": null,
+        "max": null,
+        "p50UpperBound": null,
+        "p95UpperBound": null
+      },
+      "handObservationAgeMs": {
+        "count": 0,
+        "mean": null,
+        "min": null,
+        "max": null,
+        "p50UpperBound": null,
+        "p95UpperBound": null
+      },
+      "captureResizeTotalMs": {
+        "count": 0,
+        "mean": null,
+        "min": null,
+        "max": null,
+        "p50UpperBound": null,
+        "p95UpperBound": null
+      },
+      "transferAndDispatchMs": {
+        "count": 0,
+        "mean": null,
+        "min": null,
+        "max": null,
+        "p50UpperBound": null,
+        "p95UpperBound": null
+      },
+      "missingSelectedHand": {
+        "interruptionCount": 0,
+        "longestMs": 8127,
+        "totalMs": 8127,
+        "ongoingMs": 8127,
+        "intervals": [],
+        "retainedIntervalLimit": 100
+      },
+      "rawMissingHand": {
+        "interruptionCount": 0,
+        "longestMs": 0,
+        "totalMs": 0,
+        "ongoingMs": 0,
+        "intervals": [],
+        "retainedIntervalLimit": 100
+      },
+      "blockedReasons": {
+        "EXERCISE_FINISHED": 1
+      },
+      "blockedDurationMs": {
+        "EXERCISE_FINISHED": 5678.200000000186
+      },
+      "rejections": {},
+      "frontendRejectionReasons": {},
+      "timingPercentiles": "Fixed-bin upper bounds; mean, min, max and counts include every callback."
+    },
+    "flower": {
+      "frames": 535,
+      "wristFrames": 0,
+      "missingMs": 8022.100000000002,
+      "longestLossMs": 8022.100000000002,
+      "missingRun": 8022.100000000002,
+      "scored": 0,
+      "elapsed": 0,
+      "durationMs": 8022.100000000002,
+      "videoDropped": 60,
+      "videoTotal": 94
+    },
+    "exercise": {
+      "phase": "interrupted",
+      "prescribed": false,
+      "timed": false
+    },
+    "limitations": [
+      "Recorded video at normal speed; not live-camera latency.",
+      "No clinical data saved. No raw landmarks exported.",
+      "Drag/release is validated separately by controller tests."
+    ]
+  },
+  "flowerAfter": {
+    "sourcePath": "D:\\rehabilitation\\rehabilitation-ar\\video_test\\WIN_20261106_21_35_32_Pro.mp4",
+    "sourceMetadata": {
+      "frameRate": 29.655163252836005,
+      "frameCount": 1786,
+      "videoTrackDurationSeconds": 60.2256,
+      "width": 1920,
+      "height": 1080,
+      "codecFourcc": "h264"
+    },
+    "playbackRate": 1,
+    "affectedSide": "right",
+    "browser": "Edg/156.0.4314.58",
+    "gpu": {
+      "devices": [
+        {
+          "vendorId": 32902,
+          "deviceId": 42912,
+          "subSysId": 76552276,
+          "revision": 4,
+          "vendorString": "",
+          "deviceString": "Intel(R) Iris(R) Xe Graphics",
+          "driverVendor": "Intel",
+          "driverVersion": "31.0.101.3962"
+        },
+        {
+          "vendorId": 5140,
+          "deviceId": 140,
+          "subSysId": 0,
+          "revision": 0,
+          "vendorString": "",
+          "deviceString": "Microsoft Basic Render Driver",
+          "driverVendor": "",
+          "driverVersion": "10.0.26100.9711"
+        }
+      ],
+      "auxAttributes": {
+        "amdSwitchable": false,
+        "bgra8OverlaySupport": "SCALING",
+        "canSupportThreadedTextureMailbox": false,
+        "directComposition": true,
+        "directMLFeatureLevel": "Not supported",
+        "directRenderingVersion": "",
+        "displayType": "ANGLE_D3D11",
+        "dx12FeatureLevel": "Not supported",
+        "glExtensions": "GL_AMD_performance_monitor GL_ANGLE_base_vertex_base_instance_shader_builtin GL_ANGLE_blob_cache GL_ANGLE_client_arrays GL_ANGLE_clip_cull_distance GL_ANGLE_copy_texture_3d GL_ANGLE_depth_texture GL_ANGLE_framebuffer_blit GL_ANGLE_framebuffer_multisample GL_ANGLE_get_serialized_context_string GL_ANGLE_get_tex_level_parameter GL_ANGLE_instanced_arrays GL_ANGLE_memory_size GL_ANGLE_multiview_multisample GL_ANGLE_pack_reverse_row_order GL_ANGLE_polygon_mode GL_ANGLE_program_binary_readiness_query GL_ANGLE_program_cache_control GL_ANGLE_provoking_vertex GL_ANGLE_renderability_validation GL_ANGLE_request_extension GL_ANGLE_robust_client_memory GL_ANGLE_shader_pixel_local_storage GL_ANGLE_shader_pixel_local_storage_coherent GL_ANGLE_stencil_texturing GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ANGLE_texture_multisample GL_ANGLE_texture_usage GL_ANGLE_translated_shader_source GL_APPLE_clip_distance GL_ARM_rgba8 GL_CHROMIUM_bind_generates_resource GL_CHROMIUM_bind_uniform_location GL_CHROMIUM_copy_compressed_texture GL_CHROMIUM_copy_texture GL_CHROMIUM_lose_context GL_EXT_EGL_image_external_wrap_modes GL_EXT_base_instance GL_EXT_blend_func_extended GL_EXT_blend_minmax GL_EXT_clip_control GL_EXT_clip_cull_distance GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_conservative_depth GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_clamp GL_EXT_discard_framebuffer GL_EXT_disjoint_timer_query GL_EXT_draw_buffers GL_EXT_draw_buffers_indexed GL_EXT_draw_elements_base_vertex GL_EXT_float_blend GL_EXT_frag_depth GL_EXT_instanced_arrays GL_EXT_map_buffer_range GL_EXT_occlusion_query_boolean GL_EXT_polygon_offset_clamp GL_EXT_read_format_bgra GL_EXT_render_snorm GL_EXT_robustness GL_EXT_sRGB GL_EXT_shader_texture_lod GL_EXT_texture_border_clamp GL_EXT_texture_compression_bptc GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc_srgb GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_mirror_clamp_to_edge GL_EXT_texture_norm16 GL_EXT_texture_rg GL_EXT_texture_storage GL_EXT_texture_type_2_10_10_10_REV GL_EXT_unpack_subimage GL_KHR_debug GL_KHR_parallel_shader_compile GL_KHR_robustness GL_NV_EGL_stream_consumer_external GL_NV_fence GL_NV_framebuffer_blit GL_NV_pack_subimage GL_NV_pixel_buffer_object GL_NV_shader_noperspective_interpolation GL_OES_EGL_image GL_OES_EGL_image_external GL_OES_EGL_image_external_essl3 GL_OES_depth24 GL_OES_depth32 GL_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_required_internalformat GL_OES_rgb8_rgba8 GL_OES_sample_variables GL_OES_shader_multisample_interpolation GL_OES_standard_derivatives GL_OES_surfaceless_context GL_OES_texture_border_clamp GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_texture_stencil8 GL_OES_texture_storage_multisample_2d_array GL_OES_vertex_array_object GL_OVR_multiview GL_OVR_multiview2 ",
+        "glImplementationParts": "(gl=egl-angle,angle=d3d11)",
+        "glRenderer": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x0000A7A0) Direct3D11 vs_5_0 ps_5_0, D3D11-31.0.101.3962)",
+        "glResetNotificationStrategy": 33362,
+        "glVendor": "Google Inc. (Intel)",
+        "glVersion": "OpenGL ES 3.0 (ANGLE 2.1.48499 git hash: 05a891fa2b4b)",
+        "glWsExtensions": "EGL_EXT_create_context_robustness EGL_ANGLE_d3d_share_handle_client_buffer EGL_ANGLE_d3d_texture_client_buffer EGL_ANGLE_surface_d3d_texture_2d_share_handle EGL_ANGLE_query_surface_pointer EGL_ANGLE_window_fixed_size EGL_ANGLE_keyed_mutex EGL_ANGLE_surface_orientation EGL_ANGLE_direct_composition EGL_NV_post_sub_buffer EGL_KHR_create_context EGL_KHR_image EGL_KHR_image_base EGL_KHR_gl_texture_2D_image EGL_KHR_gl_texture_cubemap_image EGL_KHR_gl_renderbuffer_image EGL_KHR_get_all_proc_addresses EGL_KHR_stream EGL_KHR_stream_consumer_gltexture EGL_NV_stream_consumer_gltexture_yuv EGL_ANGLE_stream_producer_d3d_texture EGL_ANGLE_create_context_webgl_compatibility EGL_CHROMIUM_create_context_bind_generates_resource EGL_CHROMIUM_sync_control EGL_EXT_pixel_format_float EGL_KHR_surfaceless_context EGL_ANGLE_display_texture_share_group EGL_ANGLE_display_semaphore_share_group EGL_ANGLE_create_context_client_arrays EGL_ANGLE_program_cache_control EGL_ANGLE_robust_resource_initialization EGL_ANGLE_create_context_extensions_enabled EGL_ANDROID_blob_cache EGL_ANDROID_recordable EGL_ANGLE_image_d3d11_texture EGL_ANGLE_create_context_backwards_compatible EGL_KHR_no_config_context EGL_KHR_create_context_no_error EGL_KHR_reusable_sync EGL_ANGLE_memory_usage_report ",
+        "glWsVendor": "Google Inc. (Intel)",
+        "glWsVersion": "1.5 (ANGLE 2.1.48499 git hash: 05a891fa2b4b)",
+        "inProcessGpu": false,
+        "initializationTime": 0.169636,
+        "isAsan": false,
+        "isClangCoverage": false,
+        "jpegDecodeAcceleratorSupported": false,
+        "maxMsaaSamples": "16",
+        "nv12OverlaySupport": "SCALING",
+        "optimus": false,
+        "p010OverlaySupport": "SOFTWARE",
+        "passthroughCmdDecoder": true,
+        "pixelShaderVersion": "5.0",
+        "playreadyHardwareDrmSupport": false,
+        "processCrashCount": 0,
+        "rgb10a2OverlaySupport": "SCALING",
+        "sandboxed": true,
+        "skiaBackendType": "GaneshGL",
+        "subpixelFontRendering": true,
+        "supportsD3dSharedImages": true,
+        "supportsDirectML": false,
+        "supportsDx12": false,
+        "supportsOverlays": true,
+        "supportsVulkan": false,
+        "targetCpuBits": 64,
+        "vertexShaderVersion": "5.0",
+        "visibilityCallbackCallCount": 0,
+        "vulkanVersion": "Not supported",
+        "yuy2OverlaySupport": "SCALING"
+      },
+      "featureStatus": {
+        "2d_canvas": "enabled",
+        "direct_rendering_display_compositor": "disabled_off_ok",
+        "gpu_compositing": "enabled",
+        "multiple_raster_threads": "enabled_on",
+        "opengl": "enabled_on",
+        "rasterization": "enabled",
+        "raw_draw": "disabled_off_ok",
+        "skia_graphite": "disabled_off",
+        "trees_in_viz": "disabled_off",
+        "video_decode": "enabled",
+        "video_encode": "enabled",
+        "webgl": "enabled",
+        "webgpu": "enabled",
+        "webnn": "disabled_off"
+      },
+      "driverBugWorkarounds": [
+        "d3d12_encode_packed_format_dpb_sizing",
+        "disable_d3d12_av1_multi_ref_encoding",
+        "disable_d3d12_h264_encoder_non_reference_frames",
+        "disable_d3d12_hevc_encoding",
+        "disable_direct_composition_sw_video_overlays",
+        "disable_hevc_hmft_cbr_encoding",
+        "disable_ms_video_super_resolution",
+        "disable_video_overlay_if_moving",
+        "disable_vp9_hmft_temporal_encoding",
+        "disable_vp_auto_hdr",
+        "enable_bgra8_overlays_with_yuv_overlay_support",
+        "enable_webgl_timer_query_extensions",
+        "exit_on_context_lost",
+        "force_dcomp_triple_buffer_video_swap_chain",
+        "force_rgb10a2_overlay_support",
+        "limit_d3d12_av1_profile_to_main",
+        "max_msaa_sample_count_4",
+        "msaa_is_slow",
+        "no_downscaled_overlay_promotion",
+        "supports_two_yuv_hardware_overlays",
+        "use_first_valid_ref_for_av1_invalid_ref",
+        "disabled_extension_GL_KHR_blend_equation_advanced",
+        "disabled_extension_GL_KHR_blend_equation_advanced_coherent"
+      ],
+      "videoDecoding": [],
+      "videoEncoding": []
+    },
+    "outcome": "finished",
+    "runs": [
+      {
+        "run": 1,
+        "sourcePath": "D:\\rehabilitation\\rehabilitation-ar\\video_test\\WIN_20261106_21_35_32_Pro.mp4",
+        "outcome": "finished",
+        "video": {
+          "durationSeconds": 60.252854,
+          "width": 1920,
+          "height": 1080,
+          "playbackRate": 1,
+          "processedUntilSeconds": 60.252854
+        },
+        "delegate": {
+          "pose": "GPU",
+          "hand": "GPU"
+        },
+        "engine": "worker",
+        "inputResolution": {
+          "width": 1280,
+          "height": 720
+        },
+        "trackingErrors": [],
+        "configuration": {
+          "tasksVision": "0.10.35",
+          "handCount": 2,
+          "minHandDetectionConfidence": 0.5,
+          "minHandPresenceConfidence": 0.5,
+          "minTrackingConfidence": 0.5,
+          "maxHandAgeMs": 150,
+          "side": "right",
+          "mirrored": true
+        },
+        "diagnostics": {
+          "durationMs": 64448.39999999991,
+          "counts": {
+            "submittedFrames": 425,
+            "submittedHandFrames": 425,
+            "handInferenceCalls": 425,
+            "handResultsReceived": 425,
+            "rawMissingResults": 29,
+            "validHandResults": 396,
+            "invalidHandResults": 0,
+            "rejectedHandObservations": 5,
+            "affectedHandSelections": 0,
+            "affectedHandSelectionFailures": 0,
+            "affectedHandAcquisitionObservations": 0,
+            "associationChanges": 103,
+            "gestureActivations": 0,
+            "penDownEvents": 0,
+            "completedStrokes": 0
+          },
+          "handResultFps": 7.543759140580811,
+          "handInferenceMs": {
+            "count": 425,
+            "mean": 79.50305882355198,
+            "min": 18.100000000093132,
+            "max": 8179,
+            "p50UpperBound": 66,
+            "p95UpperBound": 125
+          },
+          "handArrivalIntervalMs": {
+            "count": 424,
+            "mean": 132.00731132075492,
+            "min": 59,
+            "max": 6006.100000000093,
+            "p50UpperBound": 125,
+            "p95UpperBound": 200
+          },
+          "handObservationAgeMs": {
+            "count": 425,
+            "mean": 86.1785882352001,
+            "min": 22.600000000093132,
+            "max": 8183.599999999813,
+            "p50UpperBound": 66,
+            "p95UpperBound": 125
+          },
+          "captureResizeTotalMs": {
+            "count": 425,
+            "mean": 0.7444705882306923,
+            "min": 0.2999999998137355,
+            "max": 2.1000000000931323,
+            "p50UpperBound": 1,
+            "p95UpperBound": 2
+          },
+          "transferAndDispatchMs": {
+            "count": 425,
+            "mean": 0.2994755284926471,
+            "min": 0,
+            "max": 13.5,
+            "p50UpperBound": 1,
+            "p95UpperBound": 1
+          },
+          "missingSelectedHand": {
+            "interruptionCount": 0,
+            "longestMs": 64448.39999999991,
+            "totalMs": 64448.39999999991,
+            "ongoingMs": 64448.39999999991,
+            "intervals": [],
+            "retainedIntervalLimit": 100
+          },
+          "rawMissingHand": {
+            "interruptionCount": 14,
+            "longestMs": 1213.8999999999069,
+            "totalMs": 3303.200000000652,
+            "ongoingMs": 1213.8999999999069,
+            "intervals": [
+              {
+                "startMs": 14249.100000000093,
+                "durationMs": 114.29999999981374
+              },
+              {
+                "startMs": 19170.899999999907,
+                "durationMs": 110.20000000018626
+              },
+              {
+                "startMs": 28864.100000000093,
+                "durationMs": 80.79999999981374
+              },
+              {
+                "startMs": 40246.89999999991,
+                "durationMs": 349.3000000002794
+              },
+              {
+                "startMs": 40976.10000000009,
+                "durationMs": 239.39999999990687
+              },
+              {
+                "startMs": 45301.700000000186,
+                "durationMs": 314.79999999981374
+              },
+              {
+                "startMs": 46006.39999999991,
+                "durationMs": 253.5
+              },
+              {
+                "startMs": 46355.30000000028,
+                "durationMs": 98.5
+              },
+              {
+                "startMs": 46970.700000000186,
+                "durationMs": 97.60000000009313
+              },
+              {
+                "startMs": 47157.5,
+                "durationMs": 102.8000000002794
+              },
+              {
+                "startMs": 52196.5,
+                "durationMs": 128.8000000002794
+              },
+              {
+                "startMs": 52408.39999999991,
+                "durationMs": 119.3000000002794
+              },
+              {
+                "startMs": 63050.10000000009,
+                "durationMs": 80
+              }
+            ],
+            "retainedIntervalLimit": 100
+          },
+          "blockedReasons": {
+            "EXERCISE_FINISHED": 1,
+            "DRAWING_PAUSED": 420
+          },
+          "blockedDurationMs": {
+            "EXERCISE_FINISHED": 11770.099999999627,
+            "DRAWING_PAUSED": 50199
+          },
+          "rejections": {
+            "HAND_STALE": 5
+          },
+          "frontendRejectionReasons": {
+            "HAND_STALE": 5
+          },
+          "timingPercentiles": "Fixed-bin upper bounds; mean, min, max and counts include every callback."
+        },
+        "flower": {
+          "frames": 3364,
+          "wristFrames": 2503,
+          "missingMs": 18575.20000000001,
+          "longestLossMs": 14244.199999999999,
+          "missingRun": 0,
+          "scored": 0,
+          "elapsed": 30000,
+          "durationMs": 48577.100000000006,
+          "firstPoseAge": 14119.400000000092,
+          "poseCount": 425,
+          "poseMs": 19305.800000002142,
+          "poseValid": 425,
+          "poseAge": [
+            86.5,
+            177.09999999990396
+          ],
+          "gap": false,
+          "videoDropped": 209,
+          "videoTotal": 1786
+        },
+        "exercise": {
+          "phase": "finished",
+          "prescribed": false,
+          "timed": false
+        },
+        "limitations": [
+          "Recorded video at normal speed; not live-camera latency.",
+          "No clinical data saved. No raw landmarks exported.",
+          "Drag/release is validated separately by controller tests."
+        ]
+      }
+    ],
+    "limitations": [
+      "Prerecorded replay at normal speed measures this browser pipeline; it does not prove live-camera latency or robustness.",
+      "Grab/release functionality requires controller tests when the recording lacks the complete interaction."
+    ]
+  },
+  "gstreamer": {
+    "pipeline": "d3d11h264dec -> d3d11convert BGR GPU -> d3d11download -> BGR CPU appsink",
+    "gstreamer": "1.28.8",
+    "source": "D:/rehabilitation/rehabilitation-ar/video_test/WIN_20261106_21_35_32_Pro.mp4",
+    "width": 1920,
+    "height": 1080,
+    "frames": 1786,
+    "elapsedSeconds": 12.693476999999803,
+    "fps": 140.7021890062138,
+    "cpuMachinePercent": 5.131511149388069,
+    "rssMiB": null,
+    "rssNote": "GetProcessMemoryInfo ctypes call returned zeros, invalid measurement discarded",
+    "ptsFirst": 0.0,
+    "ptsLast": 60.192266666,
+    "nonIncreasingPts": 0,
+    "pullMapMs": {
+      "count": 1786,
+      "mean": 7.027884714446343,
+      "p95": 11.814999999842257,
+      "min": 3.0148999999255466,
+      "max": 134.45519999959288
+    },
+    "mapMs": {
+      "count": 1786,
+      "mean": 0.12335643897087582,
+      "p95": 0.2341999997952371,
+      "min": 0.04829999988942291,
+      "max": 1.1147000000164553
+    },
+    "convertHostMs": {
+      "count": 1786,
+      "mean": 0.3076473684234099,
+      "p95": 0.5577000001721899,
+      "min": 0.1104999996641709,
+      "max": 7.241300000259798
+    },
+    "downloadHostMs": {
+      "count": 1786,
+      "mean": 4.987122676365862,
+      "p95": 8.52759999997943,
+      "min": 2.278400000250258,
+      "max": 21.101399999679415
+    },
+    "note": "One throughput pass with sync=false and max-buffers=1, drop=false. Host stage elapsed includes driver wait; GPU execution may synchronize in downstream download. CPU BGR is downloaded from GPU, zero-copy claim is unsupported. Stage measurements and pull times overlap, do not sum them. End-to-end MediaPipe benefit unmeasured."
+  },
+  "limitations": [
+    "Single runs show substantial variance; no causal FPS improvement established.",
+    "Replay fixtures outside repository reused actual games with synthetic session and no clinical writes.",
+    "Flower recorded no collision score; physical webcam unverified.",
+    "GStreamer CPU-memory BGR output, end-to-end MediaPipe integration unmeasured.",
+    "CPU forced by intentional GPU initialization failure in isolated replay.",
+    "RAM sum of process working sets may double-count shared pages."
+  ],
+  "flowerResources": {
+    "cpuHostPercent": 11.55,
+    "sampledSeconds": 64.36,
+    "workingSetSumMiB": 1758
+  },
+  "opencv": [
+    {
+      "ramMiB": null,
+      "readP95Ms": 24.86,
+      "backend": "FFMPEG software",
+      "readMeanMs": 12.06,
+      "cpuHostPercent": 15.67,
+      "fps": 82.79,
+      "frames": 1786
+    },
+    {
+      "ramMiB": 288,
+      "readP95Ms": 41.88,
+      "backend": "FFMPEG D3D11",
+      "readMeanMs": 28.32,
+      "cpuHostPercent": 4.33,
+      "fps": 35.28,
+      "frames": 1786
+    }
+  ],
+  "verification": {
+    "targetedTests": 135,
+    "testFiles": 7,
+    "build": "passed; Vite large-chunk and mixed import warnings"
+  }
+}

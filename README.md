@@ -2,7 +2,7 @@
 
 Ứng dụng gồm năm phân hệ: **Tổng quan, Đánh giá, Luyện tập, Báo cáo, Quản trị**. Frontend React/Vite tái sử dụng Workspace, Ghost Silhouette và MediaPipe Pose/Hand; FastAPI lưu dữ liệu trong PostgreSQL. Xem [kế hoạch refactor](docs/REFACTOR_PLAN.md), [kiến trúc](docs/ARCHITECTURE.md), [database](docs/DATABASE.md), [MediaPipe](docs/MEDIAPIPE.md), [checklist](docs/MANUAL_TEST_CHECKLIST.md) và [báo cáo triển khai](docs/IMPLEMENTATION_REPORT.md).
 
-**Chỉ dùng cho phát triển với dữ liệu giả lập.** Chưa có xác thực/phân quyền đầy đủ hoặc xác nhận lâm sàng. Hồ sơ hỗ trợ tên, ngày sinh, giới tính và liên hệ, nhưng chưa được nhập dữ liệu bệnh nhân thật hoặc triển khai công khai. FMA-UE chỉ được nhân viên chuyên môn nhập và xác nhận; không suy ra từ trò chơi. Công cụ thu video/landmark nghiên cứu riêng đã có tại Workspace cũ và Tracking Test Lab; việc ghi dữ liệu nghiên cứu tự động trong game lâm sàng chưa được triển khai. Không có AI chẩn đoán, tự chấm FMA-UE hay tự chỉ định điều trị.
+**Chỉ dùng cho phát triển với dữ liệu giả lập.** Chưa có xác thực/phân quyền đầy đủ hoặc xác nhận lâm sàng. Hồ sơ hỗ trợ tên, ngày sinh, giới tính và liên hệ, nhưng chưa được nhập dữ liệu bệnh nhân thật hoặc triển khai công khai. FMA-UE chỉ được nhân viên chuyên môn nhập và xác nhận; không suy ra từ trò chơi. Công cụ thu video/landmark nghiên cứu riêng đã có tại Workspace cũ và Tracking Test Lab; Hái hoa và Vẽ tự do hỗ trợ capture nghiên cứu tự động theo trial khi được cấu hình và đồng ý. Không có AI chẩn đoán, tự chấm FMA-UE hay tự chỉ định điều trị.
 
 ## Chuẩn bị
 

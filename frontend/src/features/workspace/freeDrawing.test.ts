@@ -129,6 +129,25 @@ describe('Free Drawing affected-hand input', () => {
     acquire(game, 300, [hand(.5), hand(.51)], ['Left', 'Right'])
     expect(game.cursor).toBeNull()
   })
+  it('forgets the old competing wrist only after a sustained absence and reacquires with pen up', () => {
+    const game = controller()
+    acquire(game, 100, [hand(.3), hand(.7)], ['Left', 'Right'])
+    game.setPenDown(true)
+    game.update(observation(199, [hand(.31), hand(.7)], ['Left', 'Right']), 200, mapping, false)
+    game.update(observation(232, [], []), 233, mapping, false)
+    acquire(game, 265, [hand(.7)])
+    expect(game.hand).toBeNull()
+
+    for (const t of [364, 464, 564, 664, 764]) game.update(observation(t, [], []), t + 1, mapping, false)
+    for (const t of [797, 830]) {
+      game.update(observation(t, [hand(.7)]), t + 1, mapping, false)
+      expect(game.hand).toBeNull()
+    }
+    game.update(observation(863, [hand(.7)]), 864, mapping, false)
+    expect(game.phase).toBe('ready')
+    expect(game.penDown).toBe(false)
+    expect(game.strokes).toHaveLength(1)
+  })
   it('keeps a freshly acquired single hand through a nearby same-label confidence dip', () => {
     const game = controller()
     acquire(game); game.setPenDown(true)

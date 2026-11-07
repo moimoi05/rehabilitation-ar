@@ -18,6 +18,7 @@ from .db import get_db
 from .capture_schemas import CaptureCreate, CaptureFinalize, CaptureIncomplete, LandmarkBatch, RecorderStart
 from .capture_storage import MAX_BATCH_BYTES, MAX_CHUNK_BYTES, capture_path, convert_landmarks, enough_space, put_idempotent, sha256_file
 from .capture_manifest import write_manifest
+from .capture_quality import assess_capture_quality
 
 router = APIRouter(prefix='/api')
 LEASE_SECONDS = 120
@@ -488,6 +489,14 @@ def abort(capture_id: UUID, db: Session = Depends(get_db)):
     capture.ended_at_utc = datetime.now(timezone.utc)
     db.commit()
     return describe(capture)
+
+
+@router.get('/captures/{capture_id}/quality', dependencies=[Depends(local_only)])
+def capture_quality(capture_id: UUID, db: Session = Depends(get_db)):
+    capture = get_capture(db, capture_id)
+    if capture.status == 'recording':
+        raise HTTPException(409, 'Capture is still recording; quality assessment is not ready')
+    return assess_capture_quality(capture, root=capture_path(capture_id))
 
 
 @router.get('/captures/{capture_id}/artifacts/{kind}', dependencies=[Depends(local_only)])

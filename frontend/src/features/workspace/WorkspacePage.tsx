@@ -372,6 +372,9 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
       if (rawPose.some(point => usableTrackingPoint(point))) {
         displayPoints.current = { ...displayPoints.current, pose: selectedPoseModel === 'rtmpose' ? rawPose : smoother.current.filter('pose', rawPose, timestamp, POSE_SMOOTHING_POLICY) }
         displayTimes.current = { ...displayTimes.current, pose: { source: timestamp, received: now } }
+      } else {
+        // Keep the bounded overlay hold, but start the next detection at its observed position.
+        smoother.current.reset('pose')
       }
       count++
       if (now - lastUpdate >= 1000) {
@@ -693,7 +696,7 @@ export default function WorkspacePage({ session: controlledSession, workflow }: 
         moduleUrl,
         handEnabled,
         preferGpu: true,
-        ...(drawingSelected ? { initialFrameTimeoutMs: 30000 } : {}),
+        initialFrameTimeoutMs: 30000,
         signal: controller.signal,
         capture: element => diagnostics
           ? captureInferenceBitmapWithTimings(element, workerInferenceSize)

@@ -27,13 +27,14 @@ export class AffectedHandSelector {
   private relocation: { wrist: Point; since: number; frames: number } | null = null
   private lastSelectedAt = 0
   private lastConfidentAt = 0
+  private missingSince: number | null = null
   constructor(private readonly side: Side) {}
 
   lose(reason: HandSelectionReason = 'ACQUIRING') {
     this.stableFrames = 0; this.stableSince = 0; this.relocation = null
     this.lastSelectedAt = 0; this.lastConfidentAt = 0; this.rejectionReason = reason
   }
-  reset() { this.lose(); this.wrist = null; this.others = [] }
+  reset() { this.lose(); this.wrist = null; this.others = []; this.missingSince = null }
 
   /** Resume only a previously selected, nearby single hand with a confident matching label. */
   matchesPrevious(observation: DrawingObservation): boolean {
@@ -46,7 +47,14 @@ export class AffectedHandSelector {
 
   select(observation: DrawingObservation): Point[] | null {
     this.rejectionReason = 'ACQUIRING'
-    if (!observation.hands.length) { this.lose('RAW_HAND_MISSING'); return null }
+    if (!observation.hands.length) {
+      this.missingSince ??= observation.timestamp
+      this.lose('RAW_HAND_MISSING')
+      return null
+    }
+    // After a prolonged absence either hand can re-enter at the other wrist's old position.
+    if (this.missingSince !== null && observation.timestamp - this.missingSince > DRAWING_POLICY.continuityGraceMs) this.reset()
+    this.missingSince = null
     const expected = this.side === 'left' ? 'Left' : 'Right'
     const candidates = observation.hands.map((points, index) => ({ points, label: observation.handedness[index]?.[0] }))
     const selected = candidates.filter(({ points, label }) => validHand(points) && label?.categoryName === expected)

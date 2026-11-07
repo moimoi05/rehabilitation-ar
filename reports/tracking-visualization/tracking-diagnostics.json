@@ -1,0 +1,525 @@
+{
+  "mode": "offline_exact_frame",
+  "source_frames": 1786,
+  "duration_seconds": 60.2256,
+  "capture_restart_frames": [
+    363,
+    1018
+  ],
+  "tracking": {
+    "pose": {
+      "valid_frames": 1786,
+      "lost_frames": 0,
+      "lost_seconds": 0,
+      "lost_intervals": []
+    },
+    "hand": {
+      "valid_frames": 1705,
+      "lost_frames": 81,
+      "lost_seconds": 2.721633333333338,
+      "lost_intervals": [
+        {
+          "start_seconds": 1.0083,
+          "end_seconds": 1.2802666666666667,
+          "frames": 8,
+          "duration_seconds": 0.2719666666666667
+        },
+        {
+          "start_seconds": 3.904266666666667,
+          "end_seconds": 4.0803666666666665,
+          "frames": 5,
+          "duration_seconds": 0.17609999999999948
+        },
+        {
+          "start_seconds": 4.6883,
+          "end_seconds": 4.8959,
+          "frames": 6,
+          "duration_seconds": 0.20760000000000023
+        },
+        {
+          "start_seconds": 15.376233333333333,
+          "end_seconds": 15.408266666666668,
+          "frames": 1,
+          "duration_seconds": 0.03203333333333447
+        },
+        {
+          "start_seconds": 24.752033333333333,
+          "end_seconds": 24.847933333333334,
+          "frames": 3,
+          "duration_seconds": 0.09590000000000032
+        },
+        {
+          "start_seconds": 36.144133333333336,
+          "end_seconds": 36.3522,
+          "frames": 6,
+          "duration_seconds": 0.2080666666666673
+        },
+        {
+          "start_seconds": 36.8164,
+          "end_seconds": 36.84836666666667,
+          "frames": 1,
+          "duration_seconds": 0.03196666666666914
+        },
+        {
+          "start_seconds": 36.89653333333334,
+          "end_seconds": 37.0887,
+          "frames": 6,
+          "duration_seconds": 0.19216666666666526
+        },
+        {
+          "start_seconds": 41.13613333333333,
+          "end_seconds": 41.3761,
+          "frames": 7,
+          "duration_seconds": 0.23996666666666755
+        },
+        {
+          "start_seconds": 41.95186666666667,
+          "end_seconds": 41.984100000000005,
+          "frames": 1,
+          "duration_seconds": 0.032233333333337555
+        },
+        {
+          "start_seconds": 42.016200000000005,
+          "end_seconds": 42.112100000000005,
+          "frames": 3,
+          "duration_seconds": 0.09590000000000032
+        },
+        {
+          "start_seconds": 42.96026666666667,
+          "end_seconds": 42.992066666666666,
+          "frames": 1,
+          "duration_seconds": 0.03179999999999694
+        },
+        {
+          "start_seconds": 43.056066666666666,
+          "end_seconds": 43.08793333333333,
+          "frames": 1,
+          "duration_seconds": 0.03186666666666582
+        },
+        {
+          "start_seconds": 58.91193333333334,
+          "end_seconds": 58.97613333333334,
+          "frames": 2,
+          "duration_seconds": 0.06419999999999959
+        },
+        {
+          "start_seconds": 59.152033333333335,
+          "end_seconds": 59.18443333333334,
+          "frames": 1,
+          "duration_seconds": 0.03240000000000265
+        },
+        {
+          "start_seconds": 59.248133333333335,
+          "end_seconds": 60.2256,
+          "frames": 29,
+          "duration_seconds": 0.9774666666666647
+        }
+      ]
+    },
+    "right_wrist": {
+      "valid_frames": 1766,
+      "lost_frames": 20,
+      "lost_seconds": 0.6736000000000004,
+      "lost_intervals": [
+        {
+          "start_seconds": 59.552,
+          "end_seconds": 60.2256,
+          "frames": 20,
+          "duration_seconds": 0.6736000000000004
+        }
+      ]
+    },
+    "selected_hand": {
+      "valid_frames": 1202,
+      "lost_frames": 584,
+      "lost_seconds": 19.731333333333314,
+      "lost_intervals": [
+        {
+          "start_seconds": 0.0,
+          "end_seconds": 0.09603333333333333,
+          "frames": 3,
+          "duration_seconds": 0.09603333333333333
+        },
+        {
+          "start_seconds": 0.8484,
+          "end_seconds": 1.4559666666666666,
+          "frames": 18,
+          "duration_seconds": 0.6075666666666666
+        },
+        {
+          "start_seconds": 3.8085333333333335,
+          "end_seconds": 4.144333333333334,
+          "frames": 10,
+          "duration_seconds": 0.3358000000000003
+        },
+        {
+          "start_seconds": 4.5444,
+          "end_seconds": 5.088266666666667,
+          "frames": 16,
+          "duration_seconds": 0.5438666666666663
+        },
+        {
+          "start_seconds": 6.5762,
+          "end_seconds": 6.672533333333334,
+          "frames": 3,
+          "duration_seconds": 0.09633333333333383
+        },
+        {
+          "start_seconds": 7.184500000000001,
+          "end_seconds": 7.552333333333333,
+          "frames": 11,
+          "duration_seconds": 0.36783333333333257
+        },
+        {
+          "start_seconds": 7.648333333333333,
+          "end_seconds": 9.808366666666668,
+          "frames": 64,
+          "duration_seconds": 2.1600333333333346
+        },
+        {
+          "start_seconds": 10.783933333333334,
+          "end_seconds": 11.200000000000001,
+          "frames": 12,
+          "duration_seconds": 0.4160666666666675
+        },
+        {
+          "start_seconds": 12.240266666666667,
+          "end_seconds": 12.303966666666668,
+          "frames": 2,
+          "duration_seconds": 0.06370000000000076
+        },
+        {
+          "start_seconds": 12.976066666666668,
+          "end_seconds": 13.119933333333334,
+          "frames": 4,
+          "duration_seconds": 0.14386666666666592
+        },
+        {
+          "start_seconds": 13.888100000000001,
+          "end_seconds": 14.2241,
+          "frames": 10,
+          "duration_seconds": 0.3359999999999985
+        },
+        {
+          "start_seconds": 15.1683,
+          "end_seconds": 15.680200000000001,
+          "frames": 15,
+          "duration_seconds": 0.5119000000000007
+        },
+        {
+          "start_seconds": 15.776066666666667,
+          "end_seconds": 16.28816666666667,
+          "frames": 15,
+          "duration_seconds": 0.512100000000002
+        },
+        {
+          "start_seconds": 16.320033333333335,
+          "end_seconds": 16.528166666666667,
+          "frames": 6,
+          "duration_seconds": 0.20813333333333262
+        },
+        {
+          "start_seconds": 16.688000000000002,
+          "end_seconds": 16.991966666666666,
+          "frames": 9,
+          "duration_seconds": 0.30396666666666405
+        },
+        {
+          "start_seconds": 17.200233333333333,
+          "end_seconds": 17.8082,
+          "frames": 18,
+          "duration_seconds": 0.6079666666666661
+        },
+        {
+          "start_seconds": 17.9678,
+          "end_seconds": 18.079833333333333,
+          "frames": 3,
+          "duration_seconds": 0.11203333333333276
+        },
+        {
+          "start_seconds": 18.111900000000002,
+          "end_seconds": 19.360366666666668,
+          "frames": 37,
+          "duration_seconds": 1.2484666666666655
+        },
+        {
+          "start_seconds": 19.552300000000002,
+          "end_seconds": 25.151966666666667,
+          "frames": 166,
+          "duration_seconds": 5.599666666666664
+        },
+        {
+          "start_seconds": 34.320033333333335,
+          "end_seconds": 34.4001,
+          "frames": 2,
+          "duration_seconds": 0.08006666666666717
+        },
+        {
+          "start_seconds": 36.144133333333336,
+          "end_seconds": 36.4802,
+          "frames": 10,
+          "duration_seconds": 0.3360666666666674
+        },
+        {
+          "start_seconds": 36.59223333333333,
+          "end_seconds": 36.68866666666667,
+          "frames": 3,
+          "duration_seconds": 0.09643333333333715
+        },
+        {
+          "start_seconds": 36.8164,
+          "end_seconds": 37.32856666666667,
+          "frames": 15,
+          "duration_seconds": 0.5121666666666655
+        },
+        {
+          "start_seconds": 40.06406666666667,
+          "end_seconds": 40.16043333333334,
+          "frames": 3,
+          "duration_seconds": 0.09636666666666827
+        },
+        {
+          "start_seconds": 41.13613333333333,
+          "end_seconds": 41.47226666666667,
+          "frames": 10,
+          "duration_seconds": 0.3361333333333363
+        },
+        {
+          "start_seconds": 41.50416666666667,
+          "end_seconds": 41.61646666666667,
+          "frames": 3,
+          "duration_seconds": 0.11229999999999762
+        },
+        {
+          "start_seconds": 41.92,
+          "end_seconds": 42.320233333333334,
+          "frames": 12,
+          "duration_seconds": 0.40023333333333255
+        },
+        {
+          "start_seconds": 42.864266666666666,
+          "end_seconds": 43.359833333333334,
+          "frames": 15,
+          "duration_seconds": 0.4955666666666687
+        },
+        {
+          "start_seconds": 44.336200000000005,
+          "end_seconds": 44.672133333333335,
+          "frames": 10,
+          "duration_seconds": 0.33593333333332964
+        },
+        {
+          "start_seconds": 45.82436666666667,
+          "end_seconds": 45.9204,
+          "frames": 3,
+          "duration_seconds": 0.09603333333333097
+        },
+        {
+          "start_seconds": 46.432100000000005,
+          "end_seconds": 46.52816666666667,
+          "frames": 3,
+          "duration_seconds": 0.09606666666666541
+        },
+        {
+          "start_seconds": 47.8883,
+          "end_seconds": 48.080466666666666,
+          "frames": 6,
+          "duration_seconds": 0.19216666666666526
+        },
+        {
+          "start_seconds": 49.472233333333335,
+          "end_seconds": 49.5681,
+          "frames": 3,
+          "duration_seconds": 0.09586666666666588
+        },
+        {
+          "start_seconds": 50.64013333333334,
+          "end_seconds": 50.752233333333336,
+          "frames": 3,
+          "duration_seconds": 0.11209999999999809
+        },
+        {
+          "start_seconds": 50.81626666666667,
+          "end_seconds": 50.99236666666667,
+          "frames": 5,
+          "duration_seconds": 0.17609999999999815
+        },
+        {
+          "start_seconds": 51.760133333333336,
+          "end_seconds": 51.88836666666667,
+          "frames": 4,
+          "duration_seconds": 0.1282333333333341
+        },
+        {
+          "start_seconds": 54.624300000000005,
+          "end_seconds": 54.86416666666667,
+          "frames": 7,
+          "duration_seconds": 0.23986666666666423
+        },
+        {
+          "start_seconds": 57.552400000000006,
+          "end_seconds": 57.664500000000004,
+          "frames": 3,
+          "duration_seconds": 0.11209999999999809
+        },
+        {
+          "start_seconds": 57.696533333333335,
+          "end_seconds": 57.79306666666667,
+          "frames": 3,
+          "duration_seconds": 0.09653333333333336
+        },
+        {
+          "start_seconds": 58.91193333333334,
+          "end_seconds": 60.2256,
+          "frames": 39,
+          "duration_seconds": 1.3136666666666628
+        }
+      ]
+    },
+    "right_arm": {
+      "valid_frames": 1766,
+      "lost_frames": 20,
+      "lost_seconds": 0.6736000000000004,
+      "lost_intervals": [
+        {
+          "start_seconds": 59.552,
+          "end_seconds": 60.2256,
+          "frames": 20,
+          "duration_seconds": 0.6736000000000004
+        }
+      ]
+    },
+    "left_arm": {
+      "valid_frames": 1774,
+      "lost_frames": 12,
+      "lost_seconds": 0.4013999999999953,
+      "lost_intervals": [
+        {
+          "start_seconds": 59.824200000000005,
+          "end_seconds": 60.2256,
+          "frames": 12,
+          "duration_seconds": 0.4013999999999953
+        }
+      ]
+    }
+  },
+  "identity": {
+    "selected_side": "right",
+    "compared_to_both_pose_wrists_frames": 1202,
+    "closer_to_wrong_pose_wrist_frames": [],
+    "ambiguous_pose_proximity_frames": [],
+    "consecutive_hand_array_index_changes": [
+      313,
+      442,
+      449,
+      1431,
+      1703
+    ],
+    "maximum_consecutive_selected_wrist_jump_normalized": 0.04055255327519559,
+    "interpretation": "Array index changes are not anatomical identity switches; Pose-proximity is a consistency check, not identity ground truth."
+  },
+  "drawing": {
+    "accepted_strokes": 10,
+    "accepted_points": 187,
+    "active_drawing_seconds": 5.985266666666659,
+    "tracking_loss_events": 39,
+    "rejection_frame_counts": {
+      "STALE_HAND": 1,
+      "ACQUIRING": 108,
+      "GESTURE_INACTIVE": 1015,
+      "SIDE_AMBIGUOUS": 394,
+      "RAW_HAND_MISSING": 77,
+      "ACCEPTED": 187,
+      "HAND_INVALID": 4
+    },
+    "stroke_end_contexts": [
+      {
+        "id": 1,
+        "start_seconds": 26.272100000000002,
+        "last_point_seconds": 26.4642,
+        "points": 7,
+        "next_frame_reason": "GESTURE_INACTIVE",
+        "next_frame_gesture": "OPEN_OR_OTHER"
+      },
+      {
+        "id": 2,
+        "start_seconds": 27.951966666666667,
+        "last_point_seconds": 28.46436666666667,
+        "points": 16,
+        "next_frame_reason": "GESTURE_INACTIVE",
+        "next_frame_gesture": "OPEN_OR_OTHER"
+      },
+      {
+        "id": 3,
+        "start_seconds": 28.560366666666667,
+        "last_point_seconds": 29.4403,
+        "points": 27,
+        "next_frame_reason": "GESTURE_INACTIVE",
+        "next_frame_gesture": "OPEN_OR_OTHER"
+      },
+      {
+        "id": 4,
+        "start_seconds": 29.712133333333334,
+        "last_point_seconds": 29.776133333333334,
+        "points": 3,
+        "next_frame_reason": "GESTURE_INACTIVE",
+        "next_frame_gesture": "OPEN_OR_OTHER"
+      },
+      {
+        "id": 5,
+        "start_seconds": 29.872233333333334,
+        "last_point_seconds": 29.936566666666668,
+        "points": 3,
+        "next_frame_reason": "GESTURE_INACTIVE",
+        "next_frame_gesture": "UNKNOWN"
+      },
+      {
+        "id": 6,
+        "start_seconds": 39.248533333333334,
+        "last_point_seconds": 39.424533333333336,
+        "points": 6,
+        "next_frame_reason": "GESTURE_INACTIVE",
+        "next_frame_gesture": "OPEN_OR_OTHER"
+      },
+      {
+        "id": 7,
+        "start_seconds": 52.16006666666667,
+        "last_point_seconds": 52.30426666666667,
+        "points": 5,
+        "next_frame_reason": "GESTURE_INACTIVE",
+        "next_frame_gesture": "UNKNOWN"
+      },
+      {
+        "id": 8,
+        "start_seconds": 52.43193333333333,
+        "last_point_seconds": 54.59206666666667,
+        "points": 65,
+        "next_frame_reason": "SIDE_AMBIGUOUS",
+        "next_frame_gesture": "UNKNOWN"
+      },
+      {
+        "id": 9,
+        "start_seconds": 54.89633333333334,
+        "last_point_seconds": 55.7441,
+        "points": 26,
+        "next_frame_reason": "GESTURE_INACTIVE",
+        "next_frame_gesture": "OPEN_OR_OTHER"
+      },
+      {
+        "id": 10,
+        "start_seconds": 56.01576666666667,
+        "last_point_seconds": 56.960166666666666,
+        "points": 29,
+        "next_frame_reason": "GESTURE_INACTIVE",
+        "next_frame_gesture": "OPEN_OR_OTHER"
+      }
+    ]
+  },
+  "limitations": [
+    "Offline exhaustive inference; not realtime performance or game completion.",
+    "Model restarts at source frames 363 and 1018; original unsorted partial file retained unchanged.",
+    "Pose validity of any point is distinct from upper-limb and wrist validity.",
+    "Hand age in continuation is an inference-only lower bound; not used for realtime freshness assertions.",
+    "Causal filtered Pose rings shown separately; Hand remains raw; no missing landmarks are held/interpolated."
+  ]
+}

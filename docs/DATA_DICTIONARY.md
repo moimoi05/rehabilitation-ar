@@ -1,5 +1,15 @@
 # Từ điển dữ liệu thu thập
 
+## Báo cáo chất lượng capture
+
+API chất lượng trả `quality_policy_version`, `generated_at`, các ID, `source_type`, `input_fingerprints`, `artifact_integrity`, `pose_quality`, `hand_quality`, `landmark_spatial_quality`, `temporal_quality`, `interaction_quality`, `metrics_quality`, `research_usability`, `warnings` và `exclusion_reasons`. Đây là báo cáo tính khi đọc, không phải artifact mới. Giá trị không đủ bằng chứng phải giữ null hoặc trạng thái chưa đánh giá, không thay bằng 0.
+
+- Detection rate = detected / (detected + not_detected), loại `not_run`; coverage = (detected + not_detected) / số lần inference được thử. Error và missing result được đếm riêng, cùng mẫu số là số lần thử. Mẫu số 0 hoặc không biết không cho phép tính tỷ lệ.
+- Tốc độ inference thực tế là số lần thử chia cho khoảng từ timestamp frame đầu đến frame cuối của capture (giây), không phải FPS video. Latency p50/p95 nội suy tuyến tính với rank `(n − 1) × p`; thiếu mẫu hoặc khoảng thời gian hợp lệ thì không tính được. Delegate GPU/CPU là metadata được ghi nhận, không phải phép đo xác minh độc lập.
+- Tọa độ ngoài ảnh được đánh giá riêng cho normalized-image raw Pose và Hand; world không có cùng ranh giới ảnh. Điểm ngoài ảnh không tự chứng minh model sai, và không đánh giá độ chính xác lâm sàng khi thiếu ground truth.
+- Timeline nội bộ và liên kết observation được xem riêng với đồng bộ video; timestamp nguồn không phải encoded video PTS. Tracking loss là trạng thái sử dụng được của game, không đồng nhất với phát hiện Pose/Hand.
+- Hái hoa không áp dụng phân tích nét. Vẽ tự do chỉ ghi các điểm nét được chấp nhận; chúng không phải quỹ đạo bàn tay liên tục trong toàn bộ gameplay. Metrics `partial` cần đọc nguyên nhân và bằng chứng kèm theo.
+
 Tài liệu này định nghĩa ý nghĩa nghiên cứu; schema thực tế của artifact và trường tùy chọn phải được đối chiếu với phiên bản phần mềm sinh ra file. Không tự giả định giá trị còn thiếu.
 
 | Trường | Ý nghĩa |

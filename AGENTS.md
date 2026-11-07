@@ -9,7 +9,7 @@
 
 Mục tiêu: quản lý một hồ sơ xuyên suốt **đến khám → đánh giá đầu vào → nhập viện (nếu cần) → luyện tập hằng ngày → báo cáo**, không mất kết quả **Baseline** và có thể mở rộng nghiên cứu AI sau này.
 
-**Hiện trạng:** Repository đã có 5 phân hệ, MediaPipe Pose/Hand, Ghost Silhouette, game Hái hoa và lưu kết quả. Có công cụ capture nghiên cứu riêng, nhưng **chưa tự động ghi video/landmarks cho tất cả game lâm sàng**. Chưa có AI tự chấm FMA-UE, chẩn đoán hay kê bài tập. Chỉ dùng **dữ liệu giả lập**; chưa đủ bảo mật/phân quyền để sử dụng dữ liệu bệnh nhân thật.
+**Hiện trạng:** Repository đã có 5 phân hệ, MediaPipe Pose/Hand, Ghost Silhouette, game Hái hoa và lưu kết quả. Có công cụ capture nghiên cứu riêng; Hái hoa và Vẽ tự do hỗ trợ capture tự động theo trial khi được cấu hình và đồng ý, nhưng **chưa tự động ghi video/landmarks cho tất cả game lâm sàng**. Chưa có AI tự chấm FMA-UE, chẩn đoán hay kê bài tập. Chỉ dùng **dữ liệu giả lập**; chưa đủ bảo mật/phân quyền để sử dụng dữ liệu bệnh nhân thật.
 
 ## 2. Chức năng và mục tiêu từng phân hệ
 

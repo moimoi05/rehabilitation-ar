@@ -1,0 +1,81 @@
+{
+  "source": {
+    "path": "D:\\rehabilitation\\rehabilitation-ar\\video_test\\WIN_20261106_21_35_32_Pro.mp4",
+    "bytes": 134758534,
+    "sha256": "4551866f6a549a7470065621ea7d0fffc68224e9106cdfe51c742b0cbf4fa38c"
+  },
+  "git_branch": "optimize-gpu",
+  "git_head": "f2756d2a7eecea99a0c75ba6da46bb65025bf764",
+  "mode": "offline_exact_frame",
+  "inference_dimensions": [
+    1280,
+    720
+  ],
+  "output_dimensions": [
+    1920,
+    1080
+  ],
+  "delegate": {
+    "pose": "GPU",
+    "hand": "GPU"
+  },
+  "capture_segments": [
+    {
+      "start_frame": 0,
+      "end_frame": 362,
+      "provenance": "reused existing capture"
+    },
+    {
+      "start_frame": 363,
+      "end_frame": 1017,
+      "provenance": "reused existing capture; lines sorted by frame_id, original untouched"
+    },
+    {
+      "start_frame": 1018,
+      "end_frame": 1785,
+      "provenance": "continued sequentially through existing production tracking-worker.js"
+    }
+  ],
+  "canonical_landmarks": "tracking-observations.jsonl",
+  "raw_only_capture": "tracking-raw-observations-complete.jsonl",
+  "preserved_partial_capture": "tracking-raw-observations.jsonl",
+  "production_source_changes_this_continuation": false,
+  "clinical_writes": false,
+  "validation": {
+    "all_1786_frames_decoded_each_mp4": true,
+    "all_source_video_pts_exact": true,
+    "edge_playback_verified_at_seconds": [
+      0,
+      30,
+      59
+    ],
+    "source_code_tests": "Not rerun; continuation changes artifacts only."
+  },
+  "artifacts": [
+    {
+      "path": "D:\\rehabilitation\\rehabilitation-ar\\reports\\tracking-visualization\\tracking-review-glowing-flower.mp4",
+      "bytes": 62139395,
+      "sha256": "6bc3f8637d07c75746eb729bfdd501af088ef5712fdb1e72eeeece16970c4ed1"
+    },
+    {
+      "path": "D:\\rehabilitation\\rehabilitation-ar\\reports\\tracking-visualization\\tracking-review-free-drawing.mp4",
+      "bytes": 62464893,
+      "sha256": "fcd193a26a0deb9dfbdcdeb2b5f0a795522e00b83f495b82228ea53b647d2677"
+    },
+    {
+      "path": "D:\\rehabilitation\\rehabilitation-ar\\reports\\tracking-visualization\\tracking-observations.jsonl",
+      "bytes": 32809666,
+      "sha256": "b2f696ddb1f85e731a94a85d7b70c19f3c9548ed78224399c1da7eac8ef9b26f"
+    },
+    {
+      "path": "D:\\rehabilitation\\rehabilitation-ar\\reports\\tracking-visualization\\tracking-raw-observations-complete.jsonl",
+      "bytes": 25746152,
+      "sha256": "900431522d94f4b8716305ad897fd6997cff5baef02987d2bbea9b8d8046550b"
+    },
+    {
+      "path": "D:\\rehabilitation\\rehabilitation-ar\\reports\\tracking-visualization\\tracking-raw-observations.jsonl",
+      "bytes": 14522589,
+      "sha256": "6b4fe998c5e55b1c236613ded3126fc628fe2fc123db7398d217e6d19adf4705"
+    }
+  ]
+}

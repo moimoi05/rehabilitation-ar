@@ -130,6 +130,18 @@ describe('Workspace hand-first integration', () => {
     expect(drawLandmarks).not.toHaveBeenCalled()
   })
 
+  it('draws a reacquired pose at its observed position after an explicit miss', async () => {
+    await start()
+    act(() => options().onPoseResult?.(poseResult(100)))
+    now = 140
+    act(() => options().onPoseResult?.({ ...poseResult(140), pose: [] }))
+    now = 180
+    const reacquired = pose.map(point => ({ ...point, x: .8 }))
+    act(() => options().onPoseResult?.({ ...poseResult(180), pose: reacquired }))
+    tick(181)
+    expect(drawLandmarks).toHaveBeenCalledWith(expect.anything(), 1280, 720, reacquired, true, false, mapping.current)
+  })
+
   it('can display a slower result without passing its stale Hand observation to the game or accepting very old results', async () => {
     await start(); tick(100)
     now = 590
@@ -267,6 +279,11 @@ describe('Workspace hand-first integration', () => {
     history.replaceState({}, '', '/workspace?sessionId=7&game=free_drawing')
     await start()
     expect(vi.mocked(startVideoFrameScheduler).mock.lastCall![2].maxFps).toBe(120)
+    expect(options()).toMatchObject({ initialFrameTimeoutMs: 30000 })
+  })
+
+  it('allows cold GPU setup for the flower game first frame', async () => {
+    await start()
     expect(options()).toMatchObject({ initialFrameTimeoutMs: 30000 })
   })
 
